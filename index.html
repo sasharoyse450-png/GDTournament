@@ -530,16 +530,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <button class="btn btn-primary btn-block" type="submit">Зарегистрироваться</button>
               <p class="auth-note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
-            <div id="register-success" class="hidden" style="text-align:center;padding:20px 8px">
-              <div class="stat-icon" style="background:rgba(47,212,138,.14);color:var(--green);width:60px;height:60px;font-size:30px;margin:0 auto 14px;display:grid;place-items:center;border-radius:14px">
-                <svg class="i" style="font-size:30px"><use href="#i-mail"/></svg>
-              </div>
-              <h2 style="font-size:20px;margin-bottom:8px">Письмо отправлено!</h2>
-              <p style="color:var(--muted);font-size:13.5px;max-width:380px;margin:0 auto 16px">
-                Мы отправили ссылку на <b data-reg-email>—</b>.<br>Перейди по ней, а потом войди.
-              </p>
-              <button type="button" class="btn btn-ghost" id="reg-back">Назад к входу</button>
-            </div>
           </div>
           <aside class="card">
             <h3 style="font-size:17px">Зачем аккаунт?</h3>
@@ -724,7 +714,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = 'https://eckbekxqipwdbrvqzjlv.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVja2Jla3hxaXB3ZGJydnF6amx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTAyOTEsImV4cCI6MjEwNjI2NjI5MX0._85Yy-KUTpGMD-cAldTEc5qzwmV_lJ6DOvd06aSIJ5o';
+const SUPABASE_ANON_KEY = 'ВСТАВЬ_ANON_PUBLIC_KEY_СЮДА';
 const ADMIN_EMAIL = 'sasharoyse450@gmail.com';
 
 const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
@@ -1588,7 +1578,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
     $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
     $('#register-form').classList.toggle('hidden', b.dataset.authTab !== 'register');
-    $('#register-success').classList.add('hidden');
     $('#login-error').textContent = '';
     $('#register-error').textContent = '';
   }));
@@ -1597,35 +1586,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const el = $('#' + which + '-error');
     el.textContent = msg || '';
     el.classList.toggle('show', !!msg);
-  }
-
-  function showRegisterSuccess(email){
-    $('#register-form').classList.add('hidden');
-    const box = $('#register-success');
-    box.querySelector('[data-reg-email]').textContent = email;
-    box.classList.remove('hidden');
-    $$('[data-auth-tab]').forEach(b => b.classList.remove('active'));
-  }
-
-  document.addEventListener('click', e => {
-    if(e.target && e.target.id === 'reg-back'){
-      $('#register-success').classList.add('hidden');
-      $$('[data-auth-tab]').forEach(b => b.classList.toggle('active', b.dataset.authTab === 'login'));
-      $('#login-form').classList.remove('hidden');
-      $('#register-form').classList.add('hidden');
-    }
-  });
-
-  // Проверяем ошибку resend и возвращаем ключ перевода/строку
-  function resendErrorMessage(reErr){
-    const rm = ((reErr && reErr.message) || '').toLowerCase();
-    if(/already.*confirm|already.*registered|email.*already/i.test(rm)){
-      return 'Этот email уже зарегистрирован. Войди в аккаунт или сбрось пароль.';
-    }
-    if(/rate|limit|too many|for security/i.test(rm)){
-      return 'Письмо уже отправлялось недавно. Подожди минуту и попробуй снова.';
-    }
-    return null;
   }
 
   $('#login-form').addEventListener('submit', async e => {
@@ -1642,11 +1602,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(error){
         const msg = (error.message || '').toLowerCase();
         if(/confirm|not confirmed|email not/i.test(msg)){
-          setAuthError('login', 'Email не подтверждён. Проверь почту и перейди по ссылке.');
+          setAuthError('login', 'Email не подтверждён. Проверь почту.');
         } else if(/invalid/i.test(msg)){
           setAuthError('login', 'Неверный email или пароль');
         } else {
-          setAuthError('login', 'Ошибка. Попробуй ещё.');
+          setAuthError('login', 'Ошибка: ' + error.message.slice(0, 100));
         }
         return;
       }
@@ -1658,6 +1618,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }
   });
 
+  // Регистрация БЕЗ подтверждения email
   $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
     const formEl = e.target;
@@ -1665,103 +1626,57 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const password = formEl.elements.password.value;
     const password2 = formEl.elements.password2.value;
     setAuthError('register','');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', 'Корректный email'); return; }
-    if(password.length < 6){ setAuthError('register', 'Минимум 6 символов'); return; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', 'Введи корректный email'); return; }
+    if(password.length < 6){ setAuthError('register', 'Пароль минимум 6 символов'); return; }
     if(password !== password2){ setAuthError('register', 'Пароли не совпадают'); return; }
     if(!sb){ toast('Supabase не подключён', true); return; }
 
     const btn = formEl.querySelector('button[type="submit"]');
     const prev = btn.textContent;
-    btn.disabled = true; btn.textContent = 'Отправляем…';
-
-    const redirectTo = location.protocol === 'file:'
-      ? 'https://' + location.hostname
-      : location.origin + location.pathname + location.search;
+    btn.disabled = true; btn.textContent = 'Регистрируем…';
 
     try{
-      const { data, error } = await sb.auth.signUp({
-        email, password, options: { emailRedirectTo: redirectTo }
-      });
+      const { data, error } = await sb.auth.signUp({ email, password });
       console.log('[signUp]', { data, error });
 
-      // 1. Ошибка от Supabase
       if(error){
         const msg = (error.message || '').toLowerCase();
 
-        // Rate limit на письма
-        if(/rate|limit|too many|for security/i.test(msg)){
-          setAuthError('register', 'Письмо уже отправлялось недавно. Подожди минуту и попробуй снова.');
+        if(/already|registered|exists|user.*exist/i.test(msg)){
+          setAuthError('register', 'Этот email уже зарегистрирован. Войди или сбрось пароль.');
           return;
         }
-
-        // Аккаунт уже есть — пробуем переотправить письмо и показываем ЧЕСТНЫЙ результат
-        if(/already|registered|exists/i.test(msg)){
-          let resendOk = false;
-          try{
-            const { error: reErr } = await sb.auth.resend({
-              type: 'signup', email, options: { emailRedirectTo: redirectTo }
-            });
-            if(!reErr){
-              resendOk = true;
-            } else {
-              const userMsg = resendErrorMessage(reErr);
-              if(userMsg){ setAuthError('register', userMsg); return; }
-            }
-          }catch(_){}
-
-          if(resendOk){
-            showRegisterSuccess(email);
-            formEl.reset();
-          } else {
-            setAuthError('register', 'Этот email уже зарегистрирован. Попробуй войти или сбросить пароль.');
-          }
+        if(/rate|limit|too many/i.test(msg)){
+          setAuthError('register', 'Слишком много попыток. Подожди минуту.');
           return;
         }
-
-        setAuthError('register', 'Ошибка. Попробуй ещё.');
+        if(/signups?.*not.*allowed|disabled/i.test(msg)){
+          setAuthError('register', 'Регистрация отключена. Обратись к админу.');
+          return;
+        }
+        if(/password/i.test(msg)){
+          setAuthError('register', 'Пароль не подходит: ' + error.message.slice(0, 80));
+          return;
+        }
+        setAuthError('register', 'Ошибка: ' + (error.message || 'неизвестная').slice(0, 120));
         return;
       }
 
-      // 2. Пользователь существует, но не подтверждён (identities пустой массив)
-      const isExistingUnconfirmed = data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0;
-
-      // 3. Нет сессии — значит нужно подтверждение email
-      if(!data.session){
-        if(isExistingUnconfirmed){
-          let resendOk = false;
-          try{
-            const { error: reErr } = await sb.auth.resend({
-              type: 'signup', email, options: { emailRedirectTo: redirectTo }
-            });
-            if(!reErr) resendOk = true;
-            else {
-              const userMsg = resendErrorMessage(reErr);
-              if(userMsg){ setAuthError('register', userMsg); return; }
-            }
-          }catch(_){}
-
-          if(resendOk){
-            showRegisterSuccess(email);
-            formEl.reset();
-          } else {
-            setAuthError('register', 'Этот email уже зарегистрирован. Проверь почту или войди.');
-          }
-          return;
-        }
-
-        // Новая регистрация — письмо уже ушло автоматически
-        showRegisterSuccess(email);
+      // session есть → сразу залогинен (Confirm email выключен)
+      if(data && data.session){
         formEl.reset();
+        toast('Аккаунт создан!');
+        await afterLogin();
         return;
       }
 
-      // 4. Confirm email выключен — сразу залогинен
+      // session нет → Confirm email включён. Показываем инструкцию
       formEl.reset();
-      toast('Аккаунт создан!');
-      await afterLogin();
+      setAuthError('register', 'Проверь почту — нужно подтвердить email. (Или отключи Confirm email в Supabase.)');
+
     }catch(err){
       console.error(err);
-      setAuthError('register', 'Ошибка');
+      setAuthError('register', 'Ошибка: ' + (err && err.message ? err.message.slice(0, 120) : 'неизвестная'));
     }finally{
       btn.disabled = false; btn.textContent = prev;
     }
@@ -1791,7 +1706,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function initAuth(){
     if(!sb) return;
 
-    // Чистим URL от токенов после подтверждения email/сброса пароля
+    // Чистим URL от токенов
     const hash = location.hash || '';
     if(hash.includes('access_token=') || hash.includes('error_description=')){
       try{ history.replaceState(null, '', location.pathname + location.search); }catch(_){}
