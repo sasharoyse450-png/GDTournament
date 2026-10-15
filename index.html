@@ -130,6 +130,7 @@ main{flex:1}
 .stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
 .stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:12px}
 .stage-card:hover{transform:translateY(-3px)}
+.stage-card.open{border-color:rgba(47,212,138,.4)}
 .stage-card.open:hover{border-color:var(--green);box-shadow:0 10px 34px rgba(47,212,138,.18)}
 .stage-card.closed{opacity:.75}
 .stage-card.locked{opacity:.55;filter:grayscale(.3)}
@@ -401,6 +402,14 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
           <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
+        <div id="home-active-stage" class="hidden" style="margin-top:22px;padding:16px 20px;border-radius:14px;border:1px solid rgba(47,212,138,.4);background:linear-gradient(135deg,rgba(47,212,138,.1),rgba(31,139,255,.06));display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <svg class="i" style="color:var(--green);font-size:32px"><use href="#i-video"/></svg>
+          <div style="flex:1;min-width:180px">
+            <div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:4px">🎥 Сейчас открыт приём видео</div>
+            <div id="home-active-stage-title" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:17px">—</div>
+          </div>
+          <a class="btn btn-primary" id="home-active-stage-btn" href="#tournament"><svg class="i"><use href="#i-video"/></svg><span>Подать видео</span></a>
+        </div>
       </div>
       <aside class="stat-card">
         <div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div>
@@ -415,13 +424,13 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h2>Как принять участие</h2>
       <div class="steps">
         <a class="card step" href="#rules"><div class="num">1</div><h3>Изучи правила</h3><p>Формат турнира, запреты и условия участия.</p><span class="go">К правилам <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#tournaments"><div class="num">2</div><h3>Выбери турнир</h3><p>Открытые турниры с 4 этапами внутри.</p><span class="go">К турнирам <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#tournaments"><div class="num">2</div><h3>Выбери турнир и этап</h3><p>Открытые турниры с этапами внутри.</p><span class="go">К турнирам <svg class="i"><use href="#i-arrow"/></svg></span></a>
         <a class="card step" href="#docs"><div class="num">3</div><h3>Подготовь видео</h3><p>Запись игры с хенд камом и чит индикатором.</p><span class="go">К документам <svg class="i"><use href="#i-arrow"/></svg></span></a>
       </div>
     </div>
     <div class="features">
       <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b>Честная игра</b><span>Строгая проверка записей.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-cup"/></svg><div><b>4 этапа на турнир</b><span>Пройди все — стань чемпионом.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-cup"/></svg><div><b>Этапы в турнире</b><span>Пройди все — стань чемпионом.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-coins"/></svg><div><b>Очки за этапы</b><span>У каждого этапа своя награда.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-fire"/></svg><div><b>Прокачка</b><span>Каждый этап +1 к уровню.</span></div></div>
     </div>
@@ -441,7 +450,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат турнира</h3><p style="color:#b9c8e6;font-size:14px">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно. Прогресс в одном турнире не влияет на другие.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире. Первый этап доступен всем.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап (у каждого этапа своя стоимость).</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
       </div>
     </div>
@@ -485,100 +494,38 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div id="apply-info-block" class="hidden" style="margin-top:18px;padding:16px 20px;border-radius:14px;border:1px solid rgba(31,139,255,.35);background:linear-gradient(135deg,rgba(31,139,255,.12),rgba(179,107,255,.08));display:flex;gap:20px;flex-wrap:wrap;align-items:center">
         <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px">
           <svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-cup"/></svg>
-          <div>
-            <div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Турнир</div>
-            <div id="apply-info-tournament" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div>
-          </div>
+          <div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Турнир</div><div id="apply-info-tournament" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px">
           <svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-tag"/></svg>
-          <div>
-            <div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Этап</div>
-            <div id="apply-info-stage" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div>
-          </div>
+          <div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Этап</div><div id="apply-info-stage" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div>
         </div>
       </div>
     </div>
     <div class="page-body">
-      <div id="apply-gate" class="card hidden">
-        <div class="empty-state">
-          <div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div>
-          <h2>Нужен аккаунт</h2>
-          <p>Войдите или зарегистрируйтесь, чтобы подать заявку.</p>
-          <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>Войти / Регистрация</span></a>
-        </div>
-      </div>
-      <div id="apply-blocked" class="card hidden">
-        <div class="empty-state">
-          <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div>
-          <h2>Этап заблокирован</h2>
-          <p id="apply-blocked-reason">Пройди предыдущие этапы, чтобы получить доступ.</p>
-          <a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
-        </div>
-      </div>
-      <div id="apply-notfound" class="card hidden">
-        <div class="empty-state">
-          <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div>
-          <h2>Этап не выбран</h2>
-          <p>Выбери турнир и этап на странице «Турниры».</p>
-          <a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
-        </div>
-      </div>
+      <div id="apply-gate" class="card hidden"><div class="empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2>Нужен аккаунт</h2><p>Войдите или зарегистрируйтесь, чтобы подать заявку.</p><a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>Войти / Регистрация</span></a></div></div>
+      <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2>Этап заблокирован</h2><p id="apply-blocked-reason">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a></div></div>
+      <div id="apply-notfound" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div><h2>Этап не выбран</h2><p>Выбери турнир и этап на странице «Турниры».</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a></div></div>
       <div id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
             <div id="apply-edit-banner" class="hidden" style="margin-bottom:18px;padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13px">Режим редактирования заявки</div>
-            <div class="field">
-              <label for="nick">Ваш ник в Geometry Dash <span class="req">*</span></label>
-              <input class="input" id="nick" name="nick" type="text" placeholder="Например: Player123" maxlength="32">
-              <div class="error" data-error-for="nick"></div>
-            </div>
+            <div class="field"><label for="nick">Ваш ник в Geometry Dash <span class="req">*</span></label><input class="input" id="nick" name="nick" type="text" placeholder="Например: Player123" maxlength="32"><div class="error" data-error-for="nick"></div></div>
             <div class="field-row">
-              <div class="field">
-                <label for="telegram">Ваш Telegram <span class="req">*</span></label>
-                <input class="input" id="telegram" name="telegram" type="text" placeholder="@username" maxlength="33">
-                <div class="error" data-error-for="telegram"></div>
-              </div>
-              <div class="field">
-                <label for="discord">Ваш Discord</label>
-                <input class="input" id="discord" name="discord" type="text" placeholder="username#1234" maxlength="40">
-              </div>
+              <div class="field"><label for="telegram">Ваш Telegram <span class="req">*</span></label><input class="input" id="telegram" name="telegram" type="text" placeholder="@username" maxlength="33"><div class="error" data-error-for="telegram"></div></div>
+              <div class="field"><label for="discord">Ваш Discord</label><input class="input" id="discord" name="discord" type="text" placeholder="username#1234" maxlength="40"></div>
             </div>
-            <div class="field">
-              <label for="video">Ссылка на видео <span class="req">*</span></label>
-              <input class="input" id="video" name="video" type="text" placeholder="https://drive.google.com/...">
-              <span class="hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span>
-              <div class="error" data-error-for="video"></div>
-            </div>
-            <div class="field">
-              <label for="platform">Выберите платформу <span class="req">*</span></label>
-              <select class="input" id="platform" name="platform">
-                <option value="PC" selected>PC</option>
-                <option value="Mobile">Mobile</option>
-                <option value="Console">Консоль</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="about">Дополнительная информация</label>
-              <textarea class="input" id="about" name="about" placeholder="Расскажите о себе..." maxlength="1000"></textarea>
-            </div>
-            <div class="check-wrap">
-              <label class="check" id="agree-label">
-                <input type="checkbox" name="agree" id="agree">
-                <span>Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span>
-              </label>
-              <div class="error" data-error-for="agree"></div>
-            </div>
+            <div class="field"><label for="video">Ссылка на видео <span class="req">*</span></label><input class="input" id="video" name="video" type="text" placeholder="https://drive.google.com/..."><span class="hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span><div class="error" data-error-for="video"></div></div>
+            <div class="field"><label for="platform">Выберите платформу <span class="req">*</span></label><select class="input" id="platform" name="platform"><option value="PC" selected>PC</option><option value="Mobile">Mobile</option><option value="Console">Консоль</option></select></div>
+            <div class="field"><label for="about">Дополнительная информация</label><textarea class="input" id="about" name="about" placeholder="Расскажите о себе..." maxlength="1000"></textarea></div>
+            <div class="check-wrap"><label class="check" id="agree-label"><input type="checkbox" name="agree" id="agree"><span>Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span></label><div class="error" data-error-for="agree"></div></div>
             <button class="btn btn-primary btn-block" id="submit-btn" type="submit"><svg class="i"><use href="#i-video"/></svg><span>Отправить видео</span></button>
           </form>
           <div class="success hidden" id="apply-success">
             <div class="stat-icon" style="background:rgba(47,212,138,.14);color:var(--green);width:72px;height:72px;font-size:36px;display:grid;place-items:center;border-radius:18px;margin:0 auto 16px"><svg class="i" style="font-size:36px"><use href="#i-video"/></svg></div>
             <h2>🎥 Видео отправлено!</h2>
-            <p>Мы проверим твою запись и свяжемся с тобой. Если всё ок — следующий этап откроется автоматически.</p>
-            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>В личный кабинет</span></a>
-              <a class="btn btn-ghost" href="#tournaments">К турнирам</a>
-            </div>
+            <p>Мы проверим твою запись. Если всё ок — следующий этап откроется автоматически.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>В личный кабинет</span></a><a class="btn btn-ghost" href="#tournaments">К турнирам</a></div>
           </div>
         </div>
         <aside class="card">
@@ -599,22 +546,12 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-chart"/></svg><span>Турнирная таблица</span></div>
       <h1>Турнирная таблица</h1>
-      <p>Сортировка по очкам. Очки начисляются за одобренные этапы. У каждого этапа своя награда.</p>
-      <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)">
-        <svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg>
-        <span>Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b>
-      </div>
+      <p>Сортировка по очкам. Очки начисляются за одобренные этапы.</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)"><svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg><span>Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b></div>
     </div>
     <div class="page-body">
       <div class="lb-podium" id="lb-podium"></div>
-      <div class="card table-card">
-        <div class="table-wrap">
-          <table class="table">
-            <thead><tr><th>#</th><th>Ник</th><th>🏆 Очки</th><th>Уровень</th></tr></thead>
-            <tbody id="leaderboard-body"></tbody>
-          </table>
-        </div>
-      </div>
+      <div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>#</th><th>Ник</th><th>🏆 Очки</th><th>Уровень</th></tr></thead><tbody id="leaderboard-body"></tbody></table></div></div>
     </div>
   </div>
 </section>
@@ -622,18 +559,11 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div>
-        <h1>Личный кабинет</h1>
-        <p>Войдите или зарегистрируйтесь.</p>
-      </div>
+      <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div><h1>Личный кабинет</h1><p>Войдите или зарегистрируйтесь.</p></div>
       <div class="page-body">
         <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
           <div class="card">
-            <div class="auth-tabs">
-              <button type="button" data-auth-tab="login" class="active">Вход</button>
-              <button type="button" data-auth-tab="register">Регистрация</button>
-            </div>
+            <div class="auth-tabs"><button type="button" data-auth-tab="login" class="active">Вход</button><button type="button" data-auth-tab="register">Регистрация</button></div>
             <form id="login-form" novalidate>
               <div class="field"><label for="login-email">Email</label><input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
               <div class="field"><label for="login-password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
@@ -650,42 +580,19 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <p class="auth-note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
           </div>
-          <aside class="card">
-            <h3 style="font-size:17px">Зачем аккаунт?</h3>
-            <ul class="aside-list">
-              <li><svg class="i"><use href="#i-check"/></svg><span>Подать видео на этапы</span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span>Отслеживать статус заявок</span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span>Прокачивать очки и уровень</span></li>
-            </ul>
-          </aside>
+          <aside class="card"><h3 style="font-size:17px">Зачем аккаунт?</h3><ul class="aside-list"><li><svg class="i"><use href="#i-check"/></svg><span>Подать видео на этапы</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Отслеживать статус заявок</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Прокачивать очки и уровень</span></li></ul></aside>
         </div>
       </div>
     </div>
     <div id="cabinet-dashboard" class="hidden">
       <div class="cab-head">
-        <div>
-          <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div>
-          <h1 style="font-size:32px">Личный кабинет</h1>
-          <p class="cab-user">Вы вошли как <b data-user-email>—</b></p>
-        </div>
+        <div><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div><h1 style="font-size:32px">Личный кабинет</h1><p class="cab-user">Вы вошли как <b data-user-email>—</b></p></div>
         <button class="btn btn-ghost btn-sm" id="logout-btn" type="button"><svg class="i"><use href="#i-logout"/></svg><span>Выйти</span></button>
       </div>
       <div class="page-body">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px">
-          <div class="cab-level-card" style="margin:0">
-            <div class="cab-level-badge" data-user-level>0</div>
-            <div class="cab-level-info">
-              <h2>Уровень</h2>
-              <p>Число одобренных этапов</p>
-            </div>
-          </div>
-          <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)">
-            <div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div>
-            <div class="cab-level-info">
-              <h2 style="color:var(--gold)">Очки</h2>
-              <p>Сумма очков за этапы</p>
-            </div>
-          </div>
+          <div class="cab-level-card" style="margin:0"><div class="cab-level-badge" data-user-level>0</div><div class="cab-level-info"><h2>Уровень</h2><p>Число одобренных этапов</p></div></div>
+          <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)"><div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div><div class="cab-level-info"><h2 style="color:var(--gold)">Очки</h2><p>Сумма очков за этапы</p></div></div>
         </div>
         <h2 style="font-size:20px;margin-bottom:16px">Мои заявки</h2>
         <div class="app-list" id="cabinet-apps"></div>
@@ -696,24 +603,11 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 
 <section class="page" id="page-docs">
   <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></div>
-      <h1>Необходимые документы</h1>
-      <p>Что нужно подготовить, чтобы твою заявку проверили и подтвердили.</p>
-    </div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></div><h1>Необходимые документы</h1><p>Что нужно подготовить.</p></div>
     <div class="page-body">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
-        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с включенным чит индикатором.</p></div></article>
-        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
-      </div>
-      <div class="card" style="margin-top:22px">
-        <h3 style="display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2);font-size:20px"><use href="#i-clip"/></svg>Как подготовить запись?</h3>
-        <ol style="list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px 24px">
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">1</span>Включи чит индикатор.</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">2</span>Запиши видео с хенд камом.</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">3</span>Убедись, что видно весь экран.</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">4</span>Загрузи на облако и укажи ссылку.</li>
-        </ol>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с чит индикатором.</p></div></article>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки.</p></div></article>
       </div>
     </div>
   </div>
@@ -721,11 +615,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 
 <section class="page" id="page-admin">
   <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div>
-      <h1>Панель администратора</h1>
-      <p>Управление турнирами, этапами и заявками.</p>
-    </div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div><h1>Панель администратора</h1><p>Управление турнирами, этапами и заявками.</p></div>
     <div class="page-body">
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active">Дашборд</button>
@@ -734,7 +624,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="log" id="tab-log">Лог</button>
         <button type="button" data-admin-tab="moderators" id="tab-moderators">Модераторы</button>
       </div>
-
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span>Всего заявок</span></div>
@@ -743,27 +632,14 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span>Отклонено</span></div>
         </div>
         <div class="dash-grid">
-          <div class="dash-card">
-            <h3><svg class="i"><use href="#i-chart"/></svg> Заявок за 7 дней</h3>
-            <div class="dash-bar-chart" id="dash-chart"></div>
-          </div>
-          <div class="dash-card">
-            <h3><svg class="i"><use href="#i-user"/></svg> Топ модераторов</h3>
-            <div id="dash-moderators"></div>
-          </div>
+          <div class="dash-card"><h3><svg class="i"><use href="#i-chart"/></svg> Заявок за 7 дней</h3><div class="dash-bar-chart" id="dash-chart"></div></div>
+          <div class="dash-card"><h3><svg class="i"><use href="#i-user"/></svg> Топ модераторов</h3><div id="dash-moderators"></div></div>
         </div>
-        <div class="dash-card" style="margin-bottom:22px">
-          <h3><svg class="i"><use href="#i-clock"/></svg> Последние действия</h3>
-          <div class="dash-recent" id="dash-recent"></div>
-        </div>
+        <div class="dash-card" style="margin-bottom:22px"><h3><svg class="i"><use href="#i-clock"/></svg> Последние действия</h3><div class="dash-recent" id="dash-recent"></div></div>
       </div>
-
       <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
-          <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px">
-            <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
-            Новый турнир
-          </h3>
+          <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Новый турнир</h3>
           <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:14px">
             <input class="input" type="number" id="new-t-number" placeholder="№" min="1" value="1">
             <input class="input" type="text" id="new-t-title" placeholder="Название турнира">
@@ -773,7 +649,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div id="admin-tournaments-list"></div>
       </div>
-
       <div id="admin-apps" class="hidden">
         <div class="admin-filters">
           <input type="search" id="admin-search" placeholder="Поиск: ник, telegram, email...">
@@ -788,68 +663,32 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <div class="card table-card">
           <div class="table-wrap admin-desktop-table">
             <table class="table">
-              <thead><tr>
-                <th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th>
-                <th data-sort="tournament">Турнир</th>
-                <th data-sort="stage">Этап</th>
-                <th data-sort="nick">Ник <span class="sort-arrow">▼</span></th>
-                <th data-sort="telegram">Контакты</th>
-                <th>Видео</th>
-                <th data-sort="status">Статус</th>
-                <th>Действия</th>
-              </tr></thead>
+              <thead><tr><th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th><th data-sort="tournament">Турнир</th><th data-sort="stage">Этап</th><th data-sort="nick">Ник <span class="sort-arrow">▼</span></th><th data-sort="telegram">Контакты</th><th>Видео</th><th data-sort="status">Статус</th><th>Действия</th></tr></thead>
               <tbody id="admin-body"></tbody>
             </table>
           </div>
           <div id="admin-mobile-list"></div>
         </div>
       </div>
-
-      <div id="admin-log" class="hidden">
-        <div class="card table-card">
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr><th>Когда</th><th>Кто</th><th>Что</th><th>Детали</th></tr></thead>
-              <tbody id="admin-log-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
+      <div id="admin-log" class="hidden"><div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>Когда</th><th>Кто</th><th>Что</th><th>Детали</th></tr></thead><tbody id="admin-log-body"></tbody></table></div></div></div>
       <div id="admin-moderators" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
-          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
-            <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
-            Добавить модератора
-          </h3>
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Добавить модератора</h3>
           <div style="display:grid;grid-template-columns:1fr auto;gap:10px">
             <input class="input" type="email" id="new-mod-email" placeholder="email@gmail.com">
             <button class="btn btn-primary" id="add-mod-btn">Добавить</button>
           </div>
           <p style="font-size:12px;color:var(--muted);margin-top:10px">Модератор сможет только одобрять/отклонять заявки.</p>
         </div>
-        <div class="card table-card">
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr><th>Email</th><th>Добавлен</th><th>Действия</th></tr></thead>
-              <tbody id="admin-mods-body"></tbody>
-            </table>
-          </div>
-        </div>
+        <div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>Email</th><th>Добавлен</th><th>Действия</th></tr></thead><tbody id="admin-mods-body"></tbody></table></div></div>
       </div>
-
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="footer">
-  <div class="wrap">
-    <span>© International Geometry Dash Community Cup</span>
-    <span>Турнир сообщества</span>
-  </div>
-</footer>
+<footer class="footer"><div class="wrap"><span>© International Geometry Dash Community Cup</span><span>Турнир сообщества</span></div></footer>
 
 <div class="lang-gate" id="lang-gate">
   <div class="gate-card">
@@ -866,104 +705,38 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head">
-      <div>
-        <h2 id="modal-title">Настройка этапа</h2>
-        <p id="modal-subtitle">Турнир #1 · Этап #1</p>
-      </div>
+      <div><h2 id="modal-title">Настройка этапа</h2><p id="modal-subtitle">Турнир #1 · Этап #1</p></div>
       <button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
-
-    <div class="modal-section">
-      <h3>Основное</h3>
+    <div class="modal-section"><h3>Основное</h3>
       <div class="modal-grid">
-        <div class="field" style="margin:0">
-          <label for="m-title">Название этапа</label>
-          <input class="input" type="text" id="m-title" placeholder="Разминка">
-        </div>
-        <div class="field" style="margin:0">
-          <label for="m-number">Номер этапа</label>
-          <input class="input" type="number" id="m-number" min="1">
-        </div>
+        <div class="field" style="margin:0"><label for="m-title">Название этапа</label><input class="input" type="text" id="m-title" placeholder="Разминка"></div>
+        <div class="field" style="margin:0"><label for="m-number">Номер этапа</label><input class="input" type="number" id="m-number" min="1"></div>
       </div>
     </div>
-
-    <div class="modal-section">
-      <h3>Описание и задача</h3>
-      <div class="field">
-        <label for="m-desc">Описание</label>
-        <input class="input" type="text" id="m-desc" placeholder="Короткое описание">
-      </div>
-      <div class="field" style="margin-bottom:0">
-        <label for="m-task">Что нужно сделать</label>
-        <input class="input" type="text" id="m-task" placeholder="Например: пройти уровень за минимум попыток">
-      </div>
+    <div class="modal-section"><h3>Описание и задача</h3>
+      <div class="field"><label for="m-desc">Описание</label><input class="input" type="text" id="m-desc" placeholder="Короткое описание"></div>
+      <div class="field" style="margin-bottom:0"><label for="m-task">Что нужно сделать</label><input class="input" type="text" id="m-task" placeholder="Например: пройти уровень за минимум попыток"></div>
     </div>
-
-    <div class="modal-section">
-      <h3>Правила этапа</h3>
-      <div class="field" style="margin:0">
-        <label for="m-rules">По одному правилу на строку</label>
-        <textarea class="input" id="m-rules" placeholder="Без practice mode&#10;Хенд кам обязателен&#10;Чит индикатор включён" style="height:100px"></textarea>
-      </div>
+    <div class="modal-section"><h3>Правила этапа</h3>
+      <div class="field" style="margin:0"><label for="m-rules">По одному правилу на строку</label><textarea class="input" id="m-rules" placeholder="Без practice mode&#10;Хенд кам обязателен" style="height:100px"></textarea></div>
     </div>
-
-    <div class="modal-section">
-      <h3>Уровень в игре</h3>
+    <div class="modal-section"><h3>Уровень в игре</h3>
       <div class="modal-grid-3">
-        <div class="field" style="margin:0">
-          <label for="m-level-name">Название</label>
-          <input class="input" type="text" id="m-level-name" placeholder="Stereo Madness">
-        </div>
-        <div class="field" style="margin:0">
-          <label for="m-level-id">ID уровня</label>
-          <input class="input" type="text" id="m-level-id" placeholder="10565740">
-        </div>
-        <div class="field" style="margin:0">
-          <label for="m-difficulty">Сложность</label>
-          <select class="input" id="m-difficulty">
-            <option value="">—</option>
-            <option value="Easy">Easy</option>
-            <option value="Normal">Normal</option>
-            <option value="Hard">Hard</option>
-            <option value="Harder">Harder</option>
-            <option value="Insane">Insane</option>
-            <option value="Easy Demon">Easy Demon</option>
-            <option value="Medium Demon">Medium Demon</option>
-            <option value="Hard Demon">Hard Demon</option>
-            <option value="Insane Demon">Insane Demon</option>
-            <option value="Extreme Demon">Extreme Demon</option>
-          </select>
-        </div>
+        <div class="field" style="margin:0"><label for="m-level-name">Название</label><input class="input" type="text" id="m-level-name" placeholder="Stereo Madness"></div>
+        <div class="field" style="margin:0"><label for="m-level-id">ID уровня</label><input class="input" type="text" id="m-level-id" placeholder="10565740"></div>
+        <div class="field" style="margin:0"><label for="m-difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option value="Easy">Easy</option><option value="Normal">Normal</option><option value="Hard">Hard</option><option value="Harder">Harder</option><option value="Insane">Insane</option><option value="Easy Demon">Easy Demon</option><option value="Medium Demon">Medium Demon</option><option value="Hard Demon">Hard Demon</option><option value="Insane Demon">Insane Demon</option><option value="Extreme Demon">Extreme Demon</option></select></div>
       </div>
-      <div class="field" style="margin-top:12px;margin-bottom:0">
-        <label for="m-level-url">Ссылка на видео уровня (YouTube и т.д.)</label>
-        <input class="input" type="text" id="m-level-url" placeholder="https://youtube.com/...">
-      </div>
+      <div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url">Ссылка на видео уровня</label><input class="input" type="text" id="m-level-url" placeholder="https://youtube.com/..."></div>
     </div>
-
-    <div class="modal-section">
-      <h3>🏆 Награда и лимиты</h3>
+    <div class="modal-section"><h3>🏆 Награда и лимиты</h3>
       <div class="modal-grid-3">
-        <div class="field" style="margin:0">
-          <label for="m-reward-points">Очки за прохождение <span class="req">*</span></label>
-          <input class="input" type="number" id="m-reward-points" min="1" value="1" placeholder="10">
-          <span class="hint">1, 5, 10, 25...</span>
-        </div>
-        <div class="field" style="margin:0">
-          <label for="m-max">Лимит участников</label>
-          <input class="input" type="number" id="m-max" min="1" placeholder="без лимита">
-        </div>
-        <div class="field" style="margin:0">
-          <label for="m-deadline">Дедлайн подачи</label>
-          <input class="input" type="datetime-local" id="m-deadline">
-        </div>
+        <div class="field" style="margin:0"><label for="m-reward-points">Очки <span class="req">*</span></label><input class="input" type="number" id="m-reward-points" min="1" value="1"><span class="hint">1, 5, 10, 25...</span></div>
+        <div class="field" style="margin:0"><label for="m-max">Лимит участников</label><input class="input" type="number" id="m-max" min="1" placeholder="без лимита"></div>
+        <div class="field" style="margin:0"><label for="m-deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div>
       </div>
-      <div class="field" style="margin-top:12px;margin-bottom:0">
-        <label for="m-reward">Текст награды (что видит игрок)</label>
-        <input class="input" type="text" id="m-reward" placeholder="+10 очков и бейдж «Разминка»">
-      </div>
+      <div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward">Текст награды</label><input class="input" type="text" id="m-reward" placeholder="+10 очков и бейдж"></div>
     </div>
-
     <div class="modal-actions">
       <button type="button" class="btn btn-ghost" id="modal-cancel">Отмена</button>
       <button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span>Сохранить</span></button>
@@ -1052,6 +825,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       a.classList.toggle('active', on);
       if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
+    if(id === 'home') renderHomeActiveStage();
     if(id === 'cabinet') renderCabinet();
     if(id === 'leaderboard') renderLeaderboard();
     if(id === 'tournaments') renderTournaments();
@@ -1082,39 +856,25 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $('#login-btn').addEventListener('click', () => go('cabinet'));
   $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
   $('#tournament-back').addEventListener('click', () => go('tournaments'));
-
   window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
-  /* ============ DATA ============ */
   async function loadTournaments(){
     if(!sb){ tournaments = []; return; }
-    try{
-      const { data, error } = await sb.from('tournaments').select('*').order('number', { ascending: true });
-      if(error) throw error;
-      tournaments = data || [];
-    }catch(err){ console.error(err); tournaments = []; }
+    try{ const { data, error } = await sb.from('tournaments').select('*').order('number', { ascending: true }); if(error) throw error; tournaments = data || []; }
+    catch(err){ console.error(err); tournaments = []; }
   }
   async function loadStages(){
     if(!sb){ stages = []; return; }
-    try{
-      const { data, error } = await sb.from('stages').select('*').order('number', { ascending: true });
-      if(error) throw error;
-      stages = data || [];
-    }catch(err){ console.error(err); stages = []; }
+    try{ const { data, error } = await sb.from('stages').select('*').order('number', { ascending: true }); if(error) throw error; stages = data || []; }
+    catch(err){ console.error(err); stages = []; }
   }
   async function loadProfilePoints(){
     if(!sb || !user){ profilePoints = { points: 0 }; return; }
-    try{
-      const { data, error } = await sb.from('profile_points').select('*').eq('id', user.id).maybeSingle();
-      if(error) throw error;
-      profilePoints = data || { points: 0 };
-    }catch(_){ profilePoints = { points: 0 }; }
+    try{ const { data, error } = await sb.from('profile_points').select('*').eq('id', user.id).maybeSingle(); if(error) throw error; profilePoints = data || { points: 0 }; }
+    catch(_){ profilePoints = { points: 0 }; }
   }
   function stagesOfTournament(tid){ return stages.filter(s => s.tournament_id === tid).sort((a,b) => a.number - b.number); }
-  function approvedInTournament(tid){
-    if(!user) return 0;
-    return myApplications.filter(a => a.tournament_id === tid && a.status === 'approved').length;
-  }
+  function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id === tid && a.status === 'approved').length; }
   function canAccessStage(stage){
     if(!stage) return false;
     if(stage.status === 'draft' && !canModerate()) return false;
@@ -1128,7 +888,25 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function tournamentStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
   function stageStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
 
-  /* ============ TOURNAMENTS LIST ============ */
+  /* HOME ACTIVE STAGE */
+  function renderHomeActiveStage(){
+    const wrap = $('#home-active-stage');
+    if(!wrap) return;
+    const openStages = stages.filter(s => s.status === 'open');
+    if(!openStages.length){ wrap.classList.add('hidden'); return; }
+    const s = openStages[0];
+    const t = tournaments.find(x => x.id === s.tournament_id);
+    if(!t || t.status === 'draft'){ wrap.classList.add('hidden'); return; }
+    $('#home-active-stage-title').textContent = 'Турнир #' + t.number + ' · ' + (s.title || ('Этап ' + s.number)) + ' · +' + (s.reward_points || 1) + ' очков';
+    $('#home-active-stage-btn').onclick = (e) => {
+      e.preventDefault();
+      if(!user){ go('cabinet'); return; }
+      if(!canAccessStage(s)){ currentTournamentId = t.id; go('tournament'); return; }
+      openApply(s.id);
+    };
+    wrap.classList.remove('hidden');
+  }
+
   function renderTournaments(){
     const grid = $('#tournaments-grid');
     grid.replaceChildren();
@@ -1158,17 +936,17 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         '<div class="t-head"><div class="t-number">Турнир #' + t.number + '</div><span class="t-status ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span></div>' +
         '<div class="t-title">' + escapeHtml(t.title || ('Турнир ' + t.number)) + '</div>' +
         (t.description ? '<div class="t-desc">' + escapeHtml(t.description) + '</div>' : '') +
-        '<div class="t-stages-count">📋 ' + tStages.length + ' этапов · 🏆 ' + totalPoints + ' очков всего</div>' + progressHtml;
+        '<div class="t-stages-count">📋 ' + tStages.length + ' этапов · 🏆 ' + totalPoints + ' очков</div>' + progressHtml;
       card.addEventListener('click', () => { currentTournamentId = t.id; go('tournament'); });
       grid.appendChild(card);
     });
   }
 
-  /* ============ TOURNAMENT PAGE ============ */
   function renderTournamentPage(){
     const t = tournaments.find(x => x.id === currentTournamentId);
     if(!t){ go('tournaments'); return; }
-    const tStages = stagesOfTournament(t.id);
+    const allStages = stagesOfTournament(t.id);
+    const tStages = canModerate() ? allStages : allStages.filter(s => s.status !== 'draft');
     const approved = user ? approvedInTournament(t.id) : 0;
     $('#t-page-eyebrow').textContent = 'Турнир #' + t.number;
     $('#t-page-title').textContent = t.title || ('Турнир ' + t.number);
@@ -1180,7 +958,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const grid = $('#stages-grid');
     grid.replaceChildren();
     if(!tStages.length){
-      grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Админ ещё не создал этапы в этом турнире.</p></div>';
+      if(canModerate()){
+        grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Нет открытых этапов</h2><p>Все этапы в черновике. Открой этап в админке, чтобы игроки могли подавать видео.</p><a class="btn btn-primary" href="#admin"><svg class="i"><use href="#i-admin"/></svg><span>В админку</span></a></div>';
+      } else {
+        grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Загляни позже — админ ещё не открыл этапы.</p></div>';
+      }
       return;
     }
     tStages.forEach(s => {
@@ -1204,9 +986,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       html += '</div>';
       html += '<div class="stage-title">' + escapeHtml(s.title || ('Этап ' + s.number)) + '</div>';
       if(s.description) html += '<div class="stage-desc">' + escapeHtml(s.description) + '</div>';
-      if(s.task){
-        html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:13px"><div style="font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:5px">📋 Задача</div><div>' + escapeHtml(s.task) + '</div></div>';
-      }
+      if(s.task) html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:13px"><div style="font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:5px">📋 Задача</div><div>' + escapeHtml(s.task) + '</div></div>';
       if(s.level_name || s.level_id || s.difficulty){
         html += '<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)">';
         if(s.level_name) html += '<span>🎮 <b style="color:var(--text)">' + escapeHtml(s.level_name) + '</b></span>';
@@ -1215,12 +995,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         html += '</div>';
       }
       html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);font-size:12.5px;color:var(--gold);display:flex;align-items:center;gap:8px"><svg class="i" style="font-size:16px"><use href="#i-coins"/></svg><b style="font-family:\'Exo 2\',sans-serif;font-size:15px">+' + (s.reward_points || 1) + '</b><span>очков</span></div>';
-      if(s.reward){
-        html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.25);font-size:12.5px;color:var(--green);display:flex;align-items:center;gap:8px"><span>🏆</span><span>' + escapeHtml(s.reward) + '</span></div>';
-      }
-      if(locked && !status){
-        html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> Пройди этап ' + (s.number - 1) + ', чтобы открыть</div>';
-      }
+      if(s.reward) html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.25);font-size:12.5px;color:var(--green);display:flex;align-items:center;gap:8px"><span>🏆</span><span>' + escapeHtml(s.reward) + '</span></div>';
+      if(locked && !status) html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> Пройди этап ' + (s.number - 1) + ', чтобы открыть</div>';
       card.innerHTML = html;
       const btnRow = document.createElement('div');
       btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap';
@@ -1239,23 +1015,17 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
           btnRow.appendChild(done);
         } else if(myApp && myApp.status === 'pending'){
           const btn = document.createElement('a');
-          btn.className = 'btn btn-ghost';
-          btn.style.flex = '1';
-          btn.href = '#cabinet';
+          btn.className = 'btn btn-ghost'; btn.style.flex = '1'; btn.href = '#cabinet';
           btn.innerHTML = '<svg class="i"><use href="#i-clock"/></svg><span>📹 Видео на проверке</span>';
           btnRow.appendChild(btn);
         } else if(myApp && myApp.status === 'rejected'){
           const btn = document.createElement('a');
-          btn.className = 'btn btn-danger';
-          btn.style.flex = '1';
-          btn.href = '#cabinet';
+          btn.className = 'btn btn-danger'; btn.style.flex = '1'; btn.href = '#cabinet';
           btn.innerHTML = '<svg class="i"><use href="#i-x"/></svg><span>❌ Отклонено — пересдать</span>';
           btnRow.appendChild(btn);
         } else if(!myApp && s.status === 'open'){
           const btn = document.createElement('a');
-          btn.className = 'btn btn-primary';
-          btn.style.flex = '1';
-          btn.href = '#apply';
+          btn.className = 'btn btn-primary'; btn.style.flex = '1'; btn.href = '#apply';
           btn.innerHTML = '<svg class="i"><use href="#i-video"/></svg><span>🎥 Подать видео</span>';
           btn.addEventListener('click', e => { e.preventDefault(); openApply(s.id); });
           btnRow.appendChild(btn);
@@ -1286,17 +1056,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $('#apply-title').textContent = '🎥 Подача видео: ' + (stage.title || ('Этап ' + stage.number));
     $('#apply-subtitle').textContent = 'Загрузи ссылку на видео этого этапа. Админ проверит и откроет следующий.';
     if(!user){ gate.classList.remove('hidden'); return; }
-    if(!canAccessStage(stage) && !editingId){
-      $('#apply-blocked-reason').textContent = 'Нужно одобрение предыдущего этапа в этом турнире.';
-      blocked.classList.remove('hidden'); return;
-    }
+    if(!canAccessStage(stage) && !editingId){ $('#apply-blocked-reason').textContent = 'Нужно одобрение предыдущего этапа в этом турнире.'; blocked.classList.remove('hidden'); return; }
     if(stage.status !== 'open' && !editingId){ $('#apply-blocked-reason').textContent = 'Приём заявок на этот этап закрыт.'; blocked.classList.remove('hidden'); return; }
     if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-reason').textContent = 'Время подачи заявок истекло.'; blocked.classList.remove('hidden'); return; }
     wrap.classList.remove('hidden');
     info.classList.remove('hidden');
   }
 
-  /* ============ APPLY FORM ============ */
   function normalizeUrl(v){
     let s = (v||'').trim();
     if(!s) return null;
@@ -1345,7 +1111,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         toast('Заявка обновлена');
         await loadMyApplications();
         go('cabinet');
-      }else{
+      } else {
         const { error } = await sb.from('applications').insert([{ ...data, status: 'pending' }]);
         if(error){
           if(/duplicate|unique/i.test(error.message)) throw new Error('Вы уже подавали заявку на этот этап');
@@ -1361,7 +1127,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     finally{ submitBtn.disabled = false; submitBtn.querySelector('span').textContent = editingId ? 'Сохранить' : 'Отправить видео'; }
   });
 
-  /* ============ LEADERBOARD ============ */
   async function renderLeaderboard(){
     if(!sb) return;
     try{
@@ -1373,13 +1138,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(e2) throw e2;
       const pointsMap = {};
       (pointsData || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
-      const list = (profilesData || []).map(p => ({
-        id: p.id, nick: p.nick, level: p.level || 0, points: pointsMap[p.id] || 0
-      })).sort((a, b) => {
-        if(b.points !== a.points) return b.points - a.points;
-        if(b.level !== a.level) return b.level - a.level;
-        return 0;
-      });
+      const list = (profilesData || []).map(p => ({ id: p.id, nick: p.nick, level: p.level || 0, points: pointsMap[p.id] || 0 }))
+        .sort((a, b) => { if(b.points !== a.points) return b.points - a.points; if(b.level !== a.level) return b.level - a.level; return 0; });
       window.setParticipantsCount(list.length);
       const podium = $('#lb-podium');
       podium.replaceChildren();
@@ -1387,12 +1147,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const cls = ['first','second','third'][i];
         const card = document.createElement('div');
         card.className = 'podium-card ' + cls;
-        card.innerHTML =
-          '<div class="podium-rank">' + (i+1) + '</div>' +
-          '<div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div>' +
-          '<div class="podium-level">' + p.points + '</div>' +
-          '<div class="podium-level-label">очков</div>' +
-          '<div style="color:var(--muted);font-size:11.5px;margin-top:6px">Уровень: ' + p.level + '</div>';
+        card.innerHTML = '<div class="podium-rank">' + (i+1) + '</div><div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div><div class="podium-level">' + p.points + '</div><div class="podium-level-label">очков</div><div style="color:var(--muted);font-size:11.5px;margin-top:6px">Уровень: ' + p.level + '</div>';
         podium.appendChild(card);
       });
       while(podium.children.length < 3){
@@ -1418,7 +1173,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }catch(err){ console.error(err); }
   }
 
-  /* ============ CABINET ============ */
   async function loadProfile(){
     if(!sb || !user){ userProfile = null; return; }
     try{
@@ -1440,10 +1194,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   async function checkModerator(){
     if(!user || isAdmin()){ isModeratorFlag = false; return; }
-    try{
-      const { data } = await sb.from('moderators').select('email').eq('email', user.email).maybeSingle();
-      isModeratorFlag = !!data;
-    }catch(_){ isModeratorFlag = false; }
+    try{ const { data } = await sb.from('moderators').select('email').eq('email', user.email).maybeSingle(); isModeratorFlag = !!data; }
+    catch(_){ isModeratorFlag = false; }
   }
   function renderCabinet(){
     const logged = !!user;
@@ -1469,15 +1221,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const main = document.createElement('div');
       main.className = 'app-item-main';
       main.innerHTML =
-        '<div class="app-item-head"><span class="app-item-stage">' + escapeHtml(label) + ' <span style="color:var(--blue-2);font-size:11.5px">🎥</span></span>' +
+        '<div class="app-item-head"><span class="app-item-stage">' + escapeHtml(label) + ' 🎥</span>' +
         '<span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span>' +
-        '<span class="app-item-date" title="' + (a.created_at || '') + '">' + timeAgo(a.created_at) + '</span></div>' +
+        '<span class="app-item-date">' + timeAgo(a.created_at) + '</span></div>' +
         '<div style="color:var(--muted);font-size:13px">Ник: <b style="color:var(--text)">' + escapeHtml(a.nick || '—') + '</b>' +
         (a.telegram ? ' · TG: ' + escapeHtml(a.telegram) : '') +
         (a.discord ? ' · DC: ' + escapeHtml(a.discord) : '') +
-        (a.status === 'approved' && pts ? ' · <b style="color:var(--gold)">+' + pts + ' 🏆</b>' : '') +
-        '</div>' +
-        (a.admin_comment ? '<div class="app-comment"><b>Комментарий от админа</b>' + escapeHtml(a.admin_comment) + '</div>' : '');
+        (a.status === 'approved' && pts ? ' · <b style="color:var(--gold)">+' + pts + ' 🏆</b>' : '') + '</div>' +
+        (a.admin_comment ? '<div class="app-comment"><b>Комментарий</b>' + escapeHtml(a.admin_comment) + '</div>' : '');
       item.appendChild(main);
       const actions = document.createElement('div');
       actions.className = 'app-item-actions';
@@ -1526,7 +1277,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* ============ ADMIN ============ */
   $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
     adminTab = b.dataset.adminTab;
     $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
@@ -1573,10 +1323,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     wrap.replaceChildren();
     const days = [];
     for(let i = 6; i >= 0; i--){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - i); days.push(d); }
-    const counts = days.map(d => {
-      const next = new Date(d); next.setDate(next.getDate() + 1);
-      return adminApps.filter(a => { const t = new Date(a.created_at).getTime(); return t >= d.getTime() && t < next.getTime(); }).length;
-    });
+    const counts = days.map(d => { const next = new Date(d); next.setDate(next.getDate() + 1); return adminApps.filter(a => { const t = new Date(a.created_at).getTime(); return t >= d.getTime() && t < next.getTime(); }).length; });
     const max = Math.max(1, ...counts);
     days.forEach((d, i) => {
       const bar = document.createElement('div');
@@ -1618,7 +1365,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* --- ADMIN TOURNAMENTS --- */
   async function renderAdminTournaments(){
     await loadTournaments();
     await loadStages();
@@ -1639,9 +1385,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       html += '<div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">Турнир #' + t.number + '</div>';
       html += '<div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">' + escapeHtml(t.title || '—') + '</div>';
       html += t.description ? '<div style="color:var(--muted);font-size:13.5px">' + escapeHtml(t.description) + '</div>' : '';
-      html += '</div>';
-      html += '<span class="status-badge ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span></div>';
-
+      html += '</div><span class="status-badge ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span></div>';
       html += '<div class="admin-actions" style="margin-bottom:16px">';
       if(t.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="' + t.id + '">Открыть</button>';
       if(t.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="' + t.id + '">Закрыть</button>';
@@ -1649,7 +1393,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="' + t.id + '">✎ Название/описание</button>';
       html += '<button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="' + t.id + '">🗑 Удалить</button>';
       html += '</div>';
-
       html += '<div style="border-top:1px solid var(--line-soft);padding-top:16px">';
       html += '<div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Этапы (' + tStages.length + ') · 🏆 ' + totalPoints + ' очков</div>';
       if(!tStages.length){
@@ -1675,14 +1418,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       card.innerHTML = html;
       wrap.appendChild(card);
     });
-
     wrap.onclick = e => {
       const btn = e.target.closest('button[data-action]');
       if(!btn) return;
-      const action = btn.dataset.action;
-      const id = btn.dataset.id;
-      const tid = btn.dataset.tid;
-      const num = btn.dataset.num;
+      const action = btn.dataset.action, id = btn.dataset.id, tid = btn.dataset.tid, num = btn.dataset.num;
       if(action === 't-open') updateTournament(id, { status: 'open', opened_at: new Date().toISOString() });
       else if(action === 't-close') updateTournament(id, { status: 'closed', closed_at: new Date().toISOString() });
       else if(action === 't-draft') updateTournament(id, { status: 'draft' });
@@ -1704,8 +1443,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTournaments();
   }
   async function editTournament(id){
-    const t = tournaments.find(x => x.id === id);
-    if(!t) return;
+    const t = tournaments.find(x => x.id === id); if(!t) return;
     const newTitle = prompt('Название турнира:', t.title || ''); if(newTitle === null) return;
     const newDesc = prompt('Описание:', t.description || ''); if(newDesc === null) return;
     const { error } = await sb.from('tournaments').update({ title: newTitle, description: newDesc || null }).eq('id', id);
@@ -1719,9 +1457,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const { error } = await sb.from('tournaments').delete().eq('id', id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('Турнир удалён');
-    await loadTournaments();
-    await loadStages();
-    await loadAdminApps();
+    await loadTournaments(); await loadStages(); await loadAdminApps();
     renderAdminTournaments();
   }
   async function deleteStage(id){
@@ -1729,8 +1465,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const { error } = await sb.from('stages').delete().eq('id', id);
     if(error){ toast('Ошибка', true); return; }
     toast('Этап удалён');
-    await loadStages();
-    await loadAdminApps();
+    await loadStages(); await loadAdminApps();
     renderAdminTournaments();
   }
   async function updateStage(id, patch){
@@ -1760,7 +1495,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTournaments();
   });
 
-  /* ============ MODAL ============ */
   function openStageModal(stageId, tournamentId, isNew){
     modalStageId = stageId;
     modalIsNew = !!isNew;
@@ -1841,19 +1575,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }finally{ btn.disabled = false; }
   });
 
-  /* --- ADMIN APPS --- */
   async function loadAdminApps(){
     if(!sb || !canModerate()){ adminApps = []; return; }
-    try{
-      const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false });
-      if(error) throw error;
-      adminApps = data || [];
-    }catch(err){ console.error(err); adminApps = []; }
+    try{ const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false }); if(error) throw error; adminApps = data || []; }
+    catch(err){ console.error(err); adminApps = []; }
   }
   function renderAdminApps(){
-    loadAdminApps().then(() => {
-      renderTournamentFilter(); renderStageFilter(); updateAdminStats(); renderAdminTable();
-    });
+    loadAdminApps().then(() => { renderTournamentFilter(); renderStageFilter(); updateAdminStats(); renderAdminTable(); });
   }
   function renderTournamentFilter(){
     const sel = $('#admin-tournament-filter');
@@ -1901,14 +1629,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(adminTournamentFilter !== 'all') list = list.filter(a => a.tournament_id === adminTournamentFilter);
     if(adminStageFilter !== 'all') list = list.filter(a => a.stage_id === adminStageFilter);
     if(adminAppFilter !== 'all') list = list.filter(a => a.status === adminAppFilter);
-    if(adminSearch){
-      list = list.filter(a =>
-        (a.nick||'').toLowerCase().includes(adminSearch) ||
-        (a.telegram||'').toLowerCase().includes(adminSearch) ||
-        (a.discord||'').toLowerCase().includes(adminSearch) ||
-        (a.email||'').toLowerCase().includes(adminSearch)
-      );
-    }
+    if(adminSearch) list = list.filter(a => (a.nick||'').toLowerCase().includes(adminSearch) || (a.telegram||'').toLowerCase().includes(adminSearch) || (a.discord||'').toLowerCase().includes(adminSearch) || (a.email||'').toLowerCase().includes(adminSearch));
     list.sort((a, b) => {
       let va, vb;
       if(adminSortField === 'created_at'){ va = a.created_at; vb = b.created_at; }
@@ -1925,8 +1646,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   function renderAdminTable(){
     const list = applyFilters();
-    const tb = $('#admin-body');
-    const mobileList = $('#admin-mobile-list');
+    const tb = $('#admin-body'), mobileList = $('#admin-mobile-list');
     tb.replaceChildren(); mobileList.replaceChildren();
     if(!list.length){
       tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>';
@@ -2038,7 +1758,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     return wrap;
   }
   async function editComment(a){
-    const newComment = prompt('Комментарий к заявке (видит юзер):', a.admin_comment || '');
+    const newComment = prompt('Комментарий к заявке:', a.admin_comment || '');
     if(newComment === null) return;
     const { error } = await sb.from('applications').update({ admin_comment: newComment.trim() || null }).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
@@ -2048,10 +1768,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   async function updateAppStatus(a, newStatus){
     let comment = a.admin_comment || '';
-    const ask = prompt(
-      newStatus === 'approved' ? 'Комментарий к одобрению (необязательно):' : 'Причина отклонения (увидит юзер):',
-      comment
-    );
+    const ask = prompt(newStatus === 'approved' ? 'Комментарий к одобрению:' : 'Причина отклонения:', comment);
     if(ask === null) return;
     comment = ask.trim();
     const patch = { status: newStatus };
@@ -2070,11 +1787,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   async function loadAdminLog(){
     if(!sb || !canModerate()){ adminLog = []; return; }
-    try{
-      const { data, error } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(200);
-      if(error) throw error;
-      adminLog = data || [];
-    }catch(err){ console.error(err); adminLog = []; }
+    try{ const { data, error } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(200); if(error) throw error; adminLog = data || []; }
+    catch(err){ console.error(err); adminLog = []; }
   }
   async function renderAdminLog(){
     await loadAdminLog();
@@ -2085,21 +1799,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const d = l.details || {};
       const tr = document.createElement('tr');
       const actionLabel = l.action === 'approve' ? '✓ Одобрил' : l.action === 'reject' ? '✕ Отклонил' : l.action;
-      tr.innerHTML =
-        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(l.created_at) + '</td>' +
-        '<td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td>' +
-        '<td style="font-weight:600">' + actionLabel + '</td>' +
-        '<td style="font-size:12px;color:var(--muted)">' + (d.nick ? 'Ник: ' + escapeHtml(d.nick) : '') + (d.from ? ' · ' + escapeHtml(d.from) + ' → ' + escapeHtml(d.to) : '') + '</td>';
+      tr.innerHTML = '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(l.created_at) + '</td><td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td><td style="font-weight:600">' + actionLabel + '</td><td style="font-size:12px;color:var(--muted)">' + (d.nick ? 'Ник: ' + escapeHtml(d.nick) : '') + (d.from ? ' · ' + escapeHtml(d.from) + ' → ' + escapeHtml(d.to) : '') + '</td>';
       tb.appendChild(tr);
     });
   }
   async function loadModerators(){
     if(!sb || !isAdmin()){ moderators = []; return; }
-    try{
-      const { data, error } = await sb.from('moderators').select('*').order('added_at', { ascending: true });
-      if(error) throw error;
-      moderators = data || [];
-    }catch(err){ console.error(err); moderators = []; }
+    try{ const { data, error } = await sb.from('moderators').select('*').order('added_at', { ascending: true }); if(error) throw error; moderators = data || []; }
+    catch(err){ console.error(err); moderators = []; }
   }
   async function renderAdminModerators(){
     await loadModerators();
@@ -2140,7 +1847,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await renderAdminModerators();
   });
 
-  /* ============ AUTH ============ */
   $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
     $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
     $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
@@ -2215,7 +1921,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await sb.auth.signOut();
     toast('Вы вышли');
     user = null; userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points: 0 };
-    renderCabinet(); renderAdmin();
+    renderCabinet(); renderAdmin(); renderHomeActiveStage();
     go('home');
   });
 
@@ -2230,6 +1936,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(isAdmin()) await loadModerators();
     renderCabinet();
     renderAdmin();
+    renderHomeActiveStage();
     updateAdminStats();
     setupRealtime();
   }
@@ -2242,7 +1949,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(adminTab === 'apps') renderAdminTable();
       if(adminTab === 'dashboard'){ renderDashChart(); renderDashRecent(); }
       if(payload.eventType === 'UPDATE' && payload.new.status !== payload.old.status){
-        toast(payload.new.status === 'approved' ? '✓ Заявка одобрена (кем-то)' : '✕ Заявка отклонена');
+        toast(payload.new.status === 'approved' ? '✓ Заявка одобрена' : '✕ Заявка отклонена');
       } else if(payload.eventType === 'INSERT'){
         toast('📥 Новая заявка!');
       }
@@ -2265,7 +1972,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
       else if(!user){
         userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points: 0 };
-        renderCabinet(); renderAdmin();
+        renderCabinet(); renderAdmin(); renderHomeActiveStage();
         if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
       }
     });
@@ -2288,6 +1995,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await loadStages();
     await initAuth();
     renderTournaments();
+    renderHomeActiveStage();
     await renderLeaderboard();
   })();
 
