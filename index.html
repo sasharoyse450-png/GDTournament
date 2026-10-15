@@ -4,67 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>International Geometry Dash Community Cup</title>
-<meta name="description" content="International Geometry Dash Community Cup — турнир по Geometry Dash среди участников нашего сообщества.">
+<meta name="description" content="International Geometry Dash Community Cup — турнир по Geometry Dash.">
 <meta name="theme-color" content="#050a17">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <script>
-try{
-  var l = localStorage.getItem('gdcc-lang');
-  if(l === 'ru' || l === 'en') document.documentElement.setAttribute('data-lang-chosen', l);
-}catch(e){}
+try{var l=localStorage.getItem('gdcc-lang');if(l==='ru'||l==='en')document.documentElement.setAttribute('data-lang-chosen',l);}catch(e){}
 </script>
 <noscript><style>.lang-gate{display:none!important}html:not([data-lang-chosen]) body{overflow:auto!important}</style></noscript>
-
 <style>
-:root{
-  --bg:#050a17; --card:#0b1530; --card-2:#0e1a3a;
-  --line:rgba(70,120,210,.30); --line-soft:rgba(70,120,210,.16);
-  --blue:#1f8bff; --blue-2:#38b6ff;
-  --text:#eaf1ff; --muted:#8fa4cb;
-  --gold:#f6b73c; --purple:#b36bff; --green:#2fd48a; --red:#ff5d73;
-  color-scheme:dark;
-}
+:root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;
-  color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;
-  -webkit-font-smoothing:antialiased;
-}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-h1,h2,h3{font-family:'Exo 2','Inter',system-ui,sans-serif;line-height:1.15}
+h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
 .i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
 .hidden{display:none!important}
-
-/* ---------- Language gate ---------- */
-.lang-gate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;
-  background:radial-gradient(900px 520px at 50% 28%,rgba(31,139,255,.24),transparent 70%),rgba(5,10,23,.97);
-  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.lang-gate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;background:radial-gradient(900px 520px at 50% 28%,rgba(31,139,255,.24),transparent 70%),rgba(5,10,23,.97);backdrop-filter:blur(8px)}
 html[data-lang-chosen] .lang-gate{display:none}
 html:not([data-lang-chosen]) body{overflow:hidden}
-.gate-card{width:min(460px,100%);text-align:center;padding:38px 28px 30px;border:1px solid var(--line);border-radius:20px;
-  background:linear-gradient(180deg,rgba(14,26,58,.92),rgba(9,18,42,.96));box-shadow:0 0 60px rgba(31,139,255,.18)}
+.gate-card{width:min(460px,100%);text-align:center;padding:38px 28px 30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(14,26,58,.92),rgba(9,18,42,.96));box-shadow:0 0 60px rgba(31,139,255,.18)}
 .gate-mark{width:56px;height:56px;margin:0 auto 16px;display:block;filter:drop-shadow(0 0 14px rgba(56,182,255,.6))}
-.gate-name{font-style:italic;font-weight:800;text-transform:uppercase;font-size:clamp(19px,4.6vw,24px);line-height:1.15;letter-spacing:.02em}
+.gate-name{font-style:italic;font-weight:800;text-transform:uppercase;font-size:clamp(19px,4.6vw,24px);line-height:1.15}
 .gate-ask{color:var(--muted);font-size:14px;margin:10px 0 24px}
 .gate-btns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.gate-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:92px;border-radius:14px;
-  border:1px solid var(--line);background:rgba(10,20,45,.85);color:var(--text);cursor:pointer;
-  font:800 28px 'Exo 2','Inter',system-ui,sans-serif;letter-spacing:.08em;transition:.2s}
-.gate-btn small{font:500 13px 'Inter',system-ui,sans-serif;letter-spacing:0;color:var(--muted)}
-.gate-btn:hover,.gate-btn:focus-visible{outline:none;border-color:var(--blue-2);background:rgba(31,139,255,.14);transform:translateY(-2px);box-shadow:0 10px 30px rgba(31,139,255,.3)}
-
-/* ---------- Header ---------- */
-.header{position:sticky;top:0;z-index:50;background:rgba(5,10,23,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
+.gate-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:92px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.85);color:var(--text);cursor:pointer;font:800 28px 'Exo 2',sans-serif;letter-spacing:.08em;transition:.2s}
+.gate-btn small{font:500 13px 'Inter',sans-serif;letter-spacing:0;color:var(--muted)}
+.gate-btn:hover,.gate-btn:focus-visible{outline:none;border-color:var(--blue-2);background:rgba(31,139,255,.14);transform:translateY(-2px)}
+.header{position:sticky;top:0;z-index:50;background:rgba(5,10,23,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
 .header-in{max-width:1280px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:28px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
 .logo-mark{width:38px;height:38px;filter:drop-shadow(0 0 10px rgba(56,182,255,.55))}
-.logo-text{font-family:'Exo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:13px;line-height:1.1;letter-spacing:.05em;white-space:nowrap}
+.logo-text{font-family:'Exo 2',sans-serif;font-weight:800;font-size:13px;line-height:1.1;letter-spacing:.05em;white-space:nowrap}
 .logo-text span{color:var(--blue-2)}
 .nav{display:flex;gap:2px;margin:0 auto}
 .nav a,.nav-login{position:relative;display:flex;align-items:center;gap:8px;padding:0 13px;height:68px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap;transition:color .2s}
@@ -75,17 +49,13 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .nav-login{display:none;background:none;border:0;font-family:inherit;cursor:pointer;width:100%;text-align:left}
 .header-actions{display:flex;align-items:center;gap:14px;flex:none}
 .burger{display:none;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);font-size:22px;cursor:pointer}
-
 .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:rgba(10,20,45,.6)}
-.lang button{height:30px;min-width:38px;padding:0 9px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 12px 'Inter',system-ui,sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s}
-.lang button:hover{color:var(--text)}
-.lang button[aria-pressed="true"]{background:var(--blue);color:#fff;box-shadow:0 0 14px rgba(31,139,255,.45)}
-
-/* ---------- Buttons ---------- */
+.lang button{height:30px;min-width:38px;padding:0 9px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 12px 'Inter',sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s}
+.lang button[aria-pressed="true"]{background:var(--blue);color:#fff}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 26px;border-radius:10px;border:1px solid transparent;font:600 15px 'Inter',sans-serif;color:#fff;cursor:pointer;text-decoration:none;transition:.2s}
 .btn .i{font-size:18px}
 .btn-primary{background:linear-gradient(180deg,#2a98ff,#1169e8);box-shadow:0 8px 28px rgba(31,139,255,.35)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 34px rgba(31,139,255,.5)}
+.btn-primary:hover{transform:translateY(-1px)}
 .btn-primary:disabled{opacity:.6;cursor:progress;transform:none}
 .btn-ghost{background:transparent;border-color:var(--blue);color:var(--blue-2)}
 .btn-ghost:hover{background:rgba(31,139,255,.14)}
@@ -93,80 +63,64 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-block{width:100%}
 .btn-danger{background:transparent;border-color:rgba(255,93,115,.5);color:var(--red)}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
-
-/* ---------- Pages ---------- */
+.btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
+.btn-success:hover{transform:translateY(-1px)}
 main{flex:1}
 .page{display:none}
 .page.active{display:block;animation:fade .35s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
 .page-head{padding:56px 0 28px;max-width:760px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:12px}
 .page-head h1{font-size:clamp(30px,4vw,44px);font-weight:800;margin-bottom:12px}
 .page-head p{color:var(--muted);font-size:16px}
 .page-body{padding-bottom:72px}
-
 .card{background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));border:1px solid var(--line);border-radius:16px;padding:24px}
-
-/* ---------- Hero ---------- */
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,#071230 0%,#050a17 100%)}
-.hero::before{content:"";position:absolute;inset:0;
-  background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
-  background-size:48px 48px;
-  -webkit-mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);
-  mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);opacity:.8}
-.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(500px 300px at 12% 45%,rgba(31,139,255,.28),transparent 70%),radial-gradient(420px 260px at 70% 70%,rgba(31,139,255,.14),transparent 70%)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);opacity:.8}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(500px 300px at 12% 45%,rgba(31,139,255,.28),transparent 70%)}
 .spikes{position:absolute;left:0;right:0;bottom:0;width:100%;height:24px;z-index:1;opacity:.8}
 .hero-in{position:relative;z-index:2;display:grid;grid-template-columns:300px 1fr 280px;align-items:center;gap:32px;padding:64px 24px 72px}
 .hero-text{min-width:0}
 .hero-art{width:100%;max-width:300px;height:auto;animation:float 6s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hero-title{font-style:italic;font-weight:900;text-transform:uppercase;line-height:.95}
-.hero-title .l1{display:block;font-size:clamp(32px,4.2vw,56px);color:#fff;letter-spacing:.01em}
-.hero-title .l2{display:block;font-size:clamp(32px,4.6vw,62px);background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 16px rgba(31,139,255,.55))}
-.hero-sub{font-family:'Exo 2','Inter',system-ui,sans-serif;font-weight:600;letter-spacing:.5em;font-size:clamp(13px,1.4vw,17px);color:#cfe0ff;margin-top:10px;text-transform:uppercase}
+.hero-title .l1{display:block;font-size:clamp(32px,4.2vw,56px);color:#fff}
+.hero-title .l2{display:block;font-size:clamp(32px,4.6vw,62px);background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-family:'Exo 2',sans-serif;font-weight:600;letter-spacing:.5em;font-size:clamp(13px,1.4vw,17px);color:#cfe0ff;margin-top:10px;text-transform:uppercase}
 .hero-lead{font-size:clamp(17px,1.6vw,21px);font-weight:600;margin-top:28px}
 .hero-desc{color:var(--muted);font-size:13px;margin-top:6px}
 .hero-cta{display:flex;align-items:center;gap:28px;margin-top:26px;flex-wrap:wrap}
-.hero-quote{font-family:'Exo 2','Inter',system-ui,sans-serif;font-style:italic;font-weight:600;font-size:20px;line-height:1.15;color:#3da5ff;transform:rotate(-7deg);text-shadow:0 0 14px rgba(61,165,255,.5)}
-
-.stat-card{background:rgba(10,20,45,.78);border:1px solid var(--line);border-radius:18px;padding:30px 24px;text-align:center;box-shadow:0 0 44px rgba(31,139,255,.14);backdrop-filter:blur(6px)}
+.hero-quote{font-family:'Exo 2',sans-serif;font-style:italic;font-weight:600;font-size:20px;color:#3da5ff;transform:rotate(-7deg)}
+.stat-card{background:rgba(10,20,45,.78);border:1px solid var(--line);border-radius:18px;padding:30px 24px;text-align:center;backdrop-filter:blur(6px)}
 .stat-icon{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 14px;border-radius:16px;background:rgba(31,139,255,.15);color:var(--blue-2);font-size:28px}
-.stat-num{font-family:'Exo 2','Inter',system-ui,sans-serif;font-weight:800;font-size:56px;line-height:1}
+.stat-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:56px;line-height:1}
 .stat-label{color:var(--muted);font-size:14px;margin-top:8px}
-
-/* ---------- Sections ---------- */
 .section{padding:56px 0 8px}
 .section h2{font-size:28px;font-weight:800;margin-bottom:22px}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .step{display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:.2s}
-.step:hover{transform:translateY(-3px);border-color:var(--blue-2);box-shadow:0 10px 34px rgba(31,139,255,.18)}
-.num{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blue);font-weight:700;font-size:15px;flex:none;box-shadow:0 0 16px rgba(31,139,255,.5)}
+.step:hover{transform:translateY(-3px);border-color:var(--blue-2)}
+.num{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blue);font-weight:700;font-size:15px;flex:none}
 .step h3{font-size:18px;font-weight:700}
 .step p{color:var(--muted);font-size:14px;flex:1}
 .step .go{display:inline-flex;align-items:center;gap:6px;color:var(--blue-2);font-size:14px;font-weight:600}
-.features{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:56px 0 72px;border:1px solid var(--line-soft);border-radius:16px;background:rgba(9,18,42,.7);overflow:hidden}
+.features{display:grid;grid-template-columns:repeat(4,1fr);margin:56px 0 72px;border:1px solid var(--line-soft);border-radius:16px;background:rgba(9,18,42,.7);overflow:hidden}
 .feature{display:flex;align-items:center;gap:16px;padding:24px 26px}
 .feature + .feature{border-left:1px solid var(--line-soft)}
 .feature .i{font-size:34px;color:var(--blue-2);stroke-width:1.5}
 .feature b{display:block;font-size:14px}
 .feature span{color:var(--muted);font-size:12.5px}
-
-/* ---------- Rules ---------- */
 .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .rule{display:flex;gap:18px;align-items:flex-start}
 .rule h3{font-size:18px;font-weight:700;margin-bottom:6px}
 .rule p{color:#b9c8e6;font-size:14.5px}
 .rule .num{width:38px;height:38px}
-.rule.danger .num{background:var(--red);box-shadow:0 0 16px rgba(255,93,115,.45)}
-
-/* ---------- Documents ---------- */
+.rule.danger .num{background:var(--red)}
 .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .doc{display:flex;align-items:center;gap:18px}
 .doc-ico{display:grid;place-items:center;width:60px;height:60px;border-radius:14px;font-size:28px;flex:none;border:1px solid var(--line-soft)}
 .c-blue{color:var(--blue-2);background:rgba(31,139,255,.12)}
-.c-purple{color:var(--purple);background:rgba(179,107,255,.12)}
+.c-purple{color:#b36bff;background:rgba(179,107,255,.12)}
 .doc-info{flex:1;min-width:0}
 .doc-info h3{font-size:17px;font-weight:700;margin-bottom:4px}
 .doc-info p{color:var(--muted);font-size:14px}
@@ -176,21 +130,16 @@ main{flex:1}
 .prep ol{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px 28px}
 .prep li{display:flex;align-items:flex-start;gap:14px;color:#b9c8e6;font-size:14.5px}
 .prep li .num{width:28px;height:28px;font-size:13px;margin-top:-2px}
-
-/* ---------- Apply / Cabinet form ---------- */
 .apply-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
 .field label{font-size:13px;color:var(--muted)}
 .req{color:var(--red)}
 .input{width:100%;height:46px;padding:0 14px;background:#070f24;border:1px solid var(--line);border-radius:10px;color:var(--text);font:400 14px 'Inter',sans-serif;outline:none;transition:.2s}
 .input::placeholder{color:#5b6f96}
-.input:disabled,.input[readonly]{opacity:.65;cursor:not-allowed}
 textarea.input{height:120px;padding:12px 14px;resize:vertical}
-select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:40px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238fa4cb' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center}
+select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238fa4cb' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .input:focus{border-color:var(--blue-2);box-shadow:0 0 0 3px rgba(56,182,255,.18)}
-.input.invalid{border-color:var(--red);box-shadow:0 0 0 3px rgba(255,93,115,.14)}
+.input.invalid{border-color:var(--red)}
 .error{display:none;font-size:12.5px;color:var(--red)}
 .error.show{display:block}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -200,7 +149,6 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
 .check input{width:18px;height:18px;margin-top:2px;accent-color:var(--blue);flex:none}
 .check.invalid{color:var(--red)}
 .check a{color:var(--blue-2)}
-.check-wrap .error{margin-top:6px}
 .aside-list{list-style:none;display:grid;gap:14px;margin-top:14px}
 .aside-list li{display:flex;gap:12px;font-size:14px;color:#b9c8e6}
 .aside-list .i{color:var(--green);font-size:20px;margin-top:1px}
@@ -209,13 +157,9 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
 .success .stat-icon{background:rgba(47,212,138,.14);color:var(--green);width:72px;height:72px;font-size:36px}
 .success h2{font-size:26px;margin-bottom:10px}
 .success p{color:var(--muted);max-width:440px;margin:0 auto 24px}
-.success .demo-note{font-size:12.5px;color:var(--gold);border:1px dashed rgba(246,183,60,.45);border-radius:10px;padding:10px 14px;margin:-8px auto 24px}
-
-/* ---------- Auth / Cabinet ---------- */
 .auth-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px}
-.auth-tabs button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 14px 'Inter',system-ui,sans-serif;cursor:pointer;transition:.2s}
-.auth-tabs button:hover{color:var(--text)}
-.auth-tabs button.active{background:var(--blue);color:#fff;box-shadow:0 4px 14px rgba(31,139,255,.35)}
+.auth-tabs button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 14px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.auth-tabs button.active{background:var(--blue);color:#fff}
 .auth-note{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center}
 .auth-note a{color:var(--blue-2)}
 .cab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
@@ -224,7 +168,6 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
 .cab-card{margin-bottom:24px}
 .cab-card h2{font-size:22px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
 .cab-card h2 .i{color:var(--blue-2);font-size:22px}
-.cab-dl{display:grid;gap:0}
 .cab-row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line-soft);align-items:start}
 .cab-row:last-child{border-bottom:0}
 .cab-row dt{color:var(--muted);font-size:13px}
@@ -235,117 +178,80 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
 .status-badge.approved{background:rgba(47,212,138,.14);color:var(--green)}
 .status-badge.rejected{background:rgba(255,93,115,.14);color:var(--red)}
 .cab-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-
-@media(max-width:600px){
-  .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
-}
-
-/* ---------- Participants / Results ---------- */
 .table-card{padding:0;overflow:hidden}
 .table-wrap{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:14px}
 .table th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:16px 22px;border-bottom:1px solid var(--line)}
-.table td{padding:14px 22px;border-bottom:1px solid var(--line-soft)}
+.table td{padding:14px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
 .table tr:last-child td{border-bottom:0}
 .table .empty{text-align:center;color:var(--muted);padding:48px 22px}
 .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(47,212,138,.14);color:var(--green)}
 .badge.pending{background:rgba(246,183,60,.14);color:var(--gold)}
+.badge.rejected{background:rgba(255,93,115,.14);color:var(--red)}
 .chip{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:18px;font-size:14px;color:var(--muted)}
-.chip b{font-family:'Exo 2','Inter',system-ui,sans-serif;font-size:20px;color:var(--text)}
+.chip b{font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)}
 .chip .i{color:var(--blue-2);font-size:18px}
 .empty-state{text-align:center;padding:64px 24px}
 .empty-state .stat-icon{color:var(--gold);background:rgba(246,183,60,.12);width:72px;height:72px;font-size:34px}
 .empty-state h2{font-size:24px;margin-bottom:8px}
 .empty-state p{color:var(--muted);max-width:460px;margin:0 auto 20px}
-
-/* ---------- Footer / Toast ---------- */
 .footer{border-top:1px solid var(--line-soft);padding:22px 0;color:#5f7399;font-size:13px}
 .footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;box-shadow:0 10px 40px rgba(0,0,0,.5);transition:.3s;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
-
-/* ---------- Responsive ---------- */
-@media(max-width:1200px){
-  .burger{display:grid}
-  .header-in{gap:12px}
-  .header-actions{margin-left:auto}
-  .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}
-  .nav.open{display:flex}
-  .nav a,.nav-login{height:48px;border-radius:10px;padding:0 12px}
-  .nav a.active{background:rgba(31,139,255,.1)}
-  .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}
-}
-@media(max-width:1100px){
-  .hero-in{grid-template-columns:1fr 260px}
-  .hero-art-wrap{position:absolute;left:-60px;top:20px;width:260px;opacity:.28;pointer-events:none}
-  .features{grid-template-columns:repeat(2,1fr)}
-  .feature:nth-child(3){border-left:0}
-  .feature:nth-child(n+3){border-top:1px solid var(--line-soft)}
-  .apply-grid{grid-template-columns:1fr}
-}
-@media(max-width:760px){
-  .hero-in{grid-template-columns:1fr;padding:44px 20px 56px}
-  .hero-art-wrap{display:none}
-  .steps,.rules-grid,.docs-grid,.prep ol,.field-row{grid-template-columns:1fr}
-  .features{grid-template-columns:1fr}
-  .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}
-  .wrap,.header-in{padding:0 16px}
-  .hero-quote{display:none}
-  .header-actions #login-btn{display:none}
-  .nav-login{display:flex}
-}
-@media(max-width:420px){
-  .logo-mark{width:32px;height:32px}
-  .logo-text{font-size:11px}
-  .header-actions{gap:8px}
-  .gate-btn{height:80px;font-size:24px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
+.admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.admin-filters button{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--muted);font:600 13px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.admin-filters button:hover{color:var(--text)}
+.admin-filters button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.admin-stat{padding:18px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
+.admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:32px;font-weight:800;line-height:1}
+.admin-stat span{color:var(--muted);font-size:12.5px;margin-top:6px;display:block}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.admin-actions .btn{height:32px;padding:0 12px;font-size:12px;border-radius:8px}
+.video-link{color:var(--blue-2);word-break:break-all;font-size:13px}
+@media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:48px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
+@media(max-width:1100px){.hero-in{grid-template-columns:1fr 260px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:260px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.apply-grid{grid-template-columns:1fr}.admin-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:44px 20px 56px}.hero-art-wrap{display:none}.steps,.rules-grid,.docs-grid,.prep ol,.field-row{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}.cab-row{grid-template-columns:1fr;gap:4px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 
-<!-- Иконки -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
-    <symbol id="i-rules" viewBox="0 0 24 24"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M8 9h8M8 13h8"/></symbol>
-    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
-    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></symbol>
-    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
-    <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
-    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/></symbol>
-    <symbol id="i-clip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14l2 2 4-4"/></symbol>
-    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
-    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
-    <symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol>
-    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
-    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
-    <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
-    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
-  </defs>
+<defs>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+<symbol id="i-rules" viewBox="0 0 24 24"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M8 9h8M8 13h8"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="4"/></symbol>
+<symbol id="i-clip" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14l2 2 4-4"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></symbol>
+<symbol id="i-form" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-admin" viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.2L12 17l-5.5 2.5 1-6.2L3 8.9 9 8z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+</defs>
 </svg>
 
 <header class="header">
   <div class="header-in">
-    <a class="logo" href="#home" data-i18n-aria="logo.aria" aria-label="International Geometry Dash Community Cup — на главную">
-      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
-        <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient></defs>
-        <rect x="3" y="3" width="34" height="34" rx="7" fill="url(#lg)"/>
-        <rect x="10" y="10" width="20" height="20" rx="3" fill="#061230"/>
-        <path d="M14 26l6-12 6 12z" fill="#4cc3ff"/>
-      </svg>
+    <a class="logo" href="#home">
+      <svg class="logo-mark" viewBox="0 0 40 40"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="7" fill="url(#lg)"/><rect x="10" y="10" width="20" height="20" rx="3" fill="#061230"/><path d="M14 26l6-12 6 12z" fill="#4cc3ff"/></svg>
       <span class="logo-text">INTERNATIONAL<br><span>GD COMMUNITY CUP</span></span>
     </a>
-
-    <nav class="nav" id="nav" data-i18n-aria="nav.aria" aria-label="Основная навигация">
+    <nav class="nav" id="nav">
       <a href="#home" data-nav="home"><svg class="i"><use href="#i-home"/></svg><span data-i18n="nav.home">Главная</span></a>
       <a href="#rules" data-nav="rules"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></a>
       <a href="#docs" data-nav="docs"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></a>
@@ -353,396 +259,333 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
       <a href="#participants" data-nav="participants"><svg class="i"><use href="#i-users"/></svg><span data-i18n="nav.participants">Участники</span></a>
       <a href="#results" data-nav="results"><svg class="i"><use href="#i-trophy"/></svg><span data-i18n="nav.results">Результаты</span></a>
+      <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></a>
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
     </nav>
-
     <div class="header-actions">
-      <div class="lang" role="group" aria-label="Language / Язык">
+      <div class="lang" role="group">
         <button type="button" data-lang="ru" aria-pressed="true">RU</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
       <button class="btn btn-ghost btn-sm" id="login-btn" type="button" data-i18n="btn.login">Войти</button>
-      <button class="burger" id="burger" type="button" data-i18n-aria="menu.aria" aria-label="Меню" aria-expanded="false" aria-controls="nav"><svg class="i"><use href="#i-menu"/></svg></button>
+      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
     </div>
   </div>
 </header>
 
 <main>
 
-  <!-- ===================== ГЛАВНАЯ ===================== -->
-  <section class="page" id="page-home">
-    <div class="hero">
-      <div class="hero-in">
-        <div class="hero-art-wrap">
-          <svg class="hero-art" viewBox="0 0 400 400" aria-hidden="true">
-            <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient>
-              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <g filter="url(#glow)">
-              <g transform="rotate(-8 200 200)">
-                <rect x="105" y="105" width="190" height="190" rx="16" fill="url(#g1)"/>
-                <rect x="138" y="138" width="124" height="124" rx="9" fill="none" stroke="#c4ecff" stroke-width="6"/>
-                <rect x="172" y="172" width="56" height="56" rx="5" fill="#06122e"/>
-              </g>
-              <g fill="none" stroke="#38b6ff" stroke-width="4" stroke-linejoin="round">
-                <path d="M30 330l34-62 34 62z"/>
-                <path d="M300 340l24-44 24 44z"/>
-                <path d="M318 78l26 46-52 0z" transform="rotate(14 318 100)"/>
-                <path d="M52 86l22 38-44 0z" transform="rotate(-18 52 106)"/>
-              </g>
-            </g>
-          </svg>
-        </div>
-
-        <div class="hero-text">
-          <h1 class="hero-title"><span class="l1">International</span><span class="l2">Geometry Dash</span></h1>
-          <div class="hero-sub">Community Cup</div>
-          <p class="hero-lead" data-i18n="hero.lead">Покажи свой скилл. Докажи, что ты лучший.</p>
-          <p class="hero-desc" data-i18n="hero.desc">Турнир по Geometry Dash среди участников нашего сообщества.</p>
-          <div class="hero-cta">
-            <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="cta.apply">Подать заявку</span></a>
-            <div class="hero-quote" aria-hidden="true">No cheats.<br>No excuses.<br>Just skill.</div>
-          </div>
-        </div>
-
-        <aside class="stat-card" data-i18n-aria="stat.aria" aria-label="Количество участников">
-          <div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div>
-          <div class="stat-num" data-participants-count>—</div>
-          <div class="stat-label" data-i18n="stat.label">Участников</div>
-        </aside>
+<section class="page" id="page-home">
+  <div class="hero">
+    <div class="hero-in">
+      <div class="hero-art-wrap">
+        <svg class="hero-art" viewBox="0 0 400 400"><defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g filter="url(#glow)"><g transform="rotate(-8 200 200)"><rect x="105" y="105" width="190" height="190" rx="16" fill="url(#g1)"/><rect x="138" y="138" width="124" height="124" rx="9" fill="none" stroke="#c4ecff" stroke-width="6"/><rect x="172" y="172" width="56" height="56" rx="5" fill="#06122e"/></g></g></svg>
       </div>
-
-      <svg class="spikes" aria-hidden="true" preserveAspectRatio="none">
-        <defs><pattern id="sp" width="40" height="24" patternUnits="userSpaceOnUse"><path d="M4 24L20 4l16 20z" fill="none" stroke="#38b6ff" stroke-opacity=".55"/></pattern></defs>
-        <rect width="100%" height="24" fill="url(#sp)"/>
-      </svg>
-    </div>
-
-    <div class="wrap">
-      <div class="section">
-        <h2 data-i18n="home.how">Как принять участие</h2>
-        <div class="steps">
-          <a class="card step" href="#rules">
-            <div class="num">1</div>
-            <h3 data-i18n="step1.t">Изучи правила</h3>
-            <p data-i18n="step1.p">Формат турнира, запреты и условия участия — всё в одном месте.</p>
-            <span class="go"><span data-i18n="step1.go">К правилам</span> <svg class="i"><use href="#i-arrow"/></svg></span>
-          </a>
-          <a class="card step" href="#docs">
-            <div class="num">2</div>
-            <h3 data-i18n="step2.t">Подготовь документы</h3>
-            <p data-i18n="step2.p">Запись игры с хенд камом и включённым чит индикатором.</p>
-            <span class="go"><span data-i18n="step2.go">К документам</span> <svg class="i"><use href="#i-arrow"/></svg></span>
-          </a>
-          <a class="card step" href="#apply">
-            <div class="num">3</div>
-            <h3 data-i18n="step3.t">Подай заявку</h3>
-            <p data-i18n="step3.p">Заполни форму — мы свяжемся с тобой в Telegram или Discord.</p>
-            <span class="go"><span data-i18n="step3.go">К заявке</span> <svg class="i"><use href="#i-arrow"/></svg></span>
-          </a>
-        </div>
-      </div>
-
-      <div class="features">
-        <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b data-i18n="feat1.t">Честная игра</b><span data-i18n="feat1.d">Строгая проверка записей и античит.</span></div></div>
-        <div class="feature"><svg class="i"><use href="#i-users"/></svg><div><b data-i18n="feat2.t">Сильное комьюнити</b><span data-i18n="feat2.d">Участники из нашего сообщества.</span></div></div>
-        <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat3.t">Награды</b><span data-i18n="feat3.d">Награды и сувениры для лучших.</span></div></div>
-        <div class="feature"><svg class="i"><use href="#i-star"/></svg><div><b data-i18n="feat4.t">Твой шанс</b><span data-i18n="feat4.d">Стань лучшим в нашем турнире!</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== ПРАВИЛА ===================== -->
-  <section class="page" id="page-rules">
-    <div class="wrap">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="rules.title">Правила турнира</span></div>
-        <h1 data-i18n="rules.title">Правила турнира</h1>
-        <p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
-      </div>
-      <div class="page-body">
-        <div class="rules-grid">
-          <article class="card rule"><div class="num">1</div><div><h3 data-i18n="r1.t">Общие положения</h3><p data-i18n="r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
-          <article class="card rule"><div class="num">2</div><div><h3 data-i18n="r2.t">Формат проведения</h3><p data-i18n="r2.p">Игра проходит на официальных уровнях Geometry Dash. Подробный список уровней будет опубликован в день старта.</p></div></article>
-          <article class="card rule danger"><div class="num">3</div><div><h3 data-i18n="r3.t">Запрещено</h3><p data-i18n="r3.p">Использование читов, багов, стороннего ПО, модификаций, макросов и любых нечестных методов. Нарушение — дисквалификация.</p></div></article>
-          <article class="card rule"><div class="num">4</div><div><h3 data-i18n="r4.t">Подача заявки</h3><p data-i18n="r4.p">Заявку можно подать только через форму на сайте. После проверки документов и подтверждения участника вы получите доступ к серверу турнира.</p></div></article>
-          <article class="card rule"><div class="num">5</div><div><h3 data-i18n="r5.t">Награды</h3><p data-i18n="r5.p">Лучшие участники получат награды и сувениры.</p></div></article>
-          <article class="card rule"><div class="num">6</div><div><h3 data-i18n="r6.t">Финальные правила</h3><p data-i18n="r6.p">Организаторы оставляют за собой право вносить изменения в правила и формат турнира. Все спорные ситуации решаются в индивидуальном порядке.</p></div></article>
-        </div>
-        <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap">
+      <div class="hero-text">
+        <h1 class="hero-title"><span class="l1">International</span><span class="l2">Geometry Dash</span></h1>
+        <div class="hero-sub">Community Cup</div>
+        <p class="hero-lead" data-i18n="hero.lead">Покажи свой скилл. Докажи, что ты лучший.</p>
+        <p class="hero-desc" data-i18n="hero.desc">Турнир по Geometry Dash среди участников нашего сообщества.</p>
+        <div class="hero-cta">
           <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="cta.apply">Подать заявку</span></a>
-          <a class="btn btn-ghost" href="#docs"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></a>
+          <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
+      </div>
+      <aside class="stat-card">
+        <div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div>
+        <div class="stat-num" data-participants-count>—</div>
+        <div class="stat-label" data-i18n="stat.label">Участников</div>
+      </aside>
+    </div>
+    <svg class="spikes" preserveAspectRatio="none"><defs><pattern id="sp" width="40" height="24" patternUnits="userSpaceOnUse"><path d="M4 24L20 4l16 20z" fill="none" stroke="#38b6ff" stroke-opacity=".55"/></pattern></defs><rect width="100%" height="24" fill="url(#sp)"/></svg>
+  </div>
+  <div class="wrap">
+    <div class="section">
+      <h2 data-i18n="home.how">Как принять участие</h2>
+      <div class="steps">
+        <a class="card step" href="#rules"><div class="num">1</div><h3 data-i18n="step1.t">Изучи правила</h3><p data-i18n="step1.p">Формат турнира, запреты и условия участия — всё в одном месте.</p><span class="go"><span data-i18n="step1.go">К правилам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#docs"><div class="num">2</div><h3 data-i18n="step2.t">Подготовь документы</h3><p data-i18n="step2.p">Запись игры с хенд камом и включённым чит индикатором.</p><span class="go"><span data-i18n="step2.go">К документам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#apply"><div class="num">3</div><h3 data-i18n="step3.t">Подай заявку</h3><p data-i18n="step3.p">Заполни форму — мы свяжемся с тобой в Telegram или Discord.</p><span class="go"><span data-i18n="step3.go">К заявке</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
       </div>
     </div>
-  </section>
+    <div class="features">
+      <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b data-i18n="feat1.t">Честная игра</b><span data-i18n="feat1.d">Строгая проверка записей и античит.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-users"/></svg><div><b data-i18n="feat2.t">Сильное комьюнити</b><span data-i18n="feat2.d">Участники из нашего сообщества.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat3.t">Награды</b><span data-i18n="feat3.d">Награды и сувениры для лучших.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-star"/></svg><div><b data-i18n="feat4.t">Твой шанс</b><span data-i18n="feat4.d">Стань лучшим в нашем турнире!</span></div></div>
+    </div>
+  </div>
+</section>
 
-  <!-- ===================== ДОКУМЕНТЫ ===================== -->
-  <section class="page" id="page-docs">
-    <div class="wrap">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div>
-        <h1 data-i18n="docs.title">Необходимые документы</h1>
-        <p data-i18n="docs.lead">Что нужно подготовить, чтобы твою заявку проверили и подтвердили.</p>
+<section class="page" id="page-rules">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="rules.title">Правила турнира</span></div>
+      <h1 data-i18n="rules.title">Правила турнира</h1>
+      <p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
+    </div>
+    <div class="page-body">
+      <div class="rules-grid">
+        <article class="card rule"><div class="num">1</div><div><h3 data-i18n="r1.t">Общие положения</h3><p data-i18n="r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
+        <article class="card rule"><div class="num">2</div><div><h3 data-i18n="r2.t">Формат проведения</h3><p data-i18n="r2.p">Игра проходит на официальных уровнях Geometry Dash. Подробный список уровней будет опубликован в день старта.</p></div></article>
+        <article class="card rule danger"><div class="num">3</div><div><h3 data-i18n="r3.t">Запрещено</h3><p data-i18n="r3.p">Использование читов, багов, стороннего ПО, модификаций, макросов и любых нечестных методов. Нарушение — дисквалификация.</p></div></article>
+        <article class="card rule"><div class="num">4</div><div><h3 data-i18n="r4.t">Подача заявки</h3><p data-i18n="r4.p">Заявку можно подать только через форму на сайте. После проверки документов и подтверждения участника вы получите доступ к серверу турнира.</p></div></article>
+        <article class="card rule"><div class="num">5</div><div><h3 data-i18n="r5.t">Награды</h3><p data-i18n="r5.p">Лучшие участники получат награды и сувениры.</p></div></article>
+        <article class="card rule"><div class="num">6</div><div><h3 data-i18n="r6.t">Финальные правила</h3><p data-i18n="r6.p">Организаторы оставляют за собой право вносить изменения в правила и формат турнира. Все спорные ситуации решаются в индивидуальном порядке.</p></div></article>
       </div>
-      <div class="page-body">
-        <div class="docs-grid">
-          <article class="card doc">
-            <div class="doc-ico c-blue"><svg class="i"><use href="#i-monitor"/></svg></div>
-            <div class="doc-info"><h3 data-i18n="d1.t">Античит (чит индикатор)</h3><p data-i18n="d1.p">Скриншот или видео с включенным чит индикатором во время игры.</p></div>
-          </article>
-          <article class="card doc">
-            <div class="doc-ico c-purple"><svg class="i"><use href="#i-camera"/></svg></div>
-            <div class="doc-info"><h3 data-i18n="d2.t">Хенд кам (руки + клавиатура)</h3><p data-i18n="d2.p">Видео с камерой, показывающее руки на клавиатуре и мыши/столе.</p></div>
-          </article>
-        </div>
-
-        <div class="card prep">
-          <h3><svg class="i"><use href="#i-clip"/></svg><span data-i18n="prep.t">Как подготовить запись?</span></h3>
-          <ol>
-            <li><span class="num">1</span><span data-i18n="prep.1">Включи чит индикатор (если он есть).</span></li>
-            <li><span class="num">2</span><span data-i18n="prep.2">Запиши видео с хенд камом (руки + клавиатура).</span></li>
-            <li><span class="num">3</span><span data-i18n="prep.3">Убедись, что в записи видно весь экран и интерфейс.</span></li>
-            <li><span class="num">4</span><span data-i18n="prep.4">Загрузи запись на облако (Google Drive / Yandex Disk) и укажи ссылку в заявке.</span></li>
-          </ol>
-        </div>
-
-        <div style="margin-top:28px">
-          <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="docs.cta">Перейти к заявке</span></a>
-        </div>
+      <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap">
+        <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="cta.apply">Подать заявку</span></a>
+        <a class="btn btn-ghost" href="#docs"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===================== ЗАЯВКА ===================== -->
-  <section class="page" id="page-apply">
-    <div class="wrap">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span data-i18n="apply.eyebrow">Регистрация</span></div>
-        <h1 data-i18n="apply.title">Форма подачи заявки</h1>
-        <p data-i18n="apply.lead">Заполни все поля внимательно. После отправки заявки мы свяжемся с тобой в Telegram / Discord.</p>
+<section class="page" id="page-docs">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div>
+      <h1 data-i18n="docs.title">Необходимые документы</h1>
+      <p data-i18n="docs.lead">Что нужно подготовить, чтобы твою заявку проверили и подтвердили.</p>
+    </div>
+    <div class="page-body">
+      <div class="docs-grid">
+        <article class="card doc"><div class="doc-ico c-blue"><svg class="i"><use href="#i-monitor"/></svg></div><div class="doc-info"><h3 data-i18n="d1.t">Античит (чит индикатор)</h3><p data-i18n="d1.p">Скриншот или видео с включенным чит индикатором во время игры.</p></div></article>
+        <article class="card doc"><div class="doc-ico c-purple"><svg class="i"><use href="#i-camera"/></svg></div><div class="doc-info"><h3 data-i18n="d2.t">Хенд кам (руки + клавиатура)</h3><p data-i18n="d2.p">Видео с камерой, показывающее руки на клавиатуре и мыши/столе.</p></div></article>
       </div>
-      <div class="page-body">
+      <div class="card prep">
+        <h3><svg class="i"><use href="#i-clip"/></svg><span data-i18n="prep.t">Как подготовить запись?</span></h3>
+        <ol>
+          <li><span class="num">1</span><span data-i18n="prep.1">Включи чит индикатор (если он есть).</span></li>
+          <li><span class="num">2</span><span data-i18n="prep.2">Запиши видео с хенд камом (руки + клавиатура).</span></li>
+          <li><span class="num">3</span><span data-i18n="prep.3">Убедись, что в записи видно весь экран и интерфейс.</span></li>
+          <li><span class="num">4</span><span data-i18n="prep.4">Загрузи запись на облако и укажи ссылку в заявке.</span></li>
+        </ol>
+      </div>
+      <div style="margin-top:28px"><a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="docs.cta">Перейти к заявке</span></a></div>
+    </div>
+  </div>
+</section>
 
-        <!-- Требуется вход -->
-        <div id="apply-gate" class="card hidden">
-          <div class="empty-state">
-            <div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div>
-            <h2 data-i18n="apply.gate.t">Нужен аккаунт</h2>
-            <p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку и отслеживать её статус в личном кабинете.</p>
-            <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.cta">Войти / Регистрация</span></a>
-          </div>
+<section class="page" id="page-apply">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span data-i18n="apply.eyebrow">Регистрация</span></div>
+      <h1 data-i18n="apply.title">Форма подачи заявки</h1>
+      <p data-i18n="apply.lead">Заполни все поля внимательно. После отправки заявки мы свяжемся с тобой в Telegram / Discord.</p>
+    </div>
+    <div class="page-body">
+      <div id="apply-gate" class="card hidden">
+        <div class="empty-state">
+          <div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div>
+          <h2 data-i18n="apply.gate.t">Нужен аккаунт</h2>
+          <p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку.</p>
+          <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.cta">Войти / Регистрация</span></a>
         </div>
-
-        <div class="apply-grid" id="apply-wrap">
-          <div class="card" id="apply-card">
-            <form id="apply-form" novalidate autocomplete="off">
-              <div id="apply-edit-banner" class="hidden" style="margin-bottom:20px;padding:12px 16px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13.5px" data-i18n="apply.edit.banner">
-                Режим редактирования заявки
-              </div>
-
+      </div>
+      <div class="apply-grid" id="apply-wrap">
+        <div class="card">
+          <form id="apply-form" novalidate autocomplete="off">
+            <div id="apply-edit-banner" class="hidden" style="margin-bottom:20px;padding:12px 16px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13.5px">Режим редактирования заявки</div>
+            <div class="field">
+              <label for="nick"><span data-i18n="f.nick">Ваш ник в Geometry Dash</span> <span class="req">*</span></label>
+              <input class="input" id="nick" name="nick" type="text" data-i18n-ph="f.nick.ph" placeholder="Например: Player123" maxlength="32">
+              <div class="error" data-error-for="nick"></div>
+            </div>
+            <div class="field-row">
               <div class="field">
-                <label for="nick"><span data-i18n="f.nick">Ваш ник в Geometry Dash</span> <span class="req">*</span></label>
-                <input class="input" id="nick" name="nick" type="text" data-i18n-ph="f.nick.ph" placeholder="Например: Player123" maxlength="32">
-                <div class="error" data-error-for="nick" role="alert"></div>
+                <label for="telegram"><span data-i18n="f.tg">Ваш Telegram</span> <span class="req">*</span></label>
+                <input class="input" id="telegram" name="telegram" type="text" placeholder="@username" maxlength="33">
+                <div class="error" data-error-for="telegram"></div>
               </div>
-
-              <div class="field-row">
-                <div class="field">
-                  <label for="telegram"><span data-i18n="f.tg">Ваш Telegram (для связи)</span> <span class="req">*</span></label>
-                  <input class="input" id="telegram" name="telegram" type="text" placeholder="@username" maxlength="33" autocapitalize="none" spellcheck="false">
-                  <div class="error" data-error-for="telegram" role="alert"></div>
-                </div>
-                <div class="field">
-                  <label for="discord" data-i18n="f.dc">Ваш Discord (если есть)</label>
-                  <input class="input" id="discord" name="discord" type="text" placeholder="username#1234" maxlength="40" autocapitalize="none" spellcheck="false">
-                </div>
-              </div>
-
               <div class="field">
-                <label for="video"><span data-i18n="f.video">Ссылка на видео с хенд камом и чит индикатором</span> <span class="req">*</span></label>
-                <input class="input" id="video" name="video" type="text" inputmode="url" placeholder="https://drive.google.com/..." autocapitalize="none" spellcheck="false">
-                <span class="hint" data-i18n="f.video.hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span>
-                <div class="error" data-error-for="video" role="alert"></div>
-              </div>
-
-              <div class="field">
-                <label for="platform"><span data-i18n="f.platform">Выберите платформу</span> <span class="req">*</span></label>
-                <select class="input" id="platform" name="platform">
-                  <option value="PC" selected>PC</option>
-                  <option value="Mobile">Mobile</option>
-                  <option value="Console" data-i18n="platform.Console">Консоль</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="about" data-i18n="f.about">Дополнительная информация (по желанию)</label>
-                <textarea class="input" id="about" name="about" data-i18n-ph="f.about.ph" placeholder="Расскажите о себе, опыте в GD, и т.д." maxlength="1000"></textarea>
-              </div>
-
-              <div class="check-wrap">
-                <label class="check" id="agree-label">
-                  <input type="checkbox" name="agree" id="agree">
-                  <span data-i18n-html="f.agree">Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span>
-                </label>
-                <div class="error" data-error-for="agree" role="alert"></div>
-              </div>
-
-              <button class="btn btn-primary btn-block" id="submit-btn" type="submit"><svg class="i"><use href="#i-send"/></svg><span data-i18n="btn.submit">Отправить заявку</span></button>
-            </form>
-
-            <div class="success hidden" id="apply-success">
-              <div class="stat-icon"><svg class="i"><use href="#i-check"/></svg></div>
-              <h2 data-i18n="success.t">Заявка отправлена!</h2>
-              <p data-i18n="success.p">Мы проверим твою запись и свяжемся с тобой в Telegram / Discord.</p>
-              <p class="demo-note hidden" id="demo-note" data-i18n="success.demo">Демо-режим: база данных не подключена, заявка нигде не сохранена.</p>
-              <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-                <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="success.cabinet">В личный кабинет</span></a>
-                <a class="btn btn-ghost" href="#home" data-i18n="success.home">На главную</a>
+                <label for="discord" data-i18n="f.dc">Ваш Discord</label>
+                <input class="input" id="discord" name="discord" type="text" placeholder="username#1234" maxlength="40">
               </div>
             </div>
+            <div class="field">
+              <label for="video"><span data-i18n="f.video">Ссылка на видео</span> <span class="req">*</span></label>
+              <input class="input" id="video" name="video" type="text" placeholder="https://drive.google.com/...">
+              <span class="hint" data-i18n="f.video.hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span>
+              <div class="error" data-error-for="video"></div>
+            </div>
+            <div class="field">
+              <label for="platform"><span data-i18n="f.platform">Выберите платформу</span> <span class="req">*</span></label>
+              <select class="input" id="platform" name="platform">
+                <option value="PC" selected>PC</option>
+                <option value="Mobile">Mobile</option>
+                <option value="Console" data-i18n="platform.Console">Консоль</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="about" data-i18n="f.about">Дополнительная информация</label>
+              <textarea class="input" id="about" name="about" data-i18n-ph="f.about.ph" placeholder="Расскажите о себе..." maxlength="1000"></textarea>
+            </div>
+            <div class="check-wrap">
+              <label class="check" id="agree-label">
+                <input type="checkbox" name="agree" id="agree">
+                <span data-i18n-html="f.agree">Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span>
+              </label>
+              <div class="error" data-error-for="agree"></div>
+            </div>
+            <button class="btn btn-primary btn-block" id="submit-btn" type="submit"><svg class="i"><use href="#i-send"/></svg><span data-i18n="btn.submit">Отправить заявку</span></button>
+          </form>
+          <div class="success hidden" id="apply-success">
+            <div class="stat-icon"><svg class="i"><use href="#i-check"/></svg></div>
+            <h2 data-i18n="success.t">Заявка отправлена!</h2>
+            <p data-i18n="success.p">Мы проверим твою запись и свяжемся с тобой.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+              <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="success.cabinet">В личный кабинет</span></a>
+              <a class="btn btn-ghost" href="#home" data-i18n="success.home">На главную</a>
+            </div>
           </div>
+        </div>
+        <aside class="card">
+          <h3 style="font-size:18px" data-i18n="aside.t">Перед отправкой</h3>
+          <ul class="aside-list">
+            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.1">Прочитал(а) <a href="#rules">правила турнира</a></span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.2">Подготовил(а) запись — <a href="#docs">что нужно</a></span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="aside.3">Загрузил(а) видео в облако и открыл(а) доступ</span></li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
 
+<section class="page" id="page-cabinet">
+  <div class="wrap">
+    <div id="cabinet-auth">
+      <div class="page-head">
+        <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div>
+        <h1 data-i18n="cab.auth.title">Личный кабинет</h1>
+        <p data-i18n="cab.auth.lead">Войдите или зарегистрируйтесь.</p>
+      </div>
+      <div class="page-body">
+        <div class="apply-grid">
+          <div class="card">
+            <div class="auth-tabs">
+              <button type="button" data-auth-tab="login" class="active" data-i18n="auth.tab.login">Вход</button>
+              <button type="button" data-auth-tab="register" data-i18n="auth.tab.register">Регистрация</button>
+            </div>
+            <form id="login-form" novalidate>
+              <div class="field"><label for="login-email" data-i18n="auth.email">Email</label><input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
+              <div class="field"><label for="login-password" data-i18n="auth.password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
+              <div class="error" id="login-error"></div>
+              <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
+              <p class="auth-note" data-i18n="auth.login.note">Нет аккаунта? Переключись на «Регистрация».</p>
+            </form>
+            <form id="register-form" class="hidden" novalidate>
+              <div class="field"><label for="reg-email" data-i18n="auth.email">Email</label><input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" required></div>
+              <div class="field"><label for="reg-password" data-i18n="auth.password">Пароль</label><input class="input" id="reg-password" name="password" type="password" placeholder="Минимум 6 символов" minlength="6" required></div>
+              <div class="field"><label for="reg-password2" data-i18n="auth.password2">Повторите пароль</label><input class="input" id="reg-password2" name="password2" type="password" required></div>
+              <div class="error" id="register-error"></div>
+              <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.register.btn">Зарегистрироваться</button>
+              <p class="auth-note" data-i18n-html="auth.register.note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
+            </form>
+          </div>
           <aside class="card">
-            <h3 style="font-size:18px" data-i18n="aside.t">Перед отправкой</h3>
+            <h3 style="font-size:18px" data-i18n="cab.why.t">Зачем аккаунт?</h3>
             <ul class="aside-list">
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.1">Прочитал(а) <a href="#rules">правила турнира</a></span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.2">Подготовил(а) запись с хенд камом и чит индикатором — <a href="#docs">что нужно</a></span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="aside.3">Загрузил(а) видео в облако и открыл(а) доступ по ссылке</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.1">Подать заявку на турнир</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.2">Отслеживать статус</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.3">Редактировать заявку</span></li>
             </ul>
           </aside>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- ===================== КАБИНЕТ ===================== -->
-  <section class="page" id="page-cabinet">
-    <div class="wrap">
-
-      <!-- Auth (не залогинен) -->
-      <div id="cabinet-auth">
-        <div class="page-head">
+    <div id="cabinet-dashboard" class="hidden">
+      <div class="cab-head">
+        <div>
           <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div>
-          <h1 data-i18n="cab.auth.title">Личный кабинет</h1>
-          <p data-i18n="cab.auth.lead">Войдите или зарегистрируйтесь, чтобы подать заявку и отслеживать её статус.</p>
+          <h1 data-i18n="cab.hello">Личный кабинет</h1>
+          <p class="cab-user"><span data-i18n="cab.signed.as">Вы вошли как</span> <b data-user-email>—</b></p>
         </div>
-        <div class="page-body">
-          <div class="apply-grid">
-            <div class="card">
-              <div class="auth-tabs" role="tablist">
-                <button type="button" data-auth-tab="login" class="active" data-i18n="auth.tab.login">Вход</button>
-                <button type="button" data-auth-tab="register" data-i18n="auth.tab.register">Регистрация</button>
-              </div>
-
-              <!-- Login -->
-              <form id="login-form" novalidate>
-                <div class="field">
-                  <label for="login-email" data-i18n="auth.email">Email</label>
-                  <input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-                </div>
-                <div class="field">
-                  <label for="login-password" data-i18n="auth.password">Пароль</label>
-                  <input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
-                </div>
-                <div class="error" id="login-error" role="alert" style="margin-bottom:14px"></div>
-                <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
-                <p class="auth-note" data-i18n="auth.login.note">Нет аккаунта? Переключись на «Регистрация».</p>
-              </form>
-
-              <!-- Register -->
-              <form id="register-form" class="hidden" novalidate>
-                <div class="field">
-                  <label for="reg-email" data-i18n="auth.email">Email</label>
-                  <input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
-                </div>
-                <div class="field">
-                  <label for="reg-password" data-i18n="auth.password">Пароль</label>
-                  <input class="input" id="reg-password" name="password" type="password" placeholder="Минимум 6 символов" autocomplete="new-password" minlength="6" required>
-                </div>
-                <div class="field">
-                  <label for="reg-password2" data-i18n="auth.password2">Повторите пароль</label>
-                  <input class="input" id="reg-password2" name="password2" type="password" placeholder="••••••••" autocomplete="new-password" required>
-                </div>
-                <div class="error" id="register-error" role="alert" style="margin-bottom:14px"></div>
-                <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.register.btn">Зарегистрироваться</button>
-                <p class="auth-note" data-i18n-html="auth.register.note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами турнира</a>.</p>
-              </form>
-            </div>
-
-            <aside class="card">
-              <h3 style="font-size:18px" data-i18n="cab.why.t">Зачем аккаунт?</h3>
-              <ul class="aside-list">
-                <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.1">Подать заявку на турнир</span></li>
-                <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.2">Отслеживать статус: на проверке / подтверждено</span></li>
-                <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.3">Редактировать заявку, пока она не подтверждена</span></li>
-              </ul>
-            </aside>
-          </div>
-        </div>
+        <button class="btn btn-ghost btn-sm" id="logout-btn" type="button"><svg class="i"><use href="#i-logout"/></svg><span data-i18n="cab.logout">Выйти</span></button>
       </div>
-
-      <!-- Dashboard (залогинен) -->
-      <div id="cabinet-dashboard" class="hidden">
-        <div class="cab-head">
-          <div>
-            <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div>
-            <h1 data-i18n="cab.hello">Личный кабинет</h1>
-            <p class="cab-user"><span data-i18n="cab.signed.as">Вы вошли как</span> <b data-user-email>—</b></p>
-          </div>
-          <button class="btn btn-ghost btn-sm" id="logout-btn" type="button">
-            <svg class="i"><use href="#i-logout"/></svg>
-            <span data-i18n="cab.logout">Выйти</span>
-          </button>
-        </div>
-        <div class="page-body">
-          <div id="cabinet-content"></div>
-        </div>
-      </div>
-
+      <div class="page-body"><div id="cabinet-content"></div></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===================== УЧАСТНИКИ ===================== -->
-  <section class="page" id="page-participants">
-    <div class="wrap">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-users"/></svg><span data-i18n="nav.participants">Участники</span></div>
-        <h1 data-i18n="part.title">Участники турнира</h1>
-        <p data-i18n="part.lead">Список подтверждённых участников.</p>
-        <div class="chip"><svg class="i"><use href="#i-users"/></svg><span data-i18n="part.chip">Участников:</span> <b data-participants-count>—</b></div>
-      </div>
-      <div class="page-body">
-        <div class="card table-card">
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr><th>#</th><th data-i18n="th.nick">Ник в Geometry Dash</th><th data-i18n="th.platform">Платформа</th><th data-i18n="th.status">Статус</th></tr></thead>
-              <tbody id="participants-body"></tbody>
-            </table>
-          </div>
+<section class="page" id="page-participants">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-users"/></svg><span data-i18n="nav.participants">Участники</span></div>
+      <h1 data-i18n="part.title">Участники турнира</h1>
+      <p data-i18n="part.lead">Список подтверждённых участников.</p>
+      <div class="chip"><svg class="i"><use href="#i-users"/></svg><span data-i18n="part.chip">Участников:</span> <b data-participants-count>—</b></div>
+    </div>
+    <div class="page-body">
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th data-i18n="th.nick">Ник</th><th data-i18n="th.platform">Платформа</th><th data-i18n="th.status">Статус</th></tr></thead>
+            <tbody id="participants-body"></tbody>
+          </table>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===================== РЕЗУЛЬТАТЫ ===================== -->
-  <section class="page" id="page-results">
-    <div class="wrap">
-      <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-trophy"/></svg><span data-i18n="nav.results">Результаты</span></div>
-        <h1 data-i18n="res.title">Результаты и сетка</h1>
-        <p data-i18n="res.lead">Здесь появятся матчи, сетка турнира и итоги.</p>
+<section class="page" id="page-results">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-trophy"/></svg><span data-i18n="nav.results">Результаты</span></div>
+      <h1 data-i18n="res.title">Результаты и сетка</h1>
+      <p data-i18n="res.lead">Здесь появятся матчи и итоги.</p>
+    </div>
+    <div class="page-body">
+      <div class="card empty-state">
+        <div class="stat-icon"><svg class="i"><use href="#i-trophy"/></svg></div>
+        <h2 data-i18n="res.empty.t">Пока здесь пусто</h2>
+        <p data-i18n="res.empty.p">Результаты появятся после старта турнира.</p>
       </div>
-      <div class="page-body">
-        <div class="card empty-state">
-          <div class="stat-icon"><svg class="i"><use href="#i-trophy"/></svg></div>
-          <h2 data-i18n="res.empty.t">Пока здесь пусто</h2>
-          <p data-i18n="res.empty.p">Результаты появятся после старта турнира. Загляни сюда позже.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-admin">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></div>
+      <h1 data-i18n="admin.title">Панель администратора</h1>
+      <p data-i18n="admin.lead">Управление заявками участников.</p>
+    </div>
+    <div class="page-body">
+      <div class="admin-stats">
+        <div class="admin-stat"><b data-admin-total>—</b><span data-i18n="admin.stat.total">Всего</span></div>
+        <div class="admin-stat"><b data-admin-pending style="color:var(--gold)">—</b><span data-i18n="admin.stat.pending">На проверке</span></div>
+        <div class="admin-stat"><b data-admin-approved style="color:var(--green)">—</b><span data-i18n="admin.stat.approved">Подтверждено</span></div>
+        <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span data-i18n="admin.stat.rejected">Отклонено</span></div>
+      </div>
+      <div class="admin-filters">
+        <button type="button" data-filter="all" class="active" data-i18n="admin.filter.all">Все</button>
+        <button type="button" data-filter="pending" data-i18n="admin.filter.pending">На проверке</button>
+        <button type="button" data-filter="approved" data-i18n="admin.filter.approved">Подтверждённые</button>
+        <button type="button" data-filter="rejected" data-i18n="admin.filter.rejected">Отклонённые</button>
+      </div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr>
+              <th data-i18n="admin.th.date">Дата</th>
+              <th data-i18n="admin.th.nick">Ник</th>
+              <th data-i18n="admin.th.contact">Контакты</th>
+              <th data-i18n="admin.th.video">Видео</th>
+              <th data-i18n="admin.th.platform">Платформа</th>
+              <th data-i18n="admin.th.status">Статус</th>
+              <th data-i18n="admin.th.actions">Действия</th>
+            </tr></thead>
+            <tbody id="admin-body"></tbody>
+          </table>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
 </main>
 
@@ -753,355 +596,126 @@ select.input{appearance:none;-webkit-appearance:none;cursor:pointer;padding-righ
   </div>
 </footer>
 
-<!-- Окно выбора языка при первом входе -->
-<div class="lang-gate" id="lang-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+<div class="lang-gate" id="lang-gate">
   <div class="gate-card">
-    <svg class="gate-mark" viewBox="0 0 40 40" aria-hidden="true">
-      <defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient></defs>
-      <rect x="3" y="3" width="34" height="34" rx="7" fill="url(#lg2)"/>
-      <rect x="10" y="10" width="20" height="20" rx="3" fill="#061230"/>
-      <path d="M14 26l6-12 6 12z" fill="#4cc3ff"/>
-    </svg>
-    <h2 class="gate-name" id="gate-title">International Geometry Dash Community Cup</h2>
+    <svg class="gate-mark" viewBox="0 0 40 40"><defs><linearGradient id="lg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="7" fill="url(#lg2)"/><rect x="10" y="10" width="20" height="20" rx="3" fill="#061230"/><path d="M14 26l6-12 6 12z" fill="#4cc3ff"/></svg>
+    <h2 class="gate-name">International Geometry Dash Community Cup</h2>
     <p class="gate-ask">Choose your language · Выберите язык</p>
     <div class="gate-btns">
-      <button type="button" class="gate-btn" data-gate-lang="ru" lang="ru">RUS<small>Русский</small></button>
-      <button type="button" class="gate-btn" data-gate-lang="en" lang="en">ENG<small>English</small></button>
+      <button type="button" class="gate-btn" data-gate-lang="ru">RUS<small>Русский</small></button>
+      <button type="button" class="gate-btn" data-gate-lang="en">ENG<small>English</small></button>
     </div>
   </div>
 </div>
 
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast"></div>
 
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* =====================================================================
-   CONFIG (из config.js — генерируется GitHub Actions)
-   ===================================================================== */
-const CFG = window.GDCC_CONFIG || {};
-const SUPABASE_URL = CFG.SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = CFG.SUPABASE_ANON_KEY || '';
-const SB_URL = SUPABASE_URL.replace(/\/+$/, '');
-const SB_READY = !!(SB_URL && SUPABASE_ANON_KEY && window.supabase);
+const SUPABASE_URL = 'https://eckbekxqipwdbrvqzjlv.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVja2Jla3hxaXB3ZGJydnF6amx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTAyOTEsImV4cCI6MjEwNjI2NjI5MX0._85Yy-KUTpGMD-cAldTEc5qzwmV_lJ6DOvd06aSIJ5o';
+const ADMIN_EMAIL = 'sasharoyse450@gmail.com';
 
-const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : null;
+const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
 
-/* =====================================================================
-   APP
-   ===================================================================== */
 (() => {
-  const PAGE_IDS = ['home', 'rules', 'docs', 'apply', 'cabinet', 'participants', 'results'];
-  const BRAND = 'International Geometry Dash Community Cup';
+  const PAGE_IDS = ['home','rules','docs','apply','cabinet','participants','results','admin'];
   const LANG_KEY = 'gdcc-lang';
 
   const I18N = {
-    ru: {
-      'meta.desc': 'International Geometry Dash Community Cup — турнир по Geometry Dash среди участников нашего сообщества.',
-      'logo.aria': 'International Geometry Dash Community Cup — на главную',
-      'nav.aria': 'Основная навигация', 'menu.aria': 'Меню',
-      'nav.home': 'Главная', 'nav.rules': 'Правила', 'nav.docs': 'Документы',
-      'nav.apply': 'Заявка', 'nav.cabinet': 'Кабинет', 'nav.participants': 'Участники', 'nav.results': 'Результаты',
-      'btn.login': 'Войти',
-      'toast.login': 'Вход скоро будет доступен',
-
-      'hero.lead': 'Покажи свой скилл. Докажи, что ты лучший.',
-      'hero.desc': 'Турнир по Geometry Dash среди участников нашего сообщества.',
-      'cta.apply': 'Подать заявку',
-      'stat.aria': 'Количество участников', 'stat.label': 'Участников',
-
-      'home.how': 'Как принять участие',
-      'step1.t': 'Изучи правила', 'step1.p': 'Формат турнира, запреты и условия участия — всё в одном месте.', 'step1.go': 'К правилам',
-      'step2.t': 'Подготовь документы', 'step2.p': 'Запись игры с хенд камом и включённым чит индикатором.', 'step2.go': 'К документам',
-      'step3.t': 'Подай заявку', 'step3.p': 'Заполни форму — мы свяжемся с тобой в Telegram или Discord.', 'step3.go': 'К заявке',
-      'feat1.t': 'Честная игра', 'feat1.d': 'Строгая проверка записей и античит.',
-      'feat2.t': 'Сильное комьюнити', 'feat2.d': 'Участники из нашего сообщества.',
-      'feat3.t': 'Награды', 'feat3.d': 'Награды и сувениры для лучших.',
-      'feat4.t': 'Твой шанс', 'feat4.d': 'Стань лучшим в нашем турнире!',
-
-      'rules.title': 'Правила турнира',
-      'rules.lead': 'Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.',
-      'r1.t': 'Общие положения', 'r1.p': 'Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.',
-      'r2.t': 'Формат проведения', 'r2.p': 'Игра проходит на официальных уровнях Geometry Dash. Подробный список уровней будет опубликован в день старта.',
-      'r3.t': 'Запрещено', 'r3.p': 'Использование читов, багов, стороннего ПО, модификаций, макросов и любых нечестных методов. Нарушение — дисквалификация.',
-      'r4.t': 'Подача заявки', 'r4.p': 'Заявку можно подать только через форму на сайте. После проверки документов и подтверждения участника вы получите доступ к серверу турнира.',
-      'r5.t': 'Награды', 'r5.p': 'Лучшие участники получат награды и сувениры.',
-      'r6.t': 'Финальные правила', 'r6.p': 'Организаторы оставляют за собой право вносить изменения в правила и формат турнира. Все спорные ситуации решаются в индивидуальном порядке.',
-
-      'docs.title': 'Необходимые документы',
-      'docs.lead': 'Что нужно подготовить, чтобы твою заявку проверили и подтвердили.',
-      'd1.t': 'Античит (чит индикатор)', 'd1.p': 'Скриншот или видео с включенным чит индикатором во время игры.',
-      'd2.t': 'Хенд кам (руки + клавиатура)', 'd2.p': 'Видео с камерой, показывающее руки на клавиатуре и мыши/столе.',
-      'prep.t': 'Как подготовить запись?',
-      'prep.1': 'Включи чит индикатор (если он есть).',
-      'prep.2': 'Запиши видео с хенд камом (руки + клавиатура).',
-      'prep.3': 'Убедись, что в записи видно весь экран и интерфейс.',
-      'prep.4': 'Загрузи запись на облако (Google Drive / Yandex Disk) и укажи ссылку в заявке.',
-      'docs.cta': 'Перейти к заявке',
-
-      'apply.eyebrow': 'Регистрация',
-      'apply.title': 'Форма подачи заявки',
-      'apply.lead': 'Заполни все поля внимательно. После отправки заявки мы свяжемся с тобой в Telegram / Discord.',
-      'apply.gate.t': 'Нужен аккаунт',
-      'apply.gate.p': 'Войдите или зарегистрируйтесь, чтобы подать заявку и отслеживать её статус в личном кабинете.',
-      'apply.gate.cta': 'Войти / Регистрация',
-      'apply.edit.banner': 'Режим редактирования заявки',
-      'f.nick': 'Ваш ник в Geometry Dash', 'f.nick.ph': 'Например: Player123',
-      'f.tg': 'Ваш Telegram (для связи)',
-      'f.dc': 'Ваш Discord (если есть)',
-      'f.video': 'Ссылка на видео с хенд камом и чит индикатором',
-      'f.video.hint': 'Google Drive или Yandex Disk — открой доступ по ссылке.',
-      'f.platform': 'Выберите платформу',
-      'platform.PC': 'PC', 'platform.Mobile': 'Mobile', 'platform.Console': 'Консоль',
-      'f.about': 'Дополнительная информация (по желанию)', 'f.about.ph': 'Расскажите о себе, опыте в GD, и т.д.',
-      'f.agree': 'Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.',
-      'btn.submit': 'Отправить заявку', 'btn.sending': 'Отправляем…', 'btn.update': 'Сохранить изменения',
-      'success.t': 'Заявка отправлена!',
-      'success.p': 'Мы проверим твою запись и свяжемся с тобой в Telegram / Discord.',
-      'success.demo': 'Демо-режим: база данных не подключена, заявка нигде не сохранена.',
-      'success.home': 'На главную', 'success.cabinet': 'В личный кабинет',
-      'aside.t': 'Перед отправкой',
-      'aside.1': 'Прочитал(а) <a href="#rules">правила турнира</a>',
-      'aside.2': 'Подготовил(а) запись с хенд камом и чит индикатором — <a href="#docs">что нужно</a>',
-      'aside.3': 'Загрузил(а) видео в облако и открыл(а) доступ по ссылке',
-      'err.nick.empty': 'Укажи свой ник в Geometry Dash',
-      'err.nick.short': 'Ник слишком короткий',
-      'err.tg.empty': 'Укажи Telegram для связи',
-      'err.tg.bad': 'Формат: @username — латиница, цифры и _, от 5 символов',
-      'err.video.empty': 'Вставь ссылку на видео',
-      'err.video.bad': 'Это не похоже на ссылку — проверь, что скопировал её целиком',
-      'err.agree': 'Нужно согласиться с правилами турнира',
-      'toast.fail': 'Не удалось отправить заявку. Попробуй ещё раз.',
-
-      'part.title': 'Участники турнира',
-      'part.lead': 'Список подтверждённых участников.',
-      'part.chip': 'Участников:',
-      'th.nick': 'Ник в Geometry Dash', 'th.platform': 'Платформа', 'th.status': 'Статус',
-      'part.none': 'Пока нет подтверждённых участников.',
-      'part.later': 'Список участников появится позже.',
-      'status.approved': 'Подтверждён', 'status.pending': 'На проверке', 'status.rejected': 'Отклонена',
-
-      'res.title': 'Результаты и сетка',
-      'res.lead': 'Здесь появятся матчи, сетка турнира и итоги.',
-      'res.empty.t': 'Пока здесь пусто',
-      'res.empty.p': 'Результаты появятся после старта турнира. Загляни сюда позже.',
-
-      'footer.tag': 'Турнир сообщества',
-
-      /* Auth / Cabinet */
-      'auth.tab.login': 'Вход', 'auth.tab.register': 'Регистрация',
-      'auth.email': 'Email', 'auth.password': 'Пароль', 'auth.password2': 'Повторите пароль',
-      'auth.login.btn': 'Войти', 'auth.login.note': 'Нет аккаунта? Переключись на «Регистрация».',
-      'auth.register.btn': 'Зарегистрироваться',
-      'auth.register.note': 'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами турнира</a>.',
-      'auth.sending': 'Отправляем…',
-      'auth.err.email': 'Укажи корректный email',
-      'auth.err.password': 'Пароль минимум 6 символов',
-      'auth.err.password2': 'Пароли не совпадают',
-      'auth.err.creds': 'Неверный email или пароль',
-      'auth.err.exists': 'Аккаунт с таким email уже существует',
-      'auth.err.confirm': 'Проверь почту — нужно подтвердить email по ссылке из письма.',
-      'auth.err.generic': 'Ошибка. Попробуй ещё раз.',
-      'auth.logout.toast': 'Вы вышли из аккаунта',
-      'auth.login.toast': 'Добро пожаловать!',
-      'auth.register.toast': 'Аккаунт создан! Проверь почту для подтверждения.',
-
-      'cab.auth.title': 'Личный кабинет',
-      'cab.auth.lead': 'Войдите или зарегистрируйтесь, чтобы подать заявку и отслеживать её статус.',
-      'cab.why.t': 'Зачем аккаунт?',
-      'cab.why.1': 'Подать заявку на турнир',
-      'cab.why.2': 'Отслеживать статус: на проверке / подтверждено',
-      'cab.why.3': 'Редактировать заявку, пока она не подтверждена',
-      'cab.hello': 'Личный кабинет',
-      'cab.signed.as': 'Вы вошли как',
-      'cab.logout': 'Выйти',
-      'cab.loading': 'Загрузка…',
-      'cab.demo': 'Демо-режим: Supabase не подключён. Войдите и подайте заявку после настройки.',
-      'cab.no.app.t': 'У вас пока нет заявки',
-      'cab.no.app.p': 'Подайте заявку на участие в турнире — после этого её статус будет отображаться здесь.',
-      'cab.no.app.cta': 'Подать заявку',
-      'cab.app.title': 'Ваша заявка',
-      'cab.app.created': 'Создана',
-      'cab.field.nick': 'Ник в Geometry Dash',
-      'cab.field.telegram': 'Telegram',
-      'cab.field.discord': 'Discord',
-      'cab.field.video': 'Ссылка на видео',
-      'cab.field.platform': 'Платформа',
-      'cab.field.about': 'О себе',
-      'cab.field.status': 'Статус',
-      'cab.edit': 'Редактировать заявку',
-      'cab.edit.locked': 'Заявка подтверждена — редактирование недоступно',
-      'cab.delete': 'Удалить заявку',
-      'cab.delete.confirm': 'Удалить заявку? Это действие необратимо.',
-      'cab.deleted': 'Заявка удалена',
-      'cab.updated': 'Заявка обновлена'
+    ru:{
+      'nav.home':'Главная','nav.rules':'Правила','nav.docs':'Документы','nav.apply':'Заявка','nav.cabinet':'Кабинет','nav.participants':'Участники','nav.results':'Результаты','nav.admin':'Админка',
+      'btn.login':'Войти','cta.apply':'Подать заявку',
+      'hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турнир по Geometry Dash среди участников нашего сообщества.',
+      'stat.label':'Участников',
+      'home.how':'Как принять участие',
+      'step1.t':'Изучи правила','step1.p':'Формат турнира, запреты и условия.','step1.go':'К правилам',
+      'step2.t':'Подготовь документы','step2.p':'Запись с хенд камом и чит индикатором.','step2.go':'К документам',
+      'step3.t':'Подай заявку','step3.p':'Заполни форму.','step3.go':'К заявке',
+      'feat1.t':'Честная игра','feat1.d':'Строгая проверка записей.','feat2.t':'Сильное комьюнити','feat2.d':'Участники из нашего сообщества.','feat3.t':'Награды','feat3.d':'Награды и сувениры.','feat4.t':'Твой шанс','feat4.d':'Стань лучшим!',
+      'rules.title':'Правила турнира','rules.lead':'Прочитай внимательно.',
+      'r1.t':'Общие положения','r1.p':'Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.',
+      'r2.t':'Формат проведения','r2.p':'Игра проходит на официальных уровнях Geometry Dash. Список уровней будет опубликован в день старта.',
+      'r3.t':'Запрещено','r3.p':'Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.',
+      'r4.t':'Подача заявки','r4.p':'Заявка подаётся только через форму. После проверки вы получите доступ к серверу.',
+      'r5.t':'Награды','r5.p':'Лучшие получат награды и сувениры.',
+      'r6.t':'Финальные правила','r6.p':'Организаторы могут менять правила. Спорные ситуации решаются индивидуально.',
+      'docs.title':'Необходимые документы','docs.lead':'Что нужно подготовить.',
+      'd1.t':'Античит (чит индикатор)','d1.p':'Скриншот или видео с включенным чит индикатором.',
+      'd2.t':'Хенд кам','d2.p':'Видео с камерой, показывающее руки.',
+      'prep.t':'Как подготовить запись?','prep.1':'Включи чит индикатор.','prep.2':'Запиши видео с хенд камом.','prep.3':'Убедись, что видно весь экран.','prep.4':'Загрузи на облако и укажи ссылку.',
+      'docs.cta':'Перейти к заявке',
+      'apply.eyebrow':'Регистрация','apply.title':'Форма подачи заявки','apply.lead':'Заполни поля внимательно.',
+      'apply.gate.t':'Нужен аккаунт','apply.gate.p':'Войдите или зарегистрируйтесь.','apply.gate.cta':'Войти / Регистрация',
+      'f.nick':'Ваш ник в Geometry Dash','f.nick.ph':'Например: Player123','f.tg':'Ваш Telegram','f.dc':'Ваш Discord','f.video':'Ссылка на видео','f.video.hint':'Google Drive или Yandex Disk.','f.platform':'Выберите платформу','platform.Console':'Консоль','f.about':'Доп. информация','f.about.ph':'Расскажите о себе...','f.agree':'Я прочитал(а) <a href="#rules">правила</a> и согласен(на).',
+      'btn.submit':'Отправить заявку','btn.sending':'Отправляем…','btn.update':'Сохранить',
+      'success.t':'Заявка отправлена!','success.p':'Мы проверим и свяжемся с тобой.','success.home':'На главную','success.cabinet':'В кабинет',
+      'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео и открыл(а) доступ',
+      'err.nick.empty':'Укажи ник','err.nick.short':'Ник короткий','err.tg.empty':'Укажи Telegram','err.tg.bad':'Формат @username','err.video.empty':'Вставь ссылку','err.video.bad':'Проверь ссылку','err.agree':'Согласись с правилами','toast.fail':'Ошибка. Попробуй ещё.',
+      'part.title':'Участники турнира','part.lead':'Список подтверждённых.','part.chip':'Участников:','th.nick':'Ник','th.platform':'Платформа','th.status':'Статус','part.none':'Пока нет участников.','part.later':'Список появится позже.','status.approved':'Подтверждён','status.pending':'На проверке','status.rejected':'Отклонена',
+      'res.title':'Результаты','res.lead':'Здесь появятся матчи.','res.empty.t':'Пусто','res.empty.p':'Результаты после старта.',
+      'footer.tag':'Турнир сообщества',
+      'auth.tab.login':'Вход','auth.tab.register':'Регистрация','auth.email':'Email','auth.password':'Пароль','auth.password2':'Повторите пароль','auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись.','auth.register.btn':'Зарегистрироваться','auth.register.note':'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.','auth.sending':'Отправляем…','auth.err.email':'Корректный email','auth.err.password':'Минимум 6 символов','auth.err.password2':'Пароли не совпадают','auth.err.creds':'Неверный email или пароль','auth.err.exists':'Аккаунт существует','auth.err.generic':'Ошибка','auth.logout.toast':'Вы вышли','auth.login.toast':'Добро пожаловать!','auth.register.toast':'Аккаунт создан!',
+      'cab.auth.title':'Личный кабинет','cab.auth.lead':'Войдите или зарегистрируйтесь.','cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку','cab.why.2':'Отслеживать статус','cab.why.3':'Редактировать заявку','cab.hello':'Личный кабинет','cab.signed.as':'Вы вошли как','cab.logout':'Выйти','cab.demo':'Supabase не подключён.','cab.no.app.t':'Нет заявки','cab.no.app.p':'Подайте заявку — её статус появится здесь.','cab.no.app.cta':'Подать заявку','cab.app.title':'Ваша заявка','cab.app.created':'Создана','cab.field.nick':'Ник','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Видео','cab.field.platform':'Платформа','cab.field.about':'О себе','cab.edit':'Редактировать','cab.edit.locked':'Заявка подтверждена — редактирование недоступно','cab.delete':'Удалить','cab.delete.confirm':'Удалить заявку?','cab.deleted':'Удалено','cab.updated':'Обновлено',
+      'admin.title':'Панель администратора','admin.lead':'Управление заявками.','admin.stat.total':'Всего','admin.stat.pending':'На проверке','admin.stat.approved':'Подтверждено','admin.stat.rejected':'Отклонено','admin.filter.all':'Все','admin.filter.pending':'На проверке','admin.filter.approved':'Подтверждённые','admin.filter.rejected':'Отклонённые','admin.th.date':'Дата','admin.th.nick':'Ник','admin.th.contact':'Контакты','admin.th.video':'Видео','admin.th.platform':'Платформа','admin.th.status':'Статус','admin.th.actions':'Действия','admin.approve':'Одобрить','admin.reject':'Отклонить','admin.delete':'Удалить','admin.empty':'Заявок нет','admin.confirm.delete':'Удалить заявку?','admin.approved':'Заявка одобрена','admin.rejected':'Заявка отклонена','admin.deleted':'Заявка удалена'
     },
-
-    en: {
-      'meta.desc': 'International Geometry Dash Community Cup — a Geometry Dash tournament for members of our community.',
-      'logo.aria': 'International Geometry Dash Community Cup — home',
-      'nav.aria': 'Main navigation', 'menu.aria': 'Menu',
-      'nav.home': 'Home', 'nav.rules': 'Rules', 'nav.docs': 'Documents',
-      'nav.apply': 'Apply', 'nav.cabinet': 'Cabinet', 'nav.participants': 'Participants', 'nav.results': 'Results',
-      'btn.login': 'Log in',
-      'toast.login': 'Login will be available soon',
-
-      'hero.lead': 'Show your skill. Prove you are the best.',
-      'hero.desc': 'A Geometry Dash tournament for members of our community.',
-      'cta.apply': 'Apply now',
-      'stat.aria': 'Number of participants', 'stat.label': 'Participants',
-
-      'home.how': 'How to take part',
-      'step1.t': 'Read the rules', 'step1.p': 'Tournament format, restrictions and conditions — all in one place.', 'step1.go': 'To the rules',
-      'step2.t': 'Prepare your documents', 'step2.p': 'A gameplay recording with a hand cam and the cheat indicator turned on.', 'step2.go': 'To documents',
-      'step3.t': 'Submit your application', 'step3.p': 'Fill in the form — we will contact you on Telegram or Discord.', 'step3.go': 'To the application',
-      'feat1.t': 'Fair play', 'feat1.d': 'Strict recording checks and anti-cheat.',
-      'feat2.t': 'Strong community', 'feat2.d': 'Players from our community.',
-      'feat3.t': 'Rewards', 'feat3.d': 'Rewards and souvenirs for the best.',
-      'feat4.t': 'Your chance', 'feat4.d': 'Become the best in our tournament!',
-
-      'rules.title': 'Tournament rules',
-      'rules.lead': 'Read carefully — by applying, you agree to these conditions.',
-      'r1.t': 'General provisions', 'r1.p': 'The tournament is held among members of our community. Participation is available only after applying and being approved.',
-      'r2.t': 'Format', 'r2.p': 'Matches are played on official Geometry Dash levels. The detailed list of levels will be published on the start day.',
-      'r3.t': 'Prohibited', 'r3.p': 'Using cheats, bugs, third-party software, mods, macros or any other unfair methods. Violation means disqualification.',
-      'r4.t': 'Applying', 'r4.p': 'Applications can only be submitted through the form on this site. After your documents are checked and your participation is confirmed, you will get access to the tournament server.',
-      'r5.t': 'Rewards', 'r5.p': 'The best participants will receive rewards and souvenirs.',
-      'r6.t': 'Final provisions', 'r6.p': 'The organizers reserve the right to change the rules and the format of the tournament. All disputed situations are resolved individually.',
-
-      'docs.title': 'Required documents',
-      'docs.lead': 'What to prepare so your application can be reviewed and approved.',
-      'd1.t': 'Anti-cheat (cheat indicator)', 'd1.p': 'A screenshot or video with the cheat indicator turned on while you play.',
-      'd2.t': 'Hand cam (hands + keyboard)', 'd2.p': 'A video with a camera showing your hands on the keyboard and mouse/desk.',
-      'prep.t': 'How to prepare your recording?',
-      'prep.1': 'Turn on the cheat indicator (if you have one).',
-      'prep.2': 'Record a video with a hand cam (hands + keyboard).',
-      'prep.3': 'Make sure the whole screen and the interface are visible in the recording.',
-      'prep.4': 'Upload the recording to the cloud (Google Drive / Yandex Disk) and put the link in your application.',
-      'docs.cta': 'Go to the application',
-
-      'apply.eyebrow': 'Registration',
-      'apply.title': 'Application form',
-      'apply.lead': 'Fill in all fields carefully. After you submit, we will contact you on Telegram / Discord.',
-      'apply.gate.t': 'Account required',
-      'apply.gate.p': 'Log in or register to apply and track your application status in your cabinet.',
-      'apply.gate.cta': 'Log in / Register',
-      'apply.edit.banner': 'Editing your application',
-      'f.nick': 'Your Geometry Dash nickname', 'f.nick.ph': 'For example: Player123',
-      'f.tg': 'Your Telegram (for contact)',
-      'f.dc': 'Your Discord (if you have one)',
-      'f.video': 'Link to a video with a hand cam and cheat indicator',
-      'f.video.hint': 'Google Drive or Yandex Disk — make sure the link is open to anyone.',
-      'f.platform': 'Choose your platform',
-      'platform.PC': 'PC', 'platform.Mobile': 'Mobile', 'platform.Console': 'Console',
-      'f.about': 'Additional information (optional)', 'f.about.ph': 'Tell us about yourself, your GD experience, etc.',
-      'f.agree': 'I have read the <a href="#rules">tournament rules</a> and agree to them.',
-      'btn.submit': 'Submit application', 'btn.sending': 'Sending…', 'btn.update': 'Save changes',
-      'success.t': 'Application sent!',
-      'success.p': 'We will review your recording and contact you on Telegram / Discord.',
-      'success.demo': 'Demo mode: the database is not connected, the application was not saved anywhere.',
-      'success.home': 'Back to home', 'success.cabinet': 'Go to cabinet',
-      'aside.t': 'Before you submit',
-      'aside.1': 'I have read the <a href="#rules">tournament rules</a>',
-      'aside.2': 'I have prepared a recording with a hand cam and cheat indicator — <a href="#docs">what is needed</a>',
-      'aside.3': 'I have uploaded the video to the cloud and opened access by link',
-      'err.nick.empty': 'Enter your Geometry Dash nickname',
-      'err.nick.short': 'The nickname is too short',
-      'err.tg.empty': 'Enter your Telegram for contact',
-      'err.tg.bad': 'Format: @username — Latin letters, digits and _, at least 5 characters',
-      'err.video.empty': 'Paste the link to your video',
-      'err.video.bad': 'That does not look like a link — check that you copied all of it',
-      'err.agree': 'You need to agree to the tournament rules',
-      'toast.fail': 'Could not send the application. Please try again.',
-
-      'part.title': 'Tournament participants',
-      'part.lead': 'The list of confirmed participants.',
-      'part.chip': 'Participants:',
-      'th.nick': 'Geometry Dash nickname', 'th.platform': 'Platform', 'th.status': 'Status',
-      'part.none': 'No confirmed participants yet.',
-      'part.later': 'The participants list will appear later.',
-      'status.approved': 'Confirmed', 'status.pending': 'Under review', 'status.rejected': 'Rejected',
-
-      'res.title': 'Results and bracket',
-      'res.lead': 'Matches, the tournament bracket and the results will appear here.',
-      'res.empty.t': 'Nothing here yet',
-      'res.empty.p': 'Results will appear after the tournament starts. Check back later.',
-
-      'footer.tag': 'A community tournament',
-
-      /* Auth / Cabinet */
-      'auth.tab.login': 'Log in', 'auth.tab.register': 'Register',
-      'auth.email': 'Email', 'auth.password': 'Password', 'auth.password2': 'Repeat password',
-      'auth.login.btn': 'Log in', 'auth.login.note': 'No account? Switch to “Register”.',
-      'auth.register.btn': 'Register',
-      'auth.register.note': 'By registering you agree to the <a href="#rules">tournament rules</a>.',
-      'auth.sending': 'Sending…',
-      'auth.err.email': 'Enter a valid email',
-      'auth.err.password': 'Password must be at least 6 characters',
-      'auth.err.password2': 'Passwords do not match',
-      'auth.err.creds': 'Invalid email or password',
-      'auth.err.exists': 'An account with this email already exists',
-      'auth.err.confirm': 'Check your inbox — confirm your email via the link we sent.',
-      'auth.err.generic': 'Error. Please try again.',
-      'auth.logout.toast': 'You have been logged out',
-      'auth.login.toast': 'Welcome back!',
-      'auth.register.toast': 'Account created! Check your inbox to confirm.',
-
-      'cab.auth.title': 'Personal cabinet',
-      'cab.auth.lead': 'Log in or register to submit an application and track its status.',
-      'cab.why.t': 'Why an account?',
-      'cab.why.1': 'Submit a tournament application',
-      'cab.why.2': 'Track status: under review / confirmed',
-      'cab.why.3': 'Edit your application while it is not yet confirmed',
-      'cab.hello': 'Personal cabinet',
-      'cab.signed.as': 'Signed in as',
-      'cab.logout': 'Log out',
-      'cab.loading': 'Loading…',
-      'cab.demo': 'Demo mode: Supabase is not connected. Log in and apply after setup.',
-      'cab.no.app.t': 'You have no application yet',
-      'cab.no.app.p': 'Submit an application to take part in the tournament — its status will appear here.',
-      'cab.no.app.cta': 'Submit application',
-      'cab.app.title': 'Your application',
-      'cab.app.created': 'Created',
-      'cab.field.nick': 'Geometry Dash nickname',
-      'cab.field.telegram': 'Telegram',
-      'cab.field.discord': 'Discord',
-      'cab.field.video': 'Video link',
-      'cab.field.platform': 'Platform',
-      'cab.field.about': 'About',
-      'cab.field.status': 'Status',
-      'cab.edit': 'Edit application',
-      'cab.edit.locked': 'Application is confirmed — editing is not available',
-      'cab.delete': 'Delete application',
-      'cab.delete.confirm': 'Delete the application? This cannot be undone.',
-      'cab.deleted': 'Application deleted',
-      'cab.updated': 'Application updated'
+    en:{
+      'nav.home':'Home','nav.rules':'Rules','nav.docs':'Documents','nav.apply':'Apply','nav.cabinet':'Cabinet','nav.participants':'Participants','nav.results':'Results','nav.admin':'Admin',
+      'btn.login':'Log in','cta.apply':'Apply now',
+      'hero.lead':'Show your skill. Prove you are the best.','hero.desc':'A Geometry Dash tournament for our community.','stat.label':'Participants',
+      'home.how':'How to take part',
+      'step1.t':'Read the rules','step1.p':'Format, restrictions, conditions.','step1.go':'To rules',
+      'step2.t':'Prepare documents','step2.p':'Recording with hand cam and cheat indicator.','step2.go':'To documents',
+      'step3.t':'Submit application','step3.p':'Fill the form.','step3.go':'To application',
+      'feat1.t':'Fair play','feat1.d':'Strict checks.','feat2.t':'Strong community','feat2.d':'Players from our community.','feat3.t':'Rewards','feat3.d':'Rewards and souvenirs.','feat4.t':'Your chance','feat4.d':'Become the best!',
+      'rules.title':'Tournament rules','rules.lead':'Read carefully.',
+      'r1.t':'General','r1.p':'The tournament is held among community members. Participation only after applying and approval.',
+      'r2.t':'Format','r2.p':'Official Geometry Dash levels. List published on start day.',
+      'r3.t':'Prohibited','r3.p':'Cheats, bugs, third-party software, mods, macros. Violation means disqualification.',
+      'r4.t':'Applying','r4.p':'Only through the form. After checking you get access to the server.',
+      'r5.t':'Rewards','r5.p':'Best players get rewards.',
+      'r6.t':'Final','r6.p':'Organizers may change rules. Disputes resolved individually.',
+      'docs.title':'Required documents','docs.lead':'What to prepare.',
+      'd1.t':'Anti-cheat','d1.p':'Screenshot or video with cheat indicator on.','d2.t':'Hand cam','d2.p':'Video showing your hands.','prep.t':'How to prepare?','prep.1':'Turn on cheat indicator.','prep.2':'Record hand cam video.','prep.3':'Whole screen visible.','prep.4':'Upload to cloud and link.',
+      'docs.cta':'Go to application',
+      'apply.eyebrow':'Registration','apply.title':'Application form','apply.lead':'Fill carefully.',
+      'apply.gate.t':'Account required','apply.gate.p':'Log in or register.','apply.gate.cta':'Log in / Register',
+      'f.nick':'Your Geometry Dash nickname','f.nick.ph':'e.g. Player123','f.tg':'Your Telegram','f.dc':'Your Discord','f.video':'Video link','f.video.hint':'Google Drive or Yandex Disk.','f.platform':'Platform','platform.Console':'Console','f.about':'Additional info','f.about.ph':'Tell us about yourself...','f.agree':'I have read the <a href="#rules">rules</a> and agree.',
+      'btn.submit':'Submit application','btn.sending':'Sending…','btn.update':'Save',
+      'success.t':'Application sent!','success.p':'We will review and contact you.','success.home':'Home','success.cabinet':'Cabinet',
+      'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">rules</a>','aside.2':'Prepared recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded video and opened access',
+      'err.nick.empty':'Enter nickname','err.nick.short':'Too short','err.tg.empty':'Enter Telegram','err.tg.bad':'Format @username','err.video.empty':'Paste link','err.video.bad':'Check link','err.agree':'Agree with rules','toast.fail':'Error. Try again.',
+      'part.title':'Participants','part.lead':'Confirmed participants.','part.chip':'Participants:','th.nick':'Nickname','th.platform':'Platform','th.status':'Status','part.none':'No participants yet.','part.later':'List appears later.','status.approved':'Confirmed','status.pending':'Under review','status.rejected':'Rejected',
+      'res.title':'Results','res.lead':'Matches will appear here.','res.empty.t':'Nothing yet','res.empty.p':'Results after start.','footer.tag':'A community tournament',
+      'auth.tab.login':'Log in','auth.tab.register':'Register','auth.email':'Email','auth.password':'Password','auth.password2':'Repeat password','auth.login.btn':'Log in','auth.login.note':'No account? Switch.','auth.register.btn':'Register','auth.register.note':'By registering you agree to the <a href="#rules">rules</a>.','auth.sending':'Sending…','auth.err.email':'Valid email','auth.err.password':'Min 6 characters','auth.err.password2':'Passwords do not match','auth.err.creds':'Invalid email or password','auth.err.exists':'Account exists','auth.err.generic':'Error','auth.logout.toast':'Logged out','auth.login.toast':'Welcome!','auth.register.toast':'Account created!',
+      'cab.auth.title':'Personal cabinet','cab.auth.lead':'Log in or register.','cab.why.t':'Why account?','cab.why.1':'Submit application','cab.why.2':'Track status','cab.why.3':'Edit application','cab.hello':'Personal cabinet','cab.signed.as':'Signed in as','cab.logout':'Log out','cab.demo':'Supabase not connected.','cab.no.app.t':'No application','cab.no.app.p':'Submit an application — status appears here.','cab.no.app.cta':'Submit','cab.app.title':'Your application','cab.app.created':'Created','cab.field.nick':'Nickname','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Video','cab.field.platform':'Platform','cab.field.about':'About','cab.edit':'Edit','cab.edit.locked':'Application confirmed — editing unavailable','cab.delete':'Delete','cab.delete.confirm':'Delete application?','cab.deleted':'Deleted','cab.updated':'Updated',
+      'admin.title':'Admin panel','admin.lead':'Manage applications.','admin.stat.total':'Total','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected','admin.filter.all':'All','admin.filter.pending':'Pending','admin.filter.approved':'Approved','admin.filter.rejected':'Rejected','admin.th.date':'Date','admin.th.nick':'Nickname','admin.th.contact':'Contacts','admin.th.video':'Video','admin.th.platform':'Platform','admin.th.status':'Status','admin.th.actions':'Actions','admin.approve':'Approve','admin.reject':'Reject','admin.delete':'Delete','admin.empty':'No applications','admin.confirm.delete':'Delete application?','admin.approved':'Approved','admin.rejected':'Rejected','admin.deleted':'Deleted'
     }
   };
 
-  const nav = document.getElementById('nav');
-  const burger = document.getElementById('burger');
-  const toastEl = document.getElementById('toast');
-  const form = document.getElementById('apply-form');
-  const successEl = document.getElementById('apply-success');
-  const submitBtn = document.getElementById('submit-btn');
-  const gate = document.getElementById('lang-gate');
+  const $ = s => document.querySelector(s);
+  const nav = $('#nav');
+  const burger = $('#burger');
+  const toastEl = $('#toast');
+  const form = $('#apply-form');
+  const successEl = $('#apply-success');
+  const submitBtn = $('#submit-btn');
   const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
-
-  const applyGate = document.getElementById('apply-gate');
-  const applyWrap = document.getElementById('apply-wrap');
-  const applyEditBanner = document.getElementById('apply-edit-banner');
-
-  const cabinetAuth = document.getElementById('cabinet-auth');
-  const cabinetDash = document.getElementById('cabinet-dashboard');
-  const cabinetContent = document.getElementById('cabinet-content');
+  const applyGate = $('#apply-gate');
+  const applyWrap = $('#apply-wrap');
+  const applyEditBanner = $('#apply-edit-banner');
+  const cabinetAuth = $('#cabinet-auth');
+  const cabinetDash = $('#cabinet-dashboard');
+  const cabinetContent = $('#cabinet-content');
   const userEmailEl = document.querySelector('[data-user-email]');
+  const navAdmin = $('#nav-admin');
 
   let toastTimer, current = null, lang = 'ru';
   let participants = null, participantsLoaded = false;
-  let session = null, user = null, myApplication = null;
-  let editingId = null;
+  let user = null, myApplication = null, editingId = null;
+  let adminApps = [], adminFilter = 'all';
 
   const t = k => (I18N[lang] && I18N[lang][k]) || I18N.ru[k] || k;
 
@@ -1113,47 +727,28 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400);
   }
 
-  /* ---------- Язык ---------- */
-  function storedLang(){ try{ const v = localStorage.getItem(LANG_KEY); return (v === 'ru' || v === 'en') ? v : null; }catch(_){ return null; } }
+  function storedLang(){ try{ const v = localStorage.getItem(LANG_KEY); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
   function saveLang(l){ try{ localStorage.setItem(LANG_KEY, l); }catch(_){} }
-
-  function pageTitle(){
-    return (!current || current === 'home' ? '' : t('nav.' + current) + ' · ') + BRAND;
-  }
+  function isAdmin(){ return user && user.email === ADMIN_EMAIL; }
 
   function applyLang(l){
     lang = l;
     document.documentElement.lang = l;
-    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
-    document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
-    const meta = document.querySelector('meta[name="description"]');
-    if(meta) meta.setAttribute('content', t('meta.desc'));
+    document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+    document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
     document.querySelectorAll('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
-    form.querySelectorAll('[data-err-key]').forEach(b => { if(b.dataset.errKey) b.textContent = t(b.dataset.errKey); });
-    if(submitBtn.disabled) submitBtn.querySelector('span').textContent = t('btn.sending');
     if(participantsLoaded) renderParticipants(participants);
     if(user) renderCabinet();
-    document.title = pageTitle();
+    if(isAdmin() && current === 'admin') renderAdmin();
   }
 
   function setShellInert(on){ shell.forEach(el => { if(el) el.inert = on; }); }
-
-  function chooseLang(l){
-    saveLang(l);
-    document.documentElement.setAttribute('data-lang-chosen', l);
-    setShellInert(false);
-    applyLang(l);
-  }
+  function chooseLang(l){ saveLang(l); document.documentElement.setAttribute('data-lang-chosen', l); setShellInert(false); applyLang(l); }
 
   document.querySelectorAll('[data-gate-lang]').forEach(b => b.addEventListener('click', () => chooseLang(b.dataset.gateLang)));
-  document.querySelectorAll('.lang [data-lang]').forEach(b => b.addEventListener('click', () => {
-    saveLang(b.dataset.lang);
-    applyLang(b.dataset.lang);
-  }));
+  document.querySelectorAll('.lang [data-lang]').forEach(b => b.addEventListener('click', () => { saveLang(b.dataset.lang); applyLang(b.dataset.lang); }));
 
-  /* ---------- Вкладки ---------- */
   function readHash(){ try{ return decodeURIComponent(location.hash.slice(1)); }catch(_){ return ''; } }
 
   function resetApplyView(){
@@ -1162,7 +757,7 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     form.classList.remove('hidden');
     successEl.classList.add('hidden');
     applyEditBanner.classList.add('hidden');
-    ['nick','telegram','discord','video','platform','about','agree'].forEach(n => setError(n, ''));
+    ['nick','telegram','discord','video','platform','about','agree'].forEach(n => setError(n,''));
     submitBtn.querySelector('span').textContent = t('btn.submit');
     refreshApplyGate();
   }
@@ -1173,39 +768,30 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     applyWrap.classList.toggle('hidden', !logged);
   }
 
-  function fillApplyFormFromApplication(){
-    if(!myApplication) return;
-    form.elements.nick.value = myApplication.nick || '';
-    form.elements.telegram.value = myApplication.telegram || '';
-    form.elements.discord.value = myApplication.discord || '';
-    form.elements.video.value = myApplication.video || '';
-    form.elements.platform.value = myApplication.platform || 'PC';
-    form.elements.about.value = myApplication.about || '';
-    form.elements.agree.checked = true;
-  }
-
   function show(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
+    if(id === 'admin' && !isAdmin()) id = 'home';
     if(id === 'apply' && current !== 'apply') resetApplyView();
     current = id;
     document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
     document.querySelectorAll('[data-nav]').forEach(a => {
       const on = a.dataset.nav === id;
       a.classList.toggle('active', on);
-      if(on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
     if(id === 'cabinet') renderCabinet();
+    if(id === 'admin') renderAdmin();
     if(id === 'apply') refreshApplyGate();
-    document.title = pageTitle();
     nav.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    window.scrollTo(0, 0);
+    burger.setAttribute('aria-expanded','false');
+    window.scrollTo(0,0);
   }
 
   function go(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
+    if(id === 'admin' && !isAdmin()) return;
     show(id);
-    try{ if(readHash() !== id) history.pushState(null, '', '#' + id); }catch(_){}
+    try{ if(readHash() !== id) history.pushState(null,'','#'+id); }catch(_){}
   }
 
   document.addEventListener('click', e => {
@@ -1223,18 +809,15 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     const open = nav.classList.toggle('open');
     burger.setAttribute('aria-expanded', String(open));
   });
+  $('#login-btn').addEventListener('click', () => go('cabinet'));
+  $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
 
-  /* Верхняя кнопка "Войти" — всегда ведёт в кабинет */
-  document.getElementById('login-btn').addEventListener('click', () => go('cabinet'));
-  document.getElementById('login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); go('cabinet'); });
-
-  /* ---------- Участники ---------- */
-  window.setParticipantsCount = function(n){
+  window.setParticipantsCount = n => {
     document.querySelectorAll('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n));
   };
 
   function renderParticipants(list){
-    const tb = document.getElementById('participants-body');
+    const tb = $('#participants-body');
     tb.replaceChildren();
     if(!list || !list.length){
       const tr = document.createElement('tr');
@@ -1246,15 +829,14 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     }
     list.forEach((p, i) => {
       const tr = document.createElement('tr');
-      const platform = I18N.ru['platform.' + p.platform] ? t('platform.' + p.platform) : p.platform;
-      [i + 1, p.nick, platform].forEach(v => {
+      const platform = t('platform.' + p.platform) || p.platform;
+      [i+1, p.nick, platform].forEach(v => {
         const td = document.createElement('td'); td.textContent = v; tr.appendChild(td);
       });
       const st = document.createElement('td');
       const b = document.createElement('span');
-      const approved = p.status === 'approved';
-      b.className = 'badge' + (approved ? '' : ' pending');
-      b.textContent = t(approved ? 'status.approved' : 'status.pending');
+      b.className = 'badge ' + (p.status === 'approved' ? '' : 'pending');
+      b.textContent = t('status.' + p.status);
       st.appendChild(b); tr.appendChild(st);
       tb.appendChild(tr);
     });
@@ -1263,35 +845,26 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
   async function loadParticipants(){
     if(!sb) return null;
     try{
-      const { data, error } = await sb.from('participants').select('nick,platform,status').order('created_at', { ascending: true });
+      const { data, error } = await sb.from('participants').select('*').order('created_at', { ascending: true });
       if(error) throw error;
       return data;
     }catch(_){ return null; }
   }
 
-  /* ---------- Форма заявки ---------- */
   function normalizeUrl(v){
-    let s = (v || '').trim();
+    let s = (v||'').trim();
     if(!s) return null;
     if(!/^https?:\/\//i.test(s)) s = 'https://' + s;
-    try{
-      const u = new URL(s);
-      return u.hostname.includes('.') ? u.href : null;
-    }catch(_){ return null; }
+    try{ const u = new URL(s); return u.hostname.includes('.') ? u.href : null; }catch(_){ return null; }
   }
 
   function setError(name, key){
     const box = form.querySelector('[data-error-for="' + name + '"]');
     const input = form.elements[name];
     if(!input) return;
-    if(box){
-      box.dataset.errKey = key || '';
-      box.textContent = key ? t(key) : '';
-      box.classList.toggle('show', !!key);
-    }
-    const mark = name === 'agree' ? document.getElementById('agree-label') : input;
+    if(box){ box.textContent = key ? t(key) : ''; box.classList.toggle('show', !!key); }
+    const mark = name === 'agree' ? $('#agree-label') : input;
     mark.classList.toggle('invalid', !!key);
-    input.setAttribute('aria-invalid', key ? 'true' : 'false');
   }
 
   function validateApply(){
@@ -1304,31 +877,27 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     };
   }
 
-  const clearOnEdit = e => {
-    const n = e.target.name;
-    if(n && e.target.getAttribute('aria-invalid') === 'true') setError(n, '');
-  };
-  form.addEventListener('input', clearOnEdit);
-  form.addEventListener('change', clearOnEdit);
+  form.addEventListener('input', e => { const n = e.target.name; if(n) setError(n,''); });
+  form.addEventListener('change', e => { const n = e.target.name; if(n) setError(n,''); });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if(!user){ go('cabinet'); return; }
 
     const errs = validateApply();
-    Object.entries(errs).forEach(([k, m]) => setError(k, m));
+    Object.entries(errs).forEach(([k,m]) => setError(k,m));
     const first = Object.keys(errs).find(k => errs[k]);
     if(first){
       const el = form.elements[first];
       el.focus({ preventScroll: true });
-      if(el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if(el.scrollIntoView) el.scrollIntoView({ block:'center', behavior:'smooth' });
       return;
     }
 
     const v = n => (form.elements[n].value || '').trim();
     const data = {
       nick: v('nick'),
-      telegram: '@' + v('telegram').replace(/^@/, ''),
+      telegram: '@' + v('telegram').replace(/^@/,''),
       discord: v('discord'),
       video: normalizeUrl(v('video')),
       platform: form.elements.platform.value,
@@ -1338,18 +907,11 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     };
 
     const label = submitBtn.querySelector('span');
-    const prevLabel = label.textContent;
     submitBtn.disabled = true;
     label.textContent = t('btn.sending');
 
     try{
-      if(!sb){
-        // Демо-режим
-        document.getElementById('demo-note').classList.remove('hidden');
-        form.classList.add('hidden');
-        successEl.classList.remove('hidden');
-        return;
-      }
+      if(!sb){ toast('Supabase not connected', true); return; }
 
       if(editingId){
         const { error } = await sb.from('applications').update({
@@ -1358,49 +920,47 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
         }).eq('id', editingId).eq('user_id', user.id);
         if(error) throw error;
         toast(t('cab.updated'));
+        await loadMyApplication();
+        go('cabinet');
       }else{
         const { error } = await sb.from('applications').insert([{ ...data, status: 'pending' }]);
         if(error) throw error;
-        document.getElementById('demo-note').classList.add('hidden');
         form.classList.add('hidden');
         successEl.classList.remove('hidden');
         form.reset();
+        await loadMyApplication();
+        window.scrollTo(0,0);
       }
-
-      await loadMyApplication();
-      window.scrollTo(0, 0);
     }catch(err){
       console.error(err);
-      toast(t('toast.fail'), true);
+      toast(t('toast.fail') + ' ' + (err.message || ''), true);
     }finally{
       submitBtn.disabled = false;
       label.textContent = editingId ? t('btn.update') : t('btn.submit');
-      if(!editingId && successEl.classList.contains('hidden')) label.textContent = prevLabel;
     }
   });
 
-  /* ---------- Auth ---------- */
   function switchAuthTab(tab){
     document.querySelectorAll('[data-auth-tab]').forEach(b => b.classList.toggle('active', b.dataset.authTab === tab));
-    document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
-    document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
-    document.getElementById('login-error').textContent = '';
-    document.getElementById('register-error').textContent = '';
+    $('#login-form').classList.toggle('hidden', tab !== 'login');
+    $('#register-form').classList.toggle('hidden', tab !== 'register');
+    $('#login-error').textContent = '';
+    $('#register-error').textContent = '';
   }
   document.querySelectorAll('[data-auth-tab]').forEach(b => b.addEventListener('click', () => switchAuthTab(b.dataset.authTab)));
 
   function setAuthError(which, msg){
-    const el = document.getElementById(which + '-error');
+    const el = $('#' + which + '-error');
     el.textContent = msg || '';
     el.classList.toggle('show', !!msg);
   }
 
-  document.getElementById('login-form').addEventListener('submit', async e => {
+  $('#login-form').addEventListener('submit', async e => {
     e.preventDefault();
     const email = e.target.elements.email.value.trim();
     const password = e.target.elements.password.value;
-    setAuthError('login', '');
-    if(!sb){ toast(t('cab.demo'), true); return; }
+    setAuthError('login','');
+    if(!sb){ toast('Supabase not connected', true); return; }
 
     const btn = e.target.querySelector('button[type="submit"]');
     const prev = btn.textContent;
@@ -1415,54 +975,51 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
       toast(t('auth.login.toast'));
       await loadMyApplication();
       renderCabinet();
+      renderAdmin();
       e.target.reset();
     }finally{
       btn.disabled = false; btn.textContent = prev;
     }
   });
 
-  document.getElementById('register-form').addEventListener('submit', async e => {
+  $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
     const email = e.target.elements.email.value.trim();
     const password = e.target.elements.password.value;
     const password2 = e.target.elements.password2.value;
-    setAuthError('register', '');
+    setAuthError('register','');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', t('auth.err.email')); return; }
     if(password.length < 6){ setAuthError('register', t('auth.err.password')); return; }
     if(password !== password2){ setAuthError('register', t('auth.err.password2')); return; }
-    if(!sb){ toast(t('cab.demo'), true); return; }
+    if(!sb){ toast('Supabase not connected', true); return; }
 
     const btn = e.target.querySelector('button[type="submit"]');
     const prev = btn.textContent;
     btn.disabled = true; btn.textContent = t('auth.sending');
     try{
-      const { data, error } = await sb.auth.signUp({ email, password });
+      const { error } = await sb.auth.signUp({ email, password });
       if(error){
         const m = /already/i.test(error.message) ? 'auth.err.exists' : 'auth.err.generic';
         setAuthError('register', t(m));
         return;
       }
       e.target.reset();
-      if(!data.session){
-        toast(t('auth.register.toast'));
-      }else{
-        toast(t('auth.register.toast'));
-      }
+      toast(t('auth.register.toast'));
       renderCabinet();
     }finally{
       btn.disabled = false; btn.textContent = prev;
     }
   });
 
-  document.getElementById('logout-btn').addEventListener('click', async () => {
+  $('#logout-btn').addEventListener('click', async () => {
     if(!sb) return;
     await sb.auth.signOut();
     toast(t('auth.logout.toast'));
     renderCabinet();
+    renderAdmin();
     go('home');
   });
 
-  /* ---------- Кабинет ---------- */
   function renderCabinet(){
     const logged = !!user;
     cabinetAuth.classList.toggle('hidden', logged);
@@ -1472,22 +1029,14 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
 
     userEmailEl.textContent = user.email || '—';
     cabinetContent.replaceChildren();
-
-    if(!sb){
-      cabinetContent.innerHTML = '<div class="card"><p style="color:var(--muted)">' + t('cab.demo') + '</p></div>';
-      return;
-    }
+    if(!sb){ cabinetContent.innerHTML = '<div class="card"><p style="color:var(--muted)">' + t('cab.demo') + '</p></div>'; return; }
 
     if(!myApplication){
       const card = document.createElement('div');
       card.className = 'card empty-state';
-      card.innerHTML =
-        '<div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div>' +
-        '<h2>' + t('cab.no.app.t') + '</h2>' +
-        '<p>' + t('cab.no.app.p') + '</p>';
+      card.innerHTML = '<div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>' + t('cab.no.app.t') + '</h2><p>' + t('cab.no.app.p') + '</p>';
       const a = document.createElement('a');
-      a.className = 'btn btn-primary';
-      a.href = '#apply';
+      a.className = 'btn btn-primary'; a.href = '#apply';
       a.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' + t('cab.no.app.cta') + '</span>';
       card.appendChild(a);
       cabinetContent.appendChild(card);
@@ -1496,85 +1045,71 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
 
     const a = myApplication;
     const status = a.status || 'pending';
-    const statusLabel = t('status.' + status);
     const created = a.created_at ? new Date(a.created_at).toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US') : '—';
 
     const card = document.createElement('div');
-    card.className = 'card cab-card';
+    card.className = 'card';
+    card.innerHTML = '<h2 style="font-size:22px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2)"><use href="#i-form"/></svg> ' + t('cab.app.title') + '</h2>';
 
-    const h2 = document.createElement('h2');
-    h2.innerHTML = '<svg class="i"><use href="#i-form"/></svg><span>' + t('cab.app.title') + '</span>';
-    card.appendChild(h2);
-
-    const badgeWrap = document.createElement('div');
-    badgeWrap.style.marginBottom = '16px';
     const badge = document.createElement('span');
     badge.className = 'status-badge ' + status;
-    badge.textContent = statusLabel;
-    badgeWrap.appendChild(badge);
-    card.appendChild(badgeWrap);
+    badge.textContent = t('status.' + status);
+    badge.style.marginBottom = '16px';
+    badge.style.display = 'inline-block';
+    card.appendChild(badge);
 
     const dl = document.createElement('dl');
-    dl.className = 'cab-dl';
-
-    const rows = [
-      ['cab.field.nick', a.nick],
-      ['cab.field.telegram', a.telegram],
-      ['cab.field.discord', a.discord || '—'],
-      ['cab.field.platform', t('platform.' + a.platform) || a.platform],
-      ['cab.app.created', created]
-    ];
-
+    [['cab.field.nick', a.nick],
+     ['cab.field.telegram', a.telegram],
+     ['cab.field.discord', a.discord || '—'],
+     ['cab.field.platform', t('platform.' + a.platform) || a.platform],
+     ['cab.app.created', created]].forEach(([k,v]) => {
+      const row = document.createElement('div'); row.className = 'cab-row';
+      const dt = document.createElement('dt'); dt.textContent = t(k);
+      const dd = document.createElement('dd'); dd.textContent = v == null || v === '' ? '—' : v;
+      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
+    });
     if(a.video){
-      rows.splice(4, 0, ['cab.field.video', null, a.video]);
+      const row = document.createElement('div'); row.className = 'cab-row';
+      const dt = document.createElement('dt'); dt.textContent = t('cab.field.video');
+      const dd = document.createElement('dd');
+      const link = document.createElement('a'); link.href = a.video; link.target = '_blank'; link.rel = 'noopener';
+      link.textContent = a.video; dd.appendChild(link);
+      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
     }
     if(a.about){
-      rows.push(['cab.field.about', a.about]);
+      const row = document.createElement('div'); row.className = 'cab-row';
+      const dt = document.createElement('dt'); dt.textContent = t('cab.field.about');
+      const dd = document.createElement('dd'); dd.textContent = a.about;
+      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
     }
-
-    rows.forEach(([labelKey, value, link]) => {
-      const row = document.createElement('div');
-      row.className = 'cab-row';
-      const dt = document.createElement('dt');
-      dt.textContent = t(labelKey);
-      const dd = document.createElement('dd');
-      if(link){
-        const aEl = document.createElement('a');
-        aEl.href = link; aEl.target = '_blank'; aEl.rel = 'noopener noreferrer';
-        aEl.textContent = link;
-        dd.appendChild(aEl);
-      }else{
-        dd.textContent = value == null || value === '' ? '—' : value;
-      }
-      row.appendChild(dt); row.appendChild(dd);
-      dl.appendChild(row);
-    });
     card.appendChild(dl);
 
-    const actions = document.createElement('div');
-    actions.className = 'cab-actions';
-
+    const actions = document.createElement('div'); actions.className = 'cab-actions';
     if(status === 'pending'){
       const editBtn = document.createElement('button');
-      editBtn.type = 'button';
-      editBtn.className = 'btn btn-primary';
+      editBtn.type = 'button'; editBtn.className = 'btn btn-primary';
       editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>' + t('cab.edit') + '</span>';
       editBtn.addEventListener('click', () => {
         editingId = a.id;
         go('apply');
         setTimeout(() => {
-          fillApplyFormFromApplication();
+          form.elements.nick.value = a.nick || '';
+          form.elements.telegram.value = a.telegram || '';
+          form.elements.discord.value = a.discord || '';
+          form.elements.video.value = a.video || '';
+          form.elements.platform.value = a.platform || 'PC';
+          form.elements.about.value = a.about || '';
+          form.elements.agree.checked = true;
           applyEditBanner.classList.remove('hidden');
           submitBtn.querySelector('span').textContent = t('btn.update');
-          applyEditBanner.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }, 60);
       });
       actions.appendChild(editBtn);
 
       const delBtn = document.createElement('button');
-      delBtn.type = 'button';
-      delBtn.className = 'btn btn-danger';
-      delBtn.innerHTML = '<svg class="i"><use href="#i-logout"/></svg><span>' + t('cab.delete') + '</span>';
+      delBtn.type = 'button'; delBtn.className = 'btn btn-danger';
+      delBtn.innerHTML = '<svg class="i"><use href="#i-x"/></svg><span>' + t('cab.delete') + '</span>';
       delBtn.addEventListener('click', async () => {
         if(!confirm(t('cab.delete.confirm'))) return;
         const { error } = await sb.from('applications').delete().eq('id', a.id).eq('user_id', user.id);
@@ -1590,7 +1125,6 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
       note.textContent = t('cab.edit.locked');
       actions.appendChild(note);
     }
-
     card.appendChild(actions);
     cabinetContent.appendChild(card);
   }
@@ -1599,32 +1133,182 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
     if(!sb || !user){ myApplication = null; return; }
     try{
       const { data, error } = await sb.from('applications')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle();
+        .select('*').eq('user_id', user.id)
+        .order('created_at', { ascending: false }).limit(1).maybeSingle();
       if(error) throw error;
       myApplication = data || null;
     }catch(_){ myApplication = null; }
   }
 
-  /* ---------- Старт ---------- */
+  async function loadAdminApps(){
+    if(!sb || !isAdmin()){ adminApps = []; return; }
+    try{
+      const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false });
+      if(error) throw error;
+      adminApps = data || [];
+    }catch(err){
+      console.error(err);
+      adminApps = [];
+    }
+  }
+
+  function updateAdminStats(){
+    const total = adminApps.length;
+    const pending = adminApps.filter(a => a.status === 'pending').length;
+    const approved = adminApps.filter(a => a.status === 'approved').length;
+    const rejected = adminApps.filter(a => a.status === 'rejected').length;
+    document.querySelector('[data-admin-total]').textContent = total;
+    document.querySelector('[data-admin-pending]').textContent = pending;
+    document.querySelector('[data-admin-approved]').textContent = approved;
+    document.querySelector('[data-admin-rejected]').textContent = rejected;
+  }
+
+  function renderAdmin(){
+    if(!isAdmin()){
+      navAdmin.classList.add('hidden');
+      return;
+    }
+    navAdmin.classList.remove('hidden');
+    loadAdminApps().then(() => {
+      updateAdminStats();
+      renderAdminTable();
+    });
+  }
+
+  function renderAdminTable(){
+    const tb = $('#admin-body');
+    tb.replaceChildren();
+    const list = adminFilter === 'all' ? adminApps : adminApps.filter(a => a.status === adminFilter);
+    if(!list.length){
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 7; td.className = 'empty';
+      td.textContent = t('admin.empty');
+      tr.appendChild(td); tb.appendChild(tr);
+      return;
+    }
+    list.forEach(a => {
+      const tr = document.createElement('tr');
+
+      // Дата
+      const td1 = document.createElement('td');
+      td1.style.fontSize = '12.5px';
+      td1.style.color = 'var(--muted)';
+      td1.textContent = a.created_at ? new Date(a.created_at).toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US') : '—';
+      tr.appendChild(td1);
+
+      // Ник
+      const td2 = document.createElement('td');
+      td2.textContent = a.nick || '—';
+      tr.appendChild(td2);
+
+      // Контакты
+      const td3 = document.createElement('td');
+      td3.style.fontSize = '13px';
+      const lines = [];
+      if(a.telegram) lines.push('TG: ' + a.telegram);
+      if(a.discord) lines.push('DC: ' + a.discord);
+      if(a.email) lines.push('Email: ' + a.email);
+      td3.textContent = lines.join(' · ') || '—';
+      tr.appendChild(td3);
+
+      // Видео
+      const td4 = document.createElement('td');
+      if(a.video){
+        const link = document.createElement('a');
+        link.href = a.video; link.target = '_blank'; link.rel = 'noopener';
+        link.className = 'video-link';
+        link.textContent = '▶ Открыть';
+        td4.appendChild(link);
+      } else td4.textContent = '—';
+      tr.appendChild(td4);
+
+      // Платформа
+      const td5 = document.createElement('td');
+      td5.textContent = t('platform.' + a.platform) || a.platform || '—';
+      tr.appendChild(td5);
+
+      // Статус
+      const td6 = document.createElement('td');
+      const badge = document.createElement('span');
+      badge.className = 'badge ' + (a.status === 'approved' ? '' : a.status === 'rejected' ? 'rejected' : 'pending');
+      badge.textContent = t('status.' + a.status);
+      td6.appendChild(badge);
+      tr.appendChild(td6);
+
+      // Действия
+      const td7 = document.createElement('td');
+      const actions = document.createElement('div'); actions.className = 'admin-actions';
+
+      if(a.status !== 'approved'){
+        const ap = document.createElement('button');
+        ap.type = 'button'; ap.className = 'btn btn-success btn-sm';
+        ap.textContent = '✓';
+        ap.title = t('admin.approve');
+        ap.addEventListener('click', () => updateStatus(a.id, 'approved'));
+        actions.appendChild(ap);
+      }
+      if(a.status !== 'rejected'){
+        const rj = document.createElement('button');
+        rj.type = 'button'; rj.className = 'btn btn-ghost btn-sm';
+        rj.textContent = '✕';
+        rj.title = t('admin.reject');
+        rj.addEventListener('click', () => updateStatus(a.id, 'rejected'));
+        actions.appendChild(rj);
+      }
+      const dl = document.createElement('button');
+      dl.type = 'button'; dl.className = 'btn btn-danger btn-sm';
+      dl.textContent = '🗑';
+      dl.title = t('admin.delete');
+      dl.addEventListener('click', async () => {
+        if(!confirm(t('admin.confirm.delete'))) return;
+        const { error } = await sb.from('applications').delete().eq('id', a.id);
+        if(error){ toast(t('toast.fail'), true); return; }
+        toast(t('admin.deleted'));
+        await loadAdminApps();
+        updateAdminStats();
+        renderAdminTable();
+      });
+      actions.appendChild(dl);
+
+      td7.appendChild(actions);
+      tr.appendChild(td7);
+
+      tb.appendChild(tr);
+    });
+  }
+
+  async function updateStatus(id, status){
+    const { error } = await sb.from('applications').update({ status }).eq('id', id);
+    if(error){ toast(t('toast.fail'), true); return; }
+    toast(status === 'approved' ? t('admin.approved') : t('admin.rejected'));
+    await loadAdminApps();
+    updateAdminStats();
+    renderAdminTable();
+    // обновляем публичный список
+    const list = await loadParticipants();
+    participants = list; participantsLoaded = true;
+    renderParticipants(list);
+    window.setParticipantsCount(list ? list.length : null);
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-filter]').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    adminFilter = b.dataset.filter;
+    renderAdminTable();
+  }));
+
   async function initAuth(){
     if(!sb) return;
     const { data } = await sb.auth.getSession();
-    session = data.session;
-    user = session ? session.user : null;
+    user = data.session ? data.session.user : null;
 
-    sb.auth.onAuthStateChange((_event, s) => {
-      session = s;
+    sb.auth.onAuthStateChange((_ev, s) => {
       user = s ? s.user : null;
-      if(user){
-        loadMyApplication().then(() => renderCabinet());
-      }else{
-        myApplication = null;
-        renderCabinet();
-      }
+      if(user){ loadMyApplication().then(() => renderCabinet()); }
+      else { myApplication = null; renderCabinet(); }
+      renderAdmin();
     });
 
     if(user) await loadMyApplication();
@@ -1639,15 +1323,14 @@ const sb = SB_READY ? window.supabase.createClient(SB_URL, SUPABASE_ANON_KEY) : 
 
   if(!saved){
     setShellInert(true);
-    const btn = gate.querySelector('[data-gate-lang="' + guess + '"]');
+    const btn = document.querySelector('[data-gate-lang="' + guess + '"]');
     if(btn) btn.focus();
   }
 
   (async function init(){
     await initAuth();
     const list = await loadParticipants();
-    participants = list;
-    participantsLoaded = true;
+    participants = list; participantsLoaded = true;
     renderParticipants(list);
     window.setParticipantsCount(list ? list.length : null);
   })();
