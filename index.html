@@ -43,6 +43,7 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .nav a.active{color:var(--blue-2)}
 .nav a.active::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;background:var(--blue-2);box-shadow:0 0 12px var(--blue-2)}
 .nav-login{display:none;background:none;border:0;font-family:inherit;cursor:pointer;width:100%;text-align:left}
+.nav-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--red);color:#fff;font-size:11px;font-weight:700;margin-left:4px}
 .header-actions{display:flex;align-items:center;gap:12px;flex:none}
 .burger{display:none;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);font-size:22px;cursor:pointer}
 .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:rgba(10,20,45,.6)}
@@ -61,6 +62,7 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-success:hover{transform:translateY(-1px)}
+.btn-icon{width:34px;padding:0;justify-content:center}
 main{flex:1}
 .page{display:none}
 .page.active{display:block;animation:fade .3s ease}
@@ -181,11 +183,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .app-item-stage{font-family:'Exo 2',sans-serif;font-weight:800;font-size:16px}
 .app-item-date{font-size:12px;color:var(--muted);margin-left:auto}
 .app-item-actions{display:flex;gap:8px;flex-wrap:wrap;align-self:center}
+.app-comment{margin-top:10px;padding:10px 14px;border-radius:10px;background:rgba(31,139,255,.06);border-left:3px solid var(--blue-2);font-size:13px;color:#b9c8e6}
+.app-comment b{color:var(--blue-2);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
 
 .table-card{padding:0;overflow:hidden}
 .table-wrap{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:14px}
-.table th{text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 18px;border-bottom:1px solid var(--line)}
+.table th{text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+.table th:hover{color:var(--text)}
+.table th .sort-arrow{opacity:.4;margin-left:4px;font-size:10px}
+.table th.sorted .sort-arrow{opacity:1;color:var(--blue-2)}
 .table td{padding:13px 18px;border-bottom:1px solid var(--line-soft);vertical-align:top}
 .table tr:last-child td{border-bottom:0}
 .table .empty{text-align:center;color:var(--muted);padding:44px 20px}
@@ -206,17 +213,19 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .empty-state h2{font-size:22px;margin-bottom:8px}
 .empty-state p{color:var(--muted);max-width:440px;margin:0 auto 18px}
 
-.admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content}
+.admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content;flex-wrap:wrap}
 .admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
 .admin-tabs button.active{background:var(--blue);color:#fff}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
+.admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center;position:relative}
 .admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;line-height:1}
 .admin-stat span{color:var(--muted);font-size:12px;margin-top:6px;display:block}
 .admin-actions{display:flex;gap:6px;flex-wrap:wrap}
 .admin-actions .btn{height:30px;padding:0 10px;font-size:11.5px;border-radius:7px}
 .admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
 .admin-filters select{padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--text);font:600 13px 'Inter',sans-serif;cursor:pointer}
+.admin-filters input[type=search]{flex:1;min-width:200px;height:38px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--text);font:400 13px 'Inter',sans-serif;outline:none}
+.admin-filters input[type=search]:focus{border-color:var(--blue-2)}
 .admin-filters button{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--muted);font:600 12.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
 .admin-filters button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .video-link{color:var(--blue-2);word-break:break-all;font-size:12.5px}
@@ -230,6 +239,48 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
+
+/* ===== DASHBOARD ===== */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.dash-card{padding:20px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9))}
+.dash-card h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.dash-card h3 .i{color:var(--blue-2);font-size:16px}
+.dash-bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding-top:8px}
+.dash-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.dash-bar-fill{width:100%;background:linear-gradient(180deg,#2a98ff,#1169e8);border-radius:6px 6px 0 0;min-height:4px;transition:height .4s ease;position:relative}
+.dash-bar-fill:hover{background:linear-gradient(180deg,#7ad6ff,#2a98ff)}
+.dash-bar-fill span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--blue-2);font-weight:700;opacity:0;transition:.2s}
+.dash-bar:hover .dash-bar-fill span{opacity:1}
+.dash-bar-label{font-size:10.5px;color:var(--muted);white-space:nowrap}
+.dash-leader-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.dash-leader-row:last-child{border-bottom:0}
+.dash-leader-rank{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:rgba(31,139,255,.15);color:var(--blue-2);font-weight:700;font-size:12px;flex:none}
+.dash-leader-rank.gold{background:rgba(246,183,60,.15);color:var(--gold)}
+.dash-leader-email{flex:1;font-size:13px;word-break:break-all}
+.dash-leader-count{font-family:'Exo 2',sans-serif;font-weight:800;font-size:18px;color:var(--blue-2);flex:none}
+
+/* ===== STAGE FILTER ON DASHBOARD ===== */
+.dash-recent{display:flex;flex-direction:column;gap:8px}
+.dash-recent-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.5);font-size:12.5px}
+.dash-recent-row .who{font-weight:600;color:var(--text)}
+.dash-recent-row .what{color:var(--muted);flex:1}
+.dash-recent-row .when{color:var(--muted);font-size:11.5px;white-space:nowrap}
+.dash-recent-row.approve .who{color:var(--green)}
+.dash-recent-row.reject .who{color:var(--red)}
+
+/* ===== MOBILE ADMIN ===== */
+.admin-mobile-card{display:none}
+@media(max-width:760px){
+  .admin-mobile-card{display:block;padding:16px;margin-bottom:12px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.5)}
+  .admin-mobile-card .row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line-soft)}
+  .admin-mobile-card .row:last-child{border-bottom:0}
+  .admin-mobile-card .row b{color:var(--muted);font-weight:500;font-size:12px}
+  .admin-mobile-card .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .admin-mobile-card .actions .btn{flex:1;min-width:80px;height:40px;font-size:13px}
+  .admin-desktop-table{display:none}
+  .dash-grid{grid-template-columns:1fr}
+}
+
 @media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
 @media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:40px 20px 52px}.hero-art-wrap{display:none}.steps,.field-row,.lb-podium{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}}
@@ -266,6 +317,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-2 2-4 2-4s-2 2-2 4c0 3 3 6 6 6s6-3 6-6c0-4-8-8-8-8z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 </defs>
 </svg>
 
@@ -282,7 +336,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span>Таблица</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span>Кабинет</span></a>
       <a href="#docs" data-nav="docs"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></a>
-      <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></a>
+      <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span><span class="nav-badge hidden" id="nav-admin-badge">0</span></a>
       <button class="nav-login" id="login-btn-nav" type="button">Войти</button>
     </nav>
     <div class="header-actions">
@@ -600,11 +654,39 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
     <div class="page-body">
       <div class="admin-tabs">
-        <button type="button" data-admin-tab="stages" class="active">Этапы</button>
+        <button type="button" data-admin-tab="dashboard" class="active">Дашборд</button>
+        <button type="button" data-admin-tab="stages" id="tab-stages">Этапы</button>
         <button type="button" data-admin-tab="apps">Заявки</button>
+        <button type="button" data-admin-tab="log" id="tab-log">Лог</button>
+        <button type="button" data-admin-tab="moderators" id="tab-moderators">Модераторы</button>
       </div>
 
-      <div id="admin-stages">
+      <!-- DASHBOARD -->
+      <div id="admin-dashboard">
+        <div class="admin-stats">
+          <div class="admin-stat"><b data-admin-total>—</b><span>Всего заявок</span></div>
+          <div class="admin-stat"><b data-admin-pending style="color:var(--gold)">—</b><span>На проверке</span></div>
+          <div class="admin-stat"><b data-admin-approved style="color:var(--green)">—</b><span>Одобрено</span></div>
+          <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span>Отклонено</span></div>
+        </div>
+        <div class="dash-grid">
+          <div class="dash-card">
+            <h3><svg class="i"><use href="#i-chart"/></svg> Заявок за 7 дней</h3>
+            <div class="dash-bar-chart" id="dash-chart"></div>
+          </div>
+          <div class="dash-card">
+            <h3><svg class="i"><use href="#i-user"/></svg> Топ модераторов</h3>
+            <div id="dash-moderators"></div>
+          </div>
+        </div>
+        <div class="dash-card" style="margin-bottom:22px">
+          <h3><svg class="i"><use href="#i-clock"/></svg> Последние действия</h3>
+          <div class="dash-recent" id="dash-recent"></div>
+        </div>
+      </div>
+
+      <!-- STAGES -->
+      <div id="admin-stages" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px">
             <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
@@ -657,14 +739,10 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
+      <!-- APPS -->
       <div id="admin-apps" class="hidden">
-        <div class="admin-stats">
-          <div class="admin-stat"><b data-admin-total>—</b><span>Всего</span></div>
-          <div class="admin-stat"><b data-admin-pending style="color:var(--gold)">—</b><span>На проверке</span></div>
-          <div class="admin-stat"><b data-admin-approved style="color:var(--green)">—</b><span>Одобрено</span></div>
-          <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span>Отклонено</span></div>
-        </div>
         <div class="admin-filters">
+          <input type="search" id="admin-search" placeholder="Поиск: ник, telegram, email...">
           <select id="admin-stage-filter">
             <option value="all">Все этапы</option>
           </select>
@@ -672,18 +750,68 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <button type="button" data-app-filter="pending">На проверке</button>
           <button type="button" data-app-filter="approved">Одобренные</button>
           <button type="button" data-app-filter="rejected">Отклонённые</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="refresh-apps-btn" title="Обновить"><svg class="i"><use href="#i-refresh"/></svg></button>
+        </div>
+        <div class="card table-card">
+          <div class="table-wrap admin-desktop-table">
+            <table class="table">
+              <thead><tr>
+                <th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th>
+                <th data-sort="stage">Этап</th>
+                <th data-sort="nick">Ник <span class="sort-arrow">▼</span></th>
+                <th data-sort="telegram">Контакты</th>
+                <th>Видео</th>
+                <th data-sort="status">Статус</th>
+                <th>Действия</th>
+              </tr></thead>
+              <tbody id="admin-body"></tbody>
+            </table>
+          </div>
+          <div id="admin-mobile-list"></div>
+        </div>
+      </div>
+
+      <!-- LOG -->
+      <div id="admin-log" class="hidden">
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr>
+                <th>Когда</th><th>Кто</th><th>Что</th><th>Детали</th>
+              </tr></thead>
+              <tbody id="admin-log-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODERATORS -->
+      <div id="admin-moderators" class="hidden">
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+            <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
+            Добавить модератора
+          </h3>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:10px">
+            <input class="input" type="email" id="new-mod-email" placeholder="email@gmail.com">
+            <button class="btn btn-primary" id="add-mod-btn">Добавить</button>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:10px">
+            Модератор сможет только одобрять/отклонять заявки. Этапы и другие настройки ему недоступны.
+          </p>
         </div>
         <div class="card table-card">
           <div class="table-wrap">
             <table class="table">
               <thead><tr>
-                <th>Дата</th><th>Этап</th><th>Ник</th><th>Контакты</th><th>Видео</th><th>Статус</th><th>Действия</th>
+                <th>Email</th><th>Добавлен</th><th>Действия</th>
               </tr></thead>
-              <tbody id="admin-body"></tbody>
+              <tbody id="admin-mods-body"></tbody>
             </table>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -723,7 +851,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
 (() => {
   const PAGE_IDS = ['home','rules','stages','apply','leaderboard','cabinet','docs','admin'];
-  const LANG_KEY = 'gdcc-lang';
 
   const $ = s => document.querySelector(s);
   const $$ = s => document.querySelectorAll(s);
@@ -736,15 +863,23 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   const submitBtn = $('#submit-btn');
   const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
   const navAdmin = $('#nav-admin');
+  const navAdminBadge = $('#nav-admin-badge');
 
   let toastTimer, current = null;
   let user = null, userProfile = null, myApplications = [];
   let stages = [], editingId = null;
   let currentStageId = null;
-  let adminTab = 'stages';
+  let adminTab = 'dashboard';
   let adminAppFilter = 'all';
   let adminStageFilter = 'all';
+  let adminSearch = '';
+  let adminSortField = 'created_at';
+  let adminSortDir = 'desc';
   let adminApps = [];
+  let adminLog = [];
+  let moderators = [];
+  let isModeratorFlag = false;
+  let realtimeChannel = null;
 
   function toast(msg, isError){
     toastEl.textContent = msg;
@@ -754,14 +889,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400);
   }
 
-  function storedLang(){ try{ const v = localStorage.getItem(LANG_KEY); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
-  function saveLang(l){ try{ localStorage.setItem(LANG_KEY, l); }catch(_){} }
   function isAdmin(){ return user && user.email === ADMIN_EMAIL; }
+  function canModerate(){ return isAdmin() || isModeratorFlag; }
 
-  function applyLang(l){
-    document.documentElement.lang = l;
-    $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
-  }
+  function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
+  function saveLang(l){ try{ localStorage.setItem('gdcc-lang', l); }catch(_){} }
+  function applyLang(l){ document.documentElement.lang = l; $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l))); }
   function setShellInert(on){ shell.forEach(el => { if(el) el.inert = on; }); }
   function chooseLang(l){ saveLang(l); document.documentElement.setAttribute('data-lang-chosen', l); setShellInert(false); applyLang(l); }
 
@@ -769,10 +902,22 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $$('.lang [data-lang]').forEach(b => b.addEventListener('click', () => { saveLang(b.dataset.lang); applyLang(b.dataset.lang); }));
 
   function readHash(){ try{ return decodeURIComponent(location.hash.slice(1)); }catch(_){ return ''; } }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function timeAgo(dateStr){
+    if(!dateStr) return '—';
+    const d = new Date(dateStr);
+    const diff = Date.now() - d.getTime();
+    if(diff < 60000) return 'только что';
+    if(diff < 3600000) return Math.floor(diff/60000) + ' мин назад';
+    if(diff < 86400000) return Math.floor(diff/3600000) + ' ч назад';
+    if(diff < 604800000) return Math.floor(diff/86400000) + ' дн назад';
+    return d.toLocaleDateString('ru-RU');
+  }
 
   function show(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
-    if(id === 'admin' && !isAdmin()) id = 'home';
+    if(id === 'admin' && !canModerate()) id = 'home';
     current = id;
     $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
     $$('[data-nav]').forEach(a => {
@@ -792,7 +937,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   function go(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
-    if(id === 'admin' && !isAdmin()) return;
+    if(id === 'admin' && !canModerate()) return;
     show(id);
     try{ if(readHash() !== id) history.pushState(null,'','#'+id); }catch(_){}
   }
@@ -835,8 +980,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s.status] || s.status;
   }
 
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
   function timeLeft(deadline){
     const diff = new Date(deadline) - new Date();
     if(diff <= 0) return null;
@@ -855,7 +998,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function renderStages(){
     const grid = $('#stages-grid');
     grid.replaceChildren();
-    const visible = stages.filter(s => s.status !== 'draft' || isAdmin());
+    const visible = stages.filter(s => s.status !== 'draft' || canModerate());
     if(!visible.length){
       grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Как только админ создаст этап — он появится здесь.</p></div>';
       return;
@@ -959,16 +1102,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       }
 
       if(btnRow.children.length) card.appendChild(btnRow);
-
       grid.appendChild(card);
     });
   }
 
-  function openApply(stageId){
-    currentStageId = stageId;
-    editingId = null;
-    go('apply');
-  }
+  function openApply(stageId){ currentStageId = stageId; editingId = null; go('apply'); }
 
   function refreshApplyView(){
     const gate = $('#apply-gate'), blocked = $('#apply-blocked'), notfound = $('#apply-notfound'), wrap = $('#apply-wrap');
@@ -976,14 +1114,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!currentStageId){ notfound.classList.remove('hidden'); return; }
     const stage = stages.find(s => s.id === currentStageId);
     if(!stage){ notfound.classList.remove('hidden'); return; }
-
     $('#apply-title').textContent = stage.title || ('Этап ' + stage.number);
     $('#apply-subtitle').textContent = stage.description || 'Заполни все поля внимательно.';
-
     if(!user){ gate.classList.remove('hidden'); return; }
     if(!canAccessStage(stage) && !editingId){
       const minLvl = stage.min_level != null ? stage.min_level : (stage.number - 1);
-      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + minLvl + ', а у вас ' + (userProfile ? userProfile.level : 0) + '. Пройдите предыдущие этапы.';
+      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + minLvl + ', а у вас ' + (userProfile ? userProfile.level : 0) + '.';
       blocked.classList.remove('hidden'); return;
     }
     if(stage.status !== 'open' && !editingId){
@@ -1020,7 +1156,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if(!user || !currentStageId){ return; }
-
     const v = n => (form.elements[n].value || '').trim();
     const errs = {
       nick: !v('nick') ? 'Укажи ник' : (v('nick').length < 2 ? 'Ник короткий' : ''),
@@ -1033,19 +1168,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(first){ form.elements[first].focus(); return; }
 
     const data = {
-      user_id: user.id,
-      stage_id: currentStageId,
-      email: user.email,
-      nick: v('nick'),
-      telegram: '@' + v('telegram').replace(/^@/,''),
-      discord: v('discord'),
-      video: normalizeUrl(v('video')),
-      platform: form.elements.platform.value,
-      about: v('about')
+      user_id: user.id, stage_id: currentStageId, email: user.email,
+      nick: v('nick'), telegram: '@' + v('telegram').replace(/^@/,''),
+      discord: v('discord'), video: normalizeUrl(v('video')),
+      platform: form.elements.platform.value, about: v('about')
     };
 
     submitBtn.disabled = true;
-    const prevLabel = submitBtn.querySelector('span').textContent;
     submitBtn.querySelector('span').textContent = 'Отправляем…';
 
     try{
@@ -1095,11 +1224,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const cls = ['first','second','third'][i];
         const card = document.createElement('div');
         card.className = 'podium-card ' + cls;
-        card.innerHTML =
-          '<div class="podium-rank">' + (i+1) + '</div>' +
-          '<div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div>' +
-          '<div class="podium-level">' + (p.level || 0) + '</div>' +
-          '<div class="podium-level-label">уровень</div>';
+        card.innerHTML = '<div class="podium-rank">' + (i+1) + '</div><div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div><div class="podium-level">' + (p.level || 0) + '</div><div class="podium-level-label">уровень</div>';
         podium.appendChild(card);
       });
       while(podium.children.length < 3){
@@ -1153,6 +1278,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }catch(err){ console.error(err); myApplications = []; }
   }
 
+  async function checkModerator(){
+    if(!user || isAdmin()){ isModeratorFlag = false; return; }
+    try{
+      const { data } = await sb.from('moderators').select('email').eq('email', user.email).maybeSingle();
+      isModeratorFlag = !!data;
+    }catch(_){ isModeratorFlag = false; }
+  }
+
   function renderCabinet(){
     const logged = !!user;
     $('#cabinet-auth').classList.toggle('hidden', logged);
@@ -1172,7 +1305,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     myApplications.forEach(a => {
       const stage = stages.find(s => s.id === a.stage_id);
       const stageLabel = stage ? (stage.title || ('Этап ' + stage.number)) : '—';
-      const created = a.created_at ? new Date(a.created_at).toLocaleString('ru-RU') : '—';
       const item = document.createElement('div');
       item.className = 'app-item';
 
@@ -1182,12 +1314,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         '<div class="app-item-head">' +
           '<span class="app-item-stage">' + escapeHtml(stageLabel) + '</span>' +
           '<span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span>' +
-          '<span class="app-item-date">' + created + '</span>' +
+          '<span class="app-item-date" title="' + (a.created_at || '') + '">' + timeAgo(a.created_at) + '</span>' +
         '</div>' +
         '<div style="color:var(--muted);font-size:13px">Ник: <b style="color:var(--text)">' + escapeHtml(a.nick || '—') + '</b>' +
         (a.telegram ? ' · TG: ' + escapeHtml(a.telegram) : '') +
         (a.discord ? ' · DC: ' + escapeHtml(a.discord) : '') +
-        '</div>';
+        '</div>' +
+        (a.admin_comment ? '<div class="app-comment"><b>Комментарий от админа</b>' + escapeHtml(a.admin_comment) + '</div>' : '');
       item.appendChild(main);
 
       const actions = document.createElement('div');
@@ -1204,8 +1337,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         ed.type = 'button'; ed.className = 'btn btn-primary btn-sm';
         ed.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>Ред.</span>';
         ed.addEventListener('click', () => {
-          editingId = a.id;
-          currentStageId = a.stage_id;
+          editingId = a.id; currentStageId = a.stage_id;
           go('apply');
           setTimeout(() => {
             form.elements.nick.value = a.nick || '';
@@ -1244,18 +1376,134 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
     adminTab = b.dataset.adminTab;
     $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-    $('#admin-stages').classList.toggle('hidden', adminTab !== 'stages');
-    $('#admin-apps').classList.toggle('hidden', adminTab !== 'apps');
+    ['dashboard','stages','apps','log','moderators'].forEach(tab => {
+      const el = document.getElementById('admin-' + tab);
+      if(el) el.classList.toggle('hidden', tab !== adminTab);
+    });
     renderAdmin();
   }));
 
   function renderAdmin(){
-    if(!isAdmin()){ navAdmin.classList.add('hidden'); return; }
+    if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
     navAdmin.classList.remove('hidden');
-    if(adminTab === 'stages') renderAdminStages();
-    else renderAdminApps();
+
+    // модератору — только дашборд и заявки
+    $('#tab-stages').classList.toggle('hidden', !isAdmin());
+    $('#tab-moderators').classList.toggle('hidden', !isAdmin());
+
+    if(!isAdmin() && (adminTab === 'stages' || adminTab === 'moderators')) adminTab = 'dashboard';
+
+    if(adminTab === 'dashboard') renderDashboard();
+    else if(adminTab === 'stages') renderAdminStages();
+    else if(adminTab === 'apps') renderAdminApps();
+    else if(adminTab === 'log') renderAdminLog();
+    else if(adminTab === 'moderators') renderAdminModerators();
   }
 
+  /* --- DASHBOARD --- */
+  async function renderDashboard(){
+    await loadAdminApps();
+    await loadAdminLog();
+    updateAdminStats();
+    renderDashChart();
+    renderDashModerators();
+    renderDashRecent();
+  }
+
+  function updateAdminStats(){
+    const total = adminApps.length;
+    const pending = adminApps.filter(a => a.status === 'pending').length;
+    const approved = adminApps.filter(a => a.status === 'approved').length;
+    const rejected = adminApps.filter(a => a.status === 'rejected').length;
+    const el = k => document.querySelector('[data-admin-' + k + ']');
+    if(el('total')) el('total').textContent = total;
+    if(el('pending')) el('pending').textContent = pending;
+    if(el('approved')) el('approved').textContent = approved;
+    if(el('rejected')) el('rejected').textContent = rejected;
+
+    // бейдж в шапке
+    navAdminBadge.textContent = pending;
+    navAdminBadge.classList.toggle('hidden', pending === 0);
+  }
+
+  function renderDashChart(){
+    const wrap = $('#dash-chart');
+    wrap.replaceChildren();
+    const days = [];
+    for(let i = 6; i >= 0; i--){
+      const d = new Date();
+      d.setHours(0,0,0,0);
+      d.setDate(d.getDate() - i);
+      days.push(d);
+    }
+    const counts = days.map(d => {
+      const next = new Date(d); next.setDate(next.getDate() + 1);
+      return adminApps.filter(a => {
+        const t = new Date(a.created_at).getTime();
+        return t >= d.getTime() && t < next.getTime();
+      }).length;
+    });
+    const max = Math.max(1, ...counts);
+    days.forEach((d, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'dash-bar';
+      const h = Math.max(4, (counts[i] / max) * 100);
+      const label = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][d.getDay()];
+      bar.innerHTML =
+        '<div class="dash-bar-fill" style="height:' + h + '%"><span>' + counts[i] + '</span></div>' +
+        '<div class="dash-bar-label">' + label + '</div>';
+      wrap.appendChild(bar);
+    });
+  }
+
+  function renderDashModerators(){
+    const wrap = $('#dash-moderators');
+    wrap.replaceChildren();
+    const counts = {};
+    adminLog.filter(l => l.action === 'approve' || l.action === 'reject').forEach(l => {
+      const e = l.admin_email || 'system';
+      counts[e] = (counts[e] || 0) + 1;
+    });
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    if(!sorted.length){
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Нет данных</p>';
+      return;
+    }
+    sorted.forEach(([email, count], i) => {
+      const row = document.createElement('div');
+      row.className = 'dash-leader-row';
+      row.innerHTML =
+        '<div class="dash-leader-rank' + (i === 0 ? ' gold' : '') + '">' + (i+1) + '</div>' +
+        '<div class="dash-leader-email">' + escapeHtml(email) + '</div>' +
+        '<div class="dash-leader-count">' + count + '</div>';
+      wrap.appendChild(row);
+    });
+  }
+
+  function renderDashRecent(){
+    const wrap = $('#dash-recent');
+    wrap.replaceChildren();
+    const recent = adminLog.slice(0, 8);
+    if(!recent.length){
+      wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Пока нет действий</p>';
+      return;
+    }
+    recent.forEach(l => {
+      const d = l.details || {};
+      const row = document.createElement('div');
+      row.className = 'dash-recent-row ' + (l.action === 'approve' ? 'approve' : l.action === 'reject' ? 'reject' : '');
+      let what = l.action;
+      if(l.action === 'approve') what = '✓ Одобрил' + (d.nick ? ' ' + escapeHtml(d.nick) : '');
+      else if(l.action === 'reject') what = '✕ Отклонил' + (d.nick ? ' ' + escapeHtml(d.nick) : '');
+      row.innerHTML =
+        '<span class="who">' + escapeHtml(l.admin_email || 'system') + '</span>' +
+        '<span class="what">' + what + '</span>' +
+        '<span class="when">' + timeAgo(l.created_at) + '</span>';
+      wrap.appendChild(row);
+    });
+  }
+
+  /* --- STAGES TAB --- */
   async function renderAdminStages(){
     await loadStages();
     await loadAdminApps();
@@ -1268,7 +1516,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     stages.forEach(s => {
       const tr = document.createElement('tr');
       const appsCount = adminApps.filter(a => a.stage_id === s.id).length;
-
       const levelInfo = [s.level_name, s.difficulty, s.level_id].filter(Boolean).join(' · ') || '—';
 
       tr.innerHTML =
@@ -1299,7 +1546,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(s.status !== 'draft'){
         const draftBtn = document.createElement('button');
         draftBtn.className = 'btn btn-ghost btn-sm';
-        draftBtn.textContent = 'В черновик';
+        draftBtn.textContent = 'Черновик';
         draftBtn.addEventListener('click', () => updateStage(s.id, { status: 'draft' }));
         wrap.appendChild(draftBtn);
       }
@@ -1330,46 +1577,27 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
 
   async function editStage(s){
-    const newTitle = prompt('Название этапа:', s.title || '');
-    if(newTitle === null) return;
-    const newDesc = prompt('Описание:', s.description || '');
-    if(newDesc === null) return;
-    const newTask = prompt('Задача:', s.task || '');
-    if(newTask === null) return;
-    const newRules = prompt('Правила (можно несколько строк):', s.rules || '');
-    if(newRules === null) return;
-    const newReward = prompt('Награда:', s.reward || '');
-    if(newReward === null) return;
-    const newLevelName = prompt('Название уровня:', s.level_name || '');
-    if(newLevelName === null) return;
-    const newLevelId = prompt('ID уровня в GD:', s.level_id || '');
-    if(newLevelId === null) return;
-    const newDiff = prompt('Сложность (Easy/Normal/Hard/Harder/Insane/Extreme Demon):', s.difficulty || '');
-    if(newDiff === null) return;
-    const newUrl = prompt('Ссылка на видео уровня:', s.level_url || '');
-    if(newUrl === null) return;
-    const newMax = prompt('Лимит участников (пусто = без лимита):', s.max_participants || '');
-    if(newMax === null) return;
-    const newMinLvl = prompt('Минимальный уровень (пусто = авто):', s.min_level != null ? s.min_level : '');
-    if(newMinLvl === null) return;
-    const newDeadline = prompt('Дедлайн (ISO формат, пусто = без дедлайна):\nПример: 2025-12-31T23:59:00', s.deadline || '');
-    if(newDeadline === null) return;
+    const newTitle = prompt('Название этапа:', s.title || ''); if(newTitle === null) return;
+    const newDesc = prompt('Описание:', s.description || ''); if(newDesc === null) return;
+    const newTask = prompt('Задача:', s.task || ''); if(newTask === null) return;
+    const newRules = prompt('Правила (можно несколько строк):', s.rules || ''); if(newRules === null) return;
+    const newReward = prompt('Награда:', s.reward || ''); if(newReward === null) return;
+    const newLevelName = prompt('Название уровня:', s.level_name || ''); if(newLevelName === null) return;
+    const newLevelId = prompt('ID уровня в GD:', s.level_id || ''); if(newLevelId === null) return;
+    const newDiff = prompt('Сложность:', s.difficulty || ''); if(newDiff === null) return;
+    const newUrl = prompt('Ссылка на видео уровня:', s.level_url || ''); if(newUrl === null) return;
+    const newMax = prompt('Лимит участников (пусто = без лимита):', s.max_participants || ''); if(newMax === null) return;
+    const newMinLvl = prompt('Минимальный уровень (пусто = авто):', s.min_level != null ? s.min_level : ''); if(newMinLvl === null) return;
+    const newDeadline = prompt('Дедлайн (ISO, пусто = без):', s.deadline || ''); if(newDeadline === null) return;
 
-    const patch = {
-      title: newTitle,
-      description: newDesc || null,
-      task: newTask || null,
-      rules: newRules || null,
-      reward: newReward || null,
-      level_name: newLevelName || null,
-      level_id: newLevelId || null,
-      difficulty: newDiff || null,
-      level_url: newUrl || null,
+    updateStage(s.id, {
+      title: newTitle, description: newDesc || null, task: newTask || null, rules: newRules || null,
+      reward: newReward || null, level_name: newLevelName || null, level_id: newLevelId || null,
+      difficulty: newDiff || null, level_url: newUrl || null,
       max_participants: newMax ? parseInt(newMax, 10) : null,
       min_level: newMinLvl !== '' ? parseInt(newMinLvl, 10) : null,
       deadline: newDeadline ? new Date(newDeadline).toISOString() : null
-    };
-    updateStage(s.id, patch);
+    });
   }
 
   async function updateStage(id, patch){
@@ -1392,8 +1620,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const minLvlRaw = $('#new-stage-min-level').value;
 
     const payload = {
-      number: num,
-      title,
+      number: num, title,
       description: $('#new-stage-desc').value.trim() || null,
       task: $('#new-stage-task').value.trim() || null,
       rules: $('#new-stage-rules').value.trim() || null,
@@ -1427,23 +1654,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   /* --- APPS TAB --- */
   async function loadAdminApps(){
-    if(!sb || !isAdmin()){ adminApps = []; return; }
+    if(!sb || !canModerate()){ adminApps = []; return; }
     try{
       const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false });
       if(error) throw error;
       adminApps = data || [];
     }catch(err){ console.error(err); adminApps = []; }
-  }
-
-  function updateAdminStats(){
-    const total = adminApps.length;
-    const pending = adminApps.filter(a => a.status === 'pending').length;
-    const approved = adminApps.filter(a => a.status === 'approved').length;
-    const rejected = adminApps.filter(a => a.status === 'rejected').length;
-    document.querySelector('[data-admin-total]').textContent = total;
-    document.querySelector('[data-admin-pending]').textContent = pending;
-    document.querySelector('[data-admin-approved]').textContent = approved;
-    document.querySelector('[data-admin-rejected]').textContent = rejected;
   }
 
   function renderStageFilter(){
@@ -1467,9 +1683,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  $('#admin-stage-filter').addEventListener('change', e => {
-    adminStageFilter = e.target.value;
+  $('#admin-stage-filter').addEventListener('change', e => { adminStageFilter = e.target.value; renderAdminTable(); });
+  $('#admin-search').addEventListener('input', e => { adminSearch = e.target.value.toLowerCase().trim(); renderAdminTable(); });
+  $('#refresh-apps-btn').addEventListener('click', async () => {
+    await loadAdminApps();
+    updateAdminStats();
     renderAdminTable();
+    toast('Обновлено');
   });
 
   $$('[data-app-filter]').forEach(b => b.addEventListener('click', () => {
@@ -1478,29 +1698,72 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTable();
   }));
 
-  function renderAdminTable(){
-    const tb = $('#admin-body');
-    tb.replaceChildren();
-    let list = adminApps;
+  // Сортировка по клику на заголовок
+  $$('[data-sort]').forEach(th => th.addEventListener('click', () => {
+    const field = th.dataset.sort;
+    if(adminSortField === field) adminSortDir = adminSortDir === 'asc' ? 'desc' : 'asc';
+    else { adminSortField = field; adminSortDir = 'desc'; }
+    $$('[data-sort]').forEach(x => x.classList.remove('sorted'));
+    th.classList.add('sorted');
+    th.querySelector('.sort-arrow').textContent = adminSortDir === 'asc' ? '▲' : '▼';
+    renderAdminTable();
+  }));
+
+  function applyFilters(){
+    let list = adminApps.slice();
     if(adminStageFilter !== 'all') list = list.filter(a => a.stage_id === adminStageFilter);
     if(adminAppFilter !== 'all') list = list.filter(a => a.status === adminAppFilter);
+    if(adminSearch){
+      list = list.filter(a =>
+        (a.nick || '').toLowerCase().includes(adminSearch) ||
+        (a.telegram || '').toLowerCase().includes(adminSearch) ||
+        (a.discord || '').toLowerCase().includes(adminSearch) ||
+        (a.email || '').toLowerCase().includes(adminSearch)
+      );
+    }
+    // сортировка
+    list.sort((a, b) => {
+      let va, vb;
+      if(adminSortField === 'created_at'){ va = a.created_at; vb = b.created_at; }
+      else if(adminSortField === 'nick'){ va = (a.nick||'').toLowerCase(); vb = (b.nick||'').toLowerCase(); }
+      else if(adminSortField === 'telegram'){ va = (a.telegram||'').toLowerCase(); vb = (b.telegram||'').toLowerCase(); }
+      else if(adminSortField === 'status'){ va = a.status; vb = b.status; }
+      else if(adminSortField === 'stage'){
+        const sa = stages.find(s => s.id === a.stage_id);
+        const sb_ = stages.find(s => s.id === b.stage_id);
+        va = sa ? sa.number : 0; vb = sb_ ? sb_.number : 0;
+      }
+      if(va < vb) return adminSortDir === 'asc' ? -1 : 1;
+      if(va > vb) return adminSortDir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    return list;
+  }
+
+  function renderAdminTable(){
+    const list = applyFilters();
+    const tb = $('#admin-body');
+    const mobileList = $('#admin-mobile-list');
+    tb.replaceChildren();
+    mobileList.replaceChildren();
 
     if(!list.length){
       tb.innerHTML = '<tr><td colspan="7" class="empty">Заявок нет</td></tr>';
+      mobileList.innerHTML = '<div class="admin-mobile-card" style="text-align:center;color:var(--muted)">Заявок нет</div>';
       return;
     }
 
     list.forEach(a => {
       const stage = stages.find(s => s.id === a.stage_id);
-      const tr = document.createElement('tr');
-      const created = a.created_at ? new Date(a.created_at).toLocaleString('ru-RU') : '—';
       const contacts = [];
       if(a.telegram) contacts.push('TG: ' + a.telegram);
       if(a.discord) contacts.push('DC: ' + a.discord);
       if(a.email) contacts.push('✉ ' + a.email);
 
+      /* Desktop row */
+      const tr = document.createElement('tr');
       tr.innerHTML =
-        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + created + '</td>' +
+        '<td style="font-size:12px;color:var(--muted);white-space:nowrap" title="' + (a.created_at || '') + '">' + timeAgo(a.created_at) + '</td>' +
         '<td style="font-family:\'Exo 2\',sans-serif;font-weight:700">' + (stage ? '#' + stage.number : '—') + '</td>' +
         '<td style="font-weight:600">' + escapeHtml(a.nick || '—') + '</td>' +
         '<td style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</td>';
@@ -1515,63 +1778,223 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       } else tdVideo.textContent = '—';
       tr.appendChild(tdVideo);
 
-      const td7 = document.createElement('td');
+      const tdStatus = document.createElement('td');
       const b = document.createElement('span');
       b.className = 'status-badge ' + a.status;
       b.textContent = ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status]) || a.status;
-      td7.appendChild(b);
-      tr.appendChild(td7);
-
-      const td8 = document.createElement('td');
-      const wrap = document.createElement('div'); wrap.className = 'admin-actions';
-
-      if(a.status !== 'approved'){
-        const ap = document.createElement('button');
-        ap.className = 'btn btn-success btn-sm';
-        ap.innerHTML = '✓';
-        ap.title = 'Одобрить (+1 к уровню)';
-        ap.addEventListener('click', () => adminUpdateStatus(a.id, 'approved'));
-        wrap.appendChild(ap);
+      tdStatus.appendChild(b);
+      if(a.admin_comment){
+        const cm = document.createElement('div');
+        cm.style.cssText = 'font-size:11px;color:var(--muted);margin-top:6px;max-width:200px;word-break:break-word';
+        cm.textContent = '💬 ' + a.admin_comment;
+        tdStatus.appendChild(cm);
       }
-      if(a.status !== 'rejected'){
-        const rj = document.createElement('button');
-        rj.className = 'btn btn-ghost btn-sm';
-        rj.textContent = '✕';
-        rj.title = 'Отклонить';
-        rj.addEventListener('click', () => adminUpdateStatus(a.id, 'rejected'));
-        wrap.appendChild(rj);
-      }
-      const dl = document.createElement('button');
-      dl.className = 'btn btn-danger btn-sm';
-      dl.textContent = '🗑';
-      dl.addEventListener('click', async () => {
-        if(!confirm('Удалить заявку?')) return;
-        const { error } = await sb.from('applications').delete().eq('id', a.id);
-        if(error){ toast('Ошибка', true); return; }
-        toast('Удалено');
-        await loadAdminApps();
-        updateAdminStats();
-        renderAdminTable();
-        await renderLeaderboard();
-      });
-      wrap.appendChild(dl);
+      tr.appendChild(tdStatus);
 
-      td8.appendChild(wrap);
-      tr.appendChild(td8);
+      const tdActions = document.createElement('td');
+      tdActions.appendChild(buildActions(a));
+      tr.appendChild(tdActions);
       tb.appendChild(tr);
+
+      /* Mobile card */
+      const card = document.createElement('div');
+      card.className = 'admin-mobile-card';
+      card.innerHTML =
+        '<div class="row"><b>Дата</b><span>' + timeAgo(a.created_at) + '</span></div>' +
+        '<div class="row"><b>Этап</b><span>' + (stage ? '#' + stage.number + ' ' + escapeHtml(stage.title || '') : '—') + '</span></div>' +
+        '<div class="row"><b>Ник</b><span style="font-weight:600">' + escapeHtml(a.nick || '—') + '</span></div>' +
+        '<div class="row"><b>Контакты</b><span style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</span></div>' +
+        '<div class="row"><b>Статус</b><span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span></div>' +
+        (a.admin_comment ? '<div style="padding:8px 0;font-size:12px;color:var(--muted)">💬 ' + escapeHtml(a.admin_comment) + '</div>' : '');
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      if(a.video){
+        const v = document.createElement('a');
+        v.className = 'btn btn-ghost';
+        v.href = a.video; v.target = '_blank'; v.rel = 'noopener';
+        v.innerHTML = '<svg class="i"><use href="#i-play"/></svg> Видео';
+        actions.appendChild(v);
+      }
+      actions.appendChild(buildActions(a));
+      card.appendChild(actions);
+      mobileList.appendChild(card);
     });
   }
 
-  async function adminUpdateStatus(id, status){
-    const { error } = await sb.from('applications').update({ status }).eq('id', id);
+  function buildActions(a){
+    const wrap = document.createElement('div');
+    wrap.className = 'admin-actions';
+
+    if(a.status !== 'approved'){
+      const ap = document.createElement('button');
+      ap.className = 'btn btn-success btn-sm';
+      ap.innerHTML = '✓';
+      ap.title = 'Одобрить (+1 к уровню)';
+      ap.addEventListener('click', () => updateAppStatus(a, 'approved'));
+      wrap.appendChild(ap);
+    }
+    if(a.status !== 'rejected'){
+      const rj = document.createElement('button');
+      rj.className = 'btn btn-ghost btn-sm';
+      rj.textContent = '✕';
+      rj.title = 'Отклонить';
+      rj.addEventListener('click', () => updateAppStatus(a, 'rejected'));
+      wrap.appendChild(rj);
+    }
+    const cm = document.createElement('button');
+    cm.className = 'btn btn-ghost btn-sm';
+    cm.innerHTML = '<svg class="i"><use href="#i-chat"/></svg>';
+    cm.title = 'Комментарий';
+    cm.addEventListener('click', () => editComment(a));
+    wrap.appendChild(cm);
+
+    const dl = document.createElement('button');
+    dl.className = 'btn btn-danger btn-sm';
+    dl.textContent = '🗑';
+    dl.addEventListener('click', async () => {
+      if(!confirm('Удалить заявку?')) return;
+      const { error } = await sb.from('applications').delete().eq('id', a.id);
+      if(error){ toast('Ошибка', true); return; }
+      toast('Удалено');
+      await loadAdminApps();
+      updateAdminStats();
+      renderAdminTable();
+      await renderLeaderboard();
+    });
+    wrap.appendChild(dl);
+    return wrap;
+  }
+
+  async function editComment(a){
+    const current = a.admin_comment || '';
+    const newComment = prompt('Комментарий к заявке (видит юзер):', current);
+    if(newComment === null) return;
+    const { error } = await sb.from('applications').update({
+      admin_comment: newComment.trim() || null
+    }).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
-    toast(status === 'approved' ? 'Одобрено (+1 к уровню)' : 'Отклонено');
+    toast('Комментарий сохранён');
+    await loadAdminApps();
+    renderAdminTable();
+  }
+
+  async function updateAppStatus(a, newStatus){
+    let comment = a.admin_comment || '';
+    if(newStatus === 'approved' || newStatus === 'rejected'){
+      const ask = prompt(
+        newStatus === 'approved'
+          ? 'Комментарий к одобрению (необязательно):'
+          : 'Причина отклонения (увидит юзер):',
+        comment
+      );
+      if(ask === null) return;
+      comment = ask.trim();
+    }
+    const patch = { status: newStatus };
+    if(comment !== (a.admin_comment || '')) patch.admin_comment = comment || null;
+
+    const { error } = await sb.from('applications').update(patch).eq('id', a.id);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast(newStatus === 'approved' ? '✓ Одобрено (+1 к уровню)' : '✕ Отклонено');
     await loadAdminApps();
     updateAdminStats();
     renderAdminTable();
     await renderLeaderboard();
     await loadMyApplications();
+    if(adminTab === 'dashboard') renderDashboard();
   }
+
+  /* --- LOG TAB --- */
+  async function loadAdminLog(){
+    if(!sb || !canModerate()){ adminLog = []; return; }
+    try{
+      const { data, error } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(200);
+      if(error) throw error;
+      adminLog = data || [];
+    }catch(err){ console.error(err); adminLog = []; }
+  }
+
+  async function renderAdminLog(){
+    await loadAdminLog();
+    const tb = $('#admin-log-body');
+    tb.replaceChildren();
+    if(!adminLog.length){
+      tb.innerHTML = '<tr><td colspan="4" class="empty">Действий пока нет</td></tr>';
+      return;
+    }
+    adminLog.forEach(l => {
+      const d = l.details || {};
+      const tr = document.createElement('tr');
+      const actionLabel = l.action === 'approve' ? '✓ Одобрил'
+        : l.action === 'reject' ? '✕ Отклонил'
+        : l.action;
+
+      tr.innerHTML =
+        '<td style="font-size:12px;color:var(--muted);white-space:nowrap" title="' + l.created_at + '">' + timeAgo(l.created_at) + '</td>' +
+        '<td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td>' +
+        '<td style="font-weight:600">' + actionLabel + '</td>' +
+        '<td style="font-size:12px;color:var(--muted)">' +
+          (d.nick ? 'Ник: ' + escapeHtml(d.nick) : '') +
+          (d.from ? ' · ' + escapeHtml(d.from) + ' → ' + escapeHtml(d.to) : '') +
+        '</td>';
+      tb.appendChild(tr);
+    });
+  }
+
+  /* --- MODERATORS TAB --- */
+  async function loadModerators(){
+    if(!sb || !isAdmin()){ moderators = []; return; }
+    try{
+      const { data, error } = await sb.from('moderators').select('*').order('added_at', { ascending: true });
+      if(error) throw error;
+      moderators = data || [];
+    }catch(err){ console.error(err); moderators = []; }
+  }
+
+  async function renderAdminModerators(){
+    await loadModerators();
+    const tb = $('#admin-mods-body');
+    tb.replaceChildren();
+    if(!moderators.length){
+      tb.innerHTML = '<tr><td colspan="3" class="empty">Модераторов пока нет</td></tr>';
+      return;
+    }
+    moderators.forEach(m => {
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td style="font-weight:600">' + escapeHtml(m.email) + '</td>' +
+        '<td style="font-size:12px;color:var(--muted)">' + timeAgo(m.added_at) + '</td>';
+      const td = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-danger btn-sm';
+      btn.textContent = 'Удалить';
+      btn.addEventListener('click', async () => {
+        if(!confirm('Убрать модератора ' + m.email + '?')) return;
+        const { error } = await sb.from('moderators').delete().eq('id', m.id);
+        if(error){ toast('Ошибка', true); return; }
+        toast('Удалено');
+        await renderAdminModerators();
+      });
+      td.appendChild(btn);
+      tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+  }
+
+  $('#add-mod-btn').addEventListener('click', async () => {
+    const email = $('#new-mod-email').value.trim().toLowerCase();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Корректный email', true); return; }
+    if(email === ADMIN_EMAIL){ toast('Это админ', true); return; }
+    const { error } = await sb.from('moderators').insert([{ email }]);
+    if(error){
+      if(/duplicate|unique/i.test(error.message)) toast('Уже добавлен', true);
+      else toast('Ошибка: ' + error.message, true);
+      return;
+    }
+    $('#new-mod-email').value = '';
+    toast('Модератор добавлен');
+    await renderAdminModerators();
+  });
 
   /* ============ AUTH ============ */
   $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
@@ -1618,7 +2041,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }
   });
 
-  // Регистрация БЕЗ подтверждения email
   $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
     const formEl = e.target;
@@ -1641,28 +2063,17 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
       if(error){
         const msg = (error.message || '').toLowerCase();
-
         if(/already|registered|exists|user.*exist/i.test(msg)){
           setAuthError('register', 'Этот email уже зарегистрирован. Войди или сбрось пароль.');
           return;
         }
-        if(/rate|limit|too many/i.test(msg)){
-          setAuthError('register', 'Слишком много попыток. Подожди минуту.');
-          return;
-        }
-        if(/signups?.*not.*allowed|disabled/i.test(msg)){
-          setAuthError('register', 'Регистрация отключена. Обратись к админу.');
-          return;
-        }
-        if(/password/i.test(msg)){
-          setAuthError('register', 'Пароль не подходит: ' + error.message.slice(0, 80));
-          return;
-        }
+        if(/rate|limit|too many/i.test(msg)){ setAuthError('register', 'Слишком много попыток. Подожди минуту.'); return; }
+        if(/signups?.*not.*allowed|disabled/i.test(msg)){ setAuthError('register', 'Регистрация отключена. Обратись к админу.'); return; }
+        if(/database error/i.test(msg)){ setAuthError('register', 'Ошибка БД при создании юзера. Проверь триггер handle_new_user.'); return; }
         setAuthError('register', 'Ошибка: ' + (error.message || 'неизвестная').slice(0, 120));
         return;
       }
 
-      // session есть → сразу залогинен (Confirm email выключен)
       if(data && data.session){
         formEl.reset();
         toast('Аккаунт создан!');
@@ -1670,10 +2081,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         return;
       }
 
-      // session нет → Confirm email включён. Показываем инструкцию
       formEl.reset();
       setAuthError('register', 'Проверь почту — нужно подтвердить email. (Или отключи Confirm email в Supabase.)');
-
     }catch(err){
       console.error(err);
       setAuthError('register', 'Ошибка: ' + (err && err.message ? err.message.slice(0, 120) : 'неизвестная'));
@@ -1684,34 +2093,56 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   $('#logout-btn').addEventListener('click', async () => {
     if(!sb) return;
+    if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
     await sb.auth.signOut();
     toast('Вы вышли');
-    user = null; userProfile = null; myApplications = [];
-    renderCabinet();
-    renderAdmin();
-    renderStages();
+    user = null; userProfile = null; myApplications = []; isModeratorFlag = false;
+    renderCabinet(); renderAdmin(); renderStages();
     go('home');
   });
 
   async function afterLogin(){
+    await checkModerator();
     await loadProfile();
     await loadMyApplications();
     await loadStages();
-    if(isAdmin()) await loadAdminApps();
+    if(canModerate()) await loadAdminApps();
+    if(isAdmin()) await loadModerators();
     renderCabinet();
     renderAdmin();
     renderStages();
+    updateAdminStats();
+    setupRealtime();
+  }
+
+  /* ============ REALTIME ============ */
+  function setupRealtime(){
+    if(!sb || !canModerate()) return;
+    if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
+    realtimeChannel = sb
+      .channel('gdcc-apps')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
+        console.log('[realtime]', payload);
+        await loadAdminApps();
+        updateAdminStats();
+        if(adminTab === 'apps') renderAdminTable();
+        if(adminTab === 'dashboard'){ renderDashChart(); renderDashRecent(); }
+        if(payload.eventType === 'UPDATE' && payload.new.status !== payload.old.status){
+          toast(payload.new.status === 'approved' ? '✓ Заявка одобрена (кем-то)' : '✕ Заявка отклонена');
+        } else if(payload.eventType === 'INSERT'){
+          toast('📥 Новая заявка!');
+        }
+        await renderLeaderboard();
+      })
+      .subscribe(status => console.log('[realtime status]', status));
   }
 
   async function initAuth(){
     if(!sb) return;
-
-    // Чистим URL от токенов
     const hash = location.hash || '';
     if(hash.includes('access_token=') || hash.includes('error_description=')){
       try{ history.replaceState(null, '', location.pathname + location.search); }catch(_){}
     }
-
     const { data } = await sb.auth.getSession();
     user = data.session ? data.session.user : null;
 
@@ -1719,7 +2150,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const wasUser = user;
       user = s ? s.user : null;
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
-      else if(!user){ userProfile = null; myApplications = []; renderCabinet(); renderAdmin(); renderStages(); }
+      else if(!user){
+        userProfile = null; myApplications = []; isModeratorFlag = false;
+        renderCabinet(); renderAdmin(); renderStages();
+        if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
+      }
     });
 
     if(user) await afterLogin();
