@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#050a17">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <script>try{var l=localStorage.getItem('gdcc-lang');if(l==='ru'||l==='en')document.documentElement.setAttribute('data-lang-chosen',l);}catch(e){}</script>
 <style>
 :root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;--purple:#b36bff;color-scheme:dark}
@@ -61,8 +61,6 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-success:hover{transform:translateY(-1px)}
-.btn-gold{background:linear-gradient(180deg,#f6c344,#d69b1a)}
-.btn-gold:hover{transform:translateY(-1px)}
 main{flex:1}
 .page{display:none}
 .page.active{display:block;animation:fade .3s ease}
@@ -108,8 +106,7 @@ main{flex:1}
 .feature b{display:block;font-size:13.5px}
 .feature span{color:var(--muted);font-size:12px}
 
-/* ===== STAGES ===== */
-.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
 .stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:14px}
 .stage-card:hover{transform:translateY(-3px)}
 .stage-card.open:hover{border-color:var(--green);box-shadow:0 10px 34px rgba(47,212,138,.18)}
@@ -122,12 +119,14 @@ main{flex:1}
 .stage-status.closed{background:rgba(143,164,203,.14);color:var(--muted)}
 .stage-status.draft{background:rgba(246,183,60,.14);color:var(--gold)}
 .stage-title{font-size:19px;font-weight:700}
-.stage-desc{color:var(--muted);font-size:13.5px;flex:1}
-.stage-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding-top:8px;border-top:1px solid var(--line-soft)}
+.stage-desc{color:var(--muted);font-size:13.5px}
+.stage-meta{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted)}
 .stage-meta b{color:var(--text);font-weight:600}
 .stage-locked-note{padding:10px 14px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.3);color:var(--red);font-size:12.5px;display:flex;gap:8px;align-items:center}
+.stage-card code{font-family:'JetBrains Mono',monospace;font-size:11.5px}
+.stage-card ul{font-size:13px;color:#b9c8e6}
+.stage-card li span{word-break:break-word}
 
-/* ===== LEADERBOARD ===== */
 .lb-podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
 .podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));position:relative;overflow:hidden}
 .podium-card.first{border-color:var(--gold);box-shadow:0 0 40px rgba(246,183,60,.2)}
@@ -141,7 +140,6 @@ main{flex:1}
 .podium-level{font-family:'Exo 2',sans-serif;font-weight:800;font-size:32px;color:var(--blue-2);line-height:1}
 .podium-level-label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
 
-/* ===== Forms ===== */
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
 .field label{font-size:13px;color:var(--muted)}
 .req{color:var(--red)}
@@ -169,7 +167,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .success h2{font-size:24px;margin-bottom:10px}
 .success p{color:var(--muted);max-width:440px;margin:0 auto 20px}
 
-/* ===== Cabinet ===== */
 .cab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .cab-user{font-size:13px;color:var(--muted);margin-top:6px}
 .cab-user b{color:var(--text);font-weight:600}
@@ -182,11 +179,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .app-item-main{flex:1;min-width:200px}
 .app-item-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
 .app-item-stage{font-family:'Exo 2',sans-serif;font-weight:800;font-size:16px}
-.app-item-title{font-size:15px;font-weight:600}
 .app-item-date{font-size:12px;color:var(--muted);margin-left:auto}
 .app-item-actions{display:flex;gap:8px;flex-wrap:wrap;align-self:center}
 
-/* ===== Tables / Admin ===== */
 .table-card{padding:0;overflow:hidden}
 .table-wrap{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:14px}
@@ -211,7 +206,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .empty-state h2{font-size:22px;margin-bottom:8px}
 .empty-state p{color:var(--muted);max-width:440px;margin:0 auto 18px}
 
-/* ===== Admin ===== */
 .admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content}
 .admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
 .admin-tabs button.active{background:var(--blue);color:#fff}
@@ -219,9 +213,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
 .admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;line-height:1}
 .admin-stat span{color:var(--muted);font-size:12px;margin-top:6px;display:block}
-.admin-create{display:grid;grid-template-columns:80px 1fr 1fr 1fr auto;gap:10px;margin-bottom:22px;padding:18px;border-radius:14px;border:1px dashed var(--line);background:rgba(10,20,45,.4)}
-.admin-create input{height:40px;padding:0 12px;background:#070f24;border:1px solid var(--line);border-radius:9px;color:var(--text);font:400 13.5px 'Inter',sans-serif;outline:none}
-.admin-create input:focus{border-color:var(--blue-2)}
 .admin-actions{display:flex;gap:6px;flex-wrap:wrap}
 .admin-actions .btn{height:30px;padding:0 10px;font-size:11.5px;border-radius:7px}
 .admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
@@ -240,8 +231,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
 @media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
-@media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}.admin-create{grid-template-columns:1fr 1fr}}
-@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:40px 20px 52px}.hero-art-wrap{display:none}.steps,.field-row,.lb-podium{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}.admin-create{grid-template-columns:1fr}}
+@media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:40px 20px 52px}.hero-art-wrap{display:none}.steps,.field-row,.lb-podium{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}}
 </style>
 </head>
 <body>
@@ -307,7 +298,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 
 <main>
 
-<!-- HOME -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -350,7 +340,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- RULES -->
 <section class="page" id="page-rules">
   <div class="wrap">
     <div class="page-head">
@@ -359,19 +348,18 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <p>Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
     </div>
     <div class="page-body">
-      <div class="rules-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат проведения</h3><p style="color:#b9c8e6;font-size:14px">Этапы открываются поочерёдно. Каждый этап — отдельный уровень. Список уровней публикуется в день старта этапа.</p></div></article>
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Подача заявки</h3><p style="color:#b9c8e6;font-size:14px">Заявка подаётся отдельно на каждый этап. Уровень растёт, когда админ одобряет видео.</p></div></article>
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Уровень</h3><p style="color:#b9c8e6;font-size:14px">Твой уровень = число одобренных этапов. Каждый следующий этап требует достаточного уровня.</p></div></article>
-        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат проведения</h3><p style="color:#b9c8e6;font-size:14px">Этапы открываются поочерёдно. Каждый этап — отдельный уровень. Список уровней публикуется в день старта этапа.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Подача заявки</h3><p style="color:#b9c8e6;font-size:14px">Заявка подаётся отдельно на каждый этап. Уровень растёт, когда админ одобряет видео.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Уровень</h3><p style="color:#b9c8e6;font-size:14px">Твой уровень = число одобренных этапов. Каждый следующий этап требует достаточного уровня.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STAGES -->
 <section class="page" id="page-stages">
   <div class="wrap">
     <div class="page-head">
@@ -385,10 +373,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- APPLY -->
 <section class="page" id="page-apply">
   <div class="wrap">
-    <div class="page-head" id="apply-head">
+    <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span>Заявка на этап</span></div>
       <h1 id="apply-title">Форма подачи заявки</h1>
       <p id="apply-subtitle">Заполни все поля внимательно.</p>
@@ -418,7 +405,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
         </div>
       </div>
-      <div class="apply-grid" id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
+      <div id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
             <div id="apply-edit-banner" class="hidden" style="margin-bottom:18px;padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13px">Режим редактирования заявки</div>
@@ -488,7 +475,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- LEADERBOARD -->
 <section class="page" id="page-leaderboard">
   <div class="wrap">
     <div class="page-head">
@@ -514,7 +500,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- CABINET -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -524,7 +509,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <p>Войдите или зарегистрируйтесь.</p>
       </div>
       <div class="page-body">
-        <div class="apply-grid" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
           <div class="card">
             <div class="auth-tabs">
               <button type="button" data-auth-tab="login" class="active">Вход</button>
@@ -591,7 +576,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- DOCS -->
 <section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head">
@@ -601,8 +585,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
     <div class="page-body">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
-        <article class="card" style="display:flex;align-items:center;gap:16px"><div class="doc-ico" style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с включенным чит индикатором.</p></div></article>
-        <article class="card" style="display:flex;align-items:center;gap:16px"><div class="doc-ico" style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам (руки + клавиатура)</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с включенным чит индикатором.</p></div></article>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам (руки + клавиатура)</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
       </div>
       <div class="card" style="margin-top:22px">
         <h3 style="display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2);font-size:20px"><use href="#i-clip"/></svg>Как подготовить запись?</h3>
@@ -617,7 +601,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- ADMIN -->
 <section class="page" id="page-admin">
   <div class="wrap">
     <div class="page-head">
@@ -631,20 +614,52 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="apps">Заявки</button>
       </div>
 
-      <!-- STAGES TAB -->
       <div id="admin-stages">
-        <div class="admin-create">
-          <input type="number" id="new-stage-number" placeholder="№" min="1" value="1">
-          <input type="text" id="new-stage-title" placeholder="Название этапа">
-          <input type="text" id="new-stage-desc" placeholder="Описание">
-          <input type="text" id="new-stage-url" placeholder="Ссылка на уровень (необязательно)">
-          <button type="button" class="btn btn-primary" id="create-stage-btn"><svg class="i"><use href="#i-plus"/></svg><span>Создать</span></button>
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+            <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
+            Новый этап
+          </h3>
+          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:10px">
+            <input class="input" type="number" id="new-stage-number" placeholder="№" min="1" value="1">
+            <input class="input" type="text" id="new-stage-title" placeholder="Название этапа">
+            <input class="input" type="text" id="new-stage-desc" placeholder="Короткое описание">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <input class="input" type="text" id="new-stage-task" placeholder="Задача: что нужно сделать">
+            <input class="input" type="text" id="new-stage-reward" placeholder="Награда за прохождение">
+          </div>
+          <div style="margin-bottom:10px">
+            <textarea class="input" id="new-stage-rules" placeholder="Правила этапа (по одному на строку)" style="height:80px"></textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+            <input class="input" type="text" id="new-stage-level-id" placeholder="ID уровня в GD">
+            <input class="input" type="text" id="new-stage-level-name" placeholder="Название уровня">
+            <select class="input" id="new-stage-difficulty">
+              <option value="">Сложность</option>
+              <option value="Easy">Easy</option>
+              <option value="Normal">Normal</option>
+              <option value="Hard">Hard</option>
+              <option value="Harder">Harder</option>
+              <option value="Insane">Insane</option>
+              <option value="Extreme Demon">Extreme Demon</option>
+            </select>
+            <input class="input" type="text" id="new-stage-level-url" placeholder="Ссылка на видео уровня">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+            <input class="input" type="datetime-local" id="new-stage-deadline" title="Дедлайн подачи">
+            <input class="input" type="number" id="new-stage-max" placeholder="Лимит участников" min="1">
+            <input class="input" type="number" id="new-stage-min-level" placeholder="Мин. уровень" min="0" value="0">
+          </div>
+          <button type="button" class="btn btn-primary" id="create-stage-btn">
+            <svg class="i"><use href="#i-plus"/></svg><span>Создать этап</span>
+          </button>
         </div>
         <div class="card table-card">
           <div class="table-wrap">
             <table class="table">
               <thead><tr>
-                <th>№</th><th>Название</th><th>Описание</th><th>Статус</th><th>Заявки</th><th>Действия</th>
+                <th>№</th><th>Название</th><th>Уровень</th><th>Статус</th><th>Действия</th>
               </tr></thead>
               <tbody id="admin-stages-body"></tbody>
             </table>
@@ -652,7 +667,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
-      <!-- APPS TAB -->
       <div id="admin-apps" class="hidden">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span>Всего</span></div>
@@ -673,7 +687,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="table-wrap">
             <table class="table">
               <thead><tr>
-                <th>Дата</th><th>Этап</th><th>Ник</th><th>Контакты</th><th>Видео</th><th>Платформа</th><th>Статус</th><th>Действия</th>
+                <th>Дата</th><th>Этап</th><th>Ник</th><th>Контакты</th><th>Видео</th><th>Статус</th><th>Действия</th>
               </tr></thead>
               <tbody id="admin-body"></tbody>
             </table>
@@ -710,7 +724,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPABASE_URL = 'https://eckbekxqipwdbrvqzjlv.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVja2Jla3hxaXB3ZGJydnF6amx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTAyOTEsImV4cCI6MjEwNjI2NjI5MX0._85Yy-KUTpGMD-cAldTEc5qzwmV_lJ6DOvd06aSIJ5o';
+const SUPABASE_ANON_KEY = 'ВСТАВЬ_ANON_PUBLIC_KEY_СЮДА';
 const ADMIN_EMAIL = 'sasharoyse450@gmail.com';
 
 const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
@@ -823,11 +837,29 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   function canAccessStage(stage){
     const lvl = userProfile ? (userProfile.level || 0) : 0;
-    return lvl >= (stage.number - 1);
+    const minLvl = stage.min_level != null ? stage.min_level : (stage.number - 1);
+    return lvl >= minLvl;
   }
 
   function stageStatusLabel(s){
     return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s.status] || s.status;
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function timeLeft(deadline){
+    const diff = new Date(deadline) - new Date();
+    if(diff <= 0) return null;
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    if(d > 0) return d + 'д ' + h + 'ч';
+    if(h > 0) return h + 'ч ' + m + 'м';
+    return m + 'м';
+  }
+
+  function stageParticipants(stage){
+    return (adminApps || []).filter(a => a.stage_id === stage.id).length;
   }
 
   function renderStages(){
@@ -840,56 +872,103 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }
     visible.forEach(s => {
       const card = document.createElement('div');
-      const locked = !canAccessStage(s) && s.status !== 'draft';
+      const userLvl = userProfile ? (userProfile.level || 0) : 0;
+      const minLvl = s.min_level != null ? s.min_level : (s.number - 1);
+      const locked = userLvl < minLvl && s.status !== 'draft';
+      const participants = s.max_participants ? stageParticipants(s) : null;
+      const isFull = participants !== null && participants >= s.max_participants;
+      const alreadyApplied = myApplications.some(a => a.stage_id === s.id);
+      const dl = s.deadline ? timeLeft(s.deadline) : null;
+      const expired = s.deadline && !dl;
+
       card.className = 'stage-card ' + s.status + (locked ? ' locked' : '');
 
-      const head = document.createElement('div'); head.className = 'stage-head';
-      head.innerHTML = '<div class="stage-num">' + s.number + '</div>';
-      const st = document.createElement('span');
-      st.className = 'stage-status ' + s.status;
-      st.textContent = stageStatusLabel(s);
-      head.appendChild(st);
-      card.appendChild(head);
+      let html = '';
+      html += '<div class="stage-head">';
+      html += '<div class="stage-num">' + s.number + '</div>';
+      html += '<span class="stage-status ' + s.status + '">' + stageStatusLabel(s) + '</span>';
+      html += '</div>';
 
-      const title = document.createElement('div'); title.className = 'stage-title';
-      title.textContent = s.title || ('Этап ' + s.number);
-      card.appendChild(title);
+      html += '<div class="stage-title">' + escapeHtml(s.title || ('Этап ' + s.number)) + '</div>';
+      if(s.description) html += '<div class="stage-desc">' + escapeHtml(s.description) + '</div>';
 
-      if(s.description){
-        const desc = document.createElement('div'); desc.className = 'stage-desc';
-        desc.textContent = s.description;
-        card.appendChild(desc);
+      if(s.task){
+        html += '<div style="padding:12px 14px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:13.5px">';
+        html += '<div style="font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">📋 Задача</div>';
+        html += '<div>' + escapeHtml(s.task) + '</div></div>';
       }
 
-      const meta = document.createElement('div'); meta.className = 'stage-meta';
-      const appCount = myApplications.filter(a => a.stage_id === s.id).length;
-      meta.innerHTML = '<span>Мой статус: <b>' + (appCount ? 'заявка подана' : (locked ? 'нет доступа' : 'можно подать')) + '</b></span>';
-      card.appendChild(meta);
+      if(s.level_name || s.level_id || s.difficulty){
+        html += '<div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)">';
+        if(s.level_name) html += '<span>🎮 <b style="color:var(--text)">' + escapeHtml(s.level_name) + '</b></span>';
+        if(s.difficulty) html += '<span>⚡ ' + escapeHtml(s.difficulty) + '</span>';
+        if(s.level_id) html += '<span>ID: <code style="background:rgba(31,139,255,.15);color:var(--blue-2);padding:1px 6px;border-radius:4px;font-size:11.5px">' + escapeHtml(s.level_id) + '</code></span>';
+        html += '</div>';
+      }
+
+      if(s.rules){
+        const lines = s.rules.split('\n').filter(l => l.trim());
+        if(lines.length){
+          html += '<div style="padding:12px 14px;border-radius:10px;background:rgba(246,183,60,.06);border:1px solid rgba(246,183,60,.22);font-size:13px">';
+          html += '<div style="font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">⚙️ Правила этапа</div>';
+          html += '<ul style="list-style:none;display:grid;gap:4px">';
+          lines.forEach(l => { html += '<li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--gold)">•</span><span>' + escapeHtml(l.trim()) + '</span></li>'; });
+          html += '</ul></div>';
+        }
+      }
+
+      if(s.reward){
+        html += '<div style="padding:10px 14px;border-radius:10px;background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.25);font-size:13px;color:var(--green);display:flex;align-items:center;gap:8px">';
+        html += '<span style="font-size:16px">🏆</span><span>' + escapeHtml(s.reward) + '</span></div>';
+      }
+
+      html += '<div class="stage-meta" style="padding-top:10px;border-top:1px solid var(--line-soft)">';
+      if(s.deadline){
+        if(expired) html += '<div style="color:var(--red)">⏰ Время истекло</div>';
+        else html += '<div style="color:var(--gold)">⏰ Осталось: <b style="color:var(--text)">' + dl + '</b></div>';
+      }
+      if(participants !== null){
+        html += '<div>👥 <b style="color:' + (isFull ? 'var(--red)' : 'var(--text)') + '">' + participants + ' / ' + s.max_participants + '</b> участников' + (isFull ? ' <span style="color:var(--red)">— мест нет</span>' : '') + '</div>';
+      }
+      if(!s.deadline && participants === null){
+        html += '<div>Мой статус: <b>' + (alreadyApplied ? 'заявка подана' : (locked ? 'нет доступа' : 'можно подать')) + '</b></div>';
+      }
+      html += '</div>';
 
       if(locked){
-        const note = document.createElement('div'); note.className = 'stage-locked-note';
-        note.innerHTML = '<svg class="i"><use href="#i-lock"/></svg> Нужен уровень ' + (s.number - 1) + ' (у вас ' + (userProfile ? userProfile.level : 0) + ')';
-        card.appendChild(note);
-      } else if(s.status === 'open'){
-        const btn = document.createElement('a');
-        btn.className = 'btn btn-primary btn-block';
-        btn.href = '#apply';
-        btn.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' + (myApplications.some(a => a.stage_id === s.id) ? 'Моя заявка' : 'Подать заявку') + '</span>';
-        btn.addEventListener('click', e => { e.preventDefault(); openApply(s.id); });
-        card.appendChild(btn);
-      } else if(s.status === 'closed'){
-        const note = document.createElement('div'); note.className = 'stage-desc';
-        note.textContent = 'Приём заявок закрыт.';
-        card.appendChild(note);
+        html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> Нужен уровень ' + minLvl + ' (у вас ' + userLvl + ')</div>';
       }
+
+      card.innerHTML = html;
+
+      const btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap';
 
       if(s.level_url){
         const a = document.createElement('a');
         a.className = 'btn btn-ghost btn-sm';
         a.href = s.level_url; a.target = '_blank'; a.rel = 'noopener';
         a.innerHTML = '<svg class="i"><use href="#i-play"/></svg><span>Уровень</span>';
-        card.appendChild(a);
+        btnRow.appendChild(a);
       }
+
+      if(!locked && s.status === 'open' && !expired){
+        const btn = document.createElement('a');
+        btn.className = 'btn btn-primary';
+        btn.style.flex = '1';
+        btn.href = '#apply';
+        btn.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' +
+          (alreadyApplied ? 'Моя заявка' : (isFull ? 'Мест нет' : 'Подать заявку')) + '</span>';
+        if(isFull && !alreadyApplied){
+          btn.style.opacity = '.5';
+          btn.style.pointerEvents = 'none';
+        } else {
+          btn.addEventListener('click', e => { e.preventDefault(); openApply(s.id); });
+        }
+        btnRow.appendChild(btn);
+      }
+
+      if(btnRow.children.length) card.appendChild(btnRow);
 
       grid.appendChild(card);
     });
@@ -913,11 +992,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
     if(!user){ gate.classList.remove('hidden'); return; }
     if(!canAccessStage(stage) && !editingId){
-      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + (stage.number - 1) + ', а у вас ' + (userProfile ? userProfile.level : 0) + '. Пройдите предыдущие этапы.';
+      const minLvl = stage.min_level != null ? stage.min_level : (stage.number - 1);
+      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + minLvl + ', а у вас ' + (userProfile ? userProfile.level : 0) + '. Пройдите предыдущие этапы.';
       blocked.classList.remove('hidden'); return;
     }
     if(stage.status !== 'open' && !editingId){
       $('#apply-blocked-reason').textContent = 'Приём заявок на этот этап закрыт.';
+      blocked.classList.remove('hidden'); return;
+    }
+    if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){
+      $('#apply-blocked-reason').textContent = 'Время подачи заявок истекло.';
       blocked.classList.remove('hidden'); return;
     }
     wrap.classList.remove('hidden');
@@ -1038,9 +1122,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const tb = $('#leaderboard-body');
       tb.replaceChildren();
       if(!list.length){
-        const tr = document.createElement('tr');
-        tr.innerHTML = '<td colspan="4" class="empty">Пока нет участников</td>';
-        tb.appendChild(tr);
+        tb.innerHTML = '<tr><td colspan="4" class="empty">Пока нет участников</td></tr>';
         return;
       }
       list.forEach((p, i) => {
@@ -1056,8 +1138,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       });
     }catch(err){ console.error(err); }
   }
-
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
   /* ============ CABINET ============ */
   async function loadProfile(){
@@ -1186,25 +1266,28 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     else renderAdminApps();
   }
 
-  /* --- STAGES TAB --- */
   async function renderAdminStages(){
     await loadStages();
+    await loadAdminApps();
     const tb = $('#admin-stages-body');
     tb.replaceChildren();
     if(!stages.length){
-      tb.innerHTML = '<tr><td colspan="6" class="empty">Этапов нет. Создай первый.</td></tr>';
+      tb.innerHTML = '<tr><td colspan="5" class="empty">Этапов нет. Создай первый.</td></tr>';
       return;
     }
     stages.forEach(s => {
       const tr = document.createElement('tr');
       const appsCount = adminApps.filter(a => a.stage_id === s.id).length;
 
+      const levelInfo = [s.level_name, s.difficulty, s.level_id].filter(Boolean).join(' · ') || '—';
+
       tr.innerHTML =
         '<td style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:18px">' + s.number + '</td>' +
-        '<td style="font-weight:600">' + escapeHtml(s.title || '—') + '</td>' +
-        '<td style="color:var(--muted);font-size:13px;max-width:260px">' + escapeHtml(s.description || '—') + '</td>' +
-        '<td><span class="status-badge ' + s.status + '">' + stageStatusLabel(s) + '</span></td>' +
-        '<td style="color:var(--muted)">' + appsCount + '</td>';
+        '<td><div style="font-weight:600">' + escapeHtml(s.title || '—') + '</div>' +
+        (s.task ? '<div style="color:var(--muted);font-size:12px;margin-top:2px">' + escapeHtml(s.task.slice(0,60)) + (s.task.length > 60 ? '…' : '') + '</div>' : '') +
+        '<div style="color:var(--muted);font-size:11.5px;margin-top:4px">Заявок: ' + appsCount + '</div></td>' +
+        '<td style="font-size:12px;color:var(--muted)">' + escapeHtml(levelInfo) + '</td>' +
+        '<td><span class="status-badge ' + s.status + '">' + stageStatusLabel(s) + '</span></td>';
 
       const actions = document.createElement('td');
       const wrap = document.createElement('div'); wrap.className = 'admin-actions';
@@ -1233,15 +1316,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const editBtn = document.createElement('button');
       editBtn.className = 'btn btn-ghost btn-sm';
       editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg>';
-      editBtn.addEventListener('click', () => {
-        const newTitle = prompt('Название этапа:', s.title || '');
-        if(newTitle === null) return;
-        const newDesc = prompt('Описание:', s.description || '');
-        if(newDesc === null) return;
-        const newUrl = prompt('Ссылка на уровень:', s.level_url || '');
-        if(newUrl === null) return;
-        updateStage(s.id, { title: newTitle, description: newDesc, level_url: newUrl });
-      });
+      editBtn.addEventListener('click', () => editStage(s));
       wrap.appendChild(editBtn);
 
       const delBtn = document.createElement('button');
@@ -1264,6 +1339,49 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
+  async function editStage(s){
+    const newTitle = prompt('Название этапа:', s.title || '');
+    if(newTitle === null) return;
+    const newDesc = prompt('Описание:', s.description || '');
+    if(newDesc === null) return;
+    const newTask = prompt('Задача:', s.task || '');
+    if(newTask === null) return;
+    const newRules = prompt('Правила (можно несколько строк):', s.rules || '');
+    if(newRules === null) return;
+    const newReward = prompt('Награда:', s.reward || '');
+    if(newReward === null) return;
+    const newLevelName = prompt('Название уровня:', s.level_name || '');
+    if(newLevelName === null) return;
+    const newLevelId = prompt('ID уровня в GD:', s.level_id || '');
+    if(newLevelId === null) return;
+    const newDiff = prompt('Сложность (Easy/Normal/Hard/Harder/Insane/Extreme Demon):', s.difficulty || '');
+    if(newDiff === null) return;
+    const newUrl = prompt('Ссылка на видео уровня:', s.level_url || '');
+    if(newUrl === null) return;
+    const newMax = prompt('Лимит участников (пусто = без лимита):', s.max_participants || '');
+    if(newMax === null) return;
+    const newMinLvl = prompt('Минимальный уровень (пусто = авто):', s.min_level != null ? s.min_level : '');
+    if(newMinLvl === null) return;
+    const newDeadline = prompt('Дедлайн (ISO формат, пусто = без дедлайна):\nПример: 2025-12-31T23:59:00', s.deadline || '');
+    if(newDeadline === null) return;
+
+    const patch = {
+      title: newTitle,
+      description: newDesc || null,
+      task: newTask || null,
+      rules: newRules || null,
+      reward: newReward || null,
+      level_name: newLevelName || null,
+      level_id: newLevelId || null,
+      difficulty: newDiff || null,
+      level_url: newUrl || null,
+      max_participants: newMax ? parseInt(newMax, 10) : null,
+      min_level: newMinLvl !== '' ? parseInt(newMinLvl, 10) : null,
+      deadline: newDeadline ? new Date(newDeadline).toISOString() : null
+    };
+    updateStage(s.id, patch);
+  }
+
   async function updateStage(id, patch){
     const { error } = await sb.from('stages').update(patch).eq('id', id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
@@ -1276,22 +1394,43 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $('#create-stage-btn').addEventListener('click', async () => {
     const num = parseInt($('#new-stage-number').value, 10);
     const title = $('#new-stage-title').value.trim();
-    const desc = $('#new-stage-desc').value.trim();
-    const url = $('#new-stage-url').value.trim();
     if(!num || num < 1){ toast('Укажи номер этапа', true); return; }
     if(!title){ toast('Укажи название', true); return; }
 
-    const { error } = await sb.from('stages').insert([{ number: num, title, description: desc, level_url: url, status: 'draft' }]);
+    const deadlineRaw = $('#new-stage-deadline').value;
+    const maxRaw = $('#new-stage-max').value;
+    const minLvlRaw = $('#new-stage-min-level').value;
+
+    const payload = {
+      number: num,
+      title,
+      description: $('#new-stage-desc').value.trim() || null,
+      task: $('#new-stage-task').value.trim() || null,
+      rules: $('#new-stage-rules').value.trim() || null,
+      reward: $('#new-stage-reward').value.trim() || null,
+      level_id: $('#new-stage-level-id').value.trim() || null,
+      level_name: $('#new-stage-level-name').value.trim() || null,
+      difficulty: $('#new-stage-difficulty').value || null,
+      level_url: $('#new-stage-level-url').value.trim() || null,
+      deadline: deadlineRaw ? new Date(deadlineRaw).toISOString() : null,
+      max_participants: maxRaw ? parseInt(maxRaw, 10) : null,
+      min_level: minLvlRaw !== '' ? parseInt(minLvlRaw, 10) : (num - 1),
+      status: 'draft'
+    };
+
+    const { error } = await sb.from('stages').insert([payload]);
     if(error){
       if(/duplicate|unique/i.test(error.message)) toast('Этап с таким номером уже есть', true);
       else toast('Ошибка: ' + error.message, true);
       return;
     }
     toast('Этап создан');
+    ['new-stage-title','new-stage-desc','new-stage-task','new-stage-rules','new-stage-reward',
+     'new-stage-level-id','new-stage-level-name','new-stage-level-url','new-stage-deadline',
+     'new-stage-max'].forEach(id => { const el = $('#'+id); if(el) el.value = ''; });
     $('#new-stage-number').value = num + 1;
-    $('#new-stage-title').value = '';
-    $('#new-stage-desc').value = '';
-    $('#new-stage-url').value = '';
+    $('#new-stage-min-level').value = num;
+    $('#new-stage-difficulty').value = '';
     await loadStages();
     renderAdminStages();
   });
@@ -1357,7 +1496,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(adminAppFilter !== 'all') list = list.filter(a => a.status === adminAppFilter);
 
     if(!list.length){
-      tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>';
+      tb.innerHTML = '<tr><td colspan="7" class="empty">Заявок нет</td></tr>';
       return;
     }
 
@@ -1385,10 +1524,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         tdVideo.appendChild(lnk);
       } else tdVideo.textContent = '—';
       tr.appendChild(tdVideo);
-
-      const td6 = document.createElement('td');
-      td6.textContent = a.platform || '—';
-      tr.appendChild(td6);
 
       const td7 = document.createElement('td');
       const b = document.createElement('span');
@@ -1481,6 +1616,18 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }
   });
 
+  // Проверяем ошибку resend и возвращаем ключ перевода/строку
+  function resendErrorMessage(reErr){
+    const rm = ((reErr && reErr.message) || '').toLowerCase();
+    if(/already.*confirm|already.*registered|email.*already/i.test(rm)){
+      return 'Этот email уже зарегистрирован. Войди в аккаунт или сбрось пароль.';
+    }
+    if(/rate|limit|too many|for security/i.test(rm)){
+      return 'Письмо уже отправлялось недавно. Подожди минуту и попробуй снова.';
+    }
+    return null;
+  }
+
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault();
     const email = e.target.elements.email.value.trim();
@@ -1526,31 +1673,89 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const btn = formEl.querySelector('button[type="submit"]');
     const prev = btn.textContent;
     btn.disabled = true; btn.textContent = 'Отправляем…';
-    const redirectTo = location.origin + location.pathname + location.search;
+
+    const redirectTo = location.protocol === 'file:'
+      ? 'https://' + location.hostname
+      : location.origin + location.pathname + location.search;
 
     try{
-      const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
+      const { data, error } = await sb.auth.signUp({
+        email, password, options: { emailRedirectTo: redirectTo }
+      });
       console.log('[signUp]', { data, error });
 
+      // 1. Ошибка от Supabase
       if(error){
         const msg = (error.message || '').toLowerCase();
-        if(/rate|limit|too many/i.test(msg)){ setAuthError('register', 'Письмо уже отправлялось. Подожди минуту.'); return; }
-        if(/already|registered|exists/i.test(msg)){
-          try{ await sb.auth.resend({ type:'signup', email, options:{ emailRedirectTo: redirectTo } }); }catch(_){}
-          showRegisterSuccess(email); formEl.reset(); return;
+
+        // Rate limit на письма
+        if(/rate|limit|too many|for security/i.test(msg)){
+          setAuthError('register', 'Письмо уже отправлялось недавно. Подожди минуту и попробуй снова.');
+          return;
         }
+
+        // Аккаунт уже есть — пробуем переотправить письмо и показываем ЧЕСТНЫЙ результат
+        if(/already|registered|exists/i.test(msg)){
+          let resendOk = false;
+          try{
+            const { error: reErr } = await sb.auth.resend({
+              type: 'signup', email, options: { emailRedirectTo: redirectTo }
+            });
+            if(!reErr){
+              resendOk = true;
+            } else {
+              const userMsg = resendErrorMessage(reErr);
+              if(userMsg){ setAuthError('register', userMsg); return; }
+            }
+          }catch(_){}
+
+          if(resendOk){
+            showRegisterSuccess(email);
+            formEl.reset();
+          } else {
+            setAuthError('register', 'Этот email уже зарегистрирован. Попробуй войти или сбросить пароль.');
+          }
+          return;
+        }
+
         setAuthError('register', 'Ошибка. Попробуй ещё.');
         return;
       }
 
-      const existing = data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0;
+      // 2. Пользователь существует, но не подтверждён (identities пустой массив)
+      const isExistingUnconfirmed = data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0;
+
+      // 3. Нет сессии — значит нужно подтверждение email
       if(!data.session){
-        if(existing){
-          try{ await sb.auth.resend({ type:'signup', email, options:{ emailRedirectTo: redirectTo } }); }catch(_){}
+        if(isExistingUnconfirmed){
+          let resendOk = false;
+          try{
+            const { error: reErr } = await sb.auth.resend({
+              type: 'signup', email, options: { emailRedirectTo: redirectTo }
+            });
+            if(!reErr) resendOk = true;
+            else {
+              const userMsg = resendErrorMessage(reErr);
+              if(userMsg){ setAuthError('register', userMsg); return; }
+            }
+          }catch(_){}
+
+          if(resendOk){
+            showRegisterSuccess(email);
+            formEl.reset();
+          } else {
+            setAuthError('register', 'Этот email уже зарегистрирован. Проверь почту или войди.');
+          }
+          return;
         }
-        showRegisterSuccess(email); formEl.reset(); return;
+
+        // Новая регистрация — письмо уже ушло автоматически
+        showRegisterSuccess(email);
+        formEl.reset();
+        return;
       }
 
+      // 4. Confirm email выключен — сразу залогинен
       formEl.reset();
       toast('Аккаунт создан!');
       await afterLogin();
@@ -1577,6 +1782,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await loadProfile();
     await loadMyApplications();
     await loadStages();
+    if(isAdmin()) await loadAdminApps();
     renderCabinet();
     renderAdmin();
     renderStages();
@@ -1584,14 +1790,23 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   async function initAuth(){
     if(!sb) return;
+
+    // Чистим URL от токенов после подтверждения email/сброса пароля
+    const hash = location.hash || '';
+    if(hash.includes('access_token=') || hash.includes('error_description=')){
+      try{ history.replaceState(null, '', location.pathname + location.search); }catch(_){}
+    }
+
     const { data } = await sb.auth.getSession();
     user = data.session ? data.session.user : null;
+
     sb.auth.onAuthStateChange((_ev, s) => {
       const wasUser = user;
       user = s ? s.user : null;
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
       else if(!user){ userProfile = null; myApplications = []; renderCabinet(); renderAdmin(); renderStages(); }
     });
+
     if(user) await afterLogin();
     else { renderCabinet(); renderAdmin(); }
   }
