@@ -4,20 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>International Geometry Dash Community Cup</title>
-<meta name="description" content="International Geometry Dash Community Cup — турнир по Geometry Dash.">
 <meta name="theme-color" content="#050a17">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>
-try{var l=localStorage.getItem('gdcc-lang');if(l==='ru'||l==='en')document.documentElement.setAttribute('data-lang-chosen',l);}catch(e){}
-</script>
-<noscript><style>.lang-gate{display:none!important}html:not([data-lang-chosen]) body{overflow:auto!important}</style></noscript>
+<script>try{var l=localStorage.getItem('gdcc-lang');if(l==='ru'||l==='en')document.documentElement.setAttribute('data-lang-chosen',l);}catch(e){}</script>
 <style>
-:root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;color-scheme:dark}
+:root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;--purple:#b36bff;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
 .i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
@@ -27,7 +23,7 @@ h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
 html[data-lang-chosen] .lang-gate{display:none}
 html:not([data-lang-chosen]) body{overflow:hidden}
 .gate-card{width:min(460px,100%);text-align:center;padding:38px 28px 30px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(14,26,58,.92),rgba(9,18,42,.96));box-shadow:0 0 60px rgba(31,139,255,.18)}
-.gate-mark{width:56px;height:56px;margin:0 auto 16px;display:block;filter:drop-shadow(0 0 14px rgba(56,182,255,.6))}
+.gate-mark{width:56px;height:56px;margin:0 auto 16px;filter:drop-shadow(0 0 14px rgba(56,182,255,.6))}
 .gate-name{font-style:italic;font-weight:800;text-transform:uppercase;font-size:clamp(19px,4.6vw,24px);line-height:1.15}
 .gate-ask{color:var(--muted);font-size:14px;margin:10px 0 24px}
 .gate-btns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -35,186 +31,217 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .gate-btn small{font:500 13px 'Inter',sans-serif;letter-spacing:0;color:var(--muted)}
 .gate-btn:hover,.gate-btn:focus-visible{outline:none;border-color:var(--blue-2);background:rgba(31,139,255,.14);transform:translateY(-2px)}
 .header{position:sticky;top:0;z-index:50;background:rgba(5,10,23,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft)}
-.header-in{max-width:1280px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:28px}
+.header-in{max-width:1280px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;gap:22px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex:none}
 .logo-mark{width:38px;height:38px;filter:drop-shadow(0 0 10px rgba(56,182,255,.55))}
-.logo-text{font-family:'Exo 2',sans-serif;font-weight:800;font-size:13px;line-height:1.1;letter-spacing:.05em;white-space:nowrap}
+.logo-text{font-family:'Exo 2',sans-serif;font-weight:800;font-size:12px;line-height:1.1;letter-spacing:.05em;white-space:nowrap}
 .logo-text span{color:var(--blue-2)}
 .nav{display:flex;gap:2px;margin:0 auto}
-.nav a,.nav-login{position:relative;display:flex;align-items:center;gap:8px;padding:0 13px;height:68px;color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap;transition:color .2s}
+.nav a,.nav-login{position:relative;display:flex;align-items:center;gap:8px;padding:0 12px;height:68px;color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:500;white-space:nowrap;transition:color .2s}
 .nav a .i{font-size:16px}
 .nav a:hover{color:var(--text)}
 .nav a.active{color:var(--blue-2)}
 .nav a.active::after{content:"";position:absolute;left:10px;right:10px;bottom:0;height:2px;background:var(--blue-2);box-shadow:0 0 12px var(--blue-2)}
 .nav-login{display:none;background:none;border:0;font-family:inherit;cursor:pointer;width:100%;text-align:left}
-.header-actions{display:flex;align-items:center;gap:14px;flex:none}
+.header-actions{display:flex;align-items:center;gap:12px;flex:none}
 .burger{display:none;place-items:center;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);font-size:22px;cursor:pointer}
 .lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:2px;background:rgba(10,20,45,.6)}
-.lang button{height:30px;min-width:38px;padding:0 9px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 12px 'Inter',sans-serif;letter-spacing:.06em;cursor:pointer;transition:.2s}
+.lang button{height:30px;min-width:38px;padding:0 9px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:600 12px 'Inter',sans-serif;cursor:pointer;transition:.2s}
 .lang button[aria-pressed="true"]{background:var(--blue);color:#fff}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 26px;border-radius:10px;border:1px solid transparent;font:600 15px 'Inter',sans-serif;color:#fff;cursor:pointer;text-decoration:none;transition:.2s}
-.btn .i{font-size:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:10px;border:1px solid transparent;font:600 14px 'Inter',sans-serif;color:#fff;cursor:pointer;text-decoration:none;transition:.2s;white-space:nowrap}
+.btn .i{font-size:16px}
 .btn-primary{background:linear-gradient(180deg,#2a98ff,#1169e8);box-shadow:0 8px 28px rgba(31,139,255,.35)}
 .btn-primary:hover{transform:translateY(-1px)}
-.btn-primary:disabled{opacity:.6;cursor:progress;transform:none}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-ghost{background:transparent;border-color:var(--blue);color:var(--blue-2)}
 .btn-ghost:hover{background:rgba(31,139,255,.14)}
-.btn-sm{height:36px;padding:0 18px;font-size:13px;border-radius:999px}
+.btn-sm{height:34px;padding:0 14px;font-size:13px;border-radius:8px}
 .btn-block{width:100%}
 .btn-danger{background:transparent;border-color:rgba(255,93,115,.5);color:var(--red)}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-success:hover{transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(180deg,#f6c344,#d69b1a)}
+.btn-gold:hover{transform:translateY(-1px)}
 main{flex:1}
 .page{display:none}
-.page.active{display:block;animation:fade .35s ease}
+.page.active{display:block;animation:fade .3s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.page-head{padding:56px 0 28px;max-width:760px}
+.page-head{padding:48px 0 24px;max-width:760px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:12px}
-.page-head h1{font-size:clamp(30px,4vw,44px);font-weight:800;margin-bottom:12px}
-.page-head p{color:var(--muted);font-size:16px}
-.page-body{padding-bottom:72px}
-.card{background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));border:1px solid var(--line);border-radius:16px;padding:24px}
+.page-head h1{font-size:clamp(28px,3.6vw,40px);font-weight:800;margin-bottom:10px}
+.page-head p{color:var(--muted);font-size:15.5px}
+.page-body{padding-bottom:64px}
+.card{background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));border:1px solid var(--line);border-radius:16px;padding:22px}
 .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,#071230 0%,#050a17 100%)}
 .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);opacity:.8}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(500px 300px at 12% 45%,rgba(31,139,255,.28),transparent 70%)}
 .spikes{position:absolute;left:0;right:0;bottom:0;width:100%;height:24px;z-index:1;opacity:.8}
-.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:300px 1fr 280px;align-items:center;gap:32px;padding:64px 24px 72px}
-.hero-text{min-width:0}
-.hero-art{width:100%;max-width:300px;height:auto;animation:float 6s ease-in-out infinite}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:280px 1fr 260px;align-items:center;gap:28px;padding:56px 24px 68px}
+.hero-art{width:100%;max-width:280px;height:auto;animation:float 6s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hero-title{font-style:italic;font-weight:900;text-transform:uppercase;line-height:.95}
-.hero-title .l1{display:block;font-size:clamp(32px,4.2vw,56px);color:#fff}
-.hero-title .l2{display:block;font-size:clamp(32px,4.6vw,62px);background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero-sub{font-family:'Exo 2',sans-serif;font-weight:600;letter-spacing:.5em;font-size:clamp(13px,1.4vw,17px);color:#cfe0ff;margin-top:10px;text-transform:uppercase}
-.hero-lead{font-size:clamp(17px,1.6vw,21px);font-weight:600;margin-top:28px}
+.hero-title .l1{display:block;font-size:clamp(30px,4vw,52px);color:#fff}
+.hero-title .l2{display:block;font-size:clamp(30px,4.4vw,58px);background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{font-family:'Exo 2',sans-serif;font-weight:600;letter-spacing:.5em;font-size:clamp(12px,1.3vw,16px);color:#cfe0ff;margin-top:10px;text-transform:uppercase}
+.hero-lead{font-size:clamp(16px,1.5vw,20px);font-weight:600;margin-top:24px}
 .hero-desc{color:var(--muted);font-size:13px;margin-top:6px}
-.hero-cta{display:flex;align-items:center;gap:28px;margin-top:26px;flex-wrap:wrap}
-.hero-quote{font-family:'Exo 2',sans-serif;font-style:italic;font-weight:600;font-size:20px;color:#3da5ff;transform:rotate(-7deg)}
-.stat-card{background:rgba(10,20,45,.78);border:1px solid var(--line);border-radius:18px;padding:30px 24px;text-align:center;backdrop-filter:blur(6px)}
-.stat-icon{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 14px;border-radius:16px;background:rgba(31,139,255,.15);color:var(--blue-2);font-size:28px}
-.stat-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:56px;line-height:1}
-.stat-label{color:var(--muted);font-size:14px;margin-top:8px}
-.section{padding:56px 0 8px}
-.section h2{font-size:28px;font-weight:800;margin-bottom:22px}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.hero-cta{display:flex;align-items:center;gap:24px;margin-top:24px;flex-wrap:wrap}
+.hero-quote{font-family:'Exo 2',sans-serif;font-style:italic;font-weight:600;font-size:18px;color:#3da5ff;transform:rotate(-7deg)}
+.stat-card{background:rgba(10,20,45,.78);border:1px solid var(--line);border-radius:18px;padding:26px 20px;text-align:center;backdrop-filter:blur(6px)}
+.stat-icon{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 12px;border-radius:14px;background:rgba(31,139,255,.15);color:var(--blue-2);font-size:26px}
+.stat-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:48px;line-height:1}
+.stat-label{color:var(--muted);font-size:13px;margin-top:6px}
+.section{padding:48px 0 8px}
+.section h2{font-size:26px;font-weight:800;margin-bottom:20px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .step{display:flex;flex-direction:column;gap:10px;text-decoration:none;transition:.2s}
 .step:hover{transform:translateY(-3px);border-color:var(--blue-2)}
-.num{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--blue);font-weight:700;font-size:15px;flex:none}
-.step h3{font-size:18px;font-weight:700}
-.step p{color:var(--muted);font-size:14px;flex:1}
-.step .go{display:inline-flex;align-items:center;gap:6px;color:var(--blue-2);font-size:14px;font-weight:600}
-.features{display:grid;grid-template-columns:repeat(4,1fr);margin:56px 0 72px;border:1px solid var(--line-soft);border-radius:16px;background:rgba(9,18,42,.7);overflow:hidden}
-.feature{display:flex;align-items:center;gap:16px;padding:24px 26px}
+.num{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--blue);font-weight:700;font-size:14px;flex:none}
+.step h3{font-size:17px;font-weight:700}
+.step p{color:var(--muted);font-size:13.5px;flex:1}
+.step .go{display:inline-flex;align-items:center;gap:6px;color:var(--blue-2);font-size:13px;font-weight:600}
+.features{display:grid;grid-template-columns:repeat(4,1fr);margin:48px 0 64px;border:1px solid var(--line-soft);border-radius:16px;background:rgba(9,18,42,.7);overflow:hidden}
+.feature{display:flex;align-items:center;gap:14px;padding:22px}
 .feature + .feature{border-left:1px solid var(--line-soft)}
-.feature .i{font-size:34px;color:var(--blue-2);stroke-width:1.5}
-.feature b{display:block;font-size:14px}
-.feature span{color:var(--muted);font-size:12.5px}
-.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.rule{display:flex;gap:18px;align-items:flex-start}
-.rule h3{font-size:18px;font-weight:700;margin-bottom:6px}
-.rule p{color:#b9c8e6;font-size:14.5px}
-.rule .num{width:38px;height:38px}
-.rule.danger .num{background:var(--red)}
-.docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
-.doc{display:flex;align-items:center;gap:18px}
-.doc-ico{display:grid;place-items:center;width:60px;height:60px;border-radius:14px;font-size:28px;flex:none;border:1px solid var(--line-soft)}
-.c-blue{color:var(--blue-2);background:rgba(31,139,255,.12)}
-.c-purple{color:#b36bff;background:rgba(179,107,255,.12)}
-.doc-info{flex:1;min-width:0}
-.doc-info h3{font-size:17px;font-weight:700;margin-bottom:4px}
-.doc-info p{color:var(--muted);font-size:14px}
-.prep{margin-top:24px}
-.prep h3{display:flex;align-items:center;gap:10px;font-size:20px;margin-bottom:18px}
-.prep h3 .i{color:var(--blue-2);font-size:22px}
-.prep ol{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:16px 28px}
-.prep li{display:flex;align-items:flex-start;gap:14px;color:#b9c8e6;font-size:14.5px}
-.prep li .num{width:28px;height:28px;font-size:13px;margin-top:-2px}
-.apply-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
-.field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.feature .i{font-size:32px;color:var(--blue-2);stroke-width:1.5}
+.feature b{display:block;font-size:13.5px}
+.feature span{color:var(--muted);font-size:12px}
+
+/* ===== STAGES ===== */
+.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:14px}
+.stage-card:hover{transform:translateY(-3px)}
+.stage-card.open:hover{border-color:var(--green);box-shadow:0 10px 34px rgba(47,212,138,.18)}
+.stage-card.closed{opacity:.75}
+.stage-card.locked{opacity:.6}
+.stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.stage-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:36px;line-height:1;background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stage-status{padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.stage-status.open{background:rgba(47,212,138,.14);color:var(--green)}
+.stage-status.closed{background:rgba(143,164,203,.14);color:var(--muted)}
+.stage-status.draft{background:rgba(246,183,60,.14);color:var(--gold)}
+.stage-title{font-size:19px;font-weight:700}
+.stage-desc{color:var(--muted);font-size:13.5px;flex:1}
+.stage-meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);padding-top:8px;border-top:1px solid var(--line-soft)}
+.stage-meta b{color:var(--text);font-weight:600}
+.stage-locked-note{padding:10px 14px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.3);color:var(--red);font-size:12.5px;display:flex;gap:8px;align-items:center}
+
+/* ===== LEADERBOARD ===== */
+.lb-podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
+.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));position:relative;overflow:hidden}
+.podium-card.first{border-color:var(--gold);box-shadow:0 0 40px rgba(246,183,60,.2)}
+.podium-card.second{border-color:#c0c8d8}
+.podium-card.third{border-color:#c98555}
+.podium-rank{font-family:'Exo 2',sans-serif;font-weight:900;font-size:44px;line-height:1;margin-bottom:10px}
+.podium-card.first .podium-rank{color:var(--gold)}
+.podium-card.second .podium-rank{color:#c0c8d8}
+.podium-card.third .podium-rank{color:#c98555}
+.podium-nick{font-weight:700;font-size:18px;margin-bottom:6px;word-break:break-word}
+.podium-level{font-family:'Exo 2',sans-serif;font-weight:800;font-size:32px;color:var(--blue-2);line-height:1}
+.podium-level-label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+
+/* ===== Forms ===== */
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
 .field label{font-size:13px;color:var(--muted)}
 .req{color:var(--red)}
-.input{width:100%;height:46px;padding:0 14px;background:#070f24;border:1px solid var(--line);border-radius:10px;color:var(--text);font:400 14px 'Inter',sans-serif;outline:none;transition:.2s}
+.input{width:100%;height:44px;padding:0 14px;background:#070f24;border:1px solid var(--line);border-radius:10px;color:var(--text);font:400 14px 'Inter',sans-serif;outline:none;transition:.2s}
 .input::placeholder{color:#5b6f96}
-textarea.input{height:120px;padding:12px 14px;resize:vertical}
+textarea.input{height:110px;padding:12px 14px;resize:vertical;font-family:inherit}
 select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238fa4cb' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
 .input:focus{border-color:var(--blue-2);box-shadow:0 0 0 3px rgba(56,182,255,.18)}
 .input.invalid{border-color:var(--red)}
 .error{display:none;font-size:12.5px;color:var(--red)}
 .error.show{display:block}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .hint{font-size:12px;color:#6d82a9}
-.check-wrap{margin:4px 0 22px}
+.check-wrap{margin:4px 0 20px}
 .check{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#b9c8e6;cursor:pointer}
 .check input{width:18px;height:18px;margin-top:2px;accent-color:var(--blue);flex:none}
 .check.invalid{color:var(--red)}
 .check a{color:var(--blue-2)}
-.aside-list{list-style:none;display:grid;gap:14px;margin-top:14px}
-.aside-list li{display:flex;gap:12px;font-size:14px;color:#b9c8e6}
+.aside-list{list-style:none;display:grid;gap:12px;margin-top:12px}
+.aside-list li{display:flex;gap:12px;font-size:13.5px;color:#b9c8e6}
 .aside-list .i{color:var(--green);font-size:20px;margin-top:1px}
 .aside-list a{color:var(--blue-2)}
-.success{text-align:center;padding:48px 24px}
-.success .stat-icon{background:rgba(47,212,138,.14);color:var(--green);width:72px;height:72px;font-size:36px}
-.success h2{font-size:26px;margin-bottom:10px}
-.success p{color:var(--muted);max-width:440px;margin:0 auto 24px}
-.auth-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px}
-.auth-tabs button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 14px 'Inter',sans-serif;cursor:pointer;transition:.2s}
-.auth-tabs button.active{background:var(--blue);color:#fff}
-.auth-note{font-size:12.5px;color:var(--muted);margin-top:14px;text-align:center}
-.auth-note a{color:var(--blue-2)}
-.cab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.success{text-align:center;padding:44px 24px}
+.success .stat-icon{background:rgba(47,212,138,.14);color:var(--green);width:68px;height:68px;font-size:34px}
+.success h2{font-size:24px;margin-bottom:10px}
+.success p{color:var(--muted);max-width:440px;margin:0 auto 20px}
+
+/* ===== Cabinet ===== */
+.cab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .cab-user{font-size:13px;color:var(--muted);margin-top:6px}
 .cab-user b{color:var(--text);font-weight:600}
-.cab-card{margin-bottom:24px}
-.cab-card h2{font-size:22px;margin-bottom:16px;display:flex;align-items:center;gap:12px}
-.cab-card h2 .i{color:var(--blue-2);font-size:22px}
-.cab-row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line-soft);align-items:start}
-.cab-row:last-child{border-bottom:0}
-.cab-row dt{color:var(--muted);font-size:13px}
-.cab-row dd{word-break:break-word;font-size:14.5px}
-.cab-row dd a{color:var(--blue-2)}
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:600}
-.status-badge.pending{background:rgba(246,183,60,.14);color:var(--gold)}
-.status-badge.approved{background:rgba(47,212,138,.14);color:var(--green)}
-.status-badge.rejected{background:rgba(255,93,115,.14);color:var(--red)}
-.cab-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.cab-level-card{display:flex;align-items:center;gap:20px;padding:24px;margin-bottom:22px;border-radius:16px;background:linear-gradient(135deg,rgba(31,139,255,.15),rgba(179,107,255,.1));border:1px solid rgba(31,139,255,.35)}
+.cab-level-badge{display:grid;place-items:center;width:72px;height:72px;border-radius:18px;background:linear-gradient(180deg,#2a98ff,#1169e8);font-family:'Exo 2',sans-serif;font-weight:900;font-size:32px;color:#fff;flex:none;box-shadow:0 8px 28px rgba(31,139,255,.4)}
+.cab-level-info h2{font-size:20px;margin-bottom:4px}
+.cab-level-info p{color:var(--muted);font-size:13.5px}
+.app-list{display:grid;gap:14px}
+.app-item{padding:18px 20px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.5);display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.app-item-main{flex:1;min-width:200px}
+.app-item-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.app-item-stage{font-family:'Exo 2',sans-serif;font-weight:800;font-size:16px}
+.app-item-title{font-size:15px;font-weight:600}
+.app-item-date{font-size:12px;color:var(--muted);margin-left:auto}
+.app-item-actions{display:flex;gap:8px;flex-wrap:wrap;align-self:center}
+
+/* ===== Tables / Admin ===== */
 .table-card{padding:0;overflow:hidden}
 .table-wrap{overflow-x:auto}
 .table{width:100%;border-collapse:collapse;font-size:14px}
-.table th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:16px 22px;border-bottom:1px solid var(--line)}
-.table td{padding:14px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+.table th{text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 18px;border-bottom:1px solid var(--line)}
+.table td{padding:13px 18px;border-bottom:1px solid var(--line-soft);vertical-align:top}
 .table tr:last-child td{border-bottom:0}
-.table .empty{text-align:center;color:var(--muted);padding:48px 22px}
-.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(47,212,138,.14);color:var(--green)}
-.badge.pending{background:rgba(246,183,60,.14);color:var(--gold)}
-.badge.rejected{background:rgba(255,93,115,.14);color:var(--red)}
-.chip{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:18px;font-size:14px;color:var(--muted)}
-.chip b{font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)}
-.chip .i{color:var(--blue-2);font-size:18px}
-.empty-state{text-align:center;padding:64px 24px}
-.empty-state .stat-icon{color:var(--gold);background:rgba(246,183,60,.12);width:72px;height:72px;font-size:34px}
-.empty-state h2{font-size:24px;margin-bottom:8px}
-.empty-state p{color:var(--muted);max-width:460px;margin:0 auto 20px}
-.footer{border-top:1px solid var(--line-soft);padding:22px 0;color:#5f7399;font-size:13px}
+.table .empty{text-align:center;color:var(--muted);padding:44px 20px}
+.rank-badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;font-size:13px;background:rgba(31,139,255,.15);color:var(--blue-2)}
+.rank-badge.gold{background:rgba(246,183,60,.15);color:var(--gold)}
+.rank-badge.silver{background:rgba(192,200,216,.15);color:#c0c8d8}
+.rank-badge.bronze{background:rgba(201,133,85,.15);color:#c98555}
+.level-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(31,139,255,.14);color:var(--blue-2);font-weight:700;font-size:13px;font-family:'Exo 2',sans-serif}
+.status-badge{display:inline-flex;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:600}
+.status-badge.pending{background:rgba(246,183,60,.14);color:var(--gold)}
+.status-badge.approved{background:rgba(47,212,138,.14);color:var(--green)}
+.status-badge.rejected{background:rgba(255,93,115,.14);color:var(--red)}
+.status-badge.open{background:rgba(47,212,138,.14);color:var(--green)}
+.status-badge.closed{background:rgba(143,164,203,.14);color:var(--muted)}
+.status-badge.draft{background:rgba(246,183,60,.14);color:var(--gold)}
+.empty-state{text-align:center;padding:56px 24px}
+.empty-state .stat-icon{color:var(--gold);background:rgba(246,183,60,.12);width:68px;height:68px;font-size:32px}
+.empty-state h2{font-size:22px;margin-bottom:8px}
+.empty-state p{color:var(--muted);max-width:440px;margin:0 auto 18px}
+
+/* ===== Admin ===== */
+.admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content}
+.admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.admin-tabs button.active{background:var(--blue);color:#fff}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
+.admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;line-height:1}
+.admin-stat span{color:var(--muted);font-size:12px;margin-top:6px;display:block}
+.admin-create{display:grid;grid-template-columns:80px 1fr 1fr 1fr auto;gap:10px;margin-bottom:22px;padding:18px;border-radius:14px;border:1px dashed var(--line);background:rgba(10,20,45,.4)}
+.admin-create input{height:40px;padding:0 12px;background:#070f24;border:1px solid var(--line);border-radius:9px;color:var(--text);font:400 13.5px 'Inter',sans-serif;outline:none}
+.admin-create input:focus{border-color:var(--blue-2)}
+.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
+.admin-actions .btn{height:30px;padding:0 10px;font-size:11.5px;border-radius:7px}
+.admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.admin-filters select{padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--text);font:600 13px 'Inter',sans-serif;cursor:pointer}
+.admin-filters button{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--muted);font:600 12.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.admin-filters button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.video-link{color:var(--blue-2);word-break:break-all;font-size:12.5px}
+.auth-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:20px}
+.auth-tabs button{flex:1;height:38px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.auth-tabs button.active{background:var(--blue);color:#fff}
+.auth-note{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center}
+.auth-note a{color:var(--blue-2)}
+.footer{border-top:1px solid var(--line-soft);padding:20px 0;color:#5f7399;font-size:13px}
 .footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
-.admin-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.admin-filters button{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:rgba(10,20,45,.6);color:var(--muted);font:600 13px 'Inter',sans-serif;cursor:pointer;transition:.2s}
-.admin-filters button:hover{color:var(--text)}
-.admin-filters button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.admin-stat{padding:18px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
-.admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:32px;font-weight:800;line-height:1}
-.admin-stat span{color:var(--muted);font-size:12.5px;margin-top:6px;display:block}
-.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
-.admin-actions .btn{height:32px;padding:0 12px;font-size:12px;border-radius:8px}
-.video-link{color:var(--blue-2);word-break:break-all;font-size:13px}
-@media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:48px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
-@media(max-width:1100px){.hero-in{grid-template-columns:1fr 260px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:260px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.apply-grid{grid-template-columns:1fr}.admin-stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:44px 20px 56px}.hero-art-wrap{display:none}.steps,.rules-grid,.docs-grid,.prep ol,.field-row{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}.cab-row{grid-template-columns:1fr;gap:4px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
+@media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}.admin-create{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:40px 20px 52px}.hero-art-wrap{display:none}.steps,.field-row,.lb-podium{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}.admin-create{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -243,6 +270,11 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-admin" viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.2L12 17l-5.5 2.5 1-6.2L3 8.9 9 8z"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
 <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 2s4 4 4 8a4 4 0 0 1-8 0c0-2 2-4 2-4s-2 2-2 4c0 3 3 6 6 6s6-3 6-6c0-4-8-8-8-8z"/></symbol>
 </defs>
 </svg>
 
@@ -253,29 +285,29 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <span class="logo-text">INTERNATIONAL<br><span>GD COMMUNITY CUP</span></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#home" data-nav="home"><svg class="i"><use href="#i-home"/></svg><span data-i18n="nav.home">Главная</span></a>
-      <a href="#rules" data-nav="rules"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></a>
-      <a href="#docs" data-nav="docs"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></a>
-      <a href="#apply" data-nav="apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="nav.apply">Заявка</span></a>
-      <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
-      <a href="#participants" data-nav="participants"><svg class="i"><use href="#i-users"/></svg><span data-i18n="nav.participants">Участники</span></a>
-      <a href="#results" data-nav="results"><svg class="i"><use href="#i-trophy"/></svg><span data-i18n="nav.results">Результаты</span></a>
-      <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></a>
-      <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
+      <a href="#home" data-nav="home"><svg class="i"><use href="#i-home"/></svg><span>Главная</span></a>
+      <a href="#rules" data-nav="rules"><svg class="i"><use href="#i-rules"/></svg><span>Правила</span></a>
+      <a href="#stages" data-nav="stages"><svg class="i"><use href="#i-tag"/></svg><span>Этапы</span></a>
+      <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span>Таблица</span></a>
+      <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span>Кабинет</span></a>
+      <a href="#docs" data-nav="docs"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></a>
+      <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></a>
+      <button class="nav-login" id="login-btn-nav" type="button">Войти</button>
     </nav>
     <div class="header-actions">
       <div class="lang" role="group">
         <button type="button" data-lang="ru" aria-pressed="true">RU</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
       </div>
-      <button class="btn btn-ghost btn-sm" id="login-btn" type="button" data-i18n="btn.login">Войти</button>
-      <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+      <button class="btn btn-ghost btn-sm" id="login-btn" type="button">Войти</button>
+      <button class="burger" id="burger" type="button" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
     </div>
   </div>
 </header>
 
 <main>
 
+<!-- HOME -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -285,168 +317,170 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="hero-text">
         <h1 class="hero-title"><span class="l1">International</span><span class="l2">Geometry Dash</span></h1>
         <div class="hero-sub">Community Cup</div>
-        <p class="hero-lead" data-i18n="hero.lead">Покажи свой скилл. Докажи, что ты лучший.</p>
-        <p class="hero-desc" data-i18n="hero.desc">Турнир по Geometry Dash среди участников нашего сообщества.</p>
+        <p class="hero-lead">Покажи свой скилл. Докажи, что ты лучший.</p>
+        <p class="hero-desc">Турнир по Geometry Dash среди участников нашего сообщества.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="cta.apply">Подать заявку</span></a>
+          <a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
           <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
       </div>
       <aside class="stat-card">
         <div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div>
         <div class="stat-num" data-participants-count>—</div>
-        <div class="stat-label" data-i18n="stat.label">Участников</div>
+        <div class="stat-label">Участников</div>
       </aside>
     </div>
     <svg class="spikes" preserveAspectRatio="none"><defs><pattern id="sp" width="40" height="24" patternUnits="userSpaceOnUse"><path d="M4 24L20 4l16 20z" fill="none" stroke="#38b6ff" stroke-opacity=".55"/></pattern></defs><rect width="100%" height="24" fill="url(#sp)"/></svg>
   </div>
   <div class="wrap">
     <div class="section">
-      <h2 data-i18n="home.how">Как принять участие</h2>
+      <h2>Как принять участие</h2>
       <div class="steps">
-        <a class="card step" href="#rules"><div class="num">1</div><h3 data-i18n="step1.t">Изучи правила</h3><p data-i18n="step1.p">Формат турнира, запреты и условия участия — всё в одном месте.</p><span class="go"><span data-i18n="step1.go">К правилам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#docs"><div class="num">2</div><h3 data-i18n="step2.t">Подготовь документы</h3><p data-i18n="step2.p">Запись игры с хенд камом и включённым чит индикатором.</p><span class="go"><span data-i18n="step2.go">К документам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#apply"><div class="num">3</div><h3 data-i18n="step3.t">Подай заявку</h3><p data-i18n="step3.p">Заполни форму — мы свяжемся с тобой в Telegram или Discord.</p><span class="go"><span data-i18n="step3.go">К заявке</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#rules"><div class="num">1</div><h3>Изучи правила</h3><p>Формат турнира, запреты и условия участия.</p><span class="go">К правилам <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#docs"><div class="num">2</div><h3>Подготовь документы</h3><p>Запись игры с хенд камом и чит индикатором.</p><span class="go">К документам <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#stages"><div class="num">3</div><h3>Подай заявку на этап</h3><p>Выбери открытый этап и отправь заявку.</p><span class="go">К этапам <svg class="i"><use href="#i-arrow"/></svg></span></a>
       </div>
     </div>
     <div class="features">
-      <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b data-i18n="feat1.t">Честная игра</b><span data-i18n="feat1.d">Строгая проверка записей и античит.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-users"/></svg><div><b data-i18n="feat2.t">Сильное комьюнити</b><span data-i18n="feat2.d">Участники из нашего сообщества.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat3.t">Награды</b><span data-i18n="feat3.d">Награды и сувениры для лучших.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-star"/></svg><div><b data-i18n="feat4.t">Твой шанс</b><span data-i18n="feat4.d">Стань лучшим в нашем турнире!</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b>Честная игра</b><span>Строгая проверка записей и античит.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-users"/></svg><div><b>Сильное комьюнити</b><span>Участники из нашего сообщества.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b>Награды</b><span>Награды и сувениры для лучших.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-fire"/></svg><div><b>Прокачка уровня</b><span>Каждый пройденный этап +1 к уровню.</span></div></div>
     </div>
   </div>
 </section>
 
+<!-- RULES -->
 <section class="page" id="page-rules">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="rules.title">Правила турнира</span></div>
-      <h1 data-i18n="rules.title">Правила турнира</h1>
-      <p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
+      <div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span>Правила</span></div>
+      <h1>Правила турнира</h1>
+      <p>Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
     </div>
     <div class="page-body">
-      <div class="rules-grid">
-        <article class="card rule"><div class="num">1</div><div><h3 data-i18n="r1.t">Общие положения</h3><p data-i18n="r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
-        <article class="card rule"><div class="num">2</div><div><h3 data-i18n="r2.t">Формат проведения</h3><p data-i18n="r2.p">Игра проходит на официальных уровнях Geometry Dash. Подробный список уровней будет опубликован в день старта.</p></div></article>
-        <article class="card rule danger"><div class="num">3</div><div><h3 data-i18n="r3.t">Запрещено</h3><p data-i18n="r3.p">Использование читов, багов, стороннего ПО, модификаций, макросов и любых нечестных методов. Нарушение — дисквалификация.</p></div></article>
-        <article class="card rule"><div class="num">4</div><div><h3 data-i18n="r4.t">Подача заявки</h3><p data-i18n="r4.p">Заявку можно подать только через форму на сайте. После проверки документов и подтверждения участника вы получите доступ к серверу турнира.</p></div></article>
-        <article class="card rule"><div class="num">5</div><div><h3 data-i18n="r5.t">Награды</h3><p data-i18n="r5.p">Лучшие участники получат награды и сувениры.</p></div></article>
-        <article class="card rule"><div class="num">6</div><div><h3 data-i18n="r6.t">Финальные правила</h3><p data-i18n="r6.p">Организаторы оставляют за собой право вносить изменения в правила и формат турнира. Все спорные ситуации решаются в индивидуальном порядке.</p></div></article>
-      </div>
-      <div style="margin-top:32px;display:flex;gap:14px;flex-wrap:wrap">
-        <a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="cta.apply">Подать заявку</span></a>
-        <a class="btn btn-ghost" href="#docs"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></a>
+      <div class="rules-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат проведения</h3><p style="color:#b9c8e6;font-size:14px">Этапы открываются поочерёдно. Каждый этап — отдельный уровень. Список уровней публикуется в день старта этапа.</p></div></article>
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Подача заявки</h3><p style="color:#b9c8e6;font-size:14px">Заявка подаётся отдельно на каждый этап. Уровень растёт, когда админ одобряет видео.</p></div></article>
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Уровень</h3><p style="color:#b9c8e6;font-size:14px">Твой уровень = число одобренных этапов. Каждый следующий этап требует достаточного уровня.</p></div></article>
+        <article class="card rule" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
       </div>
     </div>
   </div>
 </section>
 
-<section class="page" id="page-docs">
+<!-- STAGES -->
+<section class="page" id="page-stages">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div>
-      <h1 data-i18n="docs.title">Необходимые документы</h1>
-      <p data-i18n="docs.lead">Что нужно подготовить, чтобы твою заявку проверили и подтвердили.</p>
+      <div class="eyebrow"><svg class="i"><use href="#i-tag"/></svg><span>Этапы турнира</span></div>
+      <h1>Этапы</h1>
+      <p>Каждый этап — отдельная подача заявки. Доступ к этапу открывается после прохождения предыдущего.</p>
     </div>
     <div class="page-body">
-      <div class="docs-grid">
-        <article class="card doc"><div class="doc-ico c-blue"><svg class="i"><use href="#i-monitor"/></svg></div><div class="doc-info"><h3 data-i18n="d1.t">Античит (чит индикатор)</h3><p data-i18n="d1.p">Скриншот или видео с включенным чит индикатором во время игры.</p></div></article>
-        <article class="card doc"><div class="doc-ico c-purple"><svg class="i"><use href="#i-camera"/></svg></div><div class="doc-info"><h3 data-i18n="d2.t">Хенд кам (руки + клавиатура)</h3><p data-i18n="d2.p">Видео с камерой, показывающее руки на клавиатуре и мыши/столе.</p></div></article>
-      </div>
-      <div class="card prep">
-        <h3><svg class="i"><use href="#i-clip"/></svg><span data-i18n="prep.t">Как подготовить запись?</span></h3>
-        <ol>
-          <li><span class="num">1</span><span data-i18n="prep.1">Включи чит индикатор (если он есть).</span></li>
-          <li><span class="num">2</span><span data-i18n="prep.2">Запиши видео с хенд камом (руки + клавиатура).</span></li>
-          <li><span class="num">3</span><span data-i18n="prep.3">Убедись, что в записи видно весь экран и интерфейс.</span></li>
-          <li><span class="num">4</span><span data-i18n="prep.4">Загрузи запись на облако и укажи ссылку в заявке.</span></li>
-        </ol>
-      </div>
-      <div style="margin-top:28px"><a class="btn btn-primary" href="#apply"><svg class="i"><use href="#i-send"/></svg><span data-i18n="docs.cta">Перейти к заявке</span></a></div>
+      <div class="stages-grid" id="stages-grid"></div>
     </div>
   </div>
 </section>
 
+<!-- APPLY -->
 <section class="page" id="page-apply">
   <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span data-i18n="apply.eyebrow">Регистрация</span></div>
-      <h1 data-i18n="apply.title">Форма подачи заявки</h1>
-      <p data-i18n="apply.lead">Заполни все поля внимательно. После отправки заявки мы свяжемся с тобой в Telegram / Discord.</p>
+    <div class="page-head" id="apply-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span>Заявка на этап</span></div>
+      <h1 id="apply-title">Форма подачи заявки</h1>
+      <p id="apply-subtitle">Заполни все поля внимательно.</p>
     </div>
     <div class="page-body">
       <div id="apply-gate" class="card hidden">
         <div class="empty-state">
           <div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div>
-          <h2 data-i18n="apply.gate.t">Нужен аккаунт</h2>
-          <p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку.</p>
-          <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.cta">Войти / Регистрация</span></a>
+          <h2>Нужен аккаунт</h2>
+          <p>Войдите или зарегистрируйтесь, чтобы подать заявку.</p>
+          <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>Войти / Регистрация</span></a>
         </div>
       </div>
-      <div class="apply-grid" id="apply-wrap">
+      <div id="apply-blocked" class="card hidden">
+        <div class="empty-state">
+          <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div>
+          <h2>Этап заблокирован</h2>
+          <p id="apply-blocked-reason">Пройди предыдущие этапы, чтобы получить доступ.</p>
+          <a class="btn btn-ghost" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
+        </div>
+      </div>
+      <div id="apply-notfound" class="card hidden">
+        <div class="empty-state">
+          <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div>
+          <h2>Этап не выбран</h2>
+          <p>Выбери этап на странице «Этапы».</p>
+          <a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
+        </div>
+      </div>
+      <div class="apply-grid" id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
-            <div id="apply-edit-banner" class="hidden" style="margin-bottom:20px;padding:12px 16px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13.5px">Режим редактирования заявки</div>
+            <div id="apply-edit-banner" class="hidden" style="margin-bottom:18px;padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13px">Режим редактирования заявки</div>
             <div class="field">
-              <label for="nick"><span data-i18n="f.nick">Ваш ник в Geometry Dash</span> <span class="req">*</span></label>
-              <input class="input" id="nick" name="nick" type="text" data-i18n-ph="f.nick.ph" placeholder="Например: Player123" maxlength="32">
+              <label for="nick">Ваш ник в Geometry Dash <span class="req">*</span></label>
+              <input class="input" id="nick" name="nick" type="text" placeholder="Например: Player123" maxlength="32">
               <div class="error" data-error-for="nick"></div>
             </div>
             <div class="field-row">
               <div class="field">
-                <label for="telegram"><span data-i18n="f.tg">Ваш Telegram</span> <span class="req">*</span></label>
+                <label for="telegram">Ваш Telegram <span class="req">*</span></label>
                 <input class="input" id="telegram" name="telegram" type="text" placeholder="@username" maxlength="33">
                 <div class="error" data-error-for="telegram"></div>
               </div>
               <div class="field">
-                <label for="discord" data-i18n="f.dc">Ваш Discord</label>
+                <label for="discord">Ваш Discord</label>
                 <input class="input" id="discord" name="discord" type="text" placeholder="username#1234" maxlength="40">
               </div>
             </div>
             <div class="field">
-              <label for="video"><span data-i18n="f.video">Ссылка на видео</span> <span class="req">*</span></label>
+              <label for="video">Ссылка на видео <span class="req">*</span></label>
               <input class="input" id="video" name="video" type="text" placeholder="https://drive.google.com/...">
-              <span class="hint" data-i18n="f.video.hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span>
+              <span class="hint">Google Drive или Yandex Disk — открой доступ по ссылке.</span>
               <div class="error" data-error-for="video"></div>
             </div>
             <div class="field">
-              <label for="platform"><span data-i18n="f.platform">Выберите платформу</span> <span class="req">*</span></label>
+              <label for="platform">Выберите платформу <span class="req">*</span></label>
               <select class="input" id="platform" name="platform">
                 <option value="PC" selected>PC</option>
                 <option value="Mobile">Mobile</option>
-                <option value="Console" data-i18n="platform.Console">Консоль</option>
+                <option value="Console">Консоль</option>
               </select>
             </div>
             <div class="field">
-              <label for="about" data-i18n="f.about">Дополнительная информация</label>
-              <textarea class="input" id="about" name="about" data-i18n-ph="f.about.ph" placeholder="Расскажите о себе..." maxlength="1000"></textarea>
+              <label for="about">Дополнительная информация</label>
+              <textarea class="input" id="about" name="about" placeholder="Расскажите о себе..." maxlength="1000"></textarea>
             </div>
             <div class="check-wrap">
               <label class="check" id="agree-label">
                 <input type="checkbox" name="agree" id="agree">
-                <span data-i18n-html="f.agree">Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span>
+                <span>Я прочитал(а) <a href="#rules">правила турнира</a> и согласен(на) с ними.</span>
               </label>
               <div class="error" data-error-for="agree"></div>
             </div>
-            <button class="btn btn-primary btn-block" id="submit-btn" type="submit"><svg class="i"><use href="#i-send"/></svg><span data-i18n="btn.submit">Отправить заявку</span></button>
+            <button class="btn btn-primary btn-block" id="submit-btn" type="submit"><svg class="i"><use href="#i-send"/></svg><span>Отправить заявку</span></button>
           </form>
           <div class="success hidden" id="apply-success">
             <div class="stat-icon"><svg class="i"><use href="#i-check"/></svg></div>
-            <h2 data-i18n="success.t">Заявка отправлена!</h2>
-            <p data-i18n="success.p">Мы проверим твою запись и свяжемся с тобой.</p>
+            <h2>Заявка отправлена!</h2>
+            <p>Мы проверим твоё видео и свяжемся с тобой.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-              <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="success.cabinet">В личный кабинет</span></a>
-              <a class="btn btn-ghost" href="#home" data-i18n="success.home">На главную</a>
+              <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>В личный кабинет</span></a>
+              <a class="btn btn-ghost" href="#stages">К этапам</a>
             </div>
           </div>
         </div>
         <aside class="card">
-          <h3 style="font-size:18px" data-i18n="aside.t">Перед отправкой</h3>
+          <h3 style="font-size:17px">Перед отправкой</h3>
           <ul class="aside-list">
-            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.1">Прочитал(а) <a href="#rules">правила турнира</a></span></li>
-            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n-html="aside.2">Подготовил(а) запись — <a href="#docs">что нужно</a></span></li>
-            <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="aside.3">Загрузил(а) видео в облако и открыл(а) доступ</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Прочитал(а) <a href="#rules">правила турнира</a></span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Подготовил(а) запись — <a href="#docs">что нужно</a></span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Загрузил(а) видео в облако и открыл(а) доступ</span></li>
           </ul>
         </aside>
       </div>
@@ -454,53 +488,80 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- LEADERBOARD -->
+<section class="page" id="page-leaderboard">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-chart"/></svg><span>Турнирная таблица</span></div>
+      <h1>Турнирная таблица</h1>
+      <p>Уровень = количество одобренных этапов. Сортировка по убыванию.</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)">
+        <svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg>
+        <span>Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="lb-podium" id="lb-podium"></div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Ник</th><th>Уровень</th><th>Прогресс</th></tr></thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CABINET -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
       <div class="page-head">
-        <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div>
-        <h1 data-i18n="cab.auth.title">Личный кабинет</h1>
-        <p data-i18n="cab.auth.lead">Войдите или зарегистрируйтесь.</p>
+        <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div>
+        <h1>Личный кабинет</h1>
+        <p>Войдите или зарегистрируйтесь.</p>
       </div>
       <div class="page-body">
-        <div class="apply-grid">
+        <div class="apply-grid" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
           <div class="card">
             <div class="auth-tabs">
-              <button type="button" data-auth-tab="login" class="active" data-i18n="auth.tab.login">Вход</button>
-              <button type="button" data-auth-tab="register" data-i18n="auth.tab.register">Регистрация</button>
+              <button type="button" data-auth-tab="login" class="active">Вход</button>
+              <button type="button" data-auth-tab="register">Регистрация</button>
             </div>
             <form id="login-form" novalidate>
-              <div class="field"><label for="login-email" data-i18n="auth.email">Email</label><input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
-              <div class="field"><label for="login-password" data-i18n="auth.password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
+              <div class="field"><label for="login-email">Email</label><input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
+              <div class="field"><label for="login-password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
               <div class="error" id="login-error"></div>
-              <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
-              <p class="auth-note" data-i18n="auth.login.note">Нет аккаунта? Переключись на «Регистрация».</p>
+              <button class="btn btn-primary btn-block" type="submit">Войти</button>
+              <p class="auth-note">Нет аккаунта? Переключись на «Регистрация».</p>
             </form>
             <form id="register-form" class="hidden" novalidate>
-              <div class="field"><label for="reg-email" data-i18n="auth.email">Email</label><input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" required></div>
-              <div class="field"><label for="reg-password" data-i18n="auth.password">Пароль</label><input class="input" id="reg-password" name="password" type="password" placeholder="Минимум 6 символов" minlength="6" required></div>
-              <div class="field"><label for="reg-password2" data-i18n="auth.password2">Повторите пароль</label><input class="input" id="reg-password2" name="password2" type="password" required></div>
+              <div class="field"><label for="reg-email">Email</label><input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" required></div>
+              <div class="field"><label for="reg-password">Пароль</label><input class="input" id="reg-password" name="password" type="password" placeholder="Минимум 6 символов" minlength="6" required></div>
+              <div class="field"><label for="reg-password2">Повторите пароль</label><input class="input" id="reg-password2" name="password2" type="password" required></div>
               <div class="error" id="register-error"></div>
-              <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.register.btn">Зарегистрироваться</button>
-              <p class="auth-note" data-i18n-html="auth.register.note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
+              <button class="btn btn-primary btn-block" type="submit">Зарегистрироваться</button>
+              <p class="auth-note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
-            <div id="register-success" class="hidden" style="text-align:center;padding:24px 8px">
-              <div class="stat-icon" style="background:rgba(47,212,138,.14);color:var(--green);width:64px;height:64px;font-size:32px;margin:0 auto 16px;display:grid;place-items:center;border-radius:16px">
-                <svg class="i" style="font-size:32px"><use href="#i-mail"/></svg>
+            <div id="register-success" class="hidden" style="text-align:center;padding:20px 8px">
+              <div class="stat-icon" style="background:rgba(47,212,138,.14);color:var(--green);width:60px;height:60px;font-size:30px;margin:0 auto 14px;display:grid;place-items:center;border-radius:14px">
+                <svg class="i" style="font-size:30px"><use href="#i-mail"/></svg>
               </div>
-              <h2 style="font-size:22px;margin-bottom:10px" data-i18n="reg.sent.t">Письмо отправлено!</h2>
-              <p style="color:var(--muted);font-size:14px;max-width:380px;margin:0 auto 18px" data-i18n-html="reg.sent.p">
-                Мы отправили ссылку для подтверждения на <b data-reg-email>—</b>.<br>Перейди по ней из письма, а потом войди.
+              <h2 style="font-size:20px;margin-bottom:8px">Письмо отправлено!</h2>
+              <p style="color:var(--muted);font-size:13.5px;max-width:380px;margin:0 auto 16px">
+                Мы отправили ссылку на <b data-reg-email>—</b>.<br>Перейди по ней, а потом войди.
               </p>
-              <button type="button" class="btn btn-ghost" id="reg-back" data-i18n="reg.sent.back">Назад к входу</button>
+              <button type="button" class="btn btn-ghost" id="reg-back">Назад к входу</button>
             </div>
           </div>
           <aside class="card">
-            <h3 style="font-size:18px" data-i18n="cab.why.t">Зачем аккаунт?</h3>
+            <h3 style="font-size:17px">Зачем аккаунт?</h3>
             <ul class="aside-list">
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.1">Подать заявку на турнир</span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.2">Отслеживать статус</span></li>
-              <li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.3">Редактировать заявку</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span>Подать заявку на этапы</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span>Отслеживать статус заявок</span></li>
+              <li><svg class="i"><use href="#i-check"/></svg><span>Прокачивать уровень</span></li>
             </ul>
           </aside>
         </div>
@@ -509,89 +570,114 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div id="cabinet-dashboard" class="hidden">
       <div class="cab-head">
         <div>
-          <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div>
-          <h1 data-i18n="cab.hello">Личный кабинет</h1>
-          <p class="cab-user"><span data-i18n="cab.signed.as">Вы вошли как</span> <b data-user-email>—</b></p>
+          <div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span>Личный кабинет</span></div>
+          <h1 style="font-size:32px">Личный кабинет</h1>
+          <p class="cab-user">Вы вошли как <b data-user-email>—</b></p>
         </div>
-        <button class="btn btn-ghost btn-sm" id="logout-btn" type="button"><svg class="i"><use href="#i-logout"/></svg><span data-i18n="cab.logout">Выйти</span></button>
+        <button class="btn btn-ghost btn-sm" id="logout-btn" type="button"><svg class="i"><use href="#i-logout"/></svg><span>Выйти</span></button>
       </div>
-      <div class="page-body"><div id="cabinet-content"></div></div>
+      <div class="page-body">
+        <div class="cab-level-card">
+          <div class="cab-level-badge" data-user-level>0</div>
+          <div class="cab-level-info">
+            <h2>Ваш уровень</h2>
+            <p>Уровень растёт, когда админ одобряет ваше видео на этапе.</p>
+          </div>
+        </div>
+        <h2 style="font-size:20px;margin-bottom:16px">Мои заявки</h2>
+        <div class="app-list" id="cabinet-apps"></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="page" id="page-participants">
+<!-- DOCS -->
+<section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-users"/></svg><span data-i18n="nav.participants">Участники</span></div>
-      <h1 data-i18n="part.title">Участники турнира</h1>
-      <p data-i18n="part.lead">Список подтверждённых участников.</p>
-      <div class="chip"><svg class="i"><use href="#i-users"/></svg><span data-i18n="part.chip">Участников:</span> <b data-participants-count>—</b></div>
+      <div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></div>
+      <h1>Необходимые документы</h1>
+      <p>Что нужно подготовить, чтобы твою заявку проверили и подтвердили.</p>
     </div>
     <div class="page-body">
-      <div class="card table-card">
-        <div class="table-wrap">
-          <table class="table">
-            <thead><tr><th>#</th><th data-i18n="th.nick">Ник</th><th data-i18n="th.platform">Платформа</th><th data-i18n="th.status">Статус</th></tr></thead>
-            <tbody id="participants-body"></tbody>
-          </table>
-        </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div class="doc-ico" style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с включенным чит индикатором.</p></div></article>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div class="doc-ico" style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам (руки + клавиатура)</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
+      </div>
+      <div class="card" style="margin-top:22px">
+        <h3 style="display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2);font-size:20px"><use href="#i-clip"/></svg>Как подготовить запись?</h3>
+        <ol style="list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px 24px">
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">1</span>Включи чит индикатор (если он есть).</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">2</span>Запиши видео с хенд камом (руки + клавиатура).</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">3</span>Убедись, что в записи видно весь экран.</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">4</span>Загрузи на облако и укажи ссылку в заявке.</li>
+        </ol>
       </div>
     </div>
   </div>
 </section>
 
-<section class="page" id="page-results">
-  <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-trophy"/></svg><span data-i18n="nav.results">Результаты</span></div>
-      <h1 data-i18n="res.title">Результаты и сетка</h1>
-      <p data-i18n="res.lead">Здесь появятся матчи и итоги.</p>
-    </div>
-    <div class="page-body">
-      <div class="card empty-state">
-        <div class="stat-icon"><svg class="i"><use href="#i-trophy"/></svg></div>
-        <h2 data-i18n="res.empty.t">Пока здесь пусто</h2>
-        <p data-i18n="res.empty.p">Результаты появятся после старта турнира.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+<!-- ADMIN -->
 <section class="page" id="page-admin">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></div>
-      <h1 data-i18n="admin.title">Панель администратора</h1>
-      <p data-i18n="admin.lead">Управление заявками участников.</p>
+      <div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div>
+      <h1>Панель администратора</h1>
+      <p>Управление этапами и заявками.</p>
     </div>
     <div class="page-body">
-      <div class="admin-stats">
-        <div class="admin-stat"><b data-admin-total>—</b><span data-i18n="admin.stat.total">Всего</span></div>
-        <div class="admin-stat"><b data-admin-pending style="color:var(--gold)">—</b><span data-i18n="admin.stat.pending">На проверке</span></div>
-        <div class="admin-stat"><b data-admin-approved style="color:var(--green)">—</b><span data-i18n="admin.stat.approved">Подтверждено</span></div>
-        <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span data-i18n="admin.stat.rejected">Отклонено</span></div>
+      <div class="admin-tabs">
+        <button type="button" data-admin-tab="stages" class="active">Этапы</button>
+        <button type="button" data-admin-tab="apps">Заявки</button>
       </div>
-      <div class="admin-filters">
-        <button type="button" data-filter="all" class="active" data-i18n="admin.filter.all">Все</button>
-        <button type="button" data-filter="pending" data-i18n="admin.filter.pending">На проверке</button>
-        <button type="button" data-filter="approved" data-i18n="admin.filter.approved">Подтверждённые</button>
-        <button type="button" data-filter="rejected" data-i18n="admin.filter.rejected">Отклонённые</button>
+
+      <!-- STAGES TAB -->
+      <div id="admin-stages">
+        <div class="admin-create">
+          <input type="number" id="new-stage-number" placeholder="№" min="1" value="1">
+          <input type="text" id="new-stage-title" placeholder="Название этапа">
+          <input type="text" id="new-stage-desc" placeholder="Описание">
+          <input type="text" id="new-stage-url" placeholder="Ссылка на уровень (необязательно)">
+          <button type="button" class="btn btn-primary" id="create-stage-btn"><svg class="i"><use href="#i-plus"/></svg><span>Создать</span></button>
+        </div>
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr>
+                <th>№</th><th>Название</th><th>Описание</th><th>Статус</th><th>Заявки</th><th>Действия</th>
+              </tr></thead>
+              <tbody id="admin-stages-body"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <div class="card table-card">
-        <div class="table-wrap">
-          <table class="table">
-            <thead><tr>
-              <th data-i18n="admin.th.date">Дата</th>
-              <th data-i18n="admin.th.nick">Ник</th>
-              <th data-i18n="admin.th.contact">Контакты</th>
-              <th data-i18n="admin.th.video">Видео</th>
-              <th data-i18n="admin.th.platform">Платформа</th>
-              <th data-i18n="admin.th.status">Статус</th>
-              <th data-i18n="admin.th.actions">Действия</th>
-            </tr></thead>
-            <tbody id="admin-body"></tbody>
-          </table>
+
+      <!-- APPS TAB -->
+      <div id="admin-apps" class="hidden">
+        <div class="admin-stats">
+          <div class="admin-stat"><b data-admin-total>—</b><span>Всего</span></div>
+          <div class="admin-stat"><b data-admin-pending style="color:var(--gold)">—</b><span>На проверке</span></div>
+          <div class="admin-stat"><b data-admin-approved style="color:var(--green)">—</b><span>Одобрено</span></div>
+          <div class="admin-stat"><b data-admin-rejected style="color:var(--red)">—</b><span>Отклонено</span></div>
+        </div>
+        <div class="admin-filters">
+          <select id="admin-stage-filter">
+            <option value="all">Все этапы</option>
+          </select>
+          <button type="button" data-app-filter="all" class="active">Все</button>
+          <button type="button" data-app-filter="pending">На проверке</button>
+          <button type="button" data-app-filter="approved">Одобренные</button>
+          <button type="button" data-app-filter="rejected">Отклонённые</button>
+        </div>
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr>
+                <th>Дата</th><th>Этап</th><th>Ник</th><th>Контакты</th><th>Видео</th><th>Платформа</th><th>Статус</th><th>Действия</th>
+              </tr></thead>
+              <tbody id="admin-body"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -603,7 +689,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <footer class="footer">
   <div class="wrap">
     <span>© International Geometry Dash Community Cup</span>
-    <span data-i18n="footer.tag">Турнир сообщества</span>
+    <span>Турнир сообщества</span>
   </div>
 </footer>
 
@@ -632,87 +718,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   : null;
 
 (() => {
-  const PAGE_IDS = ['home','rules','docs','apply','cabinet','participants','results','admin'];
+  const PAGE_IDS = ['home','rules','stages','apply','leaderboard','cabinet','docs','admin'];
   const LANG_KEY = 'gdcc-lang';
 
-  const I18N = {
-    ru:{
-      'nav.home':'Главная','nav.rules':'Правила','nav.docs':'Документы','nav.apply':'Заявка','nav.cabinet':'Кабинет','nav.participants':'Участники','nav.results':'Результаты','nav.admin':'Админка',
-      'btn.login':'Войти','cta.apply':'Подать заявку',
-      'hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турнир по Geometry Dash среди участников нашего сообщества.',
-      'stat.label':'Участников',
-      'home.how':'Как принять участие',
-      'step1.t':'Изучи правила','step1.p':'Формат турнира, запреты и условия.','step1.go':'К правилам',
-      'step2.t':'Подготовь документы','step2.p':'Запись с хенд камом и чит индикатором.','step2.go':'К документам',
-      'step3.t':'Подай заявку','step3.p':'Заполни форму.','step3.go':'К заявке',
-      'feat1.t':'Честная игра','feat1.d':'Строгая проверка записей.','feat2.t':'Сильное комьюнити','feat2.d':'Участники из нашего сообщества.','feat3.t':'Награды','feat3.d':'Награды и сувениры.','feat4.t':'Твой шанс','feat4.d':'Стань лучшим!',
-      'rules.title':'Правила турнира','rules.lead':'Прочитай внимательно.',
-      'r1.t':'Общие положения','r1.p':'Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.',
-      'r2.t':'Формат проведения','r2.p':'Игра проходит на официальных уровнях Geometry Dash. Список уровней будет опубликован в день старта.',
-      'r3.t':'Запрещено','r3.p':'Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.',
-      'r4.t':'Подача заявки','r4.p':'Заявка подаётся только через форму. После проверки вы получите доступ к серверу.',
-      'r5.t':'Награды','r5.p':'Лучшие получат награды и сувениры.',
-      'r6.t':'Финальные правила','r6.p':'Организаторы могут менять правила. Спорные ситуации решаются индивидуально.',
-      'docs.title':'Необходимые документы','docs.lead':'Что нужно подготовить.',
-      'd1.t':'Античит (чит индикатор)','d1.p':'Скриншот или видео с включенным чит индикатором.',
-      'd2.t':'Хенд кам','d2.p':'Видео с камерой, показывающее руки.',
-      'prep.t':'Как подготовить запись?','prep.1':'Включи чит индикатор.','prep.2':'Запиши видео с хенд камом.','prep.3':'Убедись, что видно весь экран.','prep.4':'Загрузи на облако и укажи ссылку.',
-      'docs.cta':'Перейти к заявке',
-      'apply.eyebrow':'Регистрация','apply.title':'Форма подачи заявки','apply.lead':'Заполни поля внимательно.',
-      'apply.gate.t':'Нужен аккаунт','apply.gate.p':'Войдите или зарегистрируйтесь.','apply.gate.cta':'Войти / Регистрация',
-      'f.nick':'Ваш ник в Geometry Dash','f.nick.ph':'Например: Player123','f.tg':'Ваш Telegram','f.dc':'Ваш Discord','f.video':'Ссылка на видео','f.video.hint':'Google Drive или Yandex Disk.','f.platform':'Выберите платформу','platform.Console':'Консоль','f.about':'Доп. информация','f.about.ph':'Расскажите о себе...','f.agree':'Я прочитал(а) <a href="#rules">правила</a> и согласен(на).',
-      'btn.submit':'Отправить заявку','btn.sending':'Отправляем…','btn.update':'Сохранить',
-      'success.t':'Заявка отправлена!','success.p':'Мы проверим и свяжемся с тобой.','success.home':'На главную','success.cabinet':'В кабинет',
-      'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео и открыл(а) доступ',
-      'err.nick.empty':'Укажи ник','err.nick.short':'Ник короткий','err.tg.empty':'Укажи Telegram','err.tg.bad':'Формат @username','err.video.empty':'Вставь ссылку','err.video.bad':'Проверь ссылку','err.agree':'Согласись с правилами','toast.fail':'Ошибка. Попробуй ещё.',
-      'part.title':'Участники турнира','part.lead':'Список подтверждённых.','part.chip':'Участников:','th.nick':'Ник','th.platform':'Платформа','th.status':'Статус','part.none':'Пока нет участников.','part.later':'Список появится позже.','status.approved':'Подтверждён','status.pending':'На проверке','status.rejected':'Отклонена',
-      'res.title':'Результаты','res.lead':'Здесь появятся матчи.','res.empty.t':'Пусто','res.empty.p':'Результаты после старта.',
-      'footer.tag':'Турнир сообщества',
-      'auth.tab.login':'Вход','auth.tab.register':'Регистрация','auth.email':'Email','auth.password':'Пароль','auth.password2':'Повторите пароль','auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись.','auth.register.btn':'Зарегистрироваться','auth.register.note':'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.','auth.sending':'Отправляем…','auth.err.email':'Корректный email','auth.err.password':'Минимум 6 символов','auth.err.password2':'Пароли не совпадают','auth.err.creds':'Неверный email или пароль','auth.err.exists':'Аккаунт существует','auth.err.confirm':'Email не подтверждён. Проверь почту и перейди по ссылке.','auth.err.generic':'Ошибка','auth.err.rate':'Письмо уже отправлялось. Подожди минуту и попробуй снова.','auth.logout.toast':'Вы вышли','auth.login.toast':'Добро пожаловать!','auth.register.toast':'Аккаунт создан!',
-      'cab.auth.title':'Личный кабинет','cab.auth.lead':'Войдите или зарегистрируйтесь.','cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку','cab.why.2':'Отслеживать статус','cab.why.3':'Редактировать заявку','cab.hello':'Личный кабинет','cab.signed.as':'Вы вошли как','cab.logout':'Выйти','cab.demo':'Supabase не подключён.','cab.no.app.t':'Нет заявки','cab.no.app.p':'Подайте заявку — её статус появится здесь.','cab.no.app.cta':'Подать заявку','cab.app.title':'Ваша заявка','cab.app.created':'Создана','cab.field.nick':'Ник','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Видео','cab.field.platform':'Платформа','cab.field.about':'О себе','cab.edit':'Редактировать','cab.edit.locked':'Заявка подтверждена — редактирование недоступно','cab.delete':'Удалить','cab.delete.confirm':'Удалить заявку?','cab.deleted':'Удалено','cab.updated':'Обновлено',
-      'reg.sent.t':'Письмо отправлено!',
-      'reg.sent.p':'Мы отправили ссылку для подтверждения на <b data-reg-email>—</b>.<br>Перейди по ней из письма, а потом войди.',
-      'reg.sent.back':'Назад к входу',
-      'admin.title':'Панель администратора','admin.lead':'Управление заявками.','admin.stat.total':'Всего','admin.stat.pending':'На проверке','admin.stat.approved':'Подтверждено','admin.stat.rejected':'Отклонено','admin.filter.all':'Все','admin.filter.pending':'На проверке','admin.filter.approved':'Подтверждённые','admin.filter.rejected':'Отклонённые','admin.th.date':'Дата','admin.th.nick':'Ник','admin.th.contact':'Контакты','admin.th.video':'Видео','admin.th.platform':'Платформа','admin.th.status':'Статус','admin.th.actions':'Действия','admin.approve':'Одобрить','admin.reject':'Отклонить','admin.delete':'Удалить','admin.empty':'Заявок нет','admin.confirm.delete':'Удалить заявку?','admin.approved':'Заявка одобрена','admin.rejected':'Заявка отклонена','admin.deleted':'Заявка удалена'
-    },
-    en:{
-      'nav.home':'Home','nav.rules':'Rules','nav.docs':'Documents','nav.apply':'Apply','nav.cabinet':'Cabinet','nav.participants':'Participants','nav.results':'Results','nav.admin':'Admin',
-      'btn.login':'Log in','cta.apply':'Apply now',
-      'hero.lead':'Show your skill. Prove you are the best.','hero.desc':'A Geometry Dash tournament for our community.','stat.label':'Participants',
-      'home.how':'How to take part',
-      'step1.t':'Read the rules','step1.p':'Format, restrictions, conditions.','step1.go':'To rules',
-      'step2.t':'Prepare documents','step2.p':'Recording with hand cam and cheat indicator.','step2.go':'To documents',
-      'step3.t':'Submit application','step3.p':'Fill the form.','step3.go':'To application',
-      'feat1.t':'Fair play','feat1.d':'Strict checks.','feat2.t':'Strong community','feat2.d':'Players from our community.','feat3.t':'Rewards','feat3.d':'Rewards and souvenirs.','feat4.t':'Your chance','feat4.d':'Become the best!',
-      'rules.title':'Tournament rules','rules.lead':'Read carefully.',
-      'r1.t':'General','r1.p':'The tournament is held among community members. Participation only after applying and approval.',
-      'r2.t':'Format','r2.p':'Official Geometry Dash levels. List published on start day.',
-      'r3.t':'Prohibited','r3.p':'Cheats, bugs, third-party software, mods, macros. Violation means disqualification.',
-      'r4.t':'Applying','r4.p':'Only through the form. After checking you get access to the server.',
-      'r5.t':'Rewards','r5.p':'Best players get rewards.',
-      'r6.t':'Final','r6.p':'Organizers may change rules. Disputes resolved individually.',
-      'docs.title':'Required documents','docs.lead':'What to prepare.',
-      'd1.t':'Anti-cheat','d1.p':'Screenshot or video with cheat indicator on.','d2.t':'Hand cam','d2.p':'Video showing your hands.','prep.t':'How to prepare?','prep.1':'Turn on cheat indicator.','prep.2':'Record hand cam video.','prep.3':'Whole screen visible.','prep.4':'Upload to cloud and link.',
-      'docs.cta':'Go to application',
-      'apply.eyebrow':'Registration','apply.title':'Application form','apply.lead':'Fill carefully.',
-      'apply.gate.t':'Account required','apply.gate.p':'Log in or register.','apply.gate.cta':'Log in / Register',
-      'f.nick':'Your Geometry Dash nickname','f.nick.ph':'e.g. Player123','f.tg':'Your Telegram','f.dc':'Your Discord','f.video':'Video link','f.video.hint':'Google Drive or Yandex Disk.','f.platform':'Platform','platform.Console':'Console','f.about':'Additional info','f.about.ph':'Tell us about yourself...','f.agree':'I have read the <a href="#rules">rules</a> and agree.',
-      'btn.submit':'Submit application','btn.sending':'Sending…','btn.update':'Save',
-      'success.t':'Application sent!','success.p':'We will review and contact you.','success.home':'Home','success.cabinet':'Cabinet',
-      'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">rules</a>','aside.2':'Prepared recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded video and opened access',
-      'err.nick.empty':'Enter nickname','err.nick.short':'Too short','err.tg.empty':'Enter Telegram','err.tg.bad':'Format @username','err.video.empty':'Paste link','err.video.bad':'Check link','err.agree':'Agree with rules','toast.fail':'Error. Try again.',
-      'part.title':'Participants','part.lead':'Confirmed participants.','part.chip':'Participants:','th.nick':'Nickname','th.platform':'Platform','th.status':'Status','part.none':'No participants yet.','part.later':'List appears later.','status.approved':'Confirmed','status.pending':'Under review','status.rejected':'Rejected',
-      'res.title':'Results','res.lead':'Matches will appear here.','res.empty.t':'Nothing yet','res.empty.p':'Results after start.','footer.tag':'A community tournament',
-      'auth.tab.login':'Log in','auth.tab.register':'Register','auth.email':'Email','auth.password':'Password','auth.password2':'Repeat password','auth.login.btn':'Log in','auth.login.note':'No account? Switch.','auth.register.btn':'Register','auth.register.note':'By registering you agree to the <a href="#rules">rules</a>.','auth.sending':'Sending…','auth.err.email':'Valid email','auth.err.password':'Min 6 characters','auth.err.password2':'Passwords do not match','auth.err.creds':'Invalid email or password','auth.err.exists':'Account exists','auth.err.confirm':'Email not confirmed. Check your inbox and click the link.','auth.err.generic':'Error','auth.err.rate':'Email was already sent. Wait a minute and try again.','auth.logout.toast':'Logged out','auth.login.toast':'Welcome!','auth.register.toast':'Account created!',
-      'cab.auth.title':'Personal cabinet','cab.auth.lead':'Log in or register.','cab.why.t':'Why account?','cab.why.1':'Submit application','cab.why.2':'Track status','cab.why.3':'Edit application','cab.hello':'Personal cabinet','cab.signed.as':'Signed in as','cab.logout':'Log out','cab.demo':'Supabase not connected.','cab.no.app.t':'No application','cab.no.app.p':'Submit an application — status appears here.','cab.no.app.cta':'Submit','cab.app.title':'Your application','cab.app.created':'Created','cab.field.nick':'Nickname','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Video','cab.field.platform':'Platform','cab.field.about':'About','cab.edit':'Edit','cab.edit.locked':'Application confirmed — editing unavailable','cab.delete':'Delete','cab.delete.confirm':'Delete application?','cab.deleted':'Deleted','cab.updated':'Updated',
-      'reg.sent.t':'Email sent!',
-      'reg.sent.p':'We sent a confirmation link to <b data-reg-email>—</b>.<br>Click it in your inbox, then log in.',
-      'reg.sent.back':'Back to login',
-      'admin.title':'Admin panel','admin.lead':'Manage applications.','admin.stat.total':'Total','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected','admin.filter.all':'All','admin.filter.pending':'Pending','admin.filter.approved':'Approved','admin.filter.rejected':'Rejected','admin.th.date':'Date','admin.th.nick':'Nickname','admin.th.contact':'Contacts','admin.th.video':'Video','admin.th.platform':'Platform','admin.th.status':'Status','admin.th.actions':'Actions','admin.approve':'Approve','admin.reject':'Reject','admin.delete':'Delete','admin.empty':'No applications','admin.confirm.delete':'Delete application?','admin.approved':'Approved','admin.rejected':'Rejected','admin.deleted':'Deleted'
-    }
-  };
-
   const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+
   const nav = $('#nav');
   const burger = $('#burger');
   const toastEl = $('#toast');
@@ -720,21 +731,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   const successEl = $('#apply-success');
   const submitBtn = $('#submit-btn');
   const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
-  const applyGate = $('#apply-gate');
-  const applyWrap = $('#apply-wrap');
-  const applyEditBanner = $('#apply-edit-banner');
-  const cabinetAuth = $('#cabinet-auth');
-  const cabinetDash = $('#cabinet-dashboard');
-  const cabinetContent = $('#cabinet-content');
-  const userEmailEl = document.querySelector('[data-user-email]');
   const navAdmin = $('#nav-admin');
 
-  let toastTimer, current = null, lang = 'ru';
-  let participants = null, participantsLoaded = false;
-  let user = null, myApplication = null, editingId = null;
-  let adminApps = [], adminFilter = 'all';
-
-  const t = k => (I18N[lang] && I18N[lang][k]) || I18N.ru[k] || k;
+  let toastTimer, current = null;
+  let user = null, userProfile = null, myApplications = [];
+  let stages = [], editingId = null;
+  let currentStageId = null;
+  let adminTab = 'stages';
+  let adminAppFilter = 'all';
+  let adminStageFilter = 'all';
+  let adminApps = [];
 
   function toast(msg, isError){
     toastEl.textContent = msg;
@@ -749,60 +755,32 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function isAdmin(){ return user && user.email === ADMIN_EMAIL; }
 
   function applyLang(l){
-    lang = l;
     document.documentElement.lang = l;
-    document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
-    document.querySelectorAll('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
-    document.querySelectorAll('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
-    if(participantsLoaded) renderParticipants(participants);
-    if(user) renderCabinet();
-    if(isAdmin() && current === 'admin') renderAdmin();
-    const regEmail = document.querySelector('#register-success [data-reg-email]');
-    if(regEmail && regEmail.dataset.email){
-      regEmail.textContent = regEmail.dataset.email;
-    }
+    $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
   }
-
   function setShellInert(on){ shell.forEach(el => { if(el) el.inert = on; }); }
   function chooseLang(l){ saveLang(l); document.documentElement.setAttribute('data-lang-chosen', l); setShellInert(false); applyLang(l); }
 
-  document.querySelectorAll('[data-gate-lang]').forEach(b => b.addEventListener('click', () => chooseLang(b.dataset.gateLang)));
-  document.querySelectorAll('.lang [data-lang]').forEach(b => b.addEventListener('click', () => { saveLang(b.dataset.lang); applyLang(b.dataset.lang); }));
+  $$('[data-gate-lang]').forEach(b => b.addEventListener('click', () => chooseLang(b.dataset.gateLang)));
+  $$('.lang [data-lang]').forEach(b => b.addEventListener('click', () => { saveLang(b.dataset.lang); applyLang(b.dataset.lang); }));
 
   function readHash(){ try{ return decodeURIComponent(location.hash.slice(1)); }catch(_){ return ''; } }
-
-  function resetApplyView(){
-    editingId = null;
-    form.reset();
-    form.classList.remove('hidden');
-    successEl.classList.add('hidden');
-    applyEditBanner.classList.add('hidden');
-    ['nick','telegram','discord','video','platform','about','agree'].forEach(n => setError(n,''));
-    submitBtn.querySelector('span').textContent = t('btn.submit');
-    refreshApplyGate();
-  }
-
-  function refreshApplyGate(){
-    const logged = !!user;
-    applyGate.classList.toggle('hidden', logged);
-    applyWrap.classList.toggle('hidden', !logged);
-  }
 
   function show(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
     if(id === 'admin' && !isAdmin()) id = 'home';
-    if(id === 'apply' && current !== 'apply') resetApplyView();
     current = id;
-    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
-    document.querySelectorAll('[data-nav]').forEach(a => {
+    $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
+    $$('[data-nav]').forEach(a => {
       const on = a.dataset.nav === id;
       a.classList.toggle('active', on);
       if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
     if(id === 'cabinet') renderCabinet();
+    if(id === 'leaderboard') renderLeaderboard();
+    if(id === 'stages') renderStages();
+    if(id === 'apply') refreshApplyView();
     if(id === 'admin') renderAdmin();
-    if(id === 'apply') refreshApplyGate();
     nav.classList.remove('open');
     burger.setAttribute('aria-expanded','false');
     window.scrollTo(0,0);
@@ -825,53 +803,127 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   });
   window.addEventListener('popstate', () => show(readHash()));
   window.addEventListener('hashchange', () => show(readHash()));
-
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    burger.setAttribute('aria-expanded', String(open));
-  });
+  burger.addEventListener('click', () => nav.classList.toggle('open'));
   $('#login-btn').addEventListener('click', () => go('cabinet'));
   $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
 
   window.setParticipantsCount = n => {
-    document.querySelectorAll('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n));
+    $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n));
   };
 
-  function renderParticipants(list){
-    const tb = $('#participants-body');
-    tb.replaceChildren();
-    if(!list || !list.length){
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.colSpan = 4; td.className = 'empty';
-      td.textContent = list ? t('part.none') : t('part.later');
-      tr.appendChild(td); tb.appendChild(tr);
+  /* ============ STAGES ============ */
+  async function loadStages(){
+    if(!sb){ stages = []; return; }
+    try{
+      const { data, error } = await sb.from('stages').select('*').order('number', { ascending: true });
+      if(error) throw error;
+      stages = data || [];
+    }catch(err){ console.error(err); stages = []; }
+  }
+
+  function canAccessStage(stage){
+    const lvl = userProfile ? (userProfile.level || 0) : 0;
+    return lvl >= (stage.number - 1);
+  }
+
+  function stageStatusLabel(s){
+    return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s.status] || s.status;
+  }
+
+  function renderStages(){
+    const grid = $('#stages-grid');
+    grid.replaceChildren();
+    const visible = stages.filter(s => s.status !== 'draft' || isAdmin());
+    if(!visible.length){
+      grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Как только админ создаст этап — он появится здесь.</p></div>';
       return;
     }
-    list.forEach((p, i) => {
-      const tr = document.createElement('tr');
-      const platform = t('platform.' + p.platform) || p.platform;
-      [i+1, p.nick, platform].forEach(v => {
-        const td = document.createElement('td'); td.textContent = v; tr.appendChild(td);
-      });
-      const st = document.createElement('td');
-      const b = document.createElement('span');
-      b.className = 'badge ' + (p.status === 'approved' ? '' : 'pending');
-      b.textContent = t('status.' + p.status);
-      st.appendChild(b); tr.appendChild(st);
-      tb.appendChild(tr);
+    visible.forEach(s => {
+      const card = document.createElement('div');
+      const locked = !canAccessStage(s) && s.status !== 'draft';
+      card.className = 'stage-card ' + s.status + (locked ? ' locked' : '');
+
+      const head = document.createElement('div'); head.className = 'stage-head';
+      head.innerHTML = '<div class="stage-num">' + s.number + '</div>';
+      const st = document.createElement('span');
+      st.className = 'stage-status ' + s.status;
+      st.textContent = stageStatusLabel(s);
+      head.appendChild(st);
+      card.appendChild(head);
+
+      const title = document.createElement('div'); title.className = 'stage-title';
+      title.textContent = s.title || ('Этап ' + s.number);
+      card.appendChild(title);
+
+      if(s.description){
+        const desc = document.createElement('div'); desc.className = 'stage-desc';
+        desc.textContent = s.description;
+        card.appendChild(desc);
+      }
+
+      const meta = document.createElement('div'); meta.className = 'stage-meta';
+      const appCount = myApplications.filter(a => a.stage_id === s.id).length;
+      meta.innerHTML = '<span>Мой статус: <b>' + (appCount ? 'заявка подана' : (locked ? 'нет доступа' : 'можно подать')) + '</b></span>';
+      card.appendChild(meta);
+
+      if(locked){
+        const note = document.createElement('div'); note.className = 'stage-locked-note';
+        note.innerHTML = '<svg class="i"><use href="#i-lock"/></svg> Нужен уровень ' + (s.number - 1) + ' (у вас ' + (userProfile ? userProfile.level : 0) + ')';
+        card.appendChild(note);
+      } else if(s.status === 'open'){
+        const btn = document.createElement('a');
+        btn.className = 'btn btn-primary btn-block';
+        btn.href = '#apply';
+        btn.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' + (myApplications.some(a => a.stage_id === s.id) ? 'Моя заявка' : 'Подать заявку') + '</span>';
+        btn.addEventListener('click', e => { e.preventDefault(); openApply(s.id); });
+        card.appendChild(btn);
+      } else if(s.status === 'closed'){
+        const note = document.createElement('div'); note.className = 'stage-desc';
+        note.textContent = 'Приём заявок закрыт.';
+        card.appendChild(note);
+      }
+
+      if(s.level_url){
+        const a = document.createElement('a');
+        a.className = 'btn btn-ghost btn-sm';
+        a.href = s.level_url; a.target = '_blank'; a.rel = 'noopener';
+        a.innerHTML = '<svg class="i"><use href="#i-play"/></svg><span>Уровень</span>';
+        card.appendChild(a);
+      }
+
+      grid.appendChild(card);
     });
   }
 
-  async function loadParticipants(){
-    if(!sb) return null;
-    try{
-      const { data, error } = await sb.from('participants').select('*').order('created_at', { ascending: true });
-      if(error) throw error;
-      return data;
-    }catch(_){ return null; }
+  function openApply(stageId){
+    currentStageId = stageId;
+    editingId = null;
+    go('apply');
   }
 
+  function refreshApplyView(){
+    const gate = $('#apply-gate'), blocked = $('#apply-blocked'), notfound = $('#apply-notfound'), wrap = $('#apply-wrap');
+    gate.classList.add('hidden'); blocked.classList.add('hidden'); notfound.classList.add('hidden'); wrap.classList.add('hidden');
+    if(!currentStageId){ notfound.classList.remove('hidden'); return; }
+    const stage = stages.find(s => s.id === currentStageId);
+    if(!stage){ notfound.classList.remove('hidden'); return; }
+
+    $('#apply-title').textContent = stage.title || ('Этап ' + stage.number);
+    $('#apply-subtitle').textContent = stage.description || 'Заполни все поля внимательно.';
+
+    if(!user){ gate.classList.remove('hidden'); return; }
+    if(!canAccessStage(stage) && !editingId){
+      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + (stage.number - 1) + ', а у вас ' + (userProfile ? userProfile.level : 0) + '. Пройдите предыдущие этапы.';
+      blocked.classList.remove('hidden'); return;
+    }
+    if(stage.status !== 'open' && !editingId){
+      $('#apply-blocked-reason').textContent = 'Приём заявок на этот этап закрыт.';
+      blocked.classList.remove('hidden'); return;
+    }
+    wrap.classList.remove('hidden');
+  }
+
+  /* ============ APPLY FORM ============ */
   function normalizeUrl(v){
     let s = (v||'').trim();
     if(!s) return null;
@@ -883,372 +935,375 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const box = form.querySelector('[data-error-for="' + name + '"]');
     const input = form.elements[name];
     if(!input) return;
-    if(box){ box.textContent = key ? t(key) : ''; box.classList.toggle('show', !!key); }
+    if(box){ box.textContent = key || ''; box.classList.toggle('show', !!key); }
     const mark = name === 'agree' ? $('#agree-label') : input;
     mark.classList.toggle('invalid', !!key);
   }
 
-  function validateApply(){
-    const v = n => (form.elements[n].value || '').trim();
-    return {
-      nick: !v('nick') ? 'err.nick.empty' : v('nick').length < 2 ? 'err.nick.short' : '',
-      telegram: !v('telegram') ? 'err.tg.empty' : !/^@?[A-Za-z0-9_]{5,32}$/.test(v('telegram')) ? 'err.tg.bad' : '',
-      video: !v('video') ? 'err.video.empty' : !normalizeUrl(v('video')) ? 'err.video.bad' : '',
-      agree: form.elements.agree.checked ? '' : 'err.agree'
-    };
-  }
-
-  form.addEventListener('input', e => { const n = e.target.name; if(n) setError(n,''); });
-  form.addEventListener('change', e => { const n = e.target.name; if(n) setError(n,''); });
+  form.addEventListener('input', e => { if(e.target.name) setError(e.target.name,''); });
+  form.addEventListener('change', e => { if(e.target.name) setError(e.target.name,''); });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if(!user){ go('cabinet'); return; }
-
-    const errs = validateApply();
-    Object.entries(errs).forEach(([k,m]) => setError(k,m));
-    const first = Object.keys(errs).find(k => errs[k]);
-    if(first){
-      const el = form.elements[first];
-      el.focus({ preventScroll: true });
-      if(el.scrollIntoView) el.scrollIntoView({ block:'center', behavior:'smooth' });
-      return;
-    }
+    if(!user || !currentStageId){ return; }
 
     const v = n => (form.elements[n].value || '').trim();
+    const errs = {
+      nick: !v('nick') ? 'Укажи ник' : (v('nick').length < 2 ? 'Ник короткий' : ''),
+      telegram: !v('telegram') ? 'Укажи Telegram' : (!/^@?[A-Za-z0-9_]{5,32}$/.test(v('telegram')) ? 'Формат @username' : ''),
+      video: !v('video') ? 'Вставь ссылку' : (!normalizeUrl(v('video')) ? 'Проверь ссылку' : ''),
+      agree: form.elements.agree.checked ? '' : 'Согласись с правилами'
+    };
+    Object.entries(errs).forEach(([k,m]) => setError(k, m));
+    const first = Object.keys(errs).find(k => errs[k]);
+    if(first){ form.elements[first].focus(); return; }
+
     const data = {
+      user_id: user.id,
+      stage_id: currentStageId,
+      email: user.email,
       nick: v('nick'),
       telegram: '@' + v('telegram').replace(/^@/,''),
       discord: v('discord'),
       video: normalizeUrl(v('video')),
       platform: form.elements.platform.value,
-      about: v('about'),
-      email: user.email,
-      user_id: user.id
+      about: v('about')
     };
 
-    const label = submitBtn.querySelector('span');
     submitBtn.disabled = true;
-    label.textContent = t('btn.sending');
+    const prevLabel = submitBtn.querySelector('span').textContent;
+    submitBtn.querySelector('span').textContent = 'Отправляем…';
 
     try{
-      if(!sb){ toast('Supabase not connected', true); return; }
-
       if(editingId){
         const { error } = await sb.from('applications').update({
           nick: data.nick, telegram: data.telegram, discord: data.discord,
           video: data.video, platform: data.platform, about: data.about
         }).eq('id', editingId).eq('user_id', user.id);
         if(error) throw error;
-        toast(t('cab.updated'));
-        await loadMyApplication();
+        toast('Заявка обновлена');
+        await loadMyApplications();
         go('cabinet');
       }else{
         const { error } = await sb.from('applications').insert([{ ...data, status: 'pending' }]);
-        if(error) throw error;
+        if(error){
+          if(/duplicate|unique/i.test(error.message)) throw new Error('Вы уже подавали заявку на этот этап');
+          throw error;
+        }
         form.classList.add('hidden');
         successEl.classList.remove('hidden');
         form.reset();
-        await loadMyApplication();
+        await loadMyApplications();
+        await loadStages();
         window.scrollTo(0,0);
       }
     }catch(err){
       console.error(err);
-      toast(t('toast.fail') + ' ' + (err.message || ''), true);
+      toast(err.message || 'Ошибка', true);
     }finally{
       submitBtn.disabled = false;
-      label.textContent = editingId ? t('btn.update') : t('btn.submit');
+      submitBtn.querySelector('span').textContent = editingId ? 'Сохранить' : 'Отправить заявку';
     }
   });
 
-  function switchAuthTab(tab){
-    document.querySelectorAll('[data-auth-tab]').forEach(b => b.classList.toggle('active', b.dataset.authTab === tab));
-    $('#login-form').classList.toggle('hidden', tab !== 'login');
-    $('#register-form').classList.toggle('hidden', tab !== 'register');
-    const succ = $('#register-success');
-    if(succ) succ.classList.add('hidden');
-    $('#login-error').textContent = '';
-    $('#register-error').textContent = '';
-  }
-  document.querySelectorAll('[data-auth-tab]').forEach(b => b.addEventListener('click', () => switchAuthTab(b.dataset.authTab)));
-
-  function setAuthError(which, msg){
-    const el = $('#' + which + '-error');
-    el.textContent = msg || '';
-    el.classList.toggle('show', !!msg);
-  }
-
-  function showRegisterSuccess(email){
-    $('#register-form').classList.add('hidden');
-    const box = $('#register-success');
-    const emailEl = box.querySelector('[data-reg-email]');
-    emailEl.dataset.email = email;
-    emailEl.textContent = email;
-    box.classList.remove('hidden');
-    document.querySelectorAll('[data-auth-tab]').forEach(b => b.classList.remove('active'));
-  }
-
-  document.addEventListener('click', e => {
-    if(e.target && e.target.id === 'reg-back'){
-      $('#register-success').classList.add('hidden');
-      switchAuthTab('login');
-    }
-  });
-
-  $('#login-form').addEventListener('submit', async e => {
-    e.preventDefault();
-    const email = e.target.elements.email.value.trim();
-    const password = e.target.elements.password.value;
-    setAuthError('login','');
-    if(!sb){ toast('Supabase not connected', true); return; }
-
-    const btn = e.target.querySelector('button[type="submit"]');
-    const prev = btn.textContent;
-    btn.disabled = true; btn.textContent = t('auth.sending');
-    try{
-      const { error } = await sb.auth.signInWithPassword({ email, password });
-      if(error){
-        const msg = (error.message || '').toLowerCase();
-        if(/confirm|not confirmed|email not/i.test(msg)){
-          setAuthError('login', t('auth.err.confirm'));
-        } else if(/invalid/i.test(msg)){
-          setAuthError('login', t('auth.err.creds'));
-        } else {
-          setAuthError('login', t('auth.err.generic'));
-        }
-        return;
-      }
-      toast(t('auth.login.toast'));
-      await loadMyApplication();
-      renderCabinet();
-      renderAdmin();
-      e.target.reset();
-    }finally{
-      btn.disabled = false; btn.textContent = prev;
-    }
-  });
-
-  $('#register-form').addEventListener('submit', async e => {
-    e.preventDefault();
-    const formEl = e.target;
-    const email = formEl.elements.email.value.trim();
-    const password = formEl.elements.password.value;
-    const password2 = formEl.elements.password2.value;
-    setAuthError('register','');
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', t('auth.err.email')); return; }
-    if(password.length < 6){ setAuthError('register', t('auth.err.password')); return; }
-    if(password !== password2){ setAuthError('register', t('auth.err.password2')); return; }
-    if(!sb){ toast('Supabase not connected', true); return; }
-
-    const btn = formEl.querySelector('button[type="submit"]');
-    const prev = btn.textContent;
-    btn.disabled = true; btn.textContent = t('auth.sending');
-
-    const redirectTo = location.origin + location.pathname + location.search;
-
-    try{
-      const { data, error } = await sb.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: redirectTo }
-      });
-
-      console.log('[signUp]', { data, error });
-
-      if(error){
-        const msg = (error.message || '').toLowerCase();
-
-        if(/rate|limit|too many|for security/i.test(msg)){
-          setAuthError('register', t('auth.err.rate'));
-          return;
-        }
-
-        if(/already|registered|exists/i.test(msg)){
-          try{
-            await sb.auth.resend({
-              type: 'signup',
-              email,
-              options: { emailRedirectTo: redirectTo }
-            });
-          }catch(_){}
-          showRegisterSuccess(email);
-          formEl.reset();
-          return;
-        }
-
-        setAuthError('register', t('auth.err.generic'));
-        return;
-      }
-
-      const isExistingUnconfirmed = data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0;
-
-      if(!data.session){
-        if(isExistingUnconfirmed){
-          try{
-            await sb.auth.resend({
-              type: 'signup',
-              email,
-              options: { emailRedirectTo: redirectTo }
-            });
-          }catch(_){}
-        }
-        showRegisterSuccess(email);
-        formEl.reset();
-        return;
-      }
-
-      formEl.reset();
-      toast(t('auth.login.toast'));
-      await loadMyApplication();
-      renderCabinet();
-      renderAdmin();
-    }catch(err){
-      console.error(err);
-      setAuthError('register', t('auth.err.generic'));
-    }finally{
-      btn.disabled = false; btn.textContent = prev;
-    }
-  });
-
-  $('#logout-btn').addEventListener('click', async () => {
+  /* ============ LEADERBOARD ============ */
+  async function renderLeaderboard(){
     if(!sb) return;
-    await sb.auth.signOut();
-    toast(t('auth.logout.toast'));
-    renderCabinet();
-    renderAdmin();
-    go('home');
-  });
+    try{
+      const { data, error } = await sb.from('participants').select('*').order('level', { ascending: false }).order('created_at', { ascending: true });
+      if(error) throw error;
+      const list = data || [];
+      window.setParticipantsCount(list.length);
+
+      const podium = $('#lb-podium');
+      podium.replaceChildren();
+      list.slice(0, 3).forEach((p, i) => {
+        const cls = ['first','second','third'][i];
+        const card = document.createElement('div');
+        card.className = 'podium-card ' + cls;
+        card.innerHTML =
+          '<div class="podium-rank">' + (i+1) + '</div>' +
+          '<div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div>' +
+          '<div class="podium-level">' + (p.level || 0) + '</div>' +
+          '<div class="podium-level-label">уровень</div>';
+        podium.appendChild(card);
+      });
+      while(podium.children.length < 3){
+        const stub = document.createElement('div');
+        stub.className = 'podium-card';
+        stub.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">пусто</div><div class="podium-level">0</div><div class="podium-level-label">уровень</div>';
+        podium.appendChild(stub);
+      }
+
+      const tb = $('#leaderboard-body');
+      tb.replaceChildren();
+      if(!list.length){
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="4" class="empty">Пока нет участников</td>';
+        tb.appendChild(tr);
+        return;
+      }
+      list.forEach((p, i) => {
+        const rank = i + 1;
+        const rankCls = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td><span class="rank-badge ' + rankCls + '">' + rank + '</span></td>' +
+          '<td style="font-weight:600">' + escapeHtml(p.nick || '—') + '</td>' +
+          '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + (p.level || 0) + '</span></td>' +
+          '<td style="color:var(--muted);font-size:13px">' + (p.level || 0) + ' / ' + stages.length + ' этапов</td>';
+        tb.appendChild(tr);
+      });
+    }catch(err){ console.error(err); }
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  /* ============ CABINET ============ */
+  async function loadProfile(){
+    if(!sb || !user){ userProfile = null; return; }
+    try{
+      const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+      if(error) throw error;
+      if(!data){
+        await sb.from('profiles').insert([{ id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 }]);
+        userProfile = { id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 };
+      } else {
+        userProfile = data;
+      }
+    }catch(err){ console.error(err); userProfile = null; }
+  }
+
+  async function loadMyApplications(){
+    if(!sb || !user){ myApplications = []; return; }
+    try{
+      const { data, error } = await sb.from('applications').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+      if(error) throw error;
+      myApplications = data || [];
+    }catch(err){ console.error(err); myApplications = []; }
+  }
 
   function renderCabinet(){
     const logged = !!user;
-    cabinetAuth.classList.toggle('hidden', logged);
-    cabinetDash.classList.toggle('hidden', !logged);
-    refreshApplyGate();
+    $('#cabinet-auth').classList.toggle('hidden', logged);
+    $('#cabinet-dashboard').classList.toggle('hidden', !logged);
     if(!logged) return;
 
-    userEmailEl.textContent = user.email || '—';
-    cabinetContent.replaceChildren();
-    if(!sb){ cabinetContent.innerHTML = '<div class="card"><p style="color:var(--muted)">' + t('cab.demo') + '</p></div>'; return; }
+    document.querySelector('[data-user-email]').textContent = user.email || '—';
+    document.querySelector('[data-user-level]').textContent = userProfile ? (userProfile.level || 0) : 0;
 
-    if(!myApplication){
-      const card = document.createElement('div');
-      card.className = 'card empty-state';
-      card.innerHTML = '<div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>' + t('cab.no.app.t') + '</h2><p>' + t('cab.no.app.p') + '</p>';
-      const a = document.createElement('a');
-      a.className = 'btn btn-primary'; a.href = '#apply';
-      a.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' + t('cab.no.app.cta') + '</span>';
-      card.appendChild(a);
-      cabinetContent.appendChild(card);
+    const list = $('#cabinet-apps');
+    list.replaceChildren();
+    if(!myApplications.length){
+      list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>Нет заявок</h2><p>Выберите этап и подайте заявку.</p><a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a></div>';
       return;
     }
 
-    const a = myApplication;
-    const status = a.status || 'pending';
-    const created = a.created_at ? new Date(a.created_at).toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US') : '—';
+    myApplications.forEach(a => {
+      const stage = stages.find(s => s.id === a.stage_id);
+      const stageLabel = stage ? (stage.title || ('Этап ' + stage.number)) : '—';
+      const created = a.created_at ? new Date(a.created_at).toLocaleString('ru-RU') : '—';
+      const item = document.createElement('div');
+      item.className = 'app-item';
 
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = '<h2 style="font-size:22px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2)"><use href="#i-form"/></svg> ' + t('cab.app.title') + '</h2>';
+      const main = document.createElement('div');
+      main.className = 'app-item-main';
+      main.innerHTML =
+        '<div class="app-item-head">' +
+          '<span class="app-item-stage">' + escapeHtml(stageLabel) + '</span>' +
+          '<span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span>' +
+          '<span class="app-item-date">' + created + '</span>' +
+        '</div>' +
+        '<div style="color:var(--muted);font-size:13px">Ник: <b style="color:var(--text)">' + escapeHtml(a.nick || '—') + '</b>' +
+        (a.telegram ? ' · TG: ' + escapeHtml(a.telegram) : '') +
+        (a.discord ? ' · DC: ' + escapeHtml(a.discord) : '') +
+        '</div>';
+      item.appendChild(main);
 
-    const badge = document.createElement('span');
-    badge.className = 'status-badge ' + status;
-    badge.textContent = t('status.' + status);
-    badge.style.marginBottom = '16px';
-    badge.style.display = 'inline-block';
-    card.appendChild(badge);
+      const actions = document.createElement('div');
+      actions.className = 'app-item-actions';
+      if(a.video){
+        const vid = document.createElement('a');
+        vid.className = 'btn btn-ghost btn-sm';
+        vid.href = a.video; vid.target = '_blank'; vid.rel = 'noopener';
+        vid.innerHTML = '<svg class="i"><use href="#i-play"/></svg><span>Видео</span>';
+        actions.appendChild(vid);
+      }
+      if(a.status === 'pending'){
+        const ed = document.createElement('button');
+        ed.type = 'button'; ed.className = 'btn btn-primary btn-sm';
+        ed.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>Ред.</span>';
+        ed.addEventListener('click', () => {
+          editingId = a.id;
+          currentStageId = a.stage_id;
+          go('apply');
+          setTimeout(() => {
+            form.elements.nick.value = a.nick || '';
+            form.elements.telegram.value = a.telegram || '';
+            form.elements.discord.value = a.discord || '';
+            form.elements.video.value = a.video || '';
+            form.elements.platform.value = a.platform || 'PC';
+            form.elements.about.value = a.about || '';
+            form.elements.agree.checked = true;
+            $('#apply-edit-banner').classList.remove('hidden');
+            submitBtn.querySelector('span').textContent = 'Сохранить';
+          }, 60);
+        });
+        actions.appendChild(ed);
 
-    const dl = document.createElement('dl');
-    [['cab.field.nick', a.nick],
-     ['cab.field.telegram', a.telegram],
-     ['cab.field.discord', a.discord || '—'],
-     ['cab.field.platform', t('platform.' + a.platform) || a.platform],
-     ['cab.app.created', created]].forEach(([k,v]) => {
-      const row = document.createElement('div'); row.className = 'cab-row';
-      const dt = document.createElement('dt'); dt.textContent = t(k);
-      const dd = document.createElement('dd'); dd.textContent = v == null || v === '' ? '—' : v;
-      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
+        const del = document.createElement('button');
+        del.type = 'button'; del.className = 'btn btn-danger btn-sm';
+        del.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+        del.addEventListener('click', async () => {
+          if(!confirm('Удалить заявку?')) return;
+          const { error } = await sb.from('applications').delete().eq('id', a.id).eq('user_id', user.id);
+          if(error){ toast('Ошибка', true); return; }
+          toast('Удалено');
+          await loadMyApplications();
+          renderCabinet();
+          renderStages();
+        });
+        actions.appendChild(del);
+      }
+      item.appendChild(actions);
+      list.appendChild(item);
     });
-    if(a.video){
-      const row = document.createElement('div'); row.className = 'cab-row';
-      const dt = document.createElement('dt'); dt.textContent = t('cab.field.video');
-      const dd = document.createElement('dd');
-      const link = document.createElement('a'); link.href = a.video; link.target = '_blank'; link.rel = 'noopener';
-      link.textContent = a.video; dd.appendChild(link);
-      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
-    }
-    if(a.about){
-      const row = document.createElement('div'); row.className = 'cab-row';
-      const dt = document.createElement('dt'); dt.textContent = t('cab.field.about');
-      const dd = document.createElement('dd'); dd.textContent = a.about;
-      row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
-    }
-    card.appendChild(dl);
+  }
 
-    const actions = document.createElement('div'); actions.className = 'cab-actions';
-    if(status === 'pending'){
+  /* ============ ADMIN ============ */
+  $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
+    adminTab = b.dataset.adminTab;
+    $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
+    $('#admin-stages').classList.toggle('hidden', adminTab !== 'stages');
+    $('#admin-apps').classList.toggle('hidden', adminTab !== 'apps');
+    renderAdmin();
+  }));
+
+  function renderAdmin(){
+    if(!isAdmin()){ navAdmin.classList.add('hidden'); return; }
+    navAdmin.classList.remove('hidden');
+    if(adminTab === 'stages') renderAdminStages();
+    else renderAdminApps();
+  }
+
+  /* --- STAGES TAB --- */
+  async function renderAdminStages(){
+    await loadStages();
+    const tb = $('#admin-stages-body');
+    tb.replaceChildren();
+    if(!stages.length){
+      tb.innerHTML = '<tr><td colspan="6" class="empty">Этапов нет. Создай первый.</td></tr>';
+      return;
+    }
+    stages.forEach(s => {
+      const tr = document.createElement('tr');
+      const appsCount = adminApps.filter(a => a.stage_id === s.id).length;
+
+      tr.innerHTML =
+        '<td style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:18px">' + s.number + '</td>' +
+        '<td style="font-weight:600">' + escapeHtml(s.title || '—') + '</td>' +
+        '<td style="color:var(--muted);font-size:13px;max-width:260px">' + escapeHtml(s.description || '—') + '</td>' +
+        '<td><span class="status-badge ' + s.status + '">' + stageStatusLabel(s) + '</span></td>' +
+        '<td style="color:var(--muted)">' + appsCount + '</td>';
+
+      const actions = document.createElement('td');
+      const wrap = document.createElement('div'); wrap.className = 'admin-actions';
+
+      if(s.status !== 'open'){
+        const openBtn = document.createElement('button');
+        openBtn.className = 'btn btn-success btn-sm';
+        openBtn.textContent = 'Открыть';
+        openBtn.addEventListener('click', () => updateStage(s.id, { status: 'open', opened_at: new Date().toISOString() }));
+        wrap.appendChild(openBtn);
+      }
+      if(s.status !== 'closed'){
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'btn btn-ghost btn-sm';
+        closeBtn.textContent = 'Закрыть';
+        closeBtn.addEventListener('click', () => updateStage(s.id, { status: 'closed', closed_at: new Date().toISOString() }));
+        wrap.appendChild(closeBtn);
+      }
+      if(s.status !== 'draft'){
+        const draftBtn = document.createElement('button');
+        draftBtn.className = 'btn btn-ghost btn-sm';
+        draftBtn.textContent = 'В черновик';
+        draftBtn.addEventListener('click', () => updateStage(s.id, { status: 'draft' }));
+        wrap.appendChild(draftBtn);
+      }
       const editBtn = document.createElement('button');
-      editBtn.type = 'button'; editBtn.className = 'btn btn-primary';
-      editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>' + t('cab.edit') + '</span>';
+      editBtn.className = 'btn btn-ghost btn-sm';
+      editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg>';
       editBtn.addEventListener('click', () => {
-        editingId = a.id;
-        go('apply');
-        setTimeout(() => {
-          form.elements.nick.value = a.nick || '';
-          form.elements.telegram.value = a.telegram || '';
-          form.elements.discord.value = a.discord || '';
-          form.elements.video.value = a.video || '';
-          form.elements.platform.value = a.platform || 'PC';
-          form.elements.about.value = a.about || '';
-          form.elements.agree.checked = true;
-          applyEditBanner.classList.remove('hidden');
-          submitBtn.querySelector('span').textContent = t('btn.update');
-        }, 60);
+        const newTitle = prompt('Название этапа:', s.title || '');
+        if(newTitle === null) return;
+        const newDesc = prompt('Описание:', s.description || '');
+        if(newDesc === null) return;
+        const newUrl = prompt('Ссылка на уровень:', s.level_url || '');
+        if(newUrl === null) return;
+        updateStage(s.id, { title: newTitle, description: newDesc, level_url: newUrl });
       });
-      actions.appendChild(editBtn);
+      wrap.appendChild(editBtn);
 
       const delBtn = document.createElement('button');
-      delBtn.type = 'button'; delBtn.className = 'btn btn-danger';
-      delBtn.innerHTML = '<svg class="i"><use href="#i-x"/></svg><span>' + t('cab.delete') + '</span>';
+      delBtn.className = 'btn btn-danger btn-sm';
+      delBtn.textContent = '🗑';
       delBtn.addEventListener('click', async () => {
-        if(!confirm(t('cab.delete.confirm'))) return;
-        const { error } = await sb.from('applications').delete().eq('id', a.id).eq('user_id', user.id);
-        if(error){ toast(t('toast.fail'), true); return; }
-        toast(t('cab.deleted'));
-        await loadMyApplication();
-        renderCabinet();
+        if(!confirm('Удалить этап и все его заявки?')) return;
+        const { error } = await sb.from('stages').delete().eq('id', s.id);
+        if(error){ toast('Ошибка', true); return; }
+        toast('Этап удалён');
+        await loadStages();
+        await loadAdminApps();
+        renderAdminStages();
       });
-      actions.appendChild(delBtn);
-    }else{
-      const note = document.createElement('div');
-      note.style.cssText = 'color:var(--muted);font-size:13.5px';
-      note.textContent = t('cab.edit.locked');
-      actions.appendChild(note);
+      wrap.appendChild(delBtn);
+
+      actions.appendChild(wrap);
+      tr.appendChild(actions);
+      tb.appendChild(tr);
+    });
+  }
+
+  async function updateStage(id, patch){
+    const { error } = await sb.from('stages').update(patch).eq('id', id);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Обновлено');
+    await loadStages();
+    renderAdminStages();
+    renderStages();
+  }
+
+  $('#create-stage-btn').addEventListener('click', async () => {
+    const num = parseInt($('#new-stage-number').value, 10);
+    const title = $('#new-stage-title').value.trim();
+    const desc = $('#new-stage-desc').value.trim();
+    const url = $('#new-stage-url').value.trim();
+    if(!num || num < 1){ toast('Укажи номер этапа', true); return; }
+    if(!title){ toast('Укажи название', true); return; }
+
+    const { error } = await sb.from('stages').insert([{ number: num, title, description: desc, level_url: url, status: 'draft' }]);
+    if(error){
+      if(/duplicate|unique/i.test(error.message)) toast('Этап с таким номером уже есть', true);
+      else toast('Ошибка: ' + error.message, true);
+      return;
     }
-    card.appendChild(actions);
-    cabinetContent.appendChild(card);
-  }
+    toast('Этап создан');
+    $('#new-stage-number').value = num + 1;
+    $('#new-stage-title').value = '';
+    $('#new-stage-desc').value = '';
+    $('#new-stage-url').value = '';
+    await loadStages();
+    renderAdminStages();
+  });
 
-  async function loadMyApplication(){
-    if(!sb || !user){ myApplication = null; return; }
-    try{
-      const { data, error } = await sb.from('applications')
-        .select('*').eq('user_id', user.id)
-        .order('created_at', { ascending: false }).limit(1).maybeSingle();
-      if(error) throw error;
-      myApplication = data || null;
-    }catch(_){ myApplication = null; }
-  }
-
+  /* --- APPS TAB --- */
   async function loadAdminApps(){
     if(!sb || !isAdmin()){ adminApps = []; return; }
     try{
       const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false });
       if(error) throw error;
       adminApps = data || [];
-    }catch(err){
-      console.error(err);
-      adminApps = [];
-    }
+    }catch(err){ console.error(err); adminApps = []; }
   }
 
   function updateAdminStats(){
@@ -1262,155 +1317,290 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     document.querySelector('[data-admin-rejected]').textContent = rejected;
   }
 
-  function renderAdmin(){
-    if(!isAdmin()){
-      navAdmin.classList.add('hidden');
-      return;
-    }
-    navAdmin.classList.remove('hidden');
+  function renderStageFilter(){
+    const sel = $('#admin-stage-filter');
+    const cur = sel.value;
+    sel.innerHTML = '<option value="all">Все этапы</option>';
+    stages.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s.id;
+      o.textContent = '#' + s.number + ' ' + (s.title || '');
+      sel.appendChild(o);
+    });
+    if(stages.some(s => s.id === cur)) sel.value = cur;
+  }
+
+  function renderAdminApps(){
     loadAdminApps().then(() => {
+      renderStageFilter();
       updateAdminStats();
       renderAdminTable();
     });
   }
 
+  $('#admin-stage-filter').addEventListener('change', e => {
+    adminStageFilter = e.target.value;
+    renderAdminTable();
+  });
+
+  $$('[data-app-filter]').forEach(b => b.addEventListener('click', () => {
+    $$('[data-app-filter]').forEach(x => x.classList.toggle('active', x === b));
+    adminAppFilter = b.dataset.appFilter;
+    renderAdminTable();
+  }));
+
   function renderAdminTable(){
     const tb = $('#admin-body');
     tb.replaceChildren();
-    const list = adminFilter === 'all' ? adminApps : adminApps.filter(a => a.status === adminFilter);
+    let list = adminApps;
+    if(adminStageFilter !== 'all') list = list.filter(a => a.stage_id === adminStageFilter);
+    if(adminAppFilter !== 'all') list = list.filter(a => a.status === adminAppFilter);
+
     if(!list.length){
-      const tr = document.createElement('tr');
-      const td = document.createElement('td');
-      td.colSpan = 7; td.className = 'empty';
-      td.textContent = t('admin.empty');
-      tr.appendChild(td); tb.appendChild(tr);
+      tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>';
       return;
     }
+
     list.forEach(a => {
+      const stage = stages.find(s => s.id === a.stage_id);
       const tr = document.createElement('tr');
+      const created = a.created_at ? new Date(a.created_at).toLocaleString('ru-RU') : '—';
+      const contacts = [];
+      if(a.telegram) contacts.push('TG: ' + a.telegram);
+      if(a.discord) contacts.push('DC: ' + a.discord);
+      if(a.email) contacts.push('✉ ' + a.email);
 
-      const td1 = document.createElement('td');
-      td1.style.fontSize = '12.5px';
-      td1.style.color = 'var(--muted)';
-      td1.textContent = a.created_at ? new Date(a.created_at).toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US') : '—';
-      tr.appendChild(td1);
+      tr.innerHTML =
+        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + created + '</td>' +
+        '<td style="font-family:\'Exo 2\',sans-serif;font-weight:700">' + (stage ? '#' + stage.number : '—') + '</td>' +
+        '<td style="font-weight:600">' + escapeHtml(a.nick || '—') + '</td>' +
+        '<td style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</td>';
 
-      const td2 = document.createElement('td');
-      td2.textContent = a.nick || '—';
-      tr.appendChild(td2);
-
-      const td3 = document.createElement('td');
-      td3.style.fontSize = '13px';
-      const lines = [];
-      if(a.telegram) lines.push('TG: ' + a.telegram);
-      if(a.discord) lines.push('DC: ' + a.discord);
-      if(a.email) lines.push('Email: ' + a.email);
-      td3.textContent = lines.join(' · ') || '—';
-      tr.appendChild(td3);
-
-      const td4 = document.createElement('td');
+      const tdVideo = document.createElement('td');
       if(a.video){
-        const link = document.createElement('a');
-        link.href = a.video; link.target = '_blank'; link.rel = 'noopener';
-        link.className = 'video-link';
-        link.textContent = '▶ Открыть';
-        td4.appendChild(link);
-      } else td4.textContent = '—';
-      tr.appendChild(td4);
-
-      const td5 = document.createElement('td');
-      td5.textContent = t('platform.' + a.platform) || a.platform || '—';
-      tr.appendChild(td5);
+        const lnk = document.createElement('a');
+        lnk.href = a.video; lnk.target = '_blank'; lnk.rel = 'noopener';
+        lnk.className = 'video-link';
+        lnk.innerHTML = '<svg class="i" style="font-size:12px;vertical-align:-2px"><use href="#i-play"/></svg> Открыть';
+        tdVideo.appendChild(lnk);
+      } else tdVideo.textContent = '—';
+      tr.appendChild(tdVideo);
 
       const td6 = document.createElement('td');
-      const badge = document.createElement('span');
-      badge.className = 'badge ' + (a.status === 'approved' ? '' : a.status === 'rejected' ? 'rejected' : 'pending');
-      badge.textContent = t('status.' + a.status);
-      td6.appendChild(badge);
+      td6.textContent = a.platform || '—';
       tr.appendChild(td6);
 
       const td7 = document.createElement('td');
-      const actions = document.createElement('div'); actions.className = 'admin-actions';
+      const b = document.createElement('span');
+      b.className = 'status-badge ' + a.status;
+      b.textContent = ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status]) || a.status;
+      td7.appendChild(b);
+      tr.appendChild(td7);
+
+      const td8 = document.createElement('td');
+      const wrap = document.createElement('div'); wrap.className = 'admin-actions';
 
       if(a.status !== 'approved'){
         const ap = document.createElement('button');
-        ap.type = 'button'; ap.className = 'btn btn-success btn-sm';
-        ap.textContent = '✓';
-        ap.title = t('admin.approve');
-        ap.addEventListener('click', () => updateStatus(a.id, 'approved'));
-        actions.appendChild(ap);
+        ap.className = 'btn btn-success btn-sm';
+        ap.innerHTML = '✓';
+        ap.title = 'Одобрить (+1 к уровню)';
+        ap.addEventListener('click', () => adminUpdateStatus(a.id, 'approved'));
+        wrap.appendChild(ap);
       }
       if(a.status !== 'rejected'){
         const rj = document.createElement('button');
-        rj.type = 'button'; rj.className = 'btn btn-ghost btn-sm';
+        rj.className = 'btn btn-ghost btn-sm';
         rj.textContent = '✕';
-        rj.title = t('admin.reject');
-        rj.addEventListener('click', () => updateStatus(a.id, 'rejected'));
-        actions.appendChild(rj);
+        rj.title = 'Отклонить';
+        rj.addEventListener('click', () => adminUpdateStatus(a.id, 'rejected'));
+        wrap.appendChild(rj);
       }
       const dl = document.createElement('button');
-      dl.type = 'button'; dl.className = 'btn btn-danger btn-sm';
+      dl.className = 'btn btn-danger btn-sm';
       dl.textContent = '🗑';
-      dl.title = t('admin.delete');
       dl.addEventListener('click', async () => {
-        if(!confirm(t('admin.confirm.delete'))) return;
+        if(!confirm('Удалить заявку?')) return;
         const { error } = await sb.from('applications').delete().eq('id', a.id);
-        if(error){ toast(t('toast.fail'), true); return; }
-        toast(t('admin.deleted'));
+        if(error){ toast('Ошибка', true); return; }
+        toast('Удалено');
         await loadAdminApps();
         updateAdminStats();
         renderAdminTable();
+        await renderLeaderboard();
       });
-      actions.appendChild(dl);
+      wrap.appendChild(dl);
 
-      td7.appendChild(actions);
-      tr.appendChild(td7);
-
+      td8.appendChild(wrap);
+      tr.appendChild(td8);
       tb.appendChild(tr);
     });
   }
 
-  async function updateStatus(id, status){
+  async function adminUpdateStatus(id, status){
     const { error } = await sb.from('applications').update({ status }).eq('id', id);
-    if(error){ toast(t('toast.fail'), true); return; }
-    toast(status === 'approved' ? t('admin.approved') : t('admin.rejected'));
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast(status === 'approved' ? 'Одобрено (+1 к уровню)' : 'Отклонено');
     await loadAdminApps();
     updateAdminStats();
     renderAdminTable();
-    const list = await loadParticipants();
-    participants = list; participantsLoaded = true;
-    renderParticipants(list);
-    window.setParticipantsCount(list ? list.length : null);
+    await renderLeaderboard();
+    await loadMyApplications();
   }
 
-  document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('[data-filter]').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    adminFilter = b.dataset.filter;
-    renderAdminTable();
+  /* ============ AUTH ============ */
+  $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
+    $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
+    $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
+    $('#register-form').classList.toggle('hidden', b.dataset.authTab !== 'register');
+    $('#register-success').classList.add('hidden');
+    $('#login-error').textContent = '';
+    $('#register-error').textContent = '';
   }));
+
+  function setAuthError(which, msg){
+    const el = $('#' + which + '-error');
+    el.textContent = msg || '';
+    el.classList.toggle('show', !!msg);
+  }
+
+  function showRegisterSuccess(email){
+    $('#register-form').classList.add('hidden');
+    const box = $('#register-success');
+    box.querySelector('[data-reg-email]').textContent = email;
+    box.classList.remove('hidden');
+    $$('[data-auth-tab]').forEach(b => b.classList.remove('active'));
+  }
+
+  document.addEventListener('click', e => {
+    if(e.target && e.target.id === 'reg-back'){
+      $('#register-success').classList.add('hidden');
+      $$('[data-auth-tab]').forEach(b => b.classList.toggle('active', b.dataset.authTab === 'login'));
+      $('#login-form').classList.remove('hidden');
+      $('#register-form').classList.add('hidden');
+    }
+  });
+
+  $('#login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const email = e.target.elements.email.value.trim();
+    const password = e.target.elements.password.value;
+    setAuthError('login','');
+    if(!sb){ toast('Supabase не подключён', true); return; }
+    const btn = e.target.querySelector('button[type="submit"]');
+    const prev = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Отправляем…';
+    try{
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if(error){
+        const msg = (error.message || '').toLowerCase();
+        if(/confirm|not confirmed|email not/i.test(msg)){
+          setAuthError('login', 'Email не подтверждён. Проверь почту и перейди по ссылке.');
+        } else if(/invalid/i.test(msg)){
+          setAuthError('login', 'Неверный email или пароль');
+        } else {
+          setAuthError('login', 'Ошибка. Попробуй ещё.');
+        }
+        return;
+      }
+      toast('Добро пожаловать!');
+      await afterLogin();
+      e.target.reset();
+    }finally{
+      btn.disabled = false; btn.textContent = prev;
+    }
+  });
+
+  $('#register-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const formEl = e.target;
+    const email = formEl.elements.email.value.trim();
+    const password = formEl.elements.password.value;
+    const password2 = formEl.elements.password2.value;
+    setAuthError('register','');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', 'Корректный email'); return; }
+    if(password.length < 6){ setAuthError('register', 'Минимум 6 символов'); return; }
+    if(password !== password2){ setAuthError('register', 'Пароли не совпадают'); return; }
+    if(!sb){ toast('Supabase не подключён', true); return; }
+
+    const btn = formEl.querySelector('button[type="submit"]');
+    const prev = btn.textContent;
+    btn.disabled = true; btn.textContent = 'Отправляем…';
+    const redirectTo = location.origin + location.pathname + location.search;
+
+    try{
+      const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: redirectTo } });
+      console.log('[signUp]', { data, error });
+
+      if(error){
+        const msg = (error.message || '').toLowerCase();
+        if(/rate|limit|too many/i.test(msg)){ setAuthError('register', 'Письмо уже отправлялось. Подожди минуту.'); return; }
+        if(/already|registered|exists/i.test(msg)){
+          try{ await sb.auth.resend({ type:'signup', email, options:{ emailRedirectTo: redirectTo } }); }catch(_){}
+          showRegisterSuccess(email); formEl.reset(); return;
+        }
+        setAuthError('register', 'Ошибка. Попробуй ещё.');
+        return;
+      }
+
+      const existing = data && data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0;
+      if(!data.session){
+        if(existing){
+          try{ await sb.auth.resend({ type:'signup', email, options:{ emailRedirectTo: redirectTo } }); }catch(_){}
+        }
+        showRegisterSuccess(email); formEl.reset(); return;
+      }
+
+      formEl.reset();
+      toast('Аккаунт создан!');
+      await afterLogin();
+    }catch(err){
+      console.error(err);
+      setAuthError('register', 'Ошибка');
+    }finally{
+      btn.disabled = false; btn.textContent = prev;
+    }
+  });
+
+  $('#logout-btn').addEventListener('click', async () => {
+    if(!sb) return;
+    await sb.auth.signOut();
+    toast('Вы вышли');
+    user = null; userProfile = null; myApplications = [];
+    renderCabinet();
+    renderAdmin();
+    renderStages();
+    go('home');
+  });
+
+  async function afterLogin(){
+    await loadProfile();
+    await loadMyApplications();
+    await loadStages();
+    renderCabinet();
+    renderAdmin();
+    renderStages();
+  }
 
   async function initAuth(){
     if(!sb) return;
     const { data } = await sb.auth.getSession();
     user = data.session ? data.session.user : null;
-
     sb.auth.onAuthStateChange((_ev, s) => {
+      const wasUser = user;
       user = s ? s.user : null;
-      if(user){ loadMyApplication().then(() => renderCabinet()); }
-      else { myApplication = null; renderCabinet(); }
-      renderAdmin();
+      if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
+      else if(!user){ userProfile = null; myApplications = []; renderCabinet(); renderAdmin(); renderStages(); }
     });
-
-    if(user) await loadMyApplication();
-    renderCabinet();
+    if(user) await afterLogin();
+    else { renderCabinet(); renderAdmin(); }
   }
 
+  /* ============ START ============ */
   const saved = storedLang();
   const guess = /^ru\b/i.test(navigator.language || '') ? 'ru' : 'en';
   applyLang(saved || guess);
   show(readHash() || 'home');
-  refreshApplyGate();
 
   if(!saved){
     setShellInert(true);
@@ -1419,11 +1609,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
 
   (async function init(){
+    await loadStages();
     await initAuth();
-    const list = await loadParticipants();
-    participants = list; participantsLoaded = true;
-    renderParticipants(list);
-    window.setParticipantsCount(list ? list.length : null);
+    renderStages();
+    await renderLeaderboard();
   })();
 
 })();
