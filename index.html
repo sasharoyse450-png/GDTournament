@@ -62,7 +62,6 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-success:hover{transform:translateY(-1px)}
-.btn-icon{width:34px;padding:0;justify-content:center}
 main{flex:1}
 .page{display:none}
 .page.active{display:block;animation:fade .3s ease}
@@ -108,29 +107,58 @@ main{flex:1}
 .feature b{display:block;font-size:13.5px}
 .feature span{color:var(--muted);font-size:12px}
 
-.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
-.stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:14px}
+/* ===== TOURNAMENTS ===== */
+.tournaments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:20px}
+.tournament-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(14,26,58,.9),rgba(9,18,42,.95));padding:26px;cursor:pointer;display:flex;flex-direction:column;gap:16px}
+.tournament-card:hover{transform:translateY(-4px);border-color:var(--blue-2);box-shadow:0 14px 44px rgba(31,139,255,.22)}
+.tournament-card.open{border-left:4px solid var(--green)}
+.tournament-card.draft{border-left:4px solid var(--gold)}
+.tournament-card.closed{border-left:4px solid var(--muted);opacity:.85}
+.t-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.t-number{font-family:'Exo 2',sans-serif;font-weight:900;font-size:14px;letter-spacing:.14em;color:var(--blue-2);text-transform:uppercase}
+.t-status{padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.t-status.open{background:rgba(47,212,138,.14);color:var(--green)}
+.t-status.closed{background:rgba(143,164,203,.14);color:var(--muted)}
+.t-status.draft{background:rgba(246,183,60,.14);color:var(--gold)}
+.t-title{font-family:'Exo 2',sans-serif;font-size:24px;font-weight:800;line-height:1.15}
+.t-desc{color:var(--muted);font-size:14px}
+.t-progress{margin-top:auto}
+.t-progress-head{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.t-progress-bar{height:8px;border-radius:999px;background:rgba(31,139,255,.12);overflow:hidden;display:flex;gap:2px;padding:2px}
+.t-progress-seg{flex:1;height:100%;border-radius:999px;background:rgba(143,164,203,.2)}
+.t-progress-seg.done{background:linear-gradient(180deg,#3ee89a,#1fa866)}
+.t-progress-seg.current{background:linear-gradient(180deg,#2a98ff,#1169e8)}
+.t-stages-count{font-size:12px;color:var(--muted)}
+
+/* ===== STAGES INSIDE TOURNAMENT ===== */
+.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+.stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:12px}
 .stage-card:hover{transform:translateY(-3px)}
 .stage-card.open:hover{border-color:var(--green);box-shadow:0 10px 34px rgba(47,212,138,.18)}
 .stage-card.closed{opacity:.75}
-.stage-card.locked{opacity:.6}
+.stage-card.locked{opacity:.55;filter:grayscale(.3)}
+.stage-card.approved{border-color:var(--green);background:linear-gradient(180deg,rgba(47,212,138,.08),rgba(9,18,42,.9))}
 .stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.stage-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:36px;line-height:1;background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stage-status{padding:4px 12px;border-radius:999px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.stage-num{font-family:'Exo 2',sans-serif;font-weight:800;font-size:32px;line-height:1;background:linear-gradient(180deg,#7ad6ff,#1f6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stage-num.done{background:linear-gradient(180deg,#7aebad,#1fa866);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stage-status{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .stage-status.open{background:rgba(47,212,138,.14);color:var(--green)}
 .stage-status.closed{background:rgba(143,164,203,.14);color:var(--muted)}
 .stage-status.draft{background:rgba(246,183,60,.14);color:var(--gold)}
-.stage-title{font-size:19px;font-weight:700}
-.stage-desc{color:var(--muted);font-size:13.5px}
-.stage-meta{display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--muted)}
+.stage-status.locked{background:rgba(143,164,203,.14);color:var(--muted)}
+.stage-status.approved{background:rgba(47,212,138,.18);color:var(--green)}
+.stage-status.pending{background:rgba(246,183,60,.18);color:var(--gold)}
+.stage-status.rejected{background:rgba(255,93,115,.18);color:var(--red)}
+.stage-title{font-size:18px;font-weight:700}
+.stage-desc{color:var(--muted);font-size:13px}
+.stage-meta{display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--muted)}
 .stage-meta b{color:var(--text);font-weight:600}
-.stage-locked-note{padding:10px 14px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.3);color:var(--red);font-size:12.5px;display:flex;gap:8px;align-items:center}
+.stage-locked-note{padding:10px 14px;border-radius:10px;background:rgba(143,164,203,.08);border:1px solid rgba(143,164,203,.25);color:var(--muted);font-size:12px;display:flex;gap:8px;align-items:center}
 .stage-card code{font-family:'JetBrains Mono',monospace;font-size:11.5px}
-.stage-card ul{font-size:13px;color:#b9c8e6}
-.stage-card li span{word-break:break-word}
 
+/* ===== LEADERBOARD ===== */
 .lb-podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
-.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));position:relative;overflow:hidden}
+.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9))}
 .podium-card.first{border-color:var(--gold);box-shadow:0 0 40px rgba(246,183,60,.2)}
 .podium-card.second{border-color:#c0c8d8}
 .podium-card.third{border-color:#c98555}
@@ -173,14 +201,14 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .cab-user{font-size:13px;color:var(--muted);margin-top:6px}
 .cab-user b{color:var(--text);font-weight:600}
 .cab-level-card{display:flex;align-items:center;gap:20px;padding:24px;margin-bottom:22px;border-radius:16px;background:linear-gradient(135deg,rgba(31,139,255,.15),rgba(179,107,255,.1));border:1px solid rgba(31,139,255,.35)}
-.cab-level-badge{display:grid;place-items:center;width:72px;height:72px;border-radius:18px;background:linear-gradient(180deg,#2a98ff,#1169e8);font-family:'Exo 2',sans-serif;font-weight:900;font-size:32px;color:#fff;flex:none;box-shadow:0 8px 28px rgba(31,139,255,.4)}
+.cab-level-badge{display:grid;place-items:center;width:72px;height:72px;border-radius:18px;background:linear-gradient(180deg,#2a98ff,#1169e8);font-family:'Exo 2',sans-serif;font-weight:900;font-size:32px;color:#fff;flex:none}
 .cab-level-info h2{font-size:20px;margin-bottom:4px}
 .cab-level-info p{color:var(--muted);font-size:13.5px}
 .app-list{display:grid;gap:14px}
 .app-item{padding:18px 20px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.5);display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
 .app-item-main{flex:1;min-width:200px}
 .app-item-head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
-.app-item-stage{font-family:'Exo 2',sans-serif;font-weight:800;font-size:16px}
+.app-item-stage{font-family:'Exo 2',sans-serif;font-weight:800;font-size:15px}
 .app-item-date{font-size:12px;color:var(--muted);margin-left:auto}
 .app-item-actions{display:flex;gap:8px;flex-wrap:wrap;align-self:center}
 .app-comment{margin-top:10px;padding:10px 14px;border-radius:10px;background:rgba(31,139,255,.06);border-left:3px solid var(--blue-2);font-size:13px;color:#b9c8e6}
@@ -217,7 +245,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
 .admin-tabs button.active{background:var(--blue);color:#fff}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center;position:relative}
+.admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
 .admin-stat b{display:block;font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;line-height:1}
 .admin-stat span{color:var(--muted);font-size:12px;margin-top:6px;display:block}
 .admin-actions{display:flex;gap:6px;flex-wrap:wrap}
@@ -240,7 +268,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
 
-/* ===== DASHBOARD ===== */
 .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
 .dash-card{padding:20px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9))}
 .dash-card h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -248,8 +275,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .dash-bar-chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding-top:8px}
 .dash-bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
 .dash-bar-fill{width:100%;background:linear-gradient(180deg,#2a98ff,#1169e8);border-radius:6px 6px 0 0;min-height:4px;transition:height .4s ease;position:relative}
-.dash-bar-fill:hover{background:linear-gradient(180deg,#7ad6ff,#2a98ff)}
-.dash-bar-fill span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--blue-2);font-weight:700;opacity:0;transition:.2s}
+.dash-bar-fill span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--blue-2);font-weight:700;opacity:0}
 .dash-bar:hover .dash-bar-fill span{opacity:1}
 .dash-bar-label{font-size:10.5px;color:var(--muted);white-space:nowrap}
 .dash-leader-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line-soft)}
@@ -258,8 +284,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .dash-leader-rank.gold{background:rgba(246,183,60,.15);color:var(--gold)}
 .dash-leader-email{flex:1;font-size:13px;word-break:break-all}
 .dash-leader-count{font-family:'Exo 2',sans-serif;font-weight:800;font-size:18px;color:var(--blue-2);flex:none}
-
-/* ===== STAGE FILTER ON DASHBOARD ===== */
 .dash-recent{display:flex;flex-direction:column;gap:8px}
 .dash-recent-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.5);font-size:12.5px}
 .dash-recent-row .who{font-weight:600;color:var(--text)}
@@ -268,7 +292,14 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .dash-recent-row.approve .who{color:var(--green)}
 .dash-recent-row.reject .who{color:var(--red)}
 
-/* ===== MOBILE ADMIN ===== */
+/* admin tournament stages manager */
+.t-stage-row{display:grid;grid-template-columns:60px 1fr 1fr auto;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--line-soft);background:rgba(10,20,45,.4);align-items:center;margin-bottom:10px}
+.t-stage-row .stage-num-mini{font-family:'Exo 2',sans-serif;font-weight:800;font-size:22px;color:var(--blue-2)}
+.t-stage-row .info{font-size:13px}
+.t-stage-row .info b{display:block;font-weight:600;color:var(--text)}
+.t-stage-row .info span{color:var(--muted);font-size:12px}
+.t-stage-row .actions{display:flex;gap:6px}
+
 .admin-mobile-card{display:none}
 @media(max-width:760px){
   .admin-mobile-card{display:block;padding:16px;margin-bottom:12px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.5)}
@@ -279,6 +310,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .admin-mobile-card .actions .btn{flex:1;min-width:80px;height:40px;font-size:13px}
   .admin-desktop-table{display:none}
   .dash-grid{grid-template-columns:1fr}
+  .t-stage-row{grid-template-columns:1fr;text-align:left}
 }
 
 @media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
@@ -320,6 +352,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-cup" viewBox="0 0 24 24"><path d="M6 2h12v3a6 6 0 0 1-12 0z"/><path d="M6 4H3v2a3 3 0 0 0 3 3M18 4h3v2a3 3 0 0 1-3 3"/><path d="M9 13h6v3H9z"/><path d="M7 22h10l-1-3H8z"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
 </defs>
 </svg>
 
@@ -332,7 +366,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <nav class="nav" id="nav">
       <a href="#home" data-nav="home"><svg class="i"><use href="#i-home"/></svg><span>Главная</span></a>
       <a href="#rules" data-nav="rules"><svg class="i"><use href="#i-rules"/></svg><span>Правила</span></a>
-      <a href="#stages" data-nav="stages"><svg class="i"><use href="#i-tag"/></svg><span>Этапы</span></a>
+      <a href="#tournaments" data-nav="tournaments"><svg class="i"><use href="#i-cup"/></svg><span>Турниры</span></a>
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span>Таблица</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span>Кабинет</span></a>
       <a href="#docs" data-nav="docs"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></a>
@@ -362,9 +396,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <h1 class="hero-title"><span class="l1">International</span><span class="l2">Geometry Dash</span></h1>
         <div class="hero-sub">Community Cup</div>
         <p class="hero-lead">Покажи свой скилл. Докажи, что ты лучший.</p>
-        <p class="hero-desc">Турнир по Geometry Dash среди участников нашего сообщества.</p>
+        <p class="hero-desc">Турниры по Geometry Dash среди участников нашего сообщества.</p>
         <div class="hero-cta">
-          <a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
+          <a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
           <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
       </div>
@@ -381,15 +415,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h2>Как принять участие</h2>
       <div class="steps">
         <a class="card step" href="#rules"><div class="num">1</div><h3>Изучи правила</h3><p>Формат турнира, запреты и условия участия.</p><span class="go">К правилам <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#docs"><div class="num">2</div><h3>Подготовь документы</h3><p>Запись игры с хенд камом и чит индикатором.</p><span class="go">К документам <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#stages"><div class="num">3</div><h3>Подай заявку на этап</h3><p>Выбери открытый этап и отправь заявку.</p><span class="go">К этапам <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#tournaments"><div class="num">2</div><h3>Выбери турнир</h3><p>Открытые турниры с 4 этапами внутри.</p><span class="go">К турнирам <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#docs"><div class="num">3</div><h3>Подготовь документы</h3><p>Запись игры с хенд камом и чит индикатором.</p><span class="go">К документам <svg class="i"><use href="#i-arrow"/></svg></span></a>
       </div>
     </div>
     <div class="features">
-      <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b>Честная игра</b><span>Строгая проверка записей и античит.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-users"/></svg><div><b>Сильное комьюнити</b><span>Участники из нашего сообщества.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b>Награды</b><span>Награды и сувениры для лучших.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-fire"/></svg><div><b>Прокачка уровня</b><span>Каждый пройденный этап +1 к уровню.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b>Честная игра</b><span>Строгая проверка записей.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-cup"/></svg><div><b>4 этапа на турнир</b><span>Пройди все — стань чемпионом.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b>Награды</b><span>Для лучших участников.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-fire"/></svg><div><b>Прокачка</b><span>Каждый этап +1 к уровню.</span></div></div>
     </div>
   </div>
 </section>
@@ -404,22 +438,37 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-body">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат проведения</h3><p style="color:#b9c8e6;font-size:14px">Этапы открываются поочерёдно. Каждый этап — отдельный уровень. Список уровней публикуется в день старта этапа.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат турнира</h3><p style="color:#b9c8e6;font-size:14px">Каждый турнир содержит 4 этапа. Этапы открываются поочерёдно. Прогресс в одном турнире не влияет на другие.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Подача заявки</h3><p style="color:#b9c8e6;font-size:14px">Заявка подаётся отдельно на каждый этап. Уровень растёт, когда админ одобряет видео.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Уровень</h3><p style="color:#b9c8e6;font-size:14px">Твой уровень = число одобренных этапов. Каждый следующий этап требует достаточного уровня.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире. Первый этап доступен всем.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Уровень</h3><p style="color:#b9c8e6;font-size:14px">Твой уровень = число одобренных этапов по всем турнирам. Растёт при одобрении видео.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
       </div>
     </div>
   </div>
 </section>
 
-<section class="page" id="page-stages">
+<section class="page" id="page-tournaments">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-tag"/></svg><span>Этапы турнира</span></div>
-      <h1>Этапы</h1>
-      <p>Каждый этап — отдельная подача заявки. Доступ к этапу открывается после прохождения предыдущего.</p>
+      <div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span>Турниры</span></div>
+      <h1>Турниры</h1>
+      <p>Выбери турнир. Внутри каждого — 4 этапа. Доступ к следующему этапу после одобрения предыдущего.</p>
+    </div>
+    <div class="page-body">
+      <div class="tournaments-grid" id="tournaments-grid"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-tournament">
+  <div class="wrap">
+    <div class="page-head">
+      <button class="btn btn-ghost btn-sm" id="tournament-back" style="margin-bottom:16px"><svg class="i"><use href="#i-back"/></svg><span>К турнирам</span></button>
+      <div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span id="t-page-eyebrow">Турнир</span></div>
+      <h1 id="t-page-title">Турнир</h1>
+      <p id="t-page-desc">—</p>
+      <div id="t-page-progress" style="margin-top:16px"></div>
     </div>
     <div class="page-body">
       <div class="stages-grid" id="stages-grid"></div>
@@ -430,7 +479,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <section class="page" id="page-apply">
   <div class="wrap">
     <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span>Заявка на этап</span></div>
+      <div class="eyebrow"><svg class="i"><use href="#i-form"/></svg><span id="apply-eyebrow">Заявка</span></div>
       <h1 id="apply-title">Форма подачи заявки</h1>
       <p id="apply-subtitle">Заполни все поля внимательно.</p>
     </div>
@@ -448,15 +497,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div>
           <h2>Этап заблокирован</h2>
           <p id="apply-blocked-reason">Пройди предыдущие этапы, чтобы получить доступ.</p>
-          <a class="btn btn-ghost" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
+          <a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
         </div>
       </div>
       <div id="apply-notfound" class="card hidden">
         <div class="empty-state">
           <div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div>
           <h2>Этап не выбран</h2>
-          <p>Выбери этап на странице «Этапы».</p>
-          <a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a>
+          <p>Выбери турнир и этап на странице «Турниры».</p>
+          <a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a>
         </div>
       </div>
       <div id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
@@ -512,7 +561,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
             <p>Мы проверим твоё видео и свяжемся с тобой.</p>
             <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
               <a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span>В личный кабинет</span></a>
-              <a class="btn btn-ghost" href="#stages">К этапам</a>
+              <a class="btn btn-ghost" href="#tournaments">К турнирам</a>
             </div>
           </div>
         </div>
@@ -534,7 +583,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-chart"/></svg><span>Турнирная таблица</span></div>
       <h1>Турнирная таблица</h1>
-      <p>Уровень = количество одобренных этапов. Сортировка по убыванию.</p>
+      <p>Уровень = количество одобренных этапов по всем турнирам.</p>
       <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)">
         <svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg>
         <span>Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b>
@@ -545,7 +594,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="card table-card">
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>#</th><th>Ник</th><th>Уровень</th><th>Прогресс</th></tr></thead>
+            <thead><tr><th>#</th><th>Ник</th><th>Уровень</th></tr></thead>
             <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
@@ -630,15 +679,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-body">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px">Скриншот или видео с включенным чит индикатором.</p></div></article>
-        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам (руки + клавиатура)</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
+        <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px">Видео с камерой, показывающее руки на клавиатуре.</p></div></article>
       </div>
       <div class="card" style="margin-top:22px">
         <h3 style="display:flex;align-items:center;gap:10px;font-size:18px;margin-bottom:16px"><svg class="i" style="color:var(--blue-2);font-size:20px"><use href="#i-clip"/></svg>Как подготовить запись?</h3>
         <ol style="list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px 24px">
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">1</span>Включи чит индикатор (если он есть).</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">2</span>Запиши видео с хенд камом (руки + клавиатура).</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">3</span>Убедись, что в записи видно весь экран.</li>
-          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">4</span>Загрузи на облако и укажи ссылку в заявке.</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">1</span>Включи чит индикатор.</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">2</span>Запиши видео с хенд камом.</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">3</span>Убедись, что видно весь экран.</li>
+          <li style="display:flex;gap:12px;color:#b9c8e6;font-size:13.5px"><span class="num" style="width:26px;height:26px;font-size:12px">4</span>Загрузи на облако и укажи ссылку.</li>
         </ol>
       </div>
     </div>
@@ -650,18 +699,17 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div>
       <h1>Панель администратора</h1>
-      <p>Управление этапами и заявками.</p>
+      <p>Управление турнирами, этапами и заявками.</p>
     </div>
     <div class="page-body">
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active">Дашборд</button>
-        <button type="button" data-admin-tab="stages" id="tab-stages">Этапы</button>
+        <button type="button" data-admin-tab="tournaments" id="tab-tournaments">Турниры</button>
         <button type="button" data-admin-tab="apps">Заявки</button>
         <button type="button" data-admin-tab="log" id="tab-log">Лог</button>
         <button type="button" data-admin-tab="moderators" id="tab-moderators">Модераторы</button>
       </div>
 
-      <!-- DASHBOARD -->
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span>Всего заявок</span></div>
@@ -685,64 +733,30 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
-      <!-- STAGES -->
-      <div id="admin-stages" class="hidden">
+      <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px">
             <svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg>
-            Новый этап
+            Новый турнир
           </h3>
-          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:10px">
-            <input class="input" type="number" id="new-stage-number" placeholder="№" min="1" value="1">
-            <input class="input" type="text" id="new-stage-title" placeholder="Название этапа">
-            <input class="input" type="text" id="new-stage-desc" placeholder="Короткое описание">
+          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:14px">
+            <input class="input" type="number" id="new-t-number" placeholder="№" min="1" value="1">
+            <input class="input" type="text" id="new-t-title" placeholder="Название турнира">
+            <input class="input" type="text" id="new-t-desc" placeholder="Описание">
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-            <input class="input" type="text" id="new-stage-task" placeholder="Задача: что нужно сделать">
-            <input class="input" type="text" id="new-stage-reward" placeholder="Награда за прохождение">
-          </div>
-          <div style="margin-bottom:10px">
-            <textarea class="input" id="new-stage-rules" placeholder="Правила этапа (по одному на строку)" style="height:80px"></textarea>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-            <input class="input" type="text" id="new-stage-level-id" placeholder="ID уровня в GD">
-            <input class="input" type="text" id="new-stage-level-name" placeholder="Название уровня">
-            <select class="input" id="new-stage-difficulty">
-              <option value="">Сложность</option>
-              <option value="Easy">Easy</option>
-              <option value="Normal">Normal</option>
-              <option value="Hard">Hard</option>
-              <option value="Harder">Harder</option>
-              <option value="Insane">Insane</option>
-              <option value="Extreme Demon">Extreme Demon</option>
-            </select>
-            <input class="input" type="text" id="new-stage-level-url" placeholder="Ссылка на видео уровня">
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
-            <input class="input" type="datetime-local" id="new-stage-deadline" title="Дедлайн подачи">
-            <input class="input" type="number" id="new-stage-max" placeholder="Лимит участников" min="1">
-            <input class="input" type="number" id="new-stage-min-level" placeholder="Мин. уровень" min="0" value="0">
-          </div>
-          <button type="button" class="btn btn-primary" id="create-stage-btn">
-            <svg class="i"><use href="#i-plus"/></svg><span>Создать этап</span>
+          <button type="button" class="btn btn-primary" id="create-tournament-btn">
+            <svg class="i"><use href="#i-plus"/></svg><span>Создать турнир</span>
           </button>
         </div>
-        <div class="card table-card">
-          <div class="table-wrap">
-            <table class="table">
-              <thead><tr>
-                <th>№</th><th>Название</th><th>Уровень</th><th>Статус</th><th>Действия</th>
-              </tr></thead>
-              <tbody id="admin-stages-body"></tbody>
-            </table>
-          </div>
-        </div>
+        <div id="admin-tournaments-list"></div>
       </div>
 
-      <!-- APPS -->
       <div id="admin-apps" class="hidden">
         <div class="admin-filters">
           <input type="search" id="admin-search" placeholder="Поиск: ник, telegram, email...">
+          <select id="admin-tournament-filter">
+            <option value="all">Все турниры</option>
+          </select>
           <select id="admin-stage-filter">
             <option value="all">Все этапы</option>
           </select>
@@ -757,6 +771,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
             <table class="table">
               <thead><tr>
                 <th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th>
+                <th data-sort="tournament">Турнир</th>
                 <th data-sort="stage">Этап</th>
                 <th data-sort="nick">Ник <span class="sort-arrow">▼</span></th>
                 <th data-sort="telegram">Контакты</th>
@@ -771,7 +786,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
-      <!-- LOG -->
       <div id="admin-log" class="hidden">
         <div class="card table-card">
           <div class="table-wrap">
@@ -785,7 +799,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
-      <!-- MODERATORS -->
       <div id="admin-moderators" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
@@ -797,7 +810,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
             <button class="btn btn-primary" id="add-mod-btn">Добавить</button>
           </div>
           <p style="font-size:12px;color:var(--muted);margin-top:10px">
-            Модератор сможет только одобрять/отклонять заявки. Этапы и другие настройки ему недоступны.
+            Модератор сможет только одобрять/отклонять заявки. Турниры и настройки ему недоступны.
           </p>
         </div>
         <div class="card table-card">
@@ -850,11 +863,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   : null;
 
 (() => {
-  const PAGE_IDS = ['home','rules','stages','apply','leaderboard','cabinet','docs','admin'];
-
+  const PAGE_IDS = ['home','rules','tournaments','tournament','apply','leaderboard','cabinet','docs','admin'];
   const $ = s => document.querySelector(s);
   const $$ = s => document.querySelectorAll(s);
-
   const nav = $('#nav');
   const burger = $('#burger');
   const toastEl = $('#toast');
@@ -867,17 +878,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   let toastTimer, current = null;
   let user = null, userProfile = null, myApplications = [];
-  let stages = [], editingId = null;
-  let currentStageId = null;
+  let tournaments = [], stages = [];
+  let currentTournamentId = null;
+  let editingId = null, currentStageId = null;
   let adminTab = 'dashboard';
-  let adminAppFilter = 'all';
-  let adminStageFilter = 'all';
-  let adminSearch = '';
-  let adminSortField = 'created_at';
-  let adminSortDir = 'desc';
-  let adminApps = [];
-  let adminLog = [];
-  let moderators = [];
+  let adminAppFilter = 'all', adminTournamentFilter = 'all', adminStageFilter = 'all';
+  let adminSearch = '', adminSortField = 'created_at', adminSortDir = 'desc';
+  let adminApps = [], adminLog = [], moderators = [];
   let isModeratorFlag = false;
   let realtimeChannel = null;
 
@@ -888,10 +895,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400);
   }
-
   function isAdmin(){ return user && user.email === ADMIN_EMAIL; }
   function canModerate(){ return isAdmin() || isModeratorFlag; }
-
   function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
   function saveLang(l){ try{ localStorage.setItem('gdcc-lang', l); }catch(_){} }
   function applyLang(l){ document.documentElement.lang = l; $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l))); }
@@ -927,7 +932,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
     if(id === 'cabinet') renderCabinet();
     if(id === 'leaderboard') renderLeaderboard();
-    if(id === 'stages') renderStages();
+    if(id === 'tournaments') renderTournaments();
+    if(id === 'tournament') renderTournamentPage();
     if(id === 'apply') refreshApplyView();
     if(id === 'admin') renderAdmin();
     nav.classList.remove('open');
@@ -955,12 +961,22 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   burger.addEventListener('click', () => nav.classList.toggle('open'));
   $('#login-btn').addEventListener('click', () => go('cabinet'));
   $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
+  $('#tournament-back').addEventListener('click', () => go('tournaments'));
 
   window.setParticipantsCount = n => {
     $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n));
   };
 
-  /* ============ STAGES ============ */
+  /* ============ DATA ============ */
+  async function loadTournaments(){
+    if(!sb){ tournaments = []; return; }
+    try{
+      const { data, error } = await sb.from('tournaments').select('*').order('number', { ascending: true });
+      if(error) throw error;
+      tournaments = data || [];
+    }catch(err){ console.error(err); tournaments = []; }
+  }
+
   async function loadStages(){
     if(!sb){ stages = []; return; }
     try{
@@ -970,106 +986,167 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }catch(err){ console.error(err); stages = []; }
   }
 
+  function stagesOfTournament(tid){
+    return stages.filter(s => s.tournament_id === tid).sort((a,b) => a.number - b.number);
+  }
+
+  // Сколько этапов в турнире одобрено у текущего юзера
+  function approvedInTournament(tid){
+    if(!user) return 0;
+    return myApplications.filter(a => a.tournament_id === tid && a.status === 'approved').length;
+  }
+
+  // Может ли подать на этап N (по номеру) турнира T
   function canAccessStage(stage){
-    const lvl = userProfile ? (userProfile.level || 0) : 0;
-    const minLvl = stage.min_level != null ? stage.min_level : (stage.number - 1);
-    return lvl >= minLvl;
+    if(!stage) return false;
+    if(stage.status === 'draft' && !canModerate()) return false;
+    // Первый этап доступен всем авторизованным
+    if(stage.number === 1) return true;
+    // Остальные — если предыдущий этап одобрен
+    const prevStage = stages.find(s => s.tournament_id === stage.tournament_id && s.number === stage.number - 1);
+    if(!prevStage) return true; // нет предыдущего — доступ открыт
+    if(!user) return false;
+    const app = myApplications.find(a => a.stage_id === prevStage.id);
+    return !!(app && app.status === 'approved');
   }
 
+  function tournamentStatusLabel(s){
+    return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s;
+  }
   function stageStatusLabel(s){
-    return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s.status] || s.status;
+    return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s;
   }
 
-  function timeLeft(deadline){
-    const diff = new Date(deadline) - new Date();
-    if(diff <= 0) return null;
-    const d = Math.floor(diff/86400000);
-    const h = Math.floor((diff%86400000)/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    if(d > 0) return d + 'д ' + h + 'ч';
-    if(h > 0) return h + 'ч ' + m + 'м';
-    return m + 'м';
-  }
-
-  function stageParticipants(stage){
-    return (adminApps || []).filter(a => a.stage_id === stage.id).length;
-  }
-
-  function renderStages(){
-    const grid = $('#stages-grid');
+  /* ============ TOURNAMENTS LIST ============ */
+  function renderTournaments(){
+    const grid = $('#tournaments-grid');
     grid.replaceChildren();
-    const visible = stages.filter(s => s.status !== 'draft' || canModerate());
+    const visible = tournaments.filter(t => t.status !== 'draft' || canModerate());
     if(!visible.length){
-      grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Как только админ создаст этап — он появится здесь.</p></div>';
+      grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>Турниров пока нет</h2><p>Как только админ создаст турнир — он появится здесь.</p></div>';
       return;
     }
-    visible.forEach(s => {
-      const card = document.createElement('div');
-      const userLvl = userProfile ? (userProfile.level || 0) : 0;
-      const minLvl = s.min_level != null ? s.min_level : (s.number - 1);
-      const locked = userLvl < minLvl && s.status !== 'draft';
-      const participants = s.max_participants ? stageParticipants(s) : null;
-      const isFull = participants !== null && participants >= s.max_participants;
-      const alreadyApplied = myApplications.some(a => a.stage_id === s.id);
-      const dl = s.deadline ? timeLeft(s.deadline) : null;
-      const expired = s.deadline && !dl;
+    visible.forEach(t => {
+      const tStages = stagesOfTournament(t.id);
+      const approved = user ? approvedInTournament(t.id) : 0;
+      const total = tStages.length || 4;
 
-      card.className = 'stage-card ' + s.status + (locked ? ' locked' : '');
+      const card = document.createElement('div');
+      card.className = 'tournament-card ' + t.status;
+
+      let progressHtml = '';
+      if(t.status !== 'draft'){
+        progressHtml = '<div class="t-progress">';
+        progressHtml += '<div class="t-progress-head"><span>Прогресс</span><span>' + approved + ' / ' + total + '</span></div>';
+        progressHtml += '<div class="t-progress-bar">';
+        for(let i = 1; i <= total; i++){
+          let cls = 't-progress-seg';
+          if(i <= approved) cls += ' done';
+          else if(i === approved + 1) cls += ' current';
+          progressHtml += '<div class="' + cls + '"></div>';
+        }
+        progressHtml += '</div></div>';
+      }
+
+      card.innerHTML =
+        '<div class="t-head">' +
+          '<div class="t-number">Турнир #' + t.number + '</div>' +
+          '<span class="t-status ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span>' +
+        '</div>' +
+        '<div class="t-title">' + escapeHtml(t.title || ('Турнир ' + t.number)) + '</div>' +
+        (t.description ? '<div class="t-desc">' + escapeHtml(t.description) + '</div>' : '') +
+        '<div class="t-stages-count">📋 ' + tStages.length + ' этапов</div>' +
+        progressHtml;
+
+      card.addEventListener('click', () => {
+        currentTournamentId = t.id;
+        go('tournament');
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  /* ============ TOURNAMENT PAGE ============ */
+  function renderTournamentPage(){
+    const t = tournaments.find(x => x.id === currentTournamentId);
+    if(!t){ go('tournaments'); return; }
+
+    const tStages = stagesOfTournament(t.id);
+    const approved = user ? approvedInTournament(t.id) : 0;
+
+    $('#t-page-eyebrow').textContent = 'Турнир #' + t.number;
+    $('#t-page-title').textContent = t.title || ('Турнир ' + t.number);
+    $('#t-page-desc').textContent = t.description || 'Этапы турнира';
+
+    const progWrap = $('#t-page-progress');
+    if(user){
+      progWrap.innerHTML = '<div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);font-size:14px;color:var(--muted)">' +
+        '<span>Прогресс:</span>' +
+        '<b style="font-family:\'Exo 2\',sans-serif;font-size:20px;color:var(--text)">' + approved + ' / ' + tStages.length + '</b>' +
+      '</div>';
+    } else {
+      progWrap.innerHTML = '';
+    }
+
+    const grid = $('#stages-grid');
+    grid.replaceChildren();
+
+    if(!tStages.length){
+      grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Админ ещё не создал этапы в этом турнире.</p></div>';
+      return;
+    }
+
+    tStages.forEach(s => {
+      const card = document.createElement('div');
+      const myApp = user ? myApplications.find(a => a.stage_id === s.id) : null;
+      const status = myApp ? myApp.status : null;
+      const locked = !canAccessStage(s);
+      const isApproved = status === 'approved';
+
+      let cardCls = 'stage-card';
+      if(s.status === 'open') cardCls += ' open';
+      else if(s.status === 'closed') cardCls += ' closed';
+      if(locked) cardCls += ' locked';
+      if(isApproved) cardCls += ' approved';
+      card.className = cardCls;
 
       let html = '';
       html += '<div class="stage-head">';
-      html += '<div class="stage-num">' + s.number + '</div>';
-      html += '<span class="stage-status ' + s.status + '">' + stageStatusLabel(s) + '</span>';
+      html += '<div class="stage-num' + (isApproved ? ' done' : '') + '">' + s.number + '</div>';
+
+      if(status === 'pending') html += '<span class="stage-status pending">На проверке</span>';
+      else if(status === 'approved') html += '<span class="stage-status approved">✓ Пройден</span>';
+      else if(status === 'rejected') html += '<span class="stage-status rejected">Отклонён</span>';
+      else if(locked) html += '<span class="stage-status locked">Заблокирован</span>';
+      else html += '<span class="stage-status ' + s.status + '">' + stageStatusLabel(s.status) + '</span>';
+
       html += '</div>';
 
       html += '<div class="stage-title">' + escapeHtml(s.title || ('Этап ' + s.number)) + '</div>';
       if(s.description) html += '<div class="stage-desc">' + escapeHtml(s.description) + '</div>';
 
       if(s.task){
-        html += '<div style="padding:12px 14px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:13.5px">';
-        html += '<div style="font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">📋 Задача</div>';
+        html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:13px">';
+        html += '<div style="font-weight:700;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:5px">📋 Задача</div>';
         html += '<div>' + escapeHtml(s.task) + '</div></div>';
       }
 
       if(s.level_name || s.level_id || s.difficulty){
-        html += '<div style="display:flex;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)">';
+        html += '<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)">';
         if(s.level_name) html += '<span>🎮 <b style="color:var(--text)">' + escapeHtml(s.level_name) + '</b></span>';
         if(s.difficulty) html += '<span>⚡ ' + escapeHtml(s.difficulty) + '</span>';
-        if(s.level_id) html += '<span>ID: <code style="background:rgba(31,139,255,.15);color:var(--blue-2);padding:1px 6px;border-radius:4px;font-size:11.5px">' + escapeHtml(s.level_id) + '</code></span>';
+        if(s.level_id) html += '<span>ID: <code style="background:rgba(31,139,255,.15);color:var(--blue-2);padding:1px 5px;border-radius:3px">' + escapeHtml(s.level_id) + '</code></span>';
         html += '</div>';
       }
 
-      if(s.rules){
-        const lines = s.rules.split('\n').filter(l => l.trim());
-        if(lines.length){
-          html += '<div style="padding:12px 14px;border-radius:10px;background:rgba(246,183,60,.06);border:1px solid rgba(246,183,60,.22);font-size:13px">';
-          html += '<div style="font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">⚙️ Правила этапа</div>';
-          html += '<ul style="list-style:none;display:grid;gap:4px">';
-          lines.forEach(l => { html += '<li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--gold)">•</span><span>' + escapeHtml(l.trim()) + '</span></li>'; });
-          html += '</ul></div>';
-        }
-      }
-
       if(s.reward){
-        html += '<div style="padding:10px 14px;border-radius:10px;background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.25);font-size:13px;color:var(--green);display:flex;align-items:center;gap:8px">';
-        html += '<span style="font-size:16px">🏆</span><span>' + escapeHtml(s.reward) + '</span></div>';
+        html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.25);font-size:12.5px;color:var(--green);display:flex;align-items:center;gap:8px">';
+        html += '<span>🏆</span><span>' + escapeHtml(s.reward) + '</span></div>';
       }
 
-      html += '<div class="stage-meta" style="padding-top:10px;border-top:1px solid var(--line-soft)">';
-      if(s.deadline){
-        if(expired) html += '<div style="color:var(--red)">⏰ Время истекло</div>';
-        else html += '<div style="color:var(--gold)">⏰ Осталось: <b style="color:var(--text)">' + dl + '</b></div>';
-      }
-      if(participants !== null){
-        html += '<div>👥 <b style="color:' + (isFull ? 'var(--red)' : 'var(--text)') + '">' + participants + ' / ' + s.max_participants + '</b> участников' + (isFull ? ' <span style="color:var(--red)">— мест нет</span>' : '') + '</div>';
-      }
-      if(!s.deadline && participants === null){
-        html += '<div>Мой статус: <b>' + (alreadyApplied ? 'заявка подана' : (locked ? 'нет доступа' : 'можно подать')) + '</b></div>';
-      }
-      html += '</div>';
-
-      if(locked){
-        html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> Нужен уровень ' + minLvl + ' (у вас ' + userLvl + ')</div>';
+      if(locked && !status){
+        const prevNum = s.number - 1;
+        html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> Пройди этап ' + prevNum + ', чтобы открыть</div>';
       }
 
       card.innerHTML = html;
@@ -1085,20 +1162,28 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         btnRow.appendChild(a);
       }
 
-      if(!locked && s.status === 'open' && !expired){
-        const btn = document.createElement('a');
-        btn.className = 'btn btn-primary';
-        btn.style.flex = '1';
-        btn.href = '#apply';
-        btn.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>' +
-          (alreadyApplied ? 'Моя заявка' : (isFull ? 'Мест нет' : 'Подать заявку')) + '</span>';
-        if(isFull && !alreadyApplied){
-          btn.style.opacity = '.5';
-          btn.style.pointerEvents = 'none';
-        } else {
+      if(!locked){
+        if(myApp && (myApp.status === 'pending' || myApp.status === 'rejected')){
+          const btn = document.createElement('a');
+          btn.className = 'btn btn-primary';
+          btn.style.flex = '1';
+          btn.href = '#cabinet';
+          btn.innerHTML = '<svg class="i"><use href="#i-form"/></svg><span>' + (myApp.status === 'pending' ? 'Моя заявка' : 'Отклонена — в кабинет') + '</span>';
+          btnRow.appendChild(btn);
+        } else if(!myApp && s.status === 'open'){
+          const btn = document.createElement('a');
+          btn.className = 'btn btn-primary';
+          btn.style.flex = '1';
+          btn.href = '#apply';
+          btn.innerHTML = '<svg class="i"><use href="#i-send"/></svg><span>Подать заявку</span>';
           btn.addEventListener('click', e => { e.preventDefault(); openApply(s.id); });
+          btnRow.appendChild(btn);
+        } else if(!myApp && s.status === 'closed'){
+          const note = document.createElement('div');
+          note.style.cssText = 'color:var(--muted);font-size:12.5px;padding:6px 0';
+          note.textContent = 'Приём заявок закрыт';
+          btnRow.appendChild(note);
         }
-        btnRow.appendChild(btn);
       }
 
       if(btnRow.children.length) card.appendChild(btnRow);
@@ -1106,7 +1191,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  function openApply(stageId){ currentStageId = stageId; editingId = null; go('apply'); }
+  function openApply(stageId){
+    currentStageId = stageId;
+    editingId = null;
+    go('apply');
+  }
 
   function refreshApplyView(){
     const gate = $('#apply-gate'), blocked = $('#apply-blocked'), notfound = $('#apply-notfound'), wrap = $('#apply-wrap');
@@ -1114,12 +1203,15 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!currentStageId){ notfound.classList.remove('hidden'); return; }
     const stage = stages.find(s => s.id === currentStageId);
     if(!stage){ notfound.classList.remove('hidden'); return; }
+    const t = tournaments.find(x => x.id === stage.tournament_id);
+    const tLabel = t ? ('Турнир #' + t.number + ' · Этап ' + stage.number) : 'Этап';
+    $('#apply-eyebrow').textContent = tLabel;
     $('#apply-title').textContent = stage.title || ('Этап ' + stage.number);
     $('#apply-subtitle').textContent = stage.description || 'Заполни все поля внимательно.';
+
     if(!user){ gate.classList.remove('hidden'); return; }
     if(!canAccessStage(stage) && !editingId){
-      const minLvl = stage.min_level != null ? stage.min_level : (stage.number - 1);
-      $('#apply-blocked-reason').textContent = 'Нужен уровень ' + minLvl + ', а у вас ' + (userProfile ? userProfile.level : 0) + '.';
+      $('#apply-blocked-reason').textContent = 'Нужно одобрение предыдущего этапа в этом турнире.';
       blocked.classList.remove('hidden'); return;
     }
     if(stage.status !== 'open' && !editingId){
@@ -1140,7 +1232,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!/^https?:\/\//i.test(s)) s = 'https://' + s;
     try{ const u = new URL(s); return u.hostname.includes('.') ? u.href : null; }catch(_){ return null; }
   }
-
   function setError(name, key){
     const box = form.querySelector('[data-error-for="' + name + '"]');
     const input = form.elements[name];
@@ -1149,7 +1240,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const mark = name === 'agree' ? $('#agree-label') : input;
     mark.classList.toggle('invalid', !!key);
   }
-
   form.addEventListener('input', e => { if(e.target.name) setError(e.target.name,''); });
   form.addEventListener('change', e => { if(e.target.name) setError(e.target.name,''); });
 
@@ -1167,8 +1257,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const first = Object.keys(errs).find(k => errs[k]);
     if(first){ form.elements[first].focus(); return; }
 
+    const stage = stages.find(s => s.id === currentStageId);
     const data = {
-      user_id: user.id, stage_id: currentStageId, email: user.email,
+      user_id: user.id, stage_id: currentStageId, tournament_id: stage.tournament_id, email: user.email,
       nick: v('nick'), telegram: '@' + v('telegram').replace(/^@/,''),
       discord: v('discord'), video: normalizeUrl(v('video')),
       platform: form.elements.platform.value, about: v('about')
@@ -1176,7 +1267,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
     submitBtn.disabled = true;
     submitBtn.querySelector('span').textContent = 'Отправляем…';
-
     try{
       if(editingId){
         const { error } = await sb.from('applications').update({
@@ -1197,7 +1287,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         successEl.classList.remove('hidden');
         form.reset();
         await loadMyApplications();
-        await loadStages();
         window.scrollTo(0,0);
       }
     }catch(err){
@@ -1237,7 +1326,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const tb = $('#leaderboard-body');
       tb.replaceChildren();
       if(!list.length){
-        tb.innerHTML = '<tr><td colspan="4" class="empty">Пока нет участников</td></tr>';
+        tb.innerHTML = '<tr><td colspan="3" class="empty">Пока нет участников</td></tr>';
         return;
       }
       list.forEach((p, i) => {
@@ -1247,8 +1336,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         tr.innerHTML =
           '<td><span class="rank-badge ' + rankCls + '">' + rank + '</span></td>' +
           '<td style="font-weight:600">' + escapeHtml(p.nick || '—') + '</td>' +
-          '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + (p.level || 0) + '</span></td>' +
-          '<td style="color:var(--muted);font-size:13px">' + (p.level || 0) + ' / ' + stages.length + ' этапов</td>';
+          '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + (p.level || 0) + '</span></td>';
         tb.appendChild(tr);
       });
     }catch(err){ console.error(err); }
@@ -1263,12 +1351,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(!data){
         await sb.from('profiles').insert([{ id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 }]);
         userProfile = { id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 };
-      } else {
-        userProfile = data;
-      }
+      } else userProfile = data;
     }catch(err){ console.error(err); userProfile = null; }
   }
-
   async function loadMyApplications(){
     if(!sb || !user){ myApplications = []; return; }
     try{
@@ -1277,7 +1362,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       myApplications = data || [];
     }catch(err){ console.error(err); myApplications = []; }
   }
-
   async function checkModerator(){
     if(!user || isAdmin()){ isModeratorFlag = false; return; }
     try{
@@ -1291,20 +1375,19 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $('#cabinet-auth').classList.toggle('hidden', logged);
     $('#cabinet-dashboard').classList.toggle('hidden', !logged);
     if(!logged) return;
-
     document.querySelector('[data-user-email]').textContent = user.email || '—';
     document.querySelector('[data-user-level]').textContent = userProfile ? (userProfile.level || 0) : 0;
 
     const list = $('#cabinet-apps');
     list.replaceChildren();
     if(!myApplications.length){
-      list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>Нет заявок</h2><p>Выберите этап и подайте заявку.</p><a class="btn btn-primary" href="#stages"><svg class="i"><use href="#i-tag"/></svg><span>К этапам</span></a></div>';
+      list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>Нет заявок</h2><p>Выберите турнир и подайте заявку на этап.</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>К турнирам</span></a></div>';
       return;
     }
-
     myApplications.forEach(a => {
       const stage = stages.find(s => s.id === a.stage_id);
-      const stageLabel = stage ? (stage.title || ('Этап ' + stage.number)) : '—';
+      const t = tournaments.find(x => x.id === a.tournament_id);
+      const label = (t ? '#' + t.number + ' · ' : '') + (stage ? (stage.title || ('Этап ' + stage.number)) : '—');
       const item = document.createElement('div');
       item.className = 'app-item';
 
@@ -1312,7 +1395,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       main.className = 'app-item-main';
       main.innerHTML =
         '<div class="app-item-head">' +
-          '<span class="app-item-stage">' + escapeHtml(stageLabel) + '</span>' +
+          '<span class="app-item-stage">' + escapeHtml(label) + '</span>' +
           '<span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span>' +
           '<span class="app-item-date" title="' + (a.created_at || '') + '">' + timeAgo(a.created_at) + '</span>' +
         '</div>' +
@@ -1363,7 +1446,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
           toast('Удалено');
           await loadMyApplications();
           renderCabinet();
-          renderStages();
         });
         actions.appendChild(del);
       }
@@ -1376,7 +1458,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
     adminTab = b.dataset.adminTab;
     $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-    ['dashboard','stages','apps','log','moderators'].forEach(tab => {
+    ['dashboard','tournaments','apps','log','moderators'].forEach(tab => {
       const el = document.getElementById('admin-' + tab);
       if(el) el.classList.toggle('hidden', tab !== adminTab);
     });
@@ -1387,20 +1469,18 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
     navAdmin.classList.remove('hidden');
 
-    // модератору — только дашборд и заявки
-    $('#tab-stages').classList.toggle('hidden', !isAdmin());
+    // Модератору доступны только дашборд и заявки
+    $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
     $('#tab-moderators').classList.toggle('hidden', !isAdmin());
-
-    if(!isAdmin() && (adminTab === 'stages' || adminTab === 'moderators')) adminTab = 'dashboard';
+    if(!isAdmin() && (adminTab === 'tournaments' || adminTab === 'moderators')) adminTab = 'dashboard';
 
     if(adminTab === 'dashboard') renderDashboard();
-    else if(adminTab === 'stages') renderAdminStages();
+    else if(adminTab === 'tournaments') renderAdminTournaments();
     else if(adminTab === 'apps') renderAdminApps();
     else if(adminTab === 'log') renderAdminLog();
     else if(adminTab === 'moderators') renderAdminModerators();
   }
 
-  /* --- DASHBOARD --- */
   async function renderDashboard(){
     await loadAdminApps();
     await loadAdminLog();
@@ -1420,8 +1500,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(el('pending')) el('pending').textContent = pending;
     if(el('approved')) el('approved').textContent = approved;
     if(el('rejected')) el('rejected').textContent = rejected;
-
-    // бейдж в шапке
     navAdminBadge.textContent = pending;
     navAdminBadge.classList.toggle('hidden', pending === 0);
   }
@@ -1431,9 +1509,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     wrap.replaceChildren();
     const days = [];
     for(let i = 6; i >= 0; i--){
-      const d = new Date();
-      d.setHours(0,0,0,0);
-      d.setDate(d.getDate() - i);
+      const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - i);
       days.push(d);
     }
     const counts = days.map(d => {
@@ -1449,13 +1525,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       bar.className = 'dash-bar';
       const h = Math.max(4, (counts[i] / max) * 100);
       const label = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][d.getDay()];
-      bar.innerHTML =
-        '<div class="dash-bar-fill" style="height:' + h + '%"><span>' + counts[i] + '</span></div>' +
-        '<div class="dash-bar-label">' + label + '</div>';
+      bar.innerHTML = '<div class="dash-bar-fill" style="height:' + h + '%"><span>' + counts[i] + '</span></div><div class="dash-bar-label">' + label + '</div>';
       wrap.appendChild(bar);
     });
   }
-
   function renderDashModerators(){
     const wrap = $('#dash-moderators');
     wrap.replaceChildren();
@@ -1464,30 +1537,20 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const e = l.admin_email || 'system';
       counts[e] = (counts[e] || 0) + 1;
     });
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-    if(!sorted.length){
-      wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Нет данных</p>';
-      return;
-    }
+    const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
+    if(!sorted.length){ wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Нет данных</p>'; return; }
     sorted.forEach(([email, count], i) => {
       const row = document.createElement('div');
       row.className = 'dash-leader-row';
-      row.innerHTML =
-        '<div class="dash-leader-rank' + (i === 0 ? ' gold' : '') + '">' + (i+1) + '</div>' +
-        '<div class="dash-leader-email">' + escapeHtml(email) + '</div>' +
-        '<div class="dash-leader-count">' + count + '</div>';
+      row.innerHTML = '<div class="dash-leader-rank' + (i === 0 ? ' gold' : '') + '">' + (i+1) + '</div><div class="dash-leader-email">' + escapeHtml(email) + '</div><div class="dash-leader-count">' + count + '</div>';
       wrap.appendChild(row);
     });
   }
-
   function renderDashRecent(){
     const wrap = $('#dash-recent');
     wrap.replaceChildren();
     const recent = adminLog.slice(0, 8);
-    if(!recent.length){
-      wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Пока нет действий</p>';
-      return;
-    }
+    if(!recent.length){ wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Пока нет действий</p>'; return; }
     recent.forEach(l => {
       const d = l.details || {};
       const row = document.createElement('div');
@@ -1495,109 +1558,183 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       let what = l.action;
       if(l.action === 'approve') what = '✓ Одобрил' + (d.nick ? ' ' + escapeHtml(d.nick) : '');
       else if(l.action === 'reject') what = '✕ Отклонил' + (d.nick ? ' ' + escapeHtml(d.nick) : '');
-      row.innerHTML =
-        '<span class="who">' + escapeHtml(l.admin_email || 'system') + '</span>' +
-        '<span class="what">' + what + '</span>' +
-        '<span class="when">' + timeAgo(l.created_at) + '</span>';
+      row.innerHTML = '<span class="who">' + escapeHtml(l.admin_email || 'system') + '</span><span class="what">' + what + '</span><span class="when">' + timeAgo(l.created_at) + '</span>';
       wrap.appendChild(row);
     });
   }
 
-  /* --- STAGES TAB --- */
-  async function renderAdminStages(){
+  /* --- ADMIN TOURNAMENTS --- */
+  async function renderAdminTournaments(){
+    await loadTournaments();
     await loadStages();
     await loadAdminApps();
-    const tb = $('#admin-stages-body');
-    tb.replaceChildren();
-    if(!stages.length){
-      tb.innerHTML = '<tr><td colspan="5" class="empty">Этапов нет. Создай первый.</td></tr>';
+    const wrap = $('#admin-tournaments-list');
+    wrap.replaceChildren();
+    if(!tournaments.length){
+      wrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>Турниров нет</h2><p>Создай первый турнир.</p></div>';
       return;
     }
-    stages.forEach(s => {
-      const tr = document.createElement('tr');
-      const appsCount = adminApps.filter(a => a.stage_id === s.id).length;
-      const levelInfo = [s.level_name, s.difficulty, s.level_id].filter(Boolean).join(' · ') || '—';
+    tournaments.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.marginBottom = '20px';
+      const tStages = stagesOfTournament(t.id);
 
-      tr.innerHTML =
-        '<td style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:18px">' + s.number + '</td>' +
-        '<td><div style="font-weight:600">' + escapeHtml(s.title || '—') + '</div>' +
-        (s.task ? '<div style="color:var(--muted);font-size:12px;margin-top:2px">' + escapeHtml(s.task.slice(0,60)) + (s.task.length > 60 ? '…' : '') + '</div>' : '') +
-        '<div style="color:var(--muted);font-size:11.5px;margin-top:4px">Заявок: ' + appsCount + '</div></td>' +
-        '<td style="font-size:12px;color:var(--muted)">' + escapeHtml(levelInfo) + '</td>' +
-        '<td><span class="status-badge ' + s.status + '">' + stageStatusLabel(s) + '</span></td>';
+      let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap">';
+      html += '<div>';
+      html += '<div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">Турнир #' + t.number + '</div>';
+      html += '<div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">' + escapeHtml(t.title || '—') + '</div>';
+      html += t.description ? '<div style="color:var(--muted);font-size:13.5px">' + escapeHtml(t.description) + '</div>' : '';
+      html += '</div>';
+      html += '<span class="status-badge ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span>';
+      html += '</div>';
 
-      const actions = document.createElement('td');
-      const wrap = document.createElement('div'); wrap.className = 'admin-actions';
+      // Кнопки статуса
+      html += '<div class="admin-actions" style="margin-bottom:16px">';
+      if(t.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="' + t.id + '">Открыть</button>';
+      if(t.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="' + t.id + '">Закрыть</button>';
+      if(t.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="' + t.id + '">В черновик</button>';
+      html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="' + t.id + '">✎ Название/описание</button>';
+      html += '<button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="' + t.id + '">🗑 Удалить</button>';
+      html += '</div>';
 
-      if(s.status !== 'open'){
-        const openBtn = document.createElement('button');
-        openBtn.className = 'btn btn-success btn-sm';
-        openBtn.textContent = 'Открыть';
-        openBtn.addEventListener('click', () => updateStage(s.id, { status: 'open', opened_at: new Date().toISOString() }));
-        wrap.appendChild(openBtn);
+      // Список этапов
+      html += '<div style="border-top:1px solid var(--line-soft);padding-top:16px">';
+      html += '<div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">Этапы (' + tStages.length + ')</div>';
+
+      if(!tStages.length){
+        html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">Этапов пока нет. Создай первый.</p>';
+      } else {
+        tStages.forEach(s => {
+          const appsCount = adminApps.filter(a => a.stage_id === s.id).length;
+          html += '<div class="t-stage-row">';
+          html += '<div class="stage-num-mini">' + s.number + '</div>';
+          html += '<div class="info"><b>' + escapeHtml(s.title || ('Этап ' + s.number)) + '</b><span>' + (s.level_name ? escapeHtml(s.level_name) + ' · ' : '') + (s.difficulty || '—') + '</span></div>';
+          html += '<div style="font-size:12px;color:var(--muted)"><span class="status-badge ' + s.status + '">' + stageStatusLabel(s.status) + '</span> · Заявок: ' + appsCount + '</div>';
+          html += '<div class="actions">';
+          if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="' + s.id + '">Открыть</button>';
+          if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="' + s.id + '">Закрыть</button>';
+          html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-edit" data-id="' + s.id + '">✎</button>';
+          html += '<button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="' + s.id + '">🗑</button>';
+          html += '</div></div>';
+        });
       }
-      if(s.status !== 'closed'){
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'btn btn-ghost btn-sm';
-        closeBtn.textContent = 'Закрыть';
-        closeBtn.addEventListener('click', () => updateStage(s.id, { status: 'closed', closed_at: new Date().toISOString() }));
-        wrap.appendChild(closeBtn);
-      }
-      if(s.status !== 'draft'){
-        const draftBtn = document.createElement('button');
-        draftBtn.className = 'btn btn-ghost btn-sm';
-        draftBtn.textContent = 'Черновик';
-        draftBtn.addEventListener('click', () => updateStage(s.id, { status: 'draft' }));
-        wrap.appendChild(draftBtn);
-      }
-      const editBtn = document.createElement('button');
-      editBtn.className = 'btn btn-ghost btn-sm';
-      editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg>';
-      editBtn.addEventListener('click', () => editStage(s));
-      wrap.appendChild(editBtn);
 
-      const delBtn = document.createElement('button');
-      delBtn.className = 'btn btn-danger btn-sm';
-      delBtn.textContent = '🗑';
-      delBtn.addEventListener('click', async () => {
-        if(!confirm('Удалить этап и все его заявки?')) return;
-        const { error } = await sb.from('stages').delete().eq('id', s.id);
-        if(error){ toast('Ошибка', true); return; }
-        toast('Этап удалён');
-        await loadStages();
-        await loadAdminApps();
-        renderAdminStages();
-      });
-      wrap.appendChild(delBtn);
+      // Кнопка добавить этап
+      const nextNum = (tStages.length ? Math.max(...tStages.map(s => s.number)) : 0) + 1;
+      html += '<div style="margin-top:14px"><button type="button" class="btn btn-primary btn-sm" data-action="s-add" data-tid="' + t.id + '" data-num="' + nextNum + '"><svg class="i"><use href="#i-plus"/></svg> Добавить этап #' + nextNum + '</button></div>';
+      html += '</div>';
 
-      actions.appendChild(wrap);
-      tr.appendChild(actions);
-      tb.appendChild(tr);
+      card.innerHTML = html;
+      wrap.appendChild(card);
     });
+
+    // Делегирование
+    wrap.onclick = e => {
+      const btn = e.target.closest('button[data-action]');
+      if(!btn) return;
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      const tid = btn.dataset.tid;
+      const num = btn.dataset.num;
+      if(action === 't-open') updateTournament(id, { status: 'open', opened_at: new Date().toISOString() });
+      else if(action === 't-close') updateTournament(id, { status: 'closed', closed_at: new Date().toISOString() });
+      else if(action === 't-draft') updateTournament(id, { status: 'draft' });
+      else if(action === 't-edit') editTournament(id);
+      else if(action === 't-del') deleteTournament(id);
+      else if(action === 's-open') updateStage(id, { status: 'open', opened_at: new Date().toISOString() });
+      else if(action === 's-close') updateStage(id, { status: 'closed', closed_at: new Date().toISOString() });
+      else if(action === 's-edit') editStageAdmin(id);
+      else if(action === 's-del') deleteStage(id);
+      else if(action === 's-add') addStageToTournament(tid, parseInt(num, 10));
+    };
   }
 
-  async function editStage(s){
-    const newTitle = prompt('Название этапа:', s.title || ''); if(newTitle === null) return;
-    const newDesc = prompt('Описание:', s.description || ''); if(newDesc === null) return;
-    const newTask = prompt('Задача:', s.task || ''); if(newTask === null) return;
-    const newRules = prompt('Правила (можно несколько строк):', s.rules || ''); if(newRules === null) return;
-    const newReward = prompt('Награда:', s.reward || ''); if(newReward === null) return;
-    const newLevelName = prompt('Название уровня:', s.level_name || ''); if(newLevelName === null) return;
-    const newLevelId = prompt('ID уровня в GD:', s.level_id || ''); if(newLevelId === null) return;
-    const newDiff = prompt('Сложность:', s.difficulty || ''); if(newDiff === null) return;
-    const newUrl = prompt('Ссылка на видео уровня:', s.level_url || ''); if(newUrl === null) return;
-    const newMax = prompt('Лимит участников (пусто = без лимита):', s.max_participants || ''); if(newMax === null) return;
-    const newMinLvl = prompt('Минимальный уровень (пусто = авто):', s.min_level != null ? s.min_level : ''); if(newMinLvl === null) return;
-    const newDeadline = prompt('Дедлайн (ISO, пусто = без):', s.deadline || ''); if(newDeadline === null) return;
+  async function updateTournament(id, patch){
+    const { error } = await sb.from('tournaments').update(patch).eq('id', id);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Обновлено');
+    await loadTournaments();
+    renderAdminTournaments();
+  }
 
-    updateStage(s.id, {
-      title: newTitle, description: newDesc || null, task: newTask || null, rules: newRules || null,
-      reward: newReward || null, level_name: newLevelName || null, level_id: newLevelId || null,
-      difficulty: newDiff || null, level_url: newUrl || null,
-      max_participants: newMax ? parseInt(newMax, 10) : null,
-      min_level: newMinLvl !== '' ? parseInt(newMinLvl, 10) : null,
-      deadline: newDeadline ? new Date(newDeadline).toISOString() : null
-    });
+  async function editTournament(id){
+    const t = tournaments.find(x => x.id === id);
+    if(!t) return;
+    const newTitle = prompt('Название турнира:', t.title || '');
+    if(newTitle === null) return;
+    const newDesc = prompt('Описание:', t.description || '');
+    if(newDesc === null) return;
+    const { error } = await sb.from('tournaments').update({ title: newTitle, description: newDesc || null }).eq('id', id);
+    if(error){ toast('Ошибка', true); return; }
+    toast('Обновлено');
+    await loadTournaments();
+    renderAdminTournaments();
+  }
+
+  async function deleteTournament(id){
+    if(!confirm('Удалить турнир со всеми этапами и заявками?')) return;
+    const { error } = await sb.from('tournaments').delete().eq('id', id);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Турнир удалён');
+    await loadTournaments();
+    await loadStages();
+    await loadAdminApps();
+    renderAdminTournaments();
+  }
+
+  async function deleteStage(id){
+    if(!confirm('Удалить этап со всеми заявками?')) return;
+    const { error } = await sb.from('stages').delete().eq('id', id);
+    if(error){ toast('Ошибка', true); return; }
+    toast('Этап удалён');
+    await loadStages();
+    await loadAdminApps();
+    renderAdminTournaments();
+  }
+
+  async function addStageToTournament(tid, number){
+    const { error } = await sb.from('stages').insert([{
+      tournament_id: tid,
+      number,
+      title: 'Этап ' + number,
+      status: 'draft'
+    }]);
+    if(error){
+      if(/duplicate|unique/i.test(error.message)) toast('Этап с таким номером уже есть', true);
+      else toast('Ошибка: ' + error.message, true);
+      return;
+    }
+    toast('Этап создан');
+    await loadStages();
+    renderAdminTournaments();
+  }
+
+  async function editStageAdmin(id){
+    const s = stages.find(x => x.id === id);
+    if(!s) return;
+    const title = prompt('Название:', s.title || ''); if(title === null) return;
+    const desc = prompt('Описание:', s.description || ''); if(desc === null) return;
+    const task = prompt('Задача:', s.task || ''); if(task === null) return;
+    const rules = prompt('Правила (можно несколько строк):', s.rules || ''); if(rules === null) return;
+    const reward = prompt('Награда:', s.reward || ''); if(reward === null) return;
+    const levelName = prompt('Название уровня:', s.level_name || ''); if(levelName === null) return;
+    const levelId = prompt('ID уровня:', s.level_id || ''); if(levelId === null) return;
+    const diff = prompt('Сложность (Easy/Normal/Hard/Harder/Insane/Extreme Demon):', s.difficulty || ''); if(diff === null) return;
+    const url = prompt('Ссылка на видео уровня:', s.level_url || ''); if(url === null) return;
+    const deadline = prompt('Дедлайн (ISO, пусто = без):', s.deadline || ''); if(deadline === null) return;
+
+    const patch = {
+      title, description: desc || null, task: task || null, rules: rules || null,
+      reward: reward || null, level_name: levelName || null, level_id: levelId || null,
+      difficulty: diff || null, level_url: url || null,
+      deadline: deadline ? new Date(deadline).toISOString() : null
+    };
+    const { error } = await sb.from('stages').update(patch).eq('id', id);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Обновлено');
+    await loadStages();
+    renderAdminTournaments();
   }
 
   async function updateStage(id, patch){
@@ -1605,54 +1742,30 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('Обновлено');
     await loadStages();
-    renderAdminStages();
-    renderStages();
+    renderAdminTournaments();
   }
 
-  $('#create-stage-btn').addEventListener('click', async () => {
-    const num = parseInt($('#new-stage-number').value, 10);
-    const title = $('#new-stage-title').value.trim();
-    if(!num || num < 1){ toast('Укажи номер этапа', true); return; }
+  $('#create-tournament-btn').addEventListener('click', async () => {
+    const num = parseInt($('#new-t-number').value, 10);
+    const title = $('#new-t-title').value.trim();
+    if(!num || num < 1){ toast('Укажи номер', true); return; }
     if(!title){ toast('Укажи название', true); return; }
-
-    const deadlineRaw = $('#new-stage-deadline').value;
-    const maxRaw = $('#new-stage-max').value;
-    const minLvlRaw = $('#new-stage-min-level').value;
-
-    const payload = {
-      number: num, title,
-      description: $('#new-stage-desc').value.trim() || null,
-      task: $('#new-stage-task').value.trim() || null,
-      rules: $('#new-stage-rules').value.trim() || null,
-      reward: $('#new-stage-reward').value.trim() || null,
-      level_id: $('#new-stage-level-id').value.trim() || null,
-      level_name: $('#new-stage-level-name').value.trim() || null,
-      difficulty: $('#new-stage-difficulty').value || null,
-      level_url: $('#new-stage-level-url').value.trim() || null,
-      deadline: deadlineRaw ? new Date(deadlineRaw).toISOString() : null,
-      max_participants: maxRaw ? parseInt(maxRaw, 10) : null,
-      min_level: minLvlRaw !== '' ? parseInt(minLvlRaw, 10) : (num - 1),
-      status: 'draft'
-    };
-
-    const { error } = await sb.from('stages').insert([payload]);
+    const desc = $('#new-t-desc').value.trim();
+    const { error } = await sb.from('tournaments').insert([{ number: num, title, description: desc || null, status: 'draft' }]);
     if(error){
-      if(/duplicate|unique/i.test(error.message)) toast('Этап с таким номером уже есть', true);
+      if(/duplicate|unique/i.test(error.message)) toast('Турнир с таким номером уже есть', true);
       else toast('Ошибка: ' + error.message, true);
       return;
     }
-    toast('Этап создан');
-    ['new-stage-title','new-stage-desc','new-stage-task','new-stage-rules','new-stage-reward',
-     'new-stage-level-id','new-stage-level-name','new-stage-level-url','new-stage-deadline',
-     'new-stage-max'].forEach(id => { const el = $('#'+id); if(el) el.value = ''; });
-    $('#new-stage-number').value = num + 1;
-    $('#new-stage-min-level').value = num;
-    $('#new-stage-difficulty').value = '';
-    await loadStages();
-    renderAdminStages();
+    toast('Турнир создан');
+    $('#new-t-number').value = num + 1;
+    $('#new-t-title').value = '';
+    $('#new-t-desc').value = '';
+    await loadTournaments();
+    renderAdminTournaments();
   });
 
-  /* --- APPS TAB --- */
+  /* --- ADMIN APPS --- */
   async function loadAdminApps(){
     if(!sb || !canModerate()){ adminApps = []; return; }
     try{
@@ -1661,28 +1774,49 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       adminApps = data || [];
     }catch(err){ console.error(err); adminApps = []; }
   }
-
-  function renderStageFilter(){
-    const sel = $('#admin-stage-filter');
-    const cur = sel.value;
-    sel.innerHTML = '<option value="all">Все этапы</option>';
-    stages.forEach(s => {
-      const o = document.createElement('option');
-      o.value = s.id;
-      o.textContent = '#' + s.number + ' ' + (s.title || '');
-      sel.appendChild(o);
-    });
-    if(stages.some(s => s.id === cur)) sel.value = cur;
-  }
-
   function renderAdminApps(){
     loadAdminApps().then(() => {
+      renderTournamentFilter();
       renderStageFilter();
       updateAdminStats();
       renderAdminTable();
     });
   }
+  function renderTournamentFilter(){
+    const sel = $('#admin-tournament-filter');
+    const cur = sel.value;
+    sel.innerHTML = '<option value="all">Все турниры</option>';
+    tournaments.forEach(t => {
+      const o = document.createElement('option');
+      o.value = t.id;
+      o.textContent = '#' + t.number + ' ' + (t.title || '');
+      sel.appendChild(o);
+    });
+    if(tournaments.some(t => t.id === cur)) sel.value = cur;
+  }
+  function renderStageFilter(){
+    const sel = $('#admin-stage-filter');
+    const cur = sel.value;
+    sel.innerHTML = '<option value="all">Все этапы</option>';
+    // Показываем только этапы выбранного турнира, либо все
+    let list = stages;
+    if(adminTournamentFilter !== 'all') list = stages.filter(s => s.tournament_id === adminTournamentFilter);
+    list.sort((a,b) => a.number - b.number).forEach(s => {
+      const t = tournaments.find(x => x.id === s.tournament_id);
+      const o = document.createElement('option');
+      o.value = s.id;
+      o.textContent = '#' + (t ? t.number : '?') + '·' + s.number + ' ' + (s.title || '');
+      sel.appendChild(o);
+    });
+    if(list.some(s => s.id === cur)) sel.value = cur;
+  }
 
+  $('#admin-tournament-filter').addEventListener('change', e => {
+    adminTournamentFilter = e.target.value;
+    adminStageFilter = 'all';
+    renderStageFilter();
+    renderAdminTable();
+  });
   $('#admin-stage-filter').addEventListener('change', e => { adminStageFilter = e.target.value; renderAdminTable(); });
   $('#admin-search').addEventListener('input', e => { adminSearch = e.target.value.toLowerCase().trim(); renderAdminTable(); });
   $('#refresh-apps-btn').addEventListener('click', async () => {
@@ -1691,37 +1825,35 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTable();
     toast('Обновлено');
   });
-
   $$('[data-app-filter]').forEach(b => b.addEventListener('click', () => {
     $$('[data-app-filter]').forEach(x => x.classList.toggle('active', x === b));
     adminAppFilter = b.dataset.appFilter;
     renderAdminTable();
   }));
-
-  // Сортировка по клику на заголовок
   $$('[data-sort]').forEach(th => th.addEventListener('click', () => {
     const field = th.dataset.sort;
     if(adminSortField === field) adminSortDir = adminSortDir === 'asc' ? 'desc' : 'asc';
     else { adminSortField = field; adminSortDir = 'desc'; }
     $$('[data-sort]').forEach(x => x.classList.remove('sorted'));
     th.classList.add('sorted');
-    th.querySelector('.sort-arrow').textContent = adminSortDir === 'asc' ? '▲' : '▼';
+    const arrow = th.querySelector('.sort-arrow');
+    if(arrow) arrow.textContent = adminSortDir === 'asc' ? '▲' : '▼';
     renderAdminTable();
   }));
 
   function applyFilters(){
     let list = adminApps.slice();
+    if(adminTournamentFilter !== 'all') list = list.filter(a => a.tournament_id === adminTournamentFilter);
     if(adminStageFilter !== 'all') list = list.filter(a => a.stage_id === adminStageFilter);
     if(adminAppFilter !== 'all') list = list.filter(a => a.status === adminAppFilter);
     if(adminSearch){
       list = list.filter(a =>
-        (a.nick || '').toLowerCase().includes(adminSearch) ||
-        (a.telegram || '').toLowerCase().includes(adminSearch) ||
-        (a.discord || '').toLowerCase().includes(adminSearch) ||
-        (a.email || '').toLowerCase().includes(adminSearch)
+        (a.nick||'').toLowerCase().includes(adminSearch) ||
+        (a.telegram||'').toLowerCase().includes(adminSearch) ||
+        (a.discord||'').toLowerCase().includes(adminSearch) ||
+        (a.email||'').toLowerCase().includes(adminSearch)
       );
     }
-    // сортировка
     list.sort((a, b) => {
       let va, vb;
       if(adminSortField === 'created_at'){ va = a.created_at; vb = b.created_at; }
@@ -1732,6 +1864,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const sa = stages.find(s => s.id === a.stage_id);
         const sb_ = stages.find(s => s.id === b.stage_id);
         va = sa ? sa.number : 0; vb = sb_ ? sb_.number : 0;
+      }
+      else if(adminSortField === 'tournament'){
+        const ta = tournaments.find(t => t.id === a.tournament_id);
+        const tb = tournaments.find(t => t.id === b.tournament_id);
+        va = ta ? ta.number : 0; vb = tb ? tb.number : 0;
       }
       if(va < vb) return adminSortDir === 'asc' ? -1 : 1;
       if(va > vb) return adminSortDir === 'asc' ? 1 : -1;
@@ -1746,28 +1883,26 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const mobileList = $('#admin-mobile-list');
     tb.replaceChildren();
     mobileList.replaceChildren();
-
     if(!list.length){
-      tb.innerHTML = '<tr><td colspan="7" class="empty">Заявок нет</td></tr>';
+      tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>';
       mobileList.innerHTML = '<div class="admin-mobile-card" style="text-align:center;color:var(--muted)">Заявок нет</div>';
       return;
     }
-
     list.forEach(a => {
       const stage = stages.find(s => s.id === a.stage_id);
+      const t = tournaments.find(x => x.id === a.tournament_id);
       const contacts = [];
       if(a.telegram) contacts.push('TG: ' + a.telegram);
       if(a.discord) contacts.push('DC: ' + a.discord);
       if(a.email) contacts.push('✉ ' + a.email);
 
-      /* Desktop row */
       const tr = document.createElement('tr');
       tr.innerHTML =
-        '<td style="font-size:12px;color:var(--muted);white-space:nowrap" title="' + (a.created_at || '') + '">' + timeAgo(a.created_at) + '</td>' +
+        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(a.created_at) + '</td>' +
+        '<td style="font-family:\'Exo 2\',sans-serif;font-weight:700">' + (t ? '#' + t.number : '—') + '</td>' +
         '<td style="font-family:\'Exo 2\',sans-serif;font-weight:700">' + (stage ? '#' + stage.number : '—') + '</td>' +
         '<td style="font-weight:600">' + escapeHtml(a.nick || '—') + '</td>' +
         '<td style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</td>';
-
       const tdVideo = document.createElement('td');
       if(a.video){
         const lnk = document.createElement('a');
@@ -1777,7 +1912,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         tdVideo.appendChild(lnk);
       } else tdVideo.textContent = '—';
       tr.appendChild(tdVideo);
-
       const tdStatus = document.createElement('td');
       const b = document.createElement('span');
       b.className = 'status-badge ' + a.status;
@@ -1785,23 +1919,22 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       tdStatus.appendChild(b);
       if(a.admin_comment){
         const cm = document.createElement('div');
-        cm.style.cssText = 'font-size:11px;color:var(--muted);margin-top:6px;max-width:200px;word-break:break-word';
+        cm.style.cssText = 'font-size:11px;color:var(--muted);margin-top:6px;max-width:180px;word-break:break-word';
         cm.textContent = '💬 ' + a.admin_comment;
         tdStatus.appendChild(cm);
       }
       tr.appendChild(tdStatus);
-
       const tdActions = document.createElement('td');
       tdActions.appendChild(buildActions(a));
       tr.appendChild(tdActions);
       tb.appendChild(tr);
 
-      /* Mobile card */
+      // Mobile
       const card = document.createElement('div');
       card.className = 'admin-mobile-card';
       card.innerHTML =
         '<div class="row"><b>Дата</b><span>' + timeAgo(a.created_at) + '</span></div>' +
-        '<div class="row"><b>Этап</b><span>' + (stage ? '#' + stage.number + ' ' + escapeHtml(stage.title || '') : '—') + '</span></div>' +
+        '<div class="row"><b>Турнир · Этап</b><span>' + (t ? '#' + t.number + ' · ' : '') + (stage ? '#' + stage.number : '—') + '</span></div>' +
         '<div class="row"><b>Ник</b><span style="font-weight:600">' + escapeHtml(a.nick || '—') + '</span></div>' +
         '<div class="row"><b>Контакты</b><span style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</span></div>' +
         '<div class="row"><b>Статус</b><span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span></div>' +
@@ -1824,7 +1957,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function buildActions(a){
     const wrap = document.createElement('div');
     wrap.className = 'admin-actions';
-
     if(a.status !== 'approved'){
       const ap = document.createElement('button');
       ap.className = 'btn btn-success btn-sm';
@@ -1847,7 +1979,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     cm.title = 'Комментарий';
     cm.addEventListener('click', () => editComment(a));
     wrap.appendChild(cm);
-
     const dl = document.createElement('button');
     dl.className = 'btn btn-danger btn-sm';
     dl.textContent = '🗑';
@@ -1866,12 +1997,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
 
   async function editComment(a){
-    const current = a.admin_comment || '';
-    const newComment = prompt('Комментарий к заявке (видит юзер):', current);
+    const newComment = prompt('Комментарий к заявке (видит юзер):', a.admin_comment || '');
     if(newComment === null) return;
-    const { error } = await sb.from('applications').update({
-      admin_comment: newComment.trim() || null
-    }).eq('id', a.id);
+    const { error } = await sb.from('applications').update({ admin_comment: newComment.trim() || null }).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('Комментарий сохранён');
     await loadAdminApps();
@@ -1880,19 +2008,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   async function updateAppStatus(a, newStatus){
     let comment = a.admin_comment || '';
-    if(newStatus === 'approved' || newStatus === 'rejected'){
-      const ask = prompt(
-        newStatus === 'approved'
-          ? 'Комментарий к одобрению (необязательно):'
-          : 'Причина отклонения (увидит юзер):',
-        comment
-      );
-      if(ask === null) return;
-      comment = ask.trim();
-    }
+    const ask = prompt(
+      newStatus === 'approved' ? 'Комментарий к одобрению (необязательно):' : 'Причина отклонения (увидит юзер):',
+      comment
+    );
+    if(ask === null) return;
+    comment = ask.trim();
     const patch = { status: newStatus };
     if(comment !== (a.admin_comment || '')) patch.admin_comment = comment || null;
-
     const { error } = await sb.from('applications').update(patch).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast(newStatus === 'approved' ? '✓ Одобрено (+1 к уровню)' : '✕ Отклонено');
@@ -1904,7 +2027,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(adminTab === 'dashboard') renderDashboard();
   }
 
-  /* --- LOG TAB --- */
   async function loadAdminLog(){
     if(!sb || !canModerate()){ adminLog = []; return; }
     try{
@@ -1913,24 +2035,17 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       adminLog = data || [];
     }catch(err){ console.error(err); adminLog = []; }
   }
-
   async function renderAdminLog(){
     await loadAdminLog();
     const tb = $('#admin-log-body');
     tb.replaceChildren();
-    if(!adminLog.length){
-      tb.innerHTML = '<tr><td colspan="4" class="empty">Действий пока нет</td></tr>';
-      return;
-    }
+    if(!adminLog.length){ tb.innerHTML = '<tr><td colspan="4" class="empty">Действий пока нет</td></tr>'; return; }
     adminLog.forEach(l => {
       const d = l.details || {};
       const tr = document.createElement('tr');
-      const actionLabel = l.action === 'approve' ? '✓ Одобрил'
-        : l.action === 'reject' ? '✕ Отклонил'
-        : l.action;
-
+      const actionLabel = l.action === 'approve' ? '✓ Одобрил' : l.action === 'reject' ? '✕ Отклонил' : l.action;
       tr.innerHTML =
-        '<td style="font-size:12px;color:var(--muted);white-space:nowrap" title="' + l.created_at + '">' + timeAgo(l.created_at) + '</td>' +
+        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(l.created_at) + '</td>' +
         '<td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td>' +
         '<td style="font-weight:600">' + actionLabel + '</td>' +
         '<td style="font-size:12px;color:var(--muted)">' +
@@ -1941,7 +2056,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* --- MODERATORS TAB --- */
   async function loadModerators(){
     if(!sb || !isAdmin()){ moderators = []; return; }
     try{
@@ -1950,15 +2064,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       moderators = data || [];
     }catch(err){ console.error(err); moderators = []; }
   }
-
   async function renderAdminModerators(){
     await loadModerators();
     const tb = $('#admin-mods-body');
     tb.replaceChildren();
-    if(!moderators.length){
-      tb.innerHTML = '<tr><td colspan="3" class="empty">Модераторов пока нет</td></tr>';
-      return;
-    }
+    if(!moderators.length){ tb.innerHTML = '<tr><td colspan="3" class="empty">Модераторов пока нет</td></tr>'; return; }
     moderators.forEach(m => {
       const tr = document.createElement('tr');
       tr.innerHTML =
@@ -1980,7 +2090,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       tb.appendChild(tr);
     });
   }
-
   $('#add-mod-btn').addEventListener('click', async () => {
     const email = $('#new-mod-email').value.trim().toLowerCase();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Корректный email', true); return; }
@@ -2004,13 +2113,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $('#login-error').textContent = '';
     $('#register-error').textContent = '';
   }));
-
   function setAuthError(which, msg){
     const el = $('#' + which + '-error');
     el.textContent = msg || '';
     el.classList.toggle('show', !!msg);
   }
-
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault();
     const email = e.target.elements.email.value.trim();
@@ -2024,23 +2131,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const { error } = await sb.auth.signInWithPassword({ email, password });
       if(error){
         const msg = (error.message || '').toLowerCase();
-        if(/confirm|not confirmed|email not/i.test(msg)){
-          setAuthError('login', 'Email не подтверждён. Проверь почту.');
-        } else if(/invalid/i.test(msg)){
-          setAuthError('login', 'Неверный email или пароль');
-        } else {
-          setAuthError('login', 'Ошибка: ' + error.message.slice(0, 100));
-        }
+        if(/confirm|not confirmed|email not/i.test(msg)) setAuthError('login', 'Email не подтверждён. Проверь почту.');
+        else if(/invalid/i.test(msg)) setAuthError('login', 'Неверный email или пароль');
+        else setAuthError('login', 'Ошибка: ' + error.message.slice(0, 100));
         return;
       }
       toast('Добро пожаловать!');
       await afterLogin();
       e.target.reset();
-    }finally{
-      btn.disabled = false; btn.textContent = prev;
-    }
+    }finally{ btn.disabled = false; btn.textContent = prev; }
   });
-
   $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
     const formEl = e.target;
@@ -2052,43 +2152,33 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(password.length < 6){ setAuthError('register', 'Пароль минимум 6 символов'); return; }
     if(password !== password2){ setAuthError('register', 'Пароли не совпадают'); return; }
     if(!sb){ toast('Supabase не подключён', true); return; }
-
     const btn = formEl.querySelector('button[type="submit"]');
     const prev = btn.textContent;
     btn.disabled = true; btn.textContent = 'Регистрируем…';
-
     try{
       const { data, error } = await sb.auth.signUp({ email, password });
       console.log('[signUp]', { data, error });
-
       if(error){
         const msg = (error.message || '').toLowerCase();
-        if(/already|registered|exists|user.*exist/i.test(msg)){
-          setAuthError('register', 'Этот email уже зарегистрирован. Войди или сбрось пароль.');
-          return;
-        }
-        if(/rate|limit|too many/i.test(msg)){ setAuthError('register', 'Слишком много попыток. Подожди минуту.'); return; }
-        if(/signups?.*not.*allowed|disabled/i.test(msg)){ setAuthError('register', 'Регистрация отключена. Обратись к админу.'); return; }
-        if(/database error/i.test(msg)){ setAuthError('register', 'Ошибка БД при создании юзера. Проверь триггер handle_new_user.'); return; }
-        setAuthError('register', 'Ошибка: ' + (error.message || 'неизвестная').slice(0, 120));
+        if(/already|registered|exists|user.*exist/i.test(msg)){ setAuthError('register', 'Этот email уже зарегистрирован.'); return; }
+        if(/rate|limit|too many/i.test(msg)){ setAuthError('register', 'Слишком много попыток.'); return; }
+        if(/signups?.*not.*allowed|disabled/i.test(msg)){ setAuthError('register', 'Регистрация отключена.'); return; }
+        if(/database error/i.test(msg)){ setAuthError('register', 'Ошибка БД. Проверь триггер handle_new_user.'); return; }
+        setAuthError('register', 'Ошибка: ' + (error.message || '').slice(0, 120));
         return;
       }
-
       if(data && data.session){
         formEl.reset();
         toast('Аккаунт создан!');
         await afterLogin();
         return;
       }
-
       formEl.reset();
-      setAuthError('register', 'Проверь почту — нужно подтвердить email. (Или отключи Confirm email в Supabase.)');
+      setAuthError('register', 'Проверь почту — нужно подтвердить email.');
     }catch(err){
       console.error(err);
-      setAuthError('register', 'Ошибка: ' + (err && err.message ? err.message.slice(0, 120) : 'неизвестная'));
-    }finally{
-      btn.disabled = false; btn.textContent = prev;
-    }
+      setAuthError('register', 'Ошибка: ' + (err && err.message ? err.message.slice(0, 120) : ''));
+    }finally{ btn.disabled = false; btn.textContent = prev; }
   });
 
   $('#logout-btn').addEventListener('click', async () => {
@@ -2097,32 +2187,30 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await sb.auth.signOut();
     toast('Вы вышли');
     user = null; userProfile = null; myApplications = []; isModeratorFlag = false;
-    renderCabinet(); renderAdmin(); renderStages();
+    renderCabinet(); renderAdmin();
     go('home');
   });
 
   async function afterLogin(){
     await checkModerator();
     await loadProfile();
-    await loadMyApplications();
+    await loadTournaments();
     await loadStages();
+    await loadMyApplications();
     if(canModerate()) await loadAdminApps();
     if(isAdmin()) await loadModerators();
     renderCabinet();
     renderAdmin();
-    renderStages();
     updateAdminStats();
     setupRealtime();
   }
 
-  /* ============ REALTIME ============ */
   function setupRealtime(){
     if(!sb || !canModerate()) return;
     if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
     realtimeChannel = sb
       .channel('gdcc-apps')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
-        console.log('[realtime]', payload);
         await loadAdminApps();
         updateAdminStats();
         if(adminTab === 'apps') renderAdminTable();
@@ -2134,7 +2222,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         }
         await renderLeaderboard();
       })
-      .subscribe(status => console.log('[realtime status]', status));
+      .subscribe();
   }
 
   async function initAuth(){
@@ -2145,18 +2233,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }
     const { data } = await sb.auth.getSession();
     user = data.session ? data.session.user : null;
-
     sb.auth.onAuthStateChange((_ev, s) => {
       const wasUser = user;
       user = s ? s.user : null;
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
       else if(!user){
         userProfile = null; myApplications = []; isModeratorFlag = false;
-        renderCabinet(); renderAdmin(); renderStages();
+        renderCabinet(); renderAdmin();
         if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
       }
     });
-
     if(user) await afterLogin();
     else { renderCabinet(); renderAdmin(); }
   }
@@ -2174,9 +2260,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
 
   (async function init(){
+    await loadTournaments();
     await loadStages();
     await initAuth();
-    renderStages();
+    renderTournaments();
     await renderLeaderboard();
   })();
 
