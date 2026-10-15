@@ -242,6 +242,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
 <symbol id="i-admin" viewBox="0 0 24 24"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.2L12 17l-5.5 2.5 1-6.2L3 8.9 9 8z"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
 </defs>
 </svg>
 
@@ -475,7 +476,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
               <p class="auth-note" data-i18n="auth.login.note">Нет аккаунта? Переключись на «Регистрация».</p>
             </form>
-            <form id="register-form" class="hidden" novalidate>
+            <form id="register-form" novalidate>
               <div class="field"><label for="reg-email" data-i18n="auth.email">Email</label><input class="input" id="reg-email" name="email" type="email" placeholder="you@example.com" required></div>
               <div class="field"><label for="reg-password" data-i18n="auth.password">Пароль</label><input class="input" id="reg-password" name="password" type="password" placeholder="Минимум 6 символов" minlength="6" required></div>
               <div class="field"><label for="reg-password2" data-i18n="auth.password2">Повторите пароль</label><input class="input" id="reg-password2" name="password2" type="password" required></div>
@@ -483,6 +484,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.register.btn">Зарегистрироваться</button>
               <p class="auth-note" data-i18n-html="auth.register.note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
+            <div id="register-success" class="hidden" style="text-align:center;padding:24px 8px">
+              <div class="stat-icon" style="background:rgba(47,212,138,.14);color:var(--green);width:64px;height:64px;font-size:32px;margin:0 auto 16px;display:grid;place-items:center;border-radius:16px">
+                <svg class="i" style="font-size:32px"><use href="#i-mail"/></svg>
+              </div>
+              <h2 style="font-size:22px;margin-bottom:10px" data-i18n="reg.sent.t">Письмо отправлено!</h2>
+              <p style="color:var(--muted);font-size:14px;max-width:380px;margin:0 auto 18px" data-i18n-html="reg.sent.p">
+                Мы отправили ссылку для подтверждения на <b data-reg-email>—</b>.<br>Перейди по ней из письма, а потом войди.
+              </p>
+              <button type="button" class="btn btn-ghost" id="reg-back" data-i18n="reg.sent.back">Назад к входу</button>
+            </div>
           </div>
           <aside class="card">
             <h3 style="font-size:18px" data-i18n="cab.why.t">Зачем аккаунт?</h3>
@@ -659,6 +670,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       'footer.tag':'Турнир сообщества',
       'auth.tab.login':'Вход','auth.tab.register':'Регистрация','auth.email':'Email','auth.password':'Пароль','auth.password2':'Повторите пароль','auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись.','auth.register.btn':'Зарегистрироваться','auth.register.note':'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.','auth.sending':'Отправляем…','auth.err.email':'Корректный email','auth.err.password':'Минимум 6 символов','auth.err.password2':'Пароли не совпадают','auth.err.creds':'Неверный email или пароль','auth.err.exists':'Аккаунт существует','auth.err.generic':'Ошибка','auth.logout.toast':'Вы вышли','auth.login.toast':'Добро пожаловать!','auth.register.toast':'Аккаунт создан!',
       'cab.auth.title':'Личный кабинет','cab.auth.lead':'Войдите или зарегистрируйтесь.','cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку','cab.why.2':'Отслеживать статус','cab.why.3':'Редактировать заявку','cab.hello':'Личный кабинет','cab.signed.as':'Вы вошли как','cab.logout':'Выйти','cab.demo':'Supabase не подключён.','cab.no.app.t':'Нет заявки','cab.no.app.p':'Подайте заявку — её статус появится здесь.','cab.no.app.cta':'Подать заявку','cab.app.title':'Ваша заявка','cab.app.created':'Создана','cab.field.nick':'Ник','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Видео','cab.field.platform':'Платформа','cab.field.about':'О себе','cab.edit':'Редактировать','cab.edit.locked':'Заявка подтверждена — редактирование недоступно','cab.delete':'Удалить','cab.delete.confirm':'Удалить заявку?','cab.deleted':'Удалено','cab.updated':'Обновлено',
+      'reg.sent.t':'Письмо отправлено!',
+      'reg.sent.p':'Мы отправили ссылку для подтверждения на <b data-reg-email>—</b>.<br>Перейди по ней из письма, а потом войди.',
+      'reg.sent.back':'Назад к входу',
       'admin.title':'Панель администратора','admin.lead':'Управление заявками.','admin.stat.total':'Всего','admin.stat.pending':'На проверке','admin.stat.approved':'Подтверждено','admin.stat.rejected':'Отклонено','admin.filter.all':'Все','admin.filter.pending':'На проверке','admin.filter.approved':'Подтверждённые','admin.filter.rejected':'Отклонённые','admin.th.date':'Дата','admin.th.nick':'Ник','admin.th.contact':'Контакты','admin.th.video':'Видео','admin.th.platform':'Платформа','admin.th.status':'Статус','admin.th.actions':'Действия','admin.approve':'Одобрить','admin.reject':'Отклонить','admin.delete':'Удалить','admin.empty':'Заявок нет','admin.confirm.delete':'Удалить заявку?','admin.approved':'Заявка одобрена','admin.rejected':'Заявка отклонена','admin.deleted':'Заявка удалена'
     },
     en:{
@@ -691,6 +705,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       'res.title':'Results','res.lead':'Matches will appear here.','res.empty.t':'Nothing yet','res.empty.p':'Results after start.','footer.tag':'A community tournament',
       'auth.tab.login':'Log in','auth.tab.register':'Register','auth.email':'Email','auth.password':'Password','auth.password2':'Repeat password','auth.login.btn':'Log in','auth.login.note':'No account? Switch.','auth.register.btn':'Register','auth.register.note':'By registering you agree to the <a href="#rules">rules</a>.','auth.sending':'Sending…','auth.err.email':'Valid email','auth.err.password':'Min 6 characters','auth.err.password2':'Passwords do not match','auth.err.creds':'Invalid email or password','auth.err.exists':'Account exists','auth.err.generic':'Error','auth.logout.toast':'Logged out','auth.login.toast':'Welcome!','auth.register.toast':'Account created!',
       'cab.auth.title':'Personal cabinet','cab.auth.lead':'Log in or register.','cab.why.t':'Why account?','cab.why.1':'Submit application','cab.why.2':'Track status','cab.why.3':'Edit application','cab.hello':'Personal cabinet','cab.signed.as':'Signed in as','cab.logout':'Log out','cab.demo':'Supabase not connected.','cab.no.app.t':'No application','cab.no.app.p':'Submit an application — status appears here.','cab.no.app.cta':'Submit','cab.app.title':'Your application','cab.app.created':'Created','cab.field.nick':'Nickname','cab.field.telegram':'Telegram','cab.field.discord':'Discord','cab.field.video':'Video','cab.field.platform':'Platform','cab.field.about':'About','cab.edit':'Edit','cab.edit.locked':'Application confirmed — editing unavailable','cab.delete':'Delete','cab.delete.confirm':'Delete application?','cab.deleted':'Deleted','cab.updated':'Updated',
+      'reg.sent.t':'Email sent!',
+      'reg.sent.p':'We sent a confirmation link to <b data-reg-email>—</b>.<br>Click it in your inbox, then log in.',
+      'reg.sent.back':'Back to login',
       'admin.title':'Admin panel','admin.lead':'Manage applications.','admin.stat.total':'Total','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected','admin.filter.all':'All','admin.filter.pending':'Pending','admin.filter.approved':'Approved','admin.filter.rejected':'Rejected','admin.th.date':'Date','admin.th.nick':'Nickname','admin.th.contact':'Contacts','admin.th.video':'Video','admin.th.platform':'Platform','admin.th.status':'Status','admin.th.actions':'Actions','admin.approve':'Approve','admin.reject':'Reject','admin.delete':'Delete','admin.empty':'No applications','admin.confirm.delete':'Delete application?','admin.approved':'Approved','admin.rejected':'Rejected','admin.deleted':'Deleted'
     }
   };
@@ -741,6 +758,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(participantsLoaded) renderParticipants(participants);
     if(user) renderCabinet();
     if(isAdmin() && current === 'admin') renderAdmin();
+    // Восстановить email в экране "письмо отправлено"
+    const regEmail = document.querySelector('#register-success [data-reg-email]');
+    if(regEmail && regEmail.dataset.email){
+      regEmail.textContent = regEmail.dataset.email;
+    }
   }
 
   function setShellInert(on){ shell.forEach(el => { if(el) el.inert = on; }); }
@@ -944,6 +966,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     document.querySelectorAll('[data-auth-tab]').forEach(b => b.classList.toggle('active', b.dataset.authTab === tab));
     $('#login-form').classList.toggle('hidden', tab !== 'login');
     $('#register-form').classList.toggle('hidden', tab !== 'register');
+    const succ = $('#register-success');
+    if(succ) succ.classList.add('hidden');
     $('#login-error').textContent = '';
     $('#register-error').textContent = '';
   }
@@ -954,6 +978,25 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     el.textContent = msg || '';
     el.classList.toggle('show', !!msg);
   }
+
+  // Показать экран "письмо отправлено"
+  function showRegisterSuccess(email){
+    $('#register-form').classList.add('hidden');
+    const box = $('#register-success');
+    const emailEl = box.querySelector('[data-reg-email]');
+    emailEl.dataset.email = email;
+    emailEl.textContent = email;
+    box.classList.remove('hidden');
+    document.querySelectorAll('[data-auth-tab]').forEach(b => b.classList.remove('active'));
+  }
+
+  // Кнопка "Назад к входу"
+  document.addEventListener('click', e => {
+    if(e.target && e.target.id === 'reg-back'){
+      $('#register-success').classList.add('hidden');
+      switchAuthTab('login');
+    }
+  });
 
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault();
@@ -968,8 +1011,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     try{
       const { error } = await sb.auth.signInWithPassword({ email, password });
       if(error){
-        const m = /invalid/i.test(error.message) ? 'auth.err.creds' : 'auth.err.generic';
-        setAuthError('login', t(m));
+        const msg = (error.message || '').toLowerCase();
+        if(/confirm|not confirmed|email not/i.test(msg)){
+          setAuthError('login', t('auth.err.confirm'));
+        } else if(/invalid/i.test(msg)){
+          setAuthError('login', t('auth.err.creds'));
+        } else {
+          setAuthError('login', t('auth.err.generic'));
+        }
         return;
       }
       toast(t('auth.login.toast'));
@@ -984,28 +1033,55 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
-    const email = e.target.elements.email.value.trim();
-    const password = e.target.elements.password.value;
-    const password2 = e.target.elements.password2.value;
+    const formEl = e.target;
+    const email = formEl.elements.email.value.trim();
+    const password = formEl.elements.password.value;
+    const password2 = formEl.elements.password2.value;
     setAuthError('register','');
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ setAuthError('register', t('auth.err.email')); return; }
     if(password.length < 6){ setAuthError('register', t('auth.err.password')); return; }
     if(password !== password2){ setAuthError('register', t('auth.err.password2')); return; }
     if(!sb){ toast('Supabase not connected', true); return; }
 
-    const btn = e.target.querySelector('button[type="submit"]');
+    const btn = formEl.querySelector('button[type="submit"]');
     const prev = btn.textContent;
     btn.disabled = true; btn.textContent = t('auth.sending');
     try{
-      const { error } = await sb.auth.signUp({ email, password });
+      const { data, error } = await sb.auth.signUp({ email, password });
+
       if(error){
-        const m = /already/i.test(error.message) ? 'auth.err.exists' : 'auth.err.generic';
-        setAuthError('register', t(m));
+        const msg = (error.message || '').toLowerCase();
+        const alreadyExists = /already|exists|registered/i.test(msg);
+        const unconfirmed = /confirm|not confirmed|email not/i.test(msg);
+
+        if(alreadyExists || unconfirmed){
+          // Пытаемся отправить письмо повторно
+          try{ await sb.auth.resend({ type: 'signup', email }); }catch(_){}
+          showRegisterSuccess(email);
+          formEl.reset();
+          return;
+        }
+
+        setAuthError('register', /password/i.test(msg) ? t('auth.err.password') : t('auth.err.generic'));
         return;
       }
-      e.target.reset();
-      toast(t('auth.register.toast'));
+
+      // Если нет session — значит нужно подтвердить email
+      if(!data.session){
+        showRegisterSuccess(email);
+        formEl.reset();
+        return;
+      }
+
+      // Если Supabase настроен без Confirm email — залогинило сразу
+      formEl.reset();
+      toast(t('auth.login.toast'));
+      await loadMyApplication();
       renderCabinet();
+      renderAdmin();
+    }catch(err){
+      console.error(err);
+      setAuthError('register', t('auth.err.generic'));
     }finally{
       btn.disabled = false; btn.textContent = prev;
     }
@@ -1190,19 +1266,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     list.forEach(a => {
       const tr = document.createElement('tr');
 
-      // Дата
       const td1 = document.createElement('td');
       td1.style.fontSize = '12.5px';
       td1.style.color = 'var(--muted)';
       td1.textContent = a.created_at ? new Date(a.created_at).toLocaleString(lang === 'ru' ? 'ru-RU' : 'en-US') : '—';
       tr.appendChild(td1);
 
-      // Ник
       const td2 = document.createElement('td');
       td2.textContent = a.nick || '—';
       tr.appendChild(td2);
 
-      // Контакты
       const td3 = document.createElement('td');
       td3.style.fontSize = '13px';
       const lines = [];
@@ -1212,7 +1285,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       td3.textContent = lines.join(' · ') || '—';
       tr.appendChild(td3);
 
-      // Видео
       const td4 = document.createElement('td');
       if(a.video){
         const link = document.createElement('a');
@@ -1223,12 +1295,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       } else td4.textContent = '—';
       tr.appendChild(td4);
 
-      // Платформа
       const td5 = document.createElement('td');
       td5.textContent = t('platform.' + a.platform) || a.platform || '—';
       tr.appendChild(td5);
 
-      // Статус
       const td6 = document.createElement('td');
       const badge = document.createElement('span');
       badge.className = 'badge ' + (a.status === 'approved' ? '' : a.status === 'rejected' ? 'rejected' : 'pending');
@@ -1236,7 +1306,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       td6.appendChild(badge);
       tr.appendChild(td6);
 
-      // Действия
       const td7 = document.createElement('td');
       const actions = document.createElement('div'); actions.className = 'admin-actions';
 
@@ -1285,7 +1354,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await loadAdminApps();
     updateAdminStats();
     renderAdminTable();
-    // обновляем публичный список
     const list = await loadParticipants();
     participants = list; participantsLoaded = true;
     renderParticipants(list);
