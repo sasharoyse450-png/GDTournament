@@ -13,6 +13,8 @@
 :root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;--purple:#b36bff;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+html[data-banned] body{overflow:hidden!important}
+html[data-banned] .header,html[data-banned] main,html[data-banned] footer{display:none!important}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
@@ -301,7 +303,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .modal-section{margin-bottom:18px}
 .modal-section h3{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .modal-section h3::before{content:"";width:3px;height:14px;background:var(--blue-2);border-radius:2px}
-/* CUP */
 .cup-icon{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(246,183,60,.2),rgba(246,140,0,.1));color:var(--gold);flex:none;border:1px solid rgba(246,183,60,.35)}
 .cup-card{padding:16px 18px;border-radius:14px;border:1px solid rgba(246,183,60,.35);background:linear-gradient(135deg,rgba(246,183,60,.08),rgba(9,18,42,.9));display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
 .cup-card-info{flex:1;min-width:0}
@@ -313,7 +314,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .user-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2a98ff,#1169e8);display:grid;place-items:center;font-family:'Exo 2',sans-serif;font-weight:800;font-size:18px;color:#fff;flex:none}
 .user-info{flex:1;min-width:0}
 .user-info b{display:block;font-weight:600;font-size:14.5px;word-break:break-word}
-.user-info small{color:var(--muted);font-size:12px;word-break:break-all;display:block}
+.user-info small{color:var(--muted);font-size:12px;word-break:all;display:block}
 .user-stats{display:flex;gap:10px;flex-wrap:wrap;flex:none}
 .user-stat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(31,139,255,.12);color:var(--blue-2);font-size:11.5px;font-weight:700;font-family:'Exo 2',sans-serif}
 .user-stat-pill.gold{background:rgba(246,183,60,.15);color:var(--gold)}
@@ -369,8 +370,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
 <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><circle cx="16" cy="16" r="5"/><path d="M11 6h.01M18 14h.01"/></symbol>
 <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
-<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
-<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15L19 4M18 5l2 2M15 8l2 2"/></symbol>
 </defs>
 </svg>
 
@@ -402,8 +401,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 </header>
 
 <main>
-
-<!-- HOME -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -428,11 +425,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <a class="btn btn-primary" id="home-active-stage-btn" href="#tournament"><svg class="i"><use href="#i-video"/></svg><span>Подать видео</span></a>
         </div>
       </div>
-      <aside class="stat-card">
-        <div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div>
-        <div class="stat-num" data-participants-count>—</div>
-        <div class="stat-label">Участников</div>
-      </aside>
+      <aside class="stat-card"><div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div><div class="stat-num" data-participants-count>—</div><div class="stat-label">Участников</div></aside>
     </div>
     <svg class="spikes" preserveAspectRatio="none"><defs><pattern id="sp" width="40" height="24" patternUnits="userSpaceOnUse"><path d="M4 24L20 4l16 20z" fill="none" stroke="#38b6ff" stroke-opacity=".55"/></pattern></defs><rect width="100%" height="24" fill="url(#sp)"/></svg>
   </div>
@@ -454,40 +447,29 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- RULES -->
 <section class="page" id="page-rules">
   <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span>Правила</span></div>
-      <h1>Правила турнира</h1>
-      <p>Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p>
-    </div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span>Правила</span></div><h1>Правила турнира</h1><p>Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
     <div class="page-body">
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат турнира</h3><p style="color:#b9c8e6;font-size:14px">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно. Прогресс в одном турнире не влияет на другие.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат турнира</h3><p style="color:#b9c8e6;font-size:14px">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире. Первый этап доступен всем.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Кубки</h3><p style="color:#b9c8e6;font-size:14px">За победы и достижения организаторы вручают именные кубки. Они отображаются в профиле игрока.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Кубки</h3><p style="color:#b9c8e6;font-size:14px">За победы организаторы вручают именные кубки. Они отображаются в профиле игрока.</p></div></article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TOURNAMENTS -->
 <section class="page" id="page-tournaments">
   <div class="wrap">
-    <div class="page-head">
-      <div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span>Турниры</span></div>
-      <h1>Турниры</h1>
-      <p>Выбери турнир. Внутри каждого — этапы. Доступ к следующему этапу после одобрения предыдущего.</p>
-    </div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span>Турниры</span></div><h1>Турниры</h1><p>Выбери турнир. Внутри каждого — этапы. Доступ к следующему этапу после одобрения предыдущего.</p></div>
     <div class="page-body"><div class="tournaments-grid" id="tournaments-grid"></div></div>
   </div>
 </section>
 
-<!-- TOURNAMENT -->
 <section class="page" id="page-tournament">
   <div class="wrap">
     <div class="page-head">
@@ -501,7 +483,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- APPLY -->
 <section class="page" id="page-apply">
   <div class="wrap">
     <div class="page-head">
@@ -509,14 +490,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h1 id="apply-title">Форма подачи заявки</h1>
       <p id="apply-subtitle">Заполни все поля внимательно.</p>
       <div id="apply-info-block" class="hidden" style="margin-top:18px;padding:16px 20px;border-radius:14px;border:1px solid rgba(31,139,255,.35);background:linear-gradient(135deg,rgba(31,139,255,.12),rgba(179,107,255,.08));display:flex;gap:20px;flex-wrap:wrap;align-items:center">
-        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px">
-          <svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-cup"/></svg>
-          <div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Турнир</div><div id="apply-info-tournament" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px">
-          <svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-tag"/></svg>
-          <div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Этап</div><div id="apply-info-stage" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div>
-        </div>
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px"><svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-cup"/></svg><div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Турнир</div><div id="apply-info-tournament" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div></div>
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:200px"><svg class="i" style="color:var(--blue-2);font-size:24px"><use href="#i-tag"/></svg><div><div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px">Этап</div><div id="apply-info-stage" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:16px">—</div></div></div>
       </div>
     </div>
     <div class="page-body">
@@ -558,7 +533,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- LEADERBOARD -->
 <section class="page" id="page-leaderboard">
   <div class="wrap">
     <div class="page-head">
@@ -581,7 +555,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- CABINET -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -629,7 +602,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- DOCS -->
 <section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></div><h1>Необходимые документы</h1><p>Что нужно подготовить.</p></div>
@@ -642,7 +614,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- ADMIN -->
 <section class="page" id="page-admin">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div><h1>Панель администратора</h1><p>Управление турнирами, этапами, заявками и юзерами.</p></div>
@@ -656,8 +627,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="log" id="tab-log">Лог</button>
         <button type="button" data-admin-tab="moderators" id="tab-moderators">Модераторы</button>
       </div>
-
-      <!-- DASHBOARD -->
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span>Всего заявок</span></div>
@@ -671,8 +640,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div class="dash-card" style="margin-bottom:22px"><h3><svg class="i"><use href="#i-clock"/></svg> Последние действия</h3><div class="dash-recent" id="dash-recent"></div></div>
       </div>
-
-      <!-- TOURNAMENTS -->
       <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Новый турнир</h3>
@@ -685,8 +652,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div id="admin-tournaments-list"></div>
       </div>
-
-      <!-- APPS -->
       <div id="admin-apps" class="hidden">
         <div class="admin-filters">
           <input type="search" id="admin-search" placeholder="Поиск: ник, telegram, email...">
@@ -707,8 +672,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           </div>
         </div>
       </div>
-
-      <!-- USERS -->
       <div id="admin-users" class="hidden">
         <div class="admin-filters">
           <input type="search" id="users-search" placeholder="Поиск по нику или email...">
@@ -718,27 +681,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div id="admin-users-list"></div>
       </div>
-
-      <!-- CUPS -->
       <div id="admin-cups" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
-          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
-            <svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg>
-            Вручить кубок
-          </h3>
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg> Вручить кубок</h3>
           <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">Сначала выбери юзера во вкладке «Юзеры», потом нажми «Вручить кубок» в профиле.</p>
-          <button type="button" class="btn btn-primary" onclick="document.querySelector('[data-admin-tab=users]').click()">
-            <svg class="i"><use href="#i-users"/></svg><span>К юзерам</span>
-          </button>
+          <button type="button" class="btn btn-primary" onclick="document.querySelector('[data-admin-tab=users]').click()"><svg class="i"><use href="#i-users"/></svg><span>К юзерам</span></button>
         </div>
         <h3 style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Все выданные кубки</h3>
         <div id="admin-cups-list"></div>
       </div>
-
-      <!-- LOG -->
       <div id="admin-log" class="hidden"><div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>Когда</th><th>Кто</th><th>Что</th><th>Детали</th></tr></thead><tbody id="admin-log-body"></tbody></table></div></div></div>
-
-      <!-- MODERATORS -->
       <div id="admin-moderators" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Добавить модератора</h3>
@@ -753,7 +705,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
   </div>
 </section>
-
 </main>
 
 <footer class="footer"><div class="wrap"><span>© International Geometry Dash Community Cup</span><span>Турнир сообщества</span></div></footer>
@@ -770,11 +721,10 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- STAGE MODAL -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head">
-      <div><h2 id="modal-title">Настройка этапа</h2><p id="modal-subtitle">Турнир #1 · Этап #1</p></div>
+      <div><h2 id="modal-title">Настройка этапа</h2><p id="modal-subtitle">—</p></div>
       <button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
     <div class="modal-section"><h3>Основное</h3>
@@ -813,7 +763,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- USER MODAL -->
 <div class="modal-back hidden" id="user-modal">
   <div class="modal">
     <div class="modal-head">
@@ -825,7 +774,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- CUP MODAL -->
 <div class="modal-back hidden" id="cup-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -833,7 +781,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button class="modal-close" id="cm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
     <div class="modal-section">
-      <div class="field"><label for="cm-name">Название кубка <span class="req">*</span></label><input class="input" type="text" id="cm-name" placeholder="1st October Tournament"><span class="hint">Например: «1st October Tournament», «Кубок чемпиона», «Season 1 Winner»</span></div>
+      <div class="field"><label for="cm-name">Название кубка <span class="req">*</span></label><input class="input" type="text" id="cm-name" placeholder="1st October Tournament"><span class="hint">Например: «1st October Tournament»</span></div>
       <div class="field"><label for="cm-desc">Описание (необязательно)</label><textarea class="input" id="cm-desc" placeholder="За победу в турнире..." style="height:80px"></textarea></div>
       <div class="field" style="margin-bottom:0"><label for="cm-tournament">Связать с турниром (необязательно)</label><select class="input" id="cm-tournament"><option value="">— не привязывать —</option></select></div>
     </div>
@@ -841,6 +789,26 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button type="button" class="btn btn-ghost" id="cm-cancel">Отмена</button>
       <button type="button" class="btn btn-gold" id="cm-save"><svg class="i"><use href="#i-trophy"/></svg><span>Вручить</span></button>
     </div>
+  </div>
+</div>
+
+<!-- БАН ОВЕРЛЕЙ -->
+<div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
+  <div style="max-width:520px;width:100%">
+    <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)">
+      <svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg>
+    </div>
+    <h1 style="font-family:'Exo 2',sans-serif;font-weight:900;font-size:clamp(32px,6vw,52px);letter-spacing:.02em;color:#ff5d73;line-height:1;margin-bottom:18px;text-shadow:0 0 40px rgba(255,93,115,.5)">ВЫ ЗАБАНЕНЫ</h1>
+    <p style="color:#b9c8e6;font-size:16px;line-height:1.6;margin-bottom:10px">Ваш аккаунт заблокирован организаторами турнира.</p>
+    <p id="ban-reason-text" style="color:var(--red);font-size:14.5px;margin-bottom:28px;padding:12px 18px;border-radius:12px;background:rgba(255,93,115,.08);border:1px solid rgba(255,93,115,.3);display:none"></p>
+    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line);margin-bottom:24px">
+      <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Для связи пишите</div>
+      <a href="https://t.me/YouAreScamers" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px">
+        <svg class="i" style="font-size:24px"><use href="#i-send"/></svg>
+        @YouAreScamers
+      </a>
+    </div>
+    <button type="button" id="ban-logout-btn" style="padding:12px 28px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font:600 14px 'Inter',sans-serif;cursor:pointer;transition:.2s">Выйти из аккаунта</button>
   </div>
 </div>
 
@@ -868,7 +836,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   let toastTimer, current = null;
   let user = null, userProfile = null, myApplications = [], profilePoints = { points: 0 };
-  let tournaments = [], stages = [], allUsers = [], allCups = [], allPoints = [];
+  let tournaments = [], stages = [], allUsers = [], allCups = [];
   let currentTournamentId = null;
   let editingId = null, currentStageId = null;
   let adminTab = 'dashboard';
@@ -911,14 +879,50 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(diff < 604800000) return Math.floor(diff/86400000) + ' дн назад';
     return d.toLocaleDateString('ru-RU');
   }
-  function initials(nick){
-    if(!nick) return '?';
-    return nick.trim().slice(0, 2).toUpperCase();
+  function initials(nick){ if(!nick) return '?'; return nick.trim().slice(0,2).toUpperCase(); }
+
+  /* ============ BAN OVERLAY ============ */
+  function applyBanState(){
+    const banned = !!(userProfile && userProfile.banned);
+    const overlay = $('#ban-overlay');
+    if(banned){
+      document.documentElement.setAttribute('data-banned', 'true');
+      overlay.classList.remove('hidden');
+      // Закрываем все модалки
+      ['#user-modal','#cup-modal','#stage-modal'].forEach(sel => {
+        const m = document.querySelector(sel);
+        if(m) m.classList.add('hidden');
+      });
+      const reasonEl = $('#ban-reason-text');
+      if(userProfile.banned_reason){
+        reasonEl.textContent = 'Причина: ' + userProfile.banned_reason;
+        reasonEl.style.display = 'block';
+      } else {
+        reasonEl.style.display = 'none';
+      }
+    } else {
+      document.documentElement.removeAttribute('data-banned');
+      overlay.classList.add('hidden');
+    }
+  }
+  function setupBanLogout(){
+    const btn = $('#ban-logout-btn');
+    if(!btn || btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', async () => {
+      if(!sb) return;
+      if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
+      await sb.auth.signOut();
+      user = null; userProfile = null; myApplications = []; profilePoints = { points: 0 };
+      applyBanState();
+      location.reload();
+    });
   }
 
   function show(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
     if(id === 'admin' && !canModerate()) id = 'home';
+    if(userProfile && userProfile.banned) return;
     current = id;
     $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
     $$('[data-nav]').forEach(a => {
@@ -940,6 +944,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function go(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
     if(id === 'admin' && !canModerate()) return;
+    if(userProfile && userProfile.banned) return;
     show(id);
     try{ if(readHash() !== id) history.pushState(null,'','#'+id); }catch(_){}
   }
@@ -959,7 +964,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $('#tournament-back').addEventListener('click', () => go('tournaments'));
   window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
-  /* ============ DATA LOADING ============ */
+  /* ============ DATA ============ */
   async function loadTournaments(){
     if(!sb){ tournaments = []; return; }
     try{ const { data, error } = await sb.from('tournaments').select('*').order('number', { ascending: true }); if(error) throw error; tournaments = data || []; }
@@ -983,15 +988,17 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function loadAllUsers(){
     if(!sb || !canModerate()){ allUsers = []; return; }
     try{
-      const [{ data: profiles, error: e1 }, { data: points, error: e2 }, { data: cups, error: e3 }] = await Promise.all([
+      const [profilesR, pointsR, cupsR] = await Promise.all([
         sb.from('profiles').select('*').order('created_at', { ascending: true }),
         sb.from('profile_points').select('*'),
         sb.from('cups').select('user_id')
       ]);
-      if(e1) throw e1; if(e2) throw e2; if(e3) throw e3;
-      const pointsMap = {}; (points || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
-      const cupsMap = {}; (cups || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
-      allUsers = (profiles || []).map(p => ({ ...p, points: pointsMap[p.id] || 0, cups_count: cupsMap[p.id] || 0 }));
+      if(profilesR.error) throw profilesR.error;
+      if(pointsR.error) throw pointsR.error;
+      if(cupsR.error) throw cupsR.error;
+      const pointsMap = {}; (pointsR.data || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
+      const cupsMap = {}; (cupsR.data || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
+      allUsers = (profilesR.data || []).map(p => ({ ...p, points: pointsMap[p.id] || 0, cups_count: cupsMap[p.id] || 0 }));
     }catch(err){ console.error(err); allUsers = []; }
   }
   async function loadAllCups(){
@@ -1003,6 +1010,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id === tid && a.status === 'approved').length; }
   function canAccessStage(stage){
     if(!stage) return false;
+    if(userProfile && userProfile.banned) return false;
     if(stage.status === 'draft' && !canModerate()) return false;
     if(stage.number === 1) return true;
     const prevStage = stages.find(s => s.tournament_id === stage.tournament_id && s.number === stage.number - 1);
@@ -1014,10 +1022,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function tournamentStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
   function stageStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
 
-  /* ============ HOME ACTIVE STAGE ============ */
+  /* HOME ACTIVE */
   function renderHomeActiveStage(){
     const wrap = $('#home-active-stage');
     if(!wrap) return;
+    if(userProfile && userProfile.banned){ wrap.classList.add('hidden'); return; }
     const openStages = stages.filter(s => s.status === 'open');
     if(!openStages.length){ wrap.classList.add('hidden'); return; }
     const s = openStages[0];
@@ -1033,7 +1042,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     wrap.classList.remove('hidden');
   }
 
-  /* ============ TOURNAMENTS ============ */
+  /* TOURNAMENTS */
   function renderTournaments(){
     const grid = $('#tournaments-grid');
     grid.replaceChildren();
@@ -1059,8 +1068,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         }
         progressHtml += '</div></div>';
       }
-      card.innerHTML =
-        '<div class="t-head"><div class="t-number">Турнир #' + t.number + '</div><span class="t-status ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span></div>' +
+      card.innerHTML = '<div class="t-head"><div class="t-number">Турнир #' + t.number + '</div><span class="t-status ' + t.status + '">' + tournamentStatusLabel(t.status) + '</span></div>' +
         '<div class="t-title">' + escapeHtml(t.title || ('Турнир ' + t.number)) + '</div>' +
         (t.description ? '<div class="t-desc">' + escapeHtml(t.description) + '</div>' : '') +
         '<div class="t-stages-count">📋 ' + tStages.length + ' этапов · 🏆 ' + totalPoints + ' очков</div>' + progressHtml;
@@ -1103,8 +1111,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(locked) cardCls += ' locked';
       if(isApproved) cardCls += ' approved';
       card.className = cardCls;
-      let html = '';
-      html += '<div class="stage-head"><div class="stage-num' + (isApproved ? ' done' : '') + '">' + s.number + '</div>';
+      let html = '<div class="stage-head"><div class="stage-num' + (isApproved ? ' done' : '') + '">' + s.number + '</div>';
       if(status === 'pending') html += '<span class="stage-status pending">На проверке</span>';
       else if(status === 'approved') html += '<span class="stage-status approved">✓ Пройден</span>';
       else if(status === 'rejected') html += '<span class="stage-status rejected">Отклонён</span>';
@@ -1168,7 +1175,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  function openApply(stageId){ currentStageId = stageId; editingId = null; go('apply'); }
+  function openApply(stageId){
+    if(userProfile && userProfile.banned) return;
+    currentStageId = stageId; editingId = null; go('apply');
+  }
 
   function refreshApplyView(){
     const gate = $('#apply-gate'), blocked = $('#apply-blocked'), notfound = $('#apply-notfound'), wrap = $('#apply-wrap'), info = $('#apply-info-block');
@@ -1183,8 +1193,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $('#apply-title').textContent = '🎥 Подача видео: ' + (stage.title || ('Этап ' + stage.number));
     $('#apply-subtitle').textContent = 'Загрузи ссылку на видео этого этапа. Админ проверит и откроет следующий.';
     if(!user){ gate.classList.remove('hidden'); return; }
-    // Проверяем бан
-    if(userProfile && userProfile.banned){ $('#apply-blocked-reason').textContent = 'Вы забанены. Причина: ' + (userProfile.banned_reason || 'не указана'); blocked.classList.remove('hidden'); return; }
+    if(userProfile && userProfile.banned){ $('#apply-blocked-reason').textContent = 'Вы забанены.'; blocked.classList.remove('hidden'); return; }
     if(!canAccessStage(stage) && !editingId){ $('#apply-blocked-reason').textContent = 'Нужно одобрение предыдущего этапа в этом турнире.'; blocked.classList.remove('hidden'); return; }
     if(stage.status !== 'open' && !editingId){ $('#apply-blocked-reason').textContent = 'Приём заявок на этот этап закрыт.'; blocked.classList.remove('hidden'); return; }
     if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-reason').textContent = 'Время подачи заявок истекло.'; blocked.classList.remove('hidden'); return; }
@@ -1192,7 +1201,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     info.classList.remove('hidden');
   }
 
-  /* ============ APPLY ============ */
+  /* APPLY */
   function normalizeUrl(v){
     let s = (v||'').trim();
     if(!s) return null;
@@ -1258,19 +1267,21 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     finally{ submitBtn.disabled = false; submitBtn.querySelector('span').textContent = editingId ? 'Сохранить' : 'Отправить видео'; }
   });
 
-  /* ============ LEADERBOARD ============ */
+  /* LEADERBOARD */
   async function renderLeaderboard(){
     if(!sb) return;
     try{
-      const [{ data: profilesData, error: e1 }, { data: pointsData, error: e2 }, { data: cupsData, error: e3 }] = await Promise.all([
+      const [profR, pointsR, cupsR] = await Promise.all([
         sb.from('profiles').select('*').order('created_at', { ascending: true }),
         sb.from('profile_points').select('*'),
         sb.from('cups').select('user_id')
       ]);
-      if(e1) throw e1; if(e2) throw e2; if(e3) throw e3;
-      const pointsMap = {}; (pointsData || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
-      const cupsMap = {}; (cupsData || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
-      const list = (profilesData || [])
+      if(profR.error) throw profR.error;
+      if(pointsR.error) throw pointsR.error;
+      if(cupsR.error) throw cupsR.error;
+      const pointsMap = {}; (pointsR.data || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
+      const cupsMap = {}; (cupsR.data || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
+      const list = (profR.data || [])
         .filter(p => (p.level || 0) > 0 || pointsMap[p.id] > 0 || cupsMap[p.id] > 0)
         .map(p => ({ id: p.id, nick: p.nick, level: p.level || 0, points: pointsMap[p.id] || 0, cups: cupsMap[p.id] || 0, banned: p.banned }))
         .sort((a, b) => { if(b.points !== a.points) return b.points - a.points; if(b.level !== a.level) return b.level - a.level; return 0; });
@@ -1282,7 +1293,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const card = document.createElement('div');
         card.className = 'podium-card ' + cls;
         card.innerHTML = '<div class="podium-rank">' + (i+1) + '</div><div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div><div class="podium-level">' + p.points + '</div><div class="podium-level-label">очков</div><div style="color:var(--muted);font-size:11.5px;margin-top:6px">Уровень: ' + p.level + (p.cups ? ' · 🏆 ×' + p.cups : '') + '</div>';
-        card.addEventListener('click', () => openUserModal(p.id, true));
+        card.addEventListener('click', () => openUserModal(p.id));
         podium.appendChild(card);
       });
       while(podium.children.length < 3){
@@ -1299,9 +1310,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const rankCls = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
         const tr = document.createElement('tr');
         tr.style.cursor = 'pointer';
-        tr.addEventListener('click', () => openUserModal(p.id, true));
-        tr.innerHTML =
-          '<td><span class="rank-badge ' + rankCls + '">' + rank + '</span></td>' +
+        tr.addEventListener('click', () => openUserModal(p.id));
+        tr.innerHTML = '<td><span class="rank-badge ' + rankCls + '">' + rank + '</span></td>' +
           '<td style="font-weight:600">' + escapeHtml(p.nick || '—') + (p.banned ? ' <span class="status-badge banned">Бан</span>' : '') + '</td>' +
           '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>' + p.points + '</span></td>' +
           '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + p.level + '</span></td>' +
@@ -1311,17 +1321,18 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }catch(err){ console.error(err); }
   }
 
-  /* ============ CABINET ============ */
+  /* CABINET */
   async function loadProfile(){
-    if(!sb || !user){ userProfile = null; return; }
+    if(!sb || !user){ userProfile = null; applyBanState(); return; }
     try{
       const { data, error } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
       if(error) throw error;
       if(!data){
         await sb.from('profiles').insert([{ id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 }]);
-        userProfile = { id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0 };
+        userProfile = { id: user.id, email: user.email, nick: user.email.split('@')[0], level: 0, banned: false };
       } else userProfile = data;
     }catch(err){ console.error(err); userProfile = null; }
+    applyBanState();
   }
   async function loadMyApplications(){
     if(!sb || !user){ myApplications = []; return; }
@@ -1344,8 +1355,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     document.querySelector('[data-user-email]').textContent = user.email || '—';
     document.querySelector('[data-user-level]').textContent = userProfile ? (userProfile.level || 0) : 0;
     document.querySelector('[data-user-points]').textContent = profilePoints ? (profilePoints.points || 0) : 0;
-
-    // Кубки
     const cupsWrap = $('#cabinet-cups');
     cupsWrap.replaceChildren();
     const myCups = await loadMyCups();
@@ -1355,17 +1364,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       myCups.forEach(c => {
         const card = document.createElement('div');
         card.className = 'cup-card';
-        card.innerHTML =
-          '<div class="cup-icon"><svg class="i" style="font-size:26px"><use href="#i-trophy"/></svg></div>' +
-          '<div class="cup-card-info">' +
-            '<h4>' + escapeHtml(c.title) + '</h4>' +
-            (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') +
-            '<small>Получен: ' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small>' +
-          '</div>';
+        card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:26px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>' + escapeHtml(c.title) + '</h4>' + (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') + '<small>Получен: ' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small></div>';
         cupsWrap.appendChild(card);
       });
     }
-
     const list = $('#cabinet-apps');
     list.replaceChildren();
     if(!myApplications.length){
@@ -1381,8 +1383,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       item.className = 'app-item';
       const main = document.createElement('div');
       main.className = 'app-item-main';
-      main.innerHTML =
-        '<div class="app-item-head"><span class="app-item-stage">' + escapeHtml(label) + ' 🎥</span>' +
+      main.innerHTML = '<div class="app-item-head"><span class="app-item-stage">' + escapeHtml(label) + ' 🎥</span>' +
         '<span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span>' +
         '<span class="app-item-date">' + timeAgo(a.created_at) + '</span></div>' +
         '<div style="color:var(--muted);font-size:13px">Ник: <b style="color:var(--text)">' + escapeHtml(a.nick || '—') + '</b>' +
@@ -1438,35 +1439,31 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* ============ USER PROFILE MODAL ============ */
-  async function openUserModal(userId, publicView){
+  /* USER MODAL */
+  async function openUserModal(userId){
     currentUserId = userId;
     userModal.classList.remove('hidden');
     const wrap = $('#um-body'), actions = $('#um-actions');
     wrap.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">Загрузка…</p>';
     actions.replaceChildren();
-
     try{
-      // Профиль
-      const { data: profile } = await sb.from('profiles').select('*').eq('id', userId).maybeSingle();
+      const [profR, pointsR, cupsR, appsR] = await Promise.all([
+        sb.from('profiles').select('*').eq('id', userId).maybeSingle(),
+        sb.from('profile_points').select('*').eq('id', userId).maybeSingle(),
+        sb.from('cups').select('*').eq('user_id', userId).order('awarded_at', { ascending: false }),
+        sb.from('applications').select('*').eq('user_id', userId).order('created_at', { ascending: false })
+      ]);
+      const profile = profR.data;
       if(!profile){ wrap.innerHTML = '<p style="color:var(--red)">Профиль не найден</p>'; return; }
-      // Очки
-      const { data: points } = await sb.from('profile_points').select('*').eq('id', userId).maybeSingle();
-      // Кубки
-      const { data: cups } = await sb.from('cups').select('*').eq('user_id', userId).order('awarded_at', { ascending: false });
-      // Заявки
-      const { data: apps } = await sb.from('applications').select('*').eq('user_id', userId).order('created_at', { ascending: false });
-
+      const pts = (pointsR.data && pointsR.data.points) || 0;
+      const cupsArr = cupsR.data || [];
+      const appsArr = appsR.data || [];
       const level = profile.level || 0;
-      const pts = (points && points.points) || 0;
-      const cupsArr = cups || [];
-      const appsArr = apps || [];
 
       $('#um-title').textContent = profile.nick || 'Игрок';
       $('#um-subtitle').textContent = 'Уровень ' + level + ' · ' + pts + ' очков · ' + cupsArr.length + ' кубков' + (profile.banned ? ' · ЗАБАНЕН' : '');
 
       let html = '';
-      // Шапка профиля
       html += '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25)">';
       html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">' + initials(profile.nick) + '</div>';
       html += '<div style="flex:1;min-width:0">';
@@ -1480,7 +1477,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(profile.banned) html += '<span class="user-stat-pill red">🚫 Бан</span>';
       html += '</div></div>';
 
-      // Кубки
       html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">🏆 Кубки (' + cupsArr.length + ')</h3>';
       if(cupsArr.length){
         cupsArr.forEach(c => {
@@ -1491,7 +1487,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Нет кубков</p>';
       }
 
-      // Заявки
       html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px">📋 Заявки (' + appsArr.length + ')</h3>';
       if(appsArr.length){
         html += '<div style="max-height:220px;overflow-y:auto">';
@@ -1509,21 +1504,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         html += '<p style="color:var(--muted);font-size:13.5px">Нет заявок</p>';
       }
 
-      // Бан инфо
       if(profile.banned){
-        html += '<div style="margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);color:var(--red);font-size:13px">';
-        html += '<b>Забанен.</b> ' + escapeHtml(profile.banned_reason || 'Причина не указана');
-        html += '</div>';
+        html += '<div style="margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);color:var(--red);font-size:13px"><b>Забанен.</b> ' + escapeHtml(profile.banned_reason || 'Причина не указана') + '</div>';
       }
 
       wrap.innerHTML = html;
 
-      // Админские действия
       if(canModerate()){
         const addBtn = (icon, text, cls, fn) => {
           const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'btn btn-' + cls;
+          b.type = 'button'; b.className = 'btn btn-' + cls;
           b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg><span>' + text + '</span>';
           b.addEventListener('click', fn);
           actions.appendChild(b);
@@ -1535,17 +1525,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         }
         addBtn('i-trophy', 'Вручить кубок', 'gold', () => openCupModal(userId, profile.nick));
         if(isAdmin()){
-          if(profile.banned){
-            addBtn('i-check', 'Разбанить', 'success', () => unbanUser(userId));
-          } else {
-            addBtn('i-ban', 'Забанить', 'danger', () => banUser(userId));
-          }
+          if(profile.banned) addBtn('i-check', 'Разбанить', 'success', () => unbanUser(userId));
+          else addBtn('i-ban', 'Забанить', 'danger', () => banUser(userId));
         }
       }
       const closeBtn = document.createElement('button');
-      closeBtn.type = 'button';
-      closeBtn.className = 'btn btn-ghost';
-      closeBtn.textContent = 'Закрыть';
+      closeBtn.type = 'button'; closeBtn.className = 'btn btn-ghost'; closeBtn.textContent = 'Закрыть';
       closeBtn.addEventListener('click', closeUserModal);
       actions.appendChild(closeBtn);
     }catch(err){
@@ -1553,10 +1538,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       wrap.innerHTML = '<p style="color:var(--red)">Ошибка загрузки профиля</p>';
     }
   }
-  function closeUserModal(){
-    userModal.classList.add('hidden');
-    currentUserId = null;
-  }
+  function closeUserModal(){ userModal.classList.add('hidden'); currentUserId = null; }
   $('#um-close').addEventListener('click', closeUserModal);
   userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
   document.addEventListener('keydown', e => {
@@ -1568,18 +1550,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   });
 
   async function changeUserPoints(userId, current){
-    const v = prompt('Новое количество очков:', current);
+    const v = prompt('Новое количество очков (перезапишет текущее):', current);
     if(v === null) return;
     const num = parseInt(v, 10);
     if(isNaN(num) || num < 0){ toast('Некорректное число', true); return; }
-    // Обновляем через bonuses таблицу — но для простоты используем UPDATE на profile_points невозможно (view).
-    // Используем специальную таблицу adjustments.
     const { error } = await sb.from('point_adjustments').upsert({ user_id: userId, points: num, updated_at: new Date().toISOString() });
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('Очки обновлены');
     await loadAllUsers();
     await renderLeaderboard();
-    await openUserModal(userId, false);
+    await openUserModal(userId);
   }
   async function changeUserLevel(userId, current){
     const v = prompt('Новый уровень:', current);
@@ -1591,7 +1571,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toast('Уровень обновлён');
     await loadAllUsers();
     await renderLeaderboard();
-    await openUserModal(userId, false);
+    await openUserModal(userId);
   }
   async function changeUserNick(userId, current){
     const v = prompt('Новый ник:', current || '');
@@ -1602,7 +1582,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toast('Ник обновлён');
     await loadAllUsers();
     await renderLeaderboard();
-    await openUserModal(userId, false);
+    await openUserModal(userId);
   }
   async function banUser(userId){
     const reason = prompt('Причина бана (увидит юзер):', '');
@@ -1612,7 +1592,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toast('Юзер забанен');
     await loadAllUsers();
     await renderLeaderboard();
-    await openUserModal(userId, false);
+    await openUserModal(userId);
   }
   async function unbanUser(userId){
     const { error } = await sb.from('profiles').update({ banned: false, banned_reason: null }).eq('id', userId);
@@ -1620,10 +1600,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toast('Юзер разбанен');
     await loadAllUsers();
     await renderLeaderboard();
-    await openUserModal(userId, false);
+    await openUserModal(userId);
   }
 
-  /* ============ CUP MODAL ============ */
+  /* CUP MODAL */
   function openCupModal(userId, nick){
     cupTargetUserId = userId;
     cupModal.classList.remove('hidden');
@@ -1640,10 +1620,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
     setTimeout(() => $('#cm-name').focus(), 100);
   }
-  function closeCupModal(){
-    cupModal.classList.add('hidden');
-    cupTargetUserId = null;
-  }
+  function closeCupModal(){ cupModal.classList.add('hidden'); cupTargetUserId = null; }
   $('#cm-close').addEventListener('click', closeCupModal);
   $('#cm-cancel').addEventListener('click', closeCupModal);
   cupModal.addEventListener('click', e => { if(e.target === cupModal) closeCupModal(); });
@@ -1653,22 +1630,19 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const desc = $('#cm-desc').value.trim();
     const tId = $('#cm-tournament').value || null;
     const { error } = await sb.from('cups').insert([{
-      user_id: cupTargetUserId,
-      title: name,
-      description: desc || null,
-      tournament_id: tId,
-      awarded_by: user.email
+      user_id: cupTargetUserId, title: name, description: desc || null,
+      tournament_id: tId, awarded_by: user.email
     }]);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('🏆 Кубок вручён!');
     closeCupModal();
     await loadAllCups();
     await renderLeaderboard();
-    if(currentUserId) await openUserModal(currentUserId, false);
+    if(currentUserId) await openUserModal(currentUserId);
     if(current === 'admin') renderAdmin();
   });
 
-  /* ============ ADMIN ============ */
+  /* ADMIN */
   $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
     adminTab = b.dataset.adminTab;
     $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
@@ -1759,7 +1733,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* ============ ADMIN USERS ============ */
   async function renderAdminUsers(){
     await loadAllUsers();
     const wrap = $('#admin-users-list');
@@ -1778,15 +1751,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     list.forEach(u => {
       const card = document.createElement('div');
       card.className = 'user-card';
-      card.innerHTML =
-        '<div class="user-avatar">' + initials(u.nick) + '</div>' +
+      card.innerHTML = '<div class="user-avatar">' + initials(u.nick) + '</div>' +
         '<div class="user-info"><b>' + escapeHtml(u.nick || '—') + (u.banned ? ' <span class="status-badge banned">Бан</span>' : '') + '</b><small>' + escapeHtml(u.email || '—') + '</small></div>' +
-        '<div class="user-stats">' +
-          '<span class="user-stat-pill">🔥 ' + (u.level||0) + '</span>' +
-          '<span class="user-stat-pill gold">🏆 ' + (u.points||0) + '</span>' +
-          (u.cups_count ? '<span class="user-stat-pill gold">🥇 ' + u.cups_count + '</span>' : '') +
-        '</div>';
-      card.addEventListener('click', () => openUserModal(u.id, false));
+        '<div class="user-stats"><span class="user-stat-pill">🔥 ' + (u.level||0) + '</span><span class="user-stat-pill gold">🏆 ' + (u.points||0) + '</span>' + (u.cups_count ? '<span class="user-stat-pill gold">🥇 ' + u.cups_count + '</span>' : '') + '</div>';
+      card.addEventListener('click', () => openUserModal(u.id));
       wrap.appendChild(card);
     });
   }
@@ -1797,10 +1765,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminUsers();
   }));
 
-  /* ============ ADMIN CUPS ============ */
   async function renderAdminCups(){
     await loadAllCups();
-    await loadTournaments();
     const wrap = $('#admin-cups-list');
     wrap.replaceChildren();
     if(!allCups.length){
@@ -1811,14 +1777,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const card = document.createElement('div');
       card.className = 'cup-card';
       const t = c.tournament_number ? 'Турнир #' + c.tournament_number : '';
-      card.innerHTML =
-        '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div>' +
-        '<div class="cup-card-info">' +
-          '<h4>' + escapeHtml(c.title) + '</h4>' +
-          '<p><b style="color:var(--text)">' + escapeHtml(c.nick || '—') + '</b>' + (t ? ' · ' + t : '') + '</p>' +
-          (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') +
-          '<small>' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small>' +
-        '</div>';
+      card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div>' +
+        '<div class="cup-card-info"><h4>' + escapeHtml(c.title) + '</h4>' +
+        '<p><b style="color:var(--text)">' + escapeHtml(c.nick || '—') + '</b>' + (t ? ' · ' + t : '') + '</p>' +
+        (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') +
+        '<small>' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small></div>';
       const delBtn = document.createElement('button');
       delBtn.className = 'btn btn-danger btn-sm';
       delBtn.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
@@ -1836,7 +1799,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
-  /* ============ ADMIN TOURNAMENTS ============ */
   async function renderAdminTournaments(){
     await loadTournaments();
     await loadStages();
@@ -1966,7 +1928,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTournaments();
   });
 
-  /* ============ STAGE MODAL ============ */
   function openStageModal(stageId, tournamentId, isNew){
     modalStageId = stageId; modalIsNew = !!isNew;
     const s = stageId ? stages.find(x => x.id === stageId) : null;
@@ -2043,7 +2004,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }finally{ btn.disabled = false; }
   });
 
-  /* ============ ADMIN APPS ============ */
   async function loadAdminApps(){
     if(!sb || !canModerate()){ adminApps = []; return; }
     try{ const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false }); if(error) throw error; adminApps = data || []; }
@@ -2123,8 +2083,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(a.discord) contacts.push('DC: ' + a.discord);
       if(a.email) contacts.push('✉ ' + a.email);
       const tr = document.createElement('tr');
-      tr.innerHTML =
-        '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(a.created_at) + '</td>' +
+      tr.innerHTML = '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(a.created_at) + '</td>' +
         '<td style="min-width:150px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--blue-2)">#' + (t ? t.number : '—') + '</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">' + escapeHtml(t ? (t.title || '') : '') + '</div></td>' +
         '<td style="min-width:140px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--green)">#' + (stage ? stage.number : '—') + '</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">' + escapeHtml(stage ? (stage.title || '') : '') + '</div></td>' +
         '<td style="font-weight:600;cursor:pointer" data-open-user="' + a.user_id + '">' + escapeHtml(a.nick || '—') + '</td>' +
@@ -2155,10 +2114,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       tr.appendChild(tdActions);
       tb.appendChild(tr);
     });
-    // Делегирование клика на ник
     tb.onclick = e => {
       const userId = e.target.dataset && e.target.dataset.openUser;
-      if(userId){ openUserModal(userId, false); }
+      if(userId){ openUserModal(userId); }
     };
   }
   function buildActions(a){
@@ -2222,7 +2180,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(adminTab === 'dashboard') renderDashboard();
   }
 
-  /* ============ ADMIN LOG / MODERATORS ============ */
   async function loadAdminLog(){
     if(!sb || !canModerate()){ adminLog = []; return; }
     try{ const { data, error } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(200); if(error) throw error; adminLog = data || []; }
@@ -2279,7 +2236,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     toast('Модератор добавлен'); await renderAdminModerators();
   });
 
-  /* ============ AUTH ============ */
+  /* AUTH */
   $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
     $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
     $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
@@ -2353,6 +2310,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await sb.auth.signOut();
     toast('Вы вышли');
     user = null; userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points: 0 };
+    applyBanState();
     renderCabinet(); renderAdmin(); renderHomeActiveStage();
     go('home');
   });
@@ -2360,6 +2318,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function afterLogin(){
     await checkModerator();
     await loadProfile();
+    setupBanLogout();
+    if(userProfile && userProfile.banned){ return; }
     await loadTournaments();
     await loadStages();
     await loadMyApplications();
@@ -2375,20 +2335,33 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function setupRealtime(){
     if(!sb || !canModerate()) return;
     if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
-    realtimeChannel = sb.channel('gdcc-apps').on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
-      await loadAdminApps();
-      updateAdminStats();
-      if(adminTab === 'apps') renderAdminTable();
-      if(adminTab === 'dashboard'){ renderDashChart(); renderDashRecent(); }
-      if(payload.eventType === 'UPDATE' && payload.new.status !== payload.old.status){
-        toast(payload.new.status === 'approved' ? '✓ Заявка одобрена' : '✕ Заявка отклонена');
-      } else if(payload.eventType === 'INSERT'){
-        toast('📥 Новая заявка!');
-      }
-      if(user) await loadProfilePoints();
-      if(current === 'cabinet') renderCabinet();
-      await renderLeaderboard();
-    }).subscribe();
+    realtimeChannel = sb.channel('gdcc-all')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async payload => {
+        if(user && payload.new.id === user.id){
+          userProfile = payload.new;
+          applyBanState();
+          if(userProfile.banned){
+            // Закрываем всё
+            $$('.page').forEach(p => p.classList.remove('active'));
+            return;
+          }
+        }
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
+        await loadAdminApps();
+        updateAdminStats();
+        if(adminTab === 'apps') renderAdminTable();
+        if(adminTab === 'dashboard'){ renderDashChart(); renderDashRecent(); }
+        if(payload.eventType === 'UPDATE' && payload.new.status !== payload.old.status){
+          toast(payload.new.status === 'approved' ? '✓ Заявка одобрена' : '✕ Заявка отклонена');
+        } else if(payload.eventType === 'INSERT'){
+          toast('📥 Новая заявка!');
+        }
+        if(user) await loadProfilePoints();
+        if(current === 'cabinet') renderCabinet();
+        await renderLeaderboard();
+      })
+      .subscribe();
   }
   async function initAuth(){
     if(!sb) return;
@@ -2404,12 +2377,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
       else if(!user){
         userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points: 0 };
+        applyBanState();
         renderCabinet(); renderAdmin(); renderHomeActiveStage();
         if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
       }
     });
     if(user) await afterLogin();
-    else { renderCabinet(); renderAdmin(); }
+    else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); setupBanLogout(); }
   }
 
   const saved = storedLang();
