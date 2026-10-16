@@ -432,14 +432,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <a class="btn btn-ghost" href="#apply" id="hero-apply-btn"><svg class="i"><use href="#i-video"/></svg><span data-i18n="cta.apply">Заявка на участие</span></a>
           <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
-        <div id="home-active-stage" class="hidden" style="margin-top:22px;padding:16px 20px;border-radius:14px;border:1px solid rgba(47,212,138,.4);background:linear-gradient(135deg,rgba(47,212,138,.1),rgba(31,139,255,.06));display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-          <svg class="i" style="color:var(--green);font-size:32px"><use href="#i-video"/></svg>
-          <div style="flex:1;min-width:180px">
-            <div style="font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:4px" data-i18n="home.active.title">🎥 Сейчас открыт приём видео</div>
-            <div id="home-active-stage-title" style="font-family:'Exo 2',sans-serif;font-weight:700;font-size:17px">—</div>
-          </div>
-          <a class="btn btn-primary" id="home-active-stage-btn" href="#tournament"><svg class="i"><use href="#i-video"/></svg><span data-i18n="home.active.btn">Подать видео</span></a>
-        </div>
       </div>
       <aside class="stat-card"><div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div><div class="stat-num" data-participants-count>—</div><div class="stat-label" data-i18n="stat.participants">Участников</div></aside>
     </div>
@@ -784,53 +776,54 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: заявка на участие в турнире -->
+<!-- Модалка: заявка на участие в турнире (ИСПРАВЛЕНО: добавлены data-i18n) -->
 <div class="modal-back hidden" id="reg-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
       <div>
-        <h2 id="reg-modal-title">Заявка на участие</h2>
-        <p id="reg-modal-subtitle">—</p>
+        <h2 id="reg-modal-title" data-i18n="reg.title">Заявка на участие</h2>
+        <p id="reg-modal-subtitle" data-i18n="reg.subtitle">Заполни анкету. Админ рассмотрит и примет решение.</p>
       </div>
       <button class="modal-close" id="reg-modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
     <div class="modal-section">
       <div class="field">
-        <label for="reg-nick">Ваш ник в Geometry Dash</label>
+        <label for="reg-nick" data-i18n="reg.nick">Ваш ник в Geometry Dash</label>
         <input class="input" type="text" id="reg-nick" readonly>
-        <span class="hint">Ник берётся из профиля. Меняется в кабинете.</span>
+        <span class="hint" data-i18n="reg.nick.hint">Ник берётся из профиля. Меняется в кабинете.</span>
       </div>
       <div class="field-row">
-        <div class="field"><label for="reg-telegram">Telegram <span class="req">*</span></label><input class="input" type="text" id="reg-telegram" placeholder="@username" maxlength="33"></div>
-        <div class="field"><label for="reg-discord">Discord</label><input class="input" type="text" id="reg-discord" placeholder="username#1234" maxlength="40"></div>
+        <div class="field"><label for="reg-telegram"><span data-i18n="reg.tg">Telegram</span> <span class="req">*</span></label><input class="input" type="text" id="reg-telegram" placeholder="@username" maxlength="33"></div>
+        <div class="field"><label for="reg-discord" data-i18n="reg.dc">Discord</label><input class="input" type="text" id="reg-discord" placeholder="username#1234" maxlength="40"></div>
       </div>
       <div class="field">
-        <label for="reg-platform">Устройство <span class="req">*</span></label>
+        <label for="reg-platform" data-i18n="reg.platform">Устройство</label>
         <select class="input" id="reg-platform"><option value="PC" selected>PC</option><option value="Mobile">Mobile</option><option value="Console">Console</option></select>
       </div>
       <div class="field">
-        <label for="reg-motivation">Почему хотите участвовать? <span class="req">*</span></label>
-        <textarea class="input" id="reg-motivation" placeholder="1–3 предложения" maxlength="600" style="height:90px"></textarea>
-        <span class="hint">Минимум 20 символов.</span>
+        <label for="reg-motivation"><span data-i18n="reg.motivation">Почему хотите участвовать?</span> <span class="req">*</span></label>
+        <textarea class="input" id="reg-motivation" data-i18n-ph="reg.motivation.ph" placeholder="1–3 предложения" maxlength="600" style="height:90px"></textarea>
+        <span class="hint" data-i18n="reg.motivation.hint">Минимум 20 символов.</span>
       </div>
       <div class="error" id="reg-modal-error"></div>
     </div>
     <div class="modal-actions">
-      <button type="button" class="btn btn-ghost" id="reg-modal-cancel">Отмена</button>
-      <button type="button" class="btn btn-primary" id="reg-modal-submit"><svg class="i"><use href="#i-send"/></svg><span>Отправить заявку</span></button>
+      <button type="button" class="btn btn-ghost" id="reg-modal-cancel" data-i18n="btn.cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="reg-modal-submit"><svg class="i"><use href="#i-send"/></svg><span data-i18n="reg.submit">Отправить заявку</span></button>
     </div>
   </div>
 </div>
 
+<!-- Модалка этапа (ИСПРАВЛЕНО: добавлены data-i18n) -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
-    <div class="modal-head"><div><h2 id="modal-title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <div class="modal-section"><h3>Основное</h3><div class="modal-grid"><div class="field" style="margin:0"><label for="m-title">Название</label><input class="input" type="text" id="m-title"></div><div class="field" style="margin:0"><label for="m-number">Номер</label><input class="input" type="number" id="m-number" min="1"></div></div></div>
-    <div class="modal-section"><h3>Описание</h3><div class="field"><label for="m-desc">Описание</label><input class="input" type="text" id="m-desc"></div><div class="field" style="margin-bottom:0"><label for="m-task">Задача</label><input class="input" type="text" id="m-task"></div></div>
-    <div class="modal-section"><h3>Правила</h3><div class="field" style="margin:0"><textarea class="input" id="m-rules" placeholder="Одно правило на строку" style="height:100px"></textarea></div></div>
-    <div class="modal-section"><h3>Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
-    <div class="modal-section"><h3>🏆 Награда и лимиты</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-reward-points">Очки</label><input class="input" type="number" id="m-reward-points" min="1" value="1"></div><div class="field" style="margin:0"><label for="m-max">Лимит мест</label><input class="input" type="number" id="m-max" min="1"></div><div class="field" style="margin:0"><label for="m-deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward">Текст награды</label><input class="input" type="text" id="m-reward"></div></div>
-    <div class="modal-actions"><button type="button" class="btn btn-ghost" id="modal-cancel">Отмена</button><button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span>Сохранить</span></button></div>
+    <div class="modal-head"><div><h2 id="modal-title" data-i18n="stage.modal.title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.basic">Основное</h3><div class="modal-grid"><div class="field" style="margin:0"><label for="m-title" data-i18n="stage.modal.title.label">Название</label><input class="input" type="text" id="m-title"></div><div class="field" style="margin:0"><label for="m-number" data-i18n="stage.modal.number">Номер</label><input class="input" type="number" id="m-number" min="1"></div></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.desc">Описание</h3><div class="field"><label for="m-desc" data-i18n="stage.modal.desc.label">Описание</label><input class="input" type="text" id="m-desc"></div><div class="field" style="margin-bottom:0"><label for="m-task" data-i18n="stage.modal.task">Задача</label><input class="input" type="text" id="m-task"></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.rules">Правила</h3><div class="field" style="margin:0"><textarea class="input" id="m-rules" data-i18n-ph="stage.modal.rules.ph" placeholder="Одно правило на строку" style="height:100px"></textarea></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.reward">🏆 Награда и лимиты</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-reward-points" data-i18n="stage.modal.points">Очки</label><input class="input" type="number" id="m-reward-points" min="1" value="1"></div><div class="field" style="margin:0"><label for="m-max" data-i18n="stage.modal.max">Лимит мест</label><input class="input" type="number" id="m-max" min="1"></div><div class="field" style="margin:0"><label for="m-deadline" data-i18n="stage.modal.deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward" data-i18n="stage.modal.rewardText">Текст награды</label><input class="input" type="text" id="m-reward"></div></div>
+    <div class="modal-actions"><button type="button" class="btn btn-ghost" id="modal-cancel" data-i18n="btn.cancel">Отмена</button><button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span data-i18n="btn.save">Сохранить</span></button></div>
   </div>
 </div>
 
@@ -850,7 +843,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="field"><label for="cm-desc">Описание</label><textarea class="input" id="cm-desc" style="height:80px"></textarea></div>
       <div class="field" style="margin-bottom:0"><label for="cm-tournament">Привязать к турниру</label><select class="input" id="cm-tournament"><option value="">—</option></select></div>
     </div>
-    <div class="modal-actions"><button type="button" class="btn btn-ghost" id="cm-cancel">Отмена</button><button type="button" class="btn btn-gold" id="cm-save"><svg class="i"><use href="#i-trophy"/></svg><span>Вручить</span></button></div>
+    <div class="modal-actions"><button type="button" class="btn btn-ghost" id="cm-cancel" data-i18n="btn.cancel">Отмена</button><button type="button" class="btn btn-gold" id="cm-save"><svg class="i"><use href="#i-trophy"/></svg><span>Вручить</span></button></div>
   </div>
 </div>
 
@@ -882,7 +875,7 @@ const I18N = {
     'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.leaderboard':'Таблица','nav.activity':'Лента','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
-    'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','home.active.title':'🎥 Сейчас открыт приём видео','home.active.btn':'Подать видео','stat.participants':'Участников',
+    'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','stat.participants':'Участников',
     'home.how':'Как принять участие',
     'home.s1.t':'Изучи правила','home.s1.p':'Формат турнира, запреты и условия участия.','home.s1.go':'К правилам',
     'home.s2.t':'Выбери турнир и подай заявку','home.s2.p':'Заполни анкету — админ рассмотрит и примет решение.','home.s2.go':'К турнирам',
@@ -899,10 +892,10 @@ const I18N = {
     'rules.r5.t':'Доступ к этапам','rules.r5.p':'Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.',
     'rules.r6.t':'Кубки','rules.r6.p':'За победы организаторы вручают именные кубки. Они отображаются в профиле игрока.',
     'tournaments.title':'Турниры','tournaments.lead':'Подай заявку на участие в турнире. После одобрения администратором откроются этапы.',
-    'tournament.join.btn':'Принять участие','tournament.join.btnAgain':'Заявка отклонена — переподать','tournament.join.pending':'⏳ Заявка на проверке','tournament.join.approved':'✓ Вы приняты','tournament.join.rejected':'✕ Заявка отклонена','tournament.join.status':'Ваш статус:',
+    'tournament.join.btn':'Принять участие','tournament.join.btnAgain':'Заявка отклонена — переподать','tournament.join.pending':'⏳ Заявка на проверке','tournament.join.approved':'✓ Вы приняты','tournament.join.rejected':'✕ Заявка отклонена',
     'tournament.seats':'Принято:','tournament.seats.full':'Мест нет','tournament.open.stages':'Открыть этапы',
     'reg.title':'Заявка на участие','reg.subtitle':'Заполни анкету. Админ рассмотрит и примет решение.',
-    'reg.nick':'Ваш ник в Geometry Dash','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Устройство','reg.motivation':'Почему хотите участвовать?','reg.submit':'Отправить заявку','reg.sending':'Отправляем…',
+    'reg.nick':'Ваш ник в Geometry Dash','reg.nick.hint':'Ник берётся из профиля. Меняется в кабинете.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Устройство','reg.motivation':'Почему хотите участвовать?','reg.motivation.ph':'1–3 предложения','reg.motivation.hint':'Минимум 20 символов.','reg.submit':'Отправить заявку','reg.sending':'Отправляем…',
     'reg.err.tg':'Укажи Telegram (@username, 5+ символов)','reg.err.motiv':'Расскажи, почему хочешь участвовать (минимум 20 символов)','reg.success':'Заявка отправлена! Жди решения админа.','reg.already':'Заявка уже отправлена',
     'apply.eyebrow':'Подача видео','apply.title':'Форма подачи заявки','apply.lead':'Заполни все поля внимательно.',
     'apply.tournament':'Турнир','apply.stage':'Этап',
@@ -958,6 +951,10 @@ const I18N = {
     'stage.apply':'🎥 Подать видео','stage.myApp':'📹 Видео на проверке','stage.rejected.btn':'❌ Отклонено — пересдать','stage.approved.btn':'✓ Этап пройден',
     'stage.closed.note':'Приём видео закрыт','stage.locked.note':'Пройди этап','stage.points':'очков',
     'stage.deadline':'Осталось:','stage.deadline.expired':'Время истекло','stage.slots':'Занято:','stage.slots.full':'Мест нет',
+    'stage.modal.title':'Настройка этапа','stage.modal.basic':'Основное','stage.modal.desc':'Описание','stage.modal.rules':'Правила','stage.modal.level':'Уровень','stage.modal.reward':'🏆 Награда и лимиты',
+    'stage.modal.title.label':'Название','stage.modal.number':'Номер','stage.modal.desc.label':'Описание','stage.modal.task':'Задача','stage.modal.rules.ph':'Одно правило на строку',
+    'stage.modal.level.name':'Название','stage.modal.level.id':'ID','stage.modal.difficulty':'Сложность','stage.modal.level.url':'Ссылка на видео',
+    'stage.modal.points':'Очки','stage.modal.max':'Лимит мест','stage.modal.deadline':'Дедлайн','stage.modal.rewardText':'Текст награды',
     'toast.copied':'Скопировано',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире'
   },
@@ -965,7 +962,7 @@ const I18N = {
     'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
-    'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','home.active.title':'🎥 Submission is open now','home.active.btn':'Submit video','stat.participants':'Participants',
+    'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','stat.participants':'Participants',
     'home.how':'How to take part',
     'home.s1.t':'Read the rules','home.s1.p':'Tournament format, restrictions and conditions.','home.s1.go':'To the rules',
     'home.s2.t':'Pick a tournament and apply','home.s2.p':'Fill the form — the admin will review your application.','home.s2.go':'To tournaments',
@@ -982,10 +979,10 @@ const I18N = {
     'rules.r5.t':'Stage access','rules.r5.p':'To submit for stage N, you need an approved stage N−1 in the same tournament.',
     'rules.r6.t':'Cups','rules.r6.p':'For victories, organizers award named cups. They are shown on the player profile.',
     'tournaments.title':'Tournaments','tournaments.lead':'Apply to join a tournament. After admin approval stages become available.',
-    'tournament.join.btn':'Join tournament','tournament.join.btnAgain':'Rejected — apply again','tournament.join.pending':'⏳ Application under review','tournament.join.approved':'✓ You are in','tournament.join.rejected':'✕ Rejected','tournament.join.status':'Status:',
+    'tournament.join.btn':'Join tournament','tournament.join.btnAgain':'Rejected — apply again','tournament.join.pending':'⏳ Application under review','tournament.join.approved':'✓ You are in','tournament.join.rejected':'✕ Rejected',
     'tournament.seats':'Approved:','tournament.seats.full':'No seats left','tournament.open.stages':'Open stages',
     'reg.title':'Join application','reg.subtitle':'Fill the form. Admin will review your application.',
-    'reg.nick':'Your Geometry Dash nickname','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Platform','reg.motivation':'Why do you want to join?','reg.submit':'Send application','reg.sending':'Sending…',
+    'reg.nick':'Your Geometry Dash nickname','reg.nick.hint':'Nickname comes from your profile. Change it in the cabinet.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Platform','reg.motivation':'Why do you want to join?','reg.motivation.ph':'1–3 sentences','reg.motivation.hint':'Minimum 20 characters.','reg.submit':'Send application','reg.sending':'Sending…',
     'reg.err.tg':'Enter Telegram (@username, 5+ chars)','reg.err.motiv':'Tell us why (min 20 chars)','reg.success':'Application sent! Wait for admin decision.','reg.already':'Application already sent',
     'apply.eyebrow':'Video submission','apply.title':'Application form','apply.lead':'Fill all fields carefully.',
     'apply.tournament':'Tournament','apply.stage':'Stage',
@@ -1041,6 +1038,10 @@ const I18N = {
     'stage.apply':'🎥 Submit video','stage.myApp':'📹 Video under review','stage.rejected.btn':'❌ Rejected — resubmit','stage.approved.btn':'✓ Stage completed',
     'stage.closed.note':'Submission is closed','stage.locked.note':'Complete stage','stage.points':'points',
     'stage.deadline':'Left:','stage.deadline.expired':'Expired','stage.slots':'Slots:','stage.slots.full':'Full',
+    'stage.modal.title':'Stage settings','stage.modal.basic':'Basic','stage.modal.desc':'Description','stage.modal.rules':'Rules','stage.modal.level':'Level','stage.modal.reward':'🏆 Reward & limits',
+    'stage.modal.title.label':'Title','stage.modal.number':'Number','stage.modal.desc.label':'Description','stage.modal.task':'Task','stage.modal.rules.ph':'One rule per line',
+    'stage.modal.level.name':'Name','stage.modal.level.id':'ID','stage.modal.difficulty':'Difficulty','stage.modal.level.url':'Video link',
+    'stage.modal.points':'Points','stage.modal.max':'Slot limit','stage.modal.deadline':'Deadline','stage.modal.rewardText':'Reward text',
     'toast.copied':'Copied',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament'
   }
@@ -1110,6 +1111,7 @@ function timeLeft(deadline){
   return m + 'm ' + s + 's';
 }
 
+// ИСПРАВЛЕНО (баг #7, #8): обновление кнопки submit с учётом edit-mode + перерисовка ошибки reg-modal
 function applyLang(l){
   LANG = (l === 'en') ? 'en' : 'ru';
   document.documentElement.lang = LANG;
@@ -1123,15 +1125,21 @@ function applyLang(l){
   try{ renderLeaderboard(); }catch(_){}
   try{ renderActivity(); }catch(_){}
   try{ if(user) renderCabinet(); }catch(_){}
-  try{ renderHomeActiveStage(); }catch(_){}
   try{ if(canModerate()) renderAdmin(); }catch(_){}
   try{ if(current === 'apply') refreshApplyView(); }catch(_){}
+  // Кнопка отправки формы — учитываем edit-mode
+  if(submitBtn){
+    const span = submitBtn.querySelector('span');
+    if(span && !submitBtn.disabled) span.textContent = editingId ? t('btn.save') : t('form.submit');
+  }
+  // Перерисовка ошибки reg-modal
+  const rme = $('#reg-modal-error');
+  if(rme && rme.dataset.errKey) rme.textContent = t(rme.dataset.errKey);
 }
 function chooseLang(l){ saveLang(l); document.documentElement.setAttribute('data-lang-chosen', l); setShellInert(false); applyLang(l); }
 $$('[data-gate-lang]').forEach(b => b.addEventListener('click', () => chooseLang(b.dataset.gateLang)));
 $$('.lang [data-lang]').forEach(b => b.addEventListener('click', () => { saveLang(b.dataset.lang); applyLang(b.dataset.lang); }));
 
-/* FINGERPRINT + IP */
 function getFingerprint(){
   const parts = [];
   parts.push(navigator.userAgent || '', navigator.language || '', (screen.width||0)+'x'+(screen.height||0), String(screen.colorDepth||24), String(new Date().getTimezoneOffset()), String(navigator.hardwareConcurrency||0), String(navigator.maxTouchPoints||0), navigator.platform || '');
@@ -1183,16 +1191,17 @@ function applyBanState(){
   else if(!document.documentElement.hasAttribute('data-device-banned')){ document.documentElement.removeAttribute('data-banned'); const ov=$('#ban-overlay'); if(ov) ov.classList.add('hidden'); }
 }
 
-/* ROUTER */
+// ИСПРАВЛЕНО (баг #5): сброс editingId при уходе со страницы apply
 function show(id){
   if(!PAGE_IDS.includes(id)) id = 'home';
   if(id === 'admin' && !canModerate()) id = 'home';
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
+  const prev = current;
+  if(prev === 'apply' && id !== 'apply'){ editingId = null; }
   current = id;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
   $$('[data-nav]').forEach(a => { const on = a.dataset.nav === id; a.classList.toggle('active', on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  if(id === 'home') renderHomeActiveStage();
   if(id === 'cabinet') renderCabinet();
   if(id === 'leaderboard') renderLeaderboard();
   if(id === 'activity') renderActivity();
@@ -1225,13 +1234,11 @@ $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open
 $('#tournament-back').addEventListener('click', () => go('tournaments'));
 window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
-/* Hero CTA */
 document.getElementById('hero-apply-btn').addEventListener('click', e => {
   e.preventDefault();
   go('tournaments');
 });
 
-/* DATA */
 async function loadTournaments(){ if(!sb){ tournaments=[]; return; } try{ const {data,error}=await sb.from('tournaments').select('*').order('number',{ascending:true}); if(error) throw error; tournaments=data||[]; }catch(_){ tournaments=[]; } }
 async function loadStages(){ if(!sb){ stages=[]; return; } try{ const {data,error}=await sb.from('stages').select('*').order('number',{ascending:true}); if(error) throw error; stages=data||[]; }catch(_){ stages=[]; } }
 async function loadProfilePoints(){ if(!sb||!user){ profilePoints={points:0}; return; } try{ const {data,error}=await sb.from('profile_points').select('*').eq('id',user.id).maybeSingle(); if(error) throw error; profilePoints=data||{points:0}; }catch(_){ profilePoints={points:0}; } }
@@ -1261,10 +1268,6 @@ async function loadBannedWords(){ if(!sb) return; try{ const {data,error}=await 
 function stagesOfTournament(tid){ return stages.filter(s => s.tournament_id === tid).sort((a,b)=>a.number-b.number); }
 function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id===tid && a.status==='approved').length; }
 function getMyReg(tid){ return user ? myRegs.find(r => r.tournament_id === tid) : null; }
-function approvedRegsInTournament(tid){
-  if(!allRegs.length) return 0;
-  return allRegs.filter(r => r.tournament_id === tid && r.status === 'approved').length;
-}
 function canAccessTournament(tid){
   if(!user) return false;
   const reg = getMyReg(tid);
@@ -1283,21 +1286,7 @@ function canAccessStage(stage){
 }
 function stageStatusLabel(s){ return t('status.'+s) || s; }
 
-/* HOME */
-function renderHomeActiveStage(){
-  const wrap = $('#home-active-stage'); if(!wrap) return;
-  if(userProfile && userProfile.banned){ wrap.classList.add('hidden'); return; }
-  const opens = stages.filter(s => s.status === 'open');
-  if(!opens.length){ wrap.classList.add('hidden'); return; }
-  const s = opens[0];
-  const tr = tournaments.find(x => x.id === s.tournament_id);
-  if(!tr || tr.status === 'draft'){ wrap.classList.add('hidden'); return; }
-  $('#home-active-stage-title').textContent = t('tournament.num')+' #'+tr.number+' · '+(s.title||(t('stage.num')+' '+s.number))+' · +'+(s.reward_points||1)+' '+t('stage.points');
-  $('#home-active-stage-btn').onclick = (e) => { e.preventDefault(); currentTournamentId=tr.id; go('tournament'); };
-  wrap.classList.remove('hidden');
-}
-
-/* TOURNAMENTS */
+// ИСПРАВЛЕНО (баг #4): карточка кликабельна для любого статуса
 function renderTournaments(){
   const grid = $('#tournaments-grid'); if(!grid) return;
   grid.replaceChildren();
@@ -1344,12 +1333,11 @@ function renderTournaments(){
       '<div class="t-title">'+escapeHtml(t_.title||(t('tournament.num')+' '+t_.number))+'</div>'+
       (t_.description ? '<div class="t-desc">'+escapeHtml(t_.description)+'</div>' : '')+
       '<div class="t-stages-count">📋 '+tStages.length+' '+(LANG==='ru'?'этапов':'stages')+' · 🏆 '+tp+' '+t('stage.points')+'</div>'+ph+seats+joinBlock;
-    if(!user || !reg || reg.status === 'approved'){
-      card.addEventListener('click', (ev) => {
-        if(ev.target.closest('button')) return;
-        currentTournamentId = t_.id; go('tournament');
-      });
-    }
+    // Клик по карточке — работает всегда, кроме кликов по кнопкам внутри
+    card.addEventListener('click', (ev) => {
+      if(ev.target.closest('button')) return;
+      currentTournamentId = t_.id; go('tournament');
+    });
     const jbtn = card.querySelector('[data-join-tid]');
     if(jbtn) jbtn.addEventListener('click', ev => { ev.stopPropagation(); openRegModal(t_.id); });
     const obtn = card.querySelector('[data-open-tid]');
@@ -1358,6 +1346,7 @@ function renderTournaments(){
   });
 }
 
+// ИСПРАВЛЕНО (баг #3): слоты этапа показываем только модераторам
 function renderTournamentPage(){
   const t_ = tournaments.find(x => x.id === currentTournamentId);
   if(!t_){ go('tournaments'); return; }
@@ -1440,7 +1429,8 @@ function renderTournamentPage(){
       if(expired) html += '<div class="stage-timer urgent">⏰ '+t('stage.deadline.expired')+'</div>';
       else html += '<div class="stage-timer" data-deadline="'+s.deadline+'">⏰ '+t('stage.deadline')+' <b data-timer>'+dl+'</b></div>';
     }
-    if(s.max_participants){
+    // Показываем блок слотов только модераторам
+    if(s.max_participants && canModerate()){
       html += '<div class="stage-slots'+(isFull?' full':'')+'">👥 '+t('stage.slots')+' <b>'+slotCount+' / '+s.max_participants+'</b>'+(isFull?' · '+t('stage.slots.full'):'')+'</div>';
     }
     html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);font-size:12.5px;color:var(--gold);display:flex;align-items:center;gap:8px"><svg class="i" style="font-size:16px"><use href="#i-coins"/></svg><b style="font-family:\'Exo 2\',sans-serif;font-size:15px">+'+(s.reward_points||1)+'</b><span>'+t('stage.points')+'</span></div>';
@@ -1502,13 +1492,20 @@ function openApply(stageId){
   currentStageId = stageId; editingId = null; go('apply');
 }
 
-/* REG MODAL */
+// ИСПРАВЛЕНО (баг #8): ошибка хранится как ключ, переводится при смене языка
+function setRegErr(key){
+  const el = $('#reg-modal-error');
+  el.dataset.errKey = key || '';
+  el.textContent = key ? t(key) : '';
+  el.classList.toggle('show', !!key);
+}
 function openRegModal(tid){
   if(!user){ go('cabinet'); return; }
   if(userProfile && userProfile.banned){ toast(t('ban.title'), true); return; }
   const t_ = tournaments.find(x => x.id === tid);
   if(!t_) return;
   regModalTid = tid;
+  // title и subtitle подтянутся через data-i18n, но нам нужно подставить номер турнира в subtitle
   $('#reg-modal-title').textContent = t('reg.title');
   $('#reg-modal-subtitle').textContent = (t('tournament.num')+' #'+t_.number)+' · '+(t_.title||'');
   $('#reg-nick').value = userProfile ? (userProfile.nick || '') : '';
@@ -1517,8 +1514,7 @@ function openRegModal(tid){
   $('#reg-discord').value = existing ? (existing.discord || '') : '';
   $('#reg-platform').value = existing ? (existing.platform || 'PC') : 'PC';
   $('#reg-motivation').value = existing ? (existing.motivation || '') : '';
-  $('#reg-modal-error').classList.remove('show');
-  $('#reg-modal-error').textContent = '';
+  setRegErr('');
   regModal.classList.remove('hidden');
   setTimeout(() => $('#reg-telegram').focus(), 100);
 }
@@ -1532,12 +1528,11 @@ $('#reg-modal-submit').addEventListener('click', async () => {
   const dc = ($('#reg-discord').value || '').trim();
   const pl = $('#reg-platform').value;
   const mo = ($('#reg-motivation').value || '').trim();
-  const errEl = $('#reg-modal-error');
-  let err = '';
-  if(!tg || !/^@?[A-Za-z0-9_]{5,32}$/.test(tg)) err = t('reg.err.tg');
-  else if(!mo || mo.length < 20) err = t('reg.err.motiv');
-  if(err){ errEl.textContent = err; errEl.classList.add('show'); return; }
-  errEl.classList.remove('show');
+  let errKey = '';
+  if(!tg || !/^@?[A-Za-z0-9_]{5,32}$/.test(tg)) errKey = 'reg.err.tg';
+  else if(!mo || mo.length < 20) errKey = 'reg.err.motiv';
+  if(errKey){ setRegErr(errKey); return; }
+  setRegErr('');
   const btn = $('#reg-modal-submit'); btn.disabled = true;
   const span = btn.querySelector('span');
   const prev = span.textContent; span.textContent = t('reg.sending');
@@ -1579,12 +1574,16 @@ $('#reg-modal-submit').addEventListener('click', async () => {
     if(current === 'cabinet') renderCabinet();
     if(current === 'admin') renderAdmin();
   }catch(e){ console.error(e); toast(e.message || 'Error', true); }
-  finally{ btn.disabled = false; span.textContent = prev; }
+  finally{ btn.disabled = false; span.textContent = t('reg.submit'); }
 });
 
+// ИСПРАВЛЕНО (баги #1, #6): сбрасываем success / форму / edit-banner при каждом заходе
 function refreshApplyView(){
   const gate=$('#apply-gate'), bl=$('#apply-blocked'), nf=$('#apply-notfound'), wr=$('#apply-wrap'), info=$('#apply-info-block');
   gate.classList.add('hidden'); bl.classList.add('hidden'); nf.classList.add('hidden'); wr.classList.add('hidden'); info.classList.add('hidden');
+  successEl.classList.add('hidden');
+  form.classList.remove('hidden');
+  if(!editingId) $('#apply-edit-banner').classList.add('hidden');
   if(!currentStageId){ nf.classList.remove('hidden'); return; }
   const stage = stages.find(s => s.id === currentStageId);
   if(!stage){ nf.classList.remove('hidden'); return; }
@@ -1607,9 +1606,15 @@ function refreshApplyView(){
   if(stage.status !== 'open' && !editingId){ $('#apply-blocked-title').textContent = t('apply.blocked.t'); $('#apply-blocked-reason').textContent = t('stage.closed.note'); bl.classList.remove('hidden'); return; }
   if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-title').textContent = t('apply.blocked.t'); $('#apply-blocked-reason').textContent = t('stage.deadline.expired'); bl.classList.remove('hidden'); return; }
   wr.classList.remove('hidden'); info.classList.remove('hidden');
+  if(editingId){
+    $('#apply-edit-banner').classList.remove('hidden');
+    submitBtn.querySelector('span').textContent = t('btn.save');
+  } else {
+    $('#apply-edit-banner').classList.add('hidden');
+    submitBtn.querySelector('span').textContent = t('form.submit');
+  }
 }
 
-/* APPLY */
 function normalizeUrl(v){ let s=(v||'').trim(); if(!s) return null; if(!/^https?:\/\//i.test(s)) s='https://'+s; try{ const u=new URL(s); return u.hostname.includes('.') ? u.href : null; }catch(_){ return null; } }
 function setError(name, key){ const box=form.querySelector('[data-error-for="'+name+'"]'); const inp=form.elements[name]; if(!inp) return; if(box){ box.textContent=key||''; box.classList.toggle('show',!!key); } const m = name==='agree' ? $('#agree-label') : inp; m.classList.toggle('invalid',!!key); }
 form.addEventListener('input', e => { if(e.target.name) setError(e.target.name,''); });
@@ -1639,12 +1644,14 @@ form.addEventListener('submit', async e => {
   };
   submitBtn.disabled = true;
   submitBtn.querySelector('span').textContent = (LANG==='ru'?'Отправляем…':'Sending…');
+  let wasEdit = !!editingId;
   try{
     if(editingId){
       const { error } = await sb.from('applications').update({ telegram:data.telegram, discord:data.discord, video:data.video, platform:data.platform, motivation:data.motivation, about:data.about }).eq('id', editingId).eq('user_id', user.id);
       if(error) throw error;
       toast(LANG==='ru'?'Обновлено':'Updated');
       await loadMyApplications();
+      editingId = null;
       go('cabinet');
     } else {
       const { error } = await sb.from('applications').insert([{ ...data, status:'pending' }]);
@@ -1657,10 +1664,14 @@ form.addEventListener('submit', async e => {
       window.scrollTo(0,0);
     }
   }catch(err){ console.error(err); toast(err.message || 'Error', true); }
-  finally{ submitBtn.disabled = false; submitBtn.querySelector('span').textContent = t('form.submit'); }
+  finally{
+    submitBtn.disabled = false;
+    // ИСПРАВЛЕНО (баг #5): сбрасываем editingId и обновляем подпись кнопки
+    submitBtn.querySelector('span').textContent = editingId ? t('btn.save') : t('form.submit');
+    if(wasEdit) editingId = null;
+  }
 });
 
-/* LEADERBOARD */
 async function renderLeaderboard(){
   if(!sb) return;
   try{
@@ -1700,7 +1711,6 @@ async function renderLeaderboard(){
   }catch(err){ console.error(err); }
 }
 
-/* ACTIVITY */
 async function renderActivity(){
   await loadActivity();
   const wrap = $('#activity-feed'); if(!wrap) return;
@@ -1739,7 +1749,6 @@ async function renderActivity(){
   });
 }
 
-/* CABINET */
 async function loadProfile(){
   if(!sb || !user){ userProfile=null; applyBanState(); return; }
   try{
@@ -1903,7 +1912,6 @@ $('#save-profile-btn').addEventListener('click', async () => {
   }catch(err){ console.error(err); toast('Error', true); }
 });
 
-/* USER MODAL */
 async function openUserModal(userId){
   currentUserId = userId; userModal.classList.remove('hidden');
   const wrap = $('#um-body'), actions = $('#um-actions');
@@ -2023,7 +2031,6 @@ async function unbanUser(userId){
   await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
 }
 
-/* CUP MODAL */
 function openCupModal(userId, nick){
   cupTargetUserId = userId; cupModal.classList.remove('hidden');
   $('#cm-subtitle').textContent = (LANG==='ru'?'Игрок: ':'Player: ')+(nick||'—');
@@ -2048,7 +2055,6 @@ $('#cm-save').addEventListener('click', async () => {
   if(current === 'admin') renderAdmin();
 });
 
-/* ADMIN */
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
@@ -2127,7 +2133,6 @@ function renderDashRecent(){
   });
 }
 
-/* ADMIN — REGISTRATIONS */
 async function renderAdminRegs(){
   await loadAllRegs();
   const tsel = $('#regs-tournament-filter');
@@ -2173,7 +2178,7 @@ function buildRegActions(r){
   const limitReached = approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT;
   if(r.status !== 'approved'){
     const ap = document.createElement('button'); ap.className='btn btn-success btn-sm'; ap.textContent='✓';
-    if(limitReached && r.status !== 'approved'){ ap.disabled = true; ap.title = t('admin.regs.full'); ap.style.opacity = '.5'; ap.style.cursor = 'not-allowed'; }
+    if(limitReached){ ap.disabled = true; ap.title = t('admin.regs.full'); ap.style.opacity = '.5'; ap.style.cursor = 'not-allowed'; }
     ap.addEventListener('click', () => updateRegStatus(r, 'approved'));
     w.appendChild(ap);
   }
@@ -2383,7 +2388,7 @@ function openStageModal(stageId, tournamentId, isNew){
   const s = stageId ? stages.find(x => x.id === stageId) : null;
   modalTournamentId = isNew ? tournamentId : (s ? s.tournament_id : null);
   const t_ = tournaments.find(x => x.id === modalTournamentId);
-  $('#modal-title').textContent = isNew ? (LANG==='ru'?'Новый этап':'New stage') : (LANG==='ru'?'Настройка этапа':'Stage settings');
+  $('#modal-title').textContent = isNew ? (LANG==='ru'?'Новый этап':'New stage') : t('stage.modal.title');
   $('#modal-subtitle').textContent = t('tournament.num')+' #'+(t_?t_.number:'?')+' · '+(t_?t_.title||'':'');
   $('#m-title').value = s ? (s.title||'') : '';
   $('#m-number').value = s ? s.number : ((stagesOfTournament(modalTournamentId).length||0) + 1);
@@ -2523,7 +2528,6 @@ async function renderAdminLog(){
   });
 }
 
-/* AUTH */
 $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
   $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
   $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
@@ -2614,7 +2618,7 @@ $('#logout-btn').addEventListener('click', async () => {
   toast(LANG==='ru'?'Вы вышли':'Logged out');
   user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
   applyBanState();
-  renderCabinet(); renderAdmin(); renderHomeActiveStage(); renderTournaments();
+  renderCabinet(); renderAdmin(); renderTournaments();
   go('home');
 });
 
@@ -2629,11 +2633,12 @@ async function afterLogin(){
   if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
   renderAdmin();
-  renderHomeActiveStage();
   updateAdminStats();
   if(current === 'tournaments') renderTournaments();
   setupRealtime();
 }
+
+// ИСПРАВЛЕНО (баг #10): фильтр realtime для tournament_registrations
 function setupRealtime(){
   if(!sb) return;
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
@@ -2649,17 +2654,22 @@ function setupRealtime(){
       await loadAdminApps(); updateAdminStats();
       if(adminTab === 'apps') renderAdminTable();
       if(adminTab === 'dashboard') renderDashboard();
-      if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📥 Новая заявка!':'📥 New application!');
+      if(payload.eventType === 'INSERT' && canModerate()) toast(LANG==='ru'?'📥 Новая заявка!':'📥 New application!');
       if(user) await loadProfilePoints();
       if(current === 'cabinet') renderCabinet();
       await renderLeaderboard();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
+      const rec = payload.new || payload.old;
+      // Обычным юзерам — только свои события
+      if(!canModerate()){
+        if(!rec || rec.user_id !== user.id) return;
+      }
       await loadMyRegs(); await loadAllRegs(); updateAdminStats();
       if(adminTab === 'regs') renderRegsTable();
       if(adminTab === 'tournaments') renderAdminTournaments();
       if(adminTab === 'dashboard') renderDashboard();
-      if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
+      if(payload.eventType === 'INSERT' && canModerate()) toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
       if(current === 'cabinet') renderCabinet();
       if(current === 'tournaments') renderTournaments();
       if(current === 'tournament') renderTournamentPage();
@@ -2682,15 +2692,16 @@ async function initAuth(){
   if(deviceBanned){ document.documentElement.setAttribute('data-device-banned','true'); return; }
   const { data } = await sb.auth.getSession();
   user = data.session ? data.session.user : null;
+  // ИСПРАВЛЕНО (баг #11): catch на afterLogin, чтобы не было unhandled rejection
   sb.auth.onAuthStateChange((_ev, s) => {
     const wasUser = user;
     user = s ? s.user : null;
     if(document.documentElement.hasAttribute('data-banned') || document.documentElement.hasAttribute('data-device-banned')) return;
-    if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
+    if(user && (!wasUser || wasUser.id !== user.id)) afterLogin().catch(e => console.error(e));
     else if(!user){
       userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
       applyBanState();
-      renderCabinet(); renderAdmin(); renderHomeActiveStage();
+      renderCabinet(); renderAdmin();
       if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
     }
   });
@@ -2698,7 +2709,6 @@ async function initAuth(){
   else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); }
 }
 
-/* START */
 const saved = storedLang();
 const guess = /^ru\b/i.test(navigator.language||'') ? 'ru' : 'en';
 applyLang(saved || guess);
@@ -2712,7 +2722,7 @@ if(!saved){
   await loadTournaments(); await loadStages();
   await initAuth();
   if(!document.documentElement.hasAttribute('data-device-banned') && !document.documentElement.hasAttribute('data-banned')){
-    renderTournaments(); renderHomeActiveStage(); await renderLeaderboard(); await renderActivity();
+    renderTournaments(); await renderLeaderboard(); await renderActivity();
   }
 })();
 </script>
