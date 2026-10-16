@@ -14,7 +14,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 html[data-banned] body{overflow:hidden!important}
-html[data-banned] .header,html[data-banned] main,html[data-banned] footer{display:none!important}
+html[data-banned] .header,html[data-banned] main,html[data-banned] footer,html[data-banned] .lang-gate{display:none!important}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
@@ -454,7 +454,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3>Общие положения</h3><p style="color:#b9c8e6;font-size:14px">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3>Формат турнира</h3><p style="color:#b9c8e6;font-size:14px">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация и бан устройства.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Кубки</h3><p style="color:#b9c8e6;font-size:14px">За победы организаторы вручают именные кубки. Они отображаются в профиле игрока.</p></div></article>
@@ -792,23 +792,23 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- БАН ОВЕРЛЕЙ -->
+<!-- БАН ОВЕРЛЕЙ (без кнопки выхода) -->
 <div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
   <div style="max-width:520px;width:100%">
     <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)">
       <svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg>
     </div>
     <h1 style="font-family:'Exo 2',sans-serif;font-weight:900;font-size:clamp(32px,6vw,52px);letter-spacing:.02em;color:#ff5d73;line-height:1;margin-bottom:18px;text-shadow:0 0 40px rgba(255,93,115,.5)">ВЫ ЗАБАНЕНЫ</h1>
-    <p style="color:#b9c8e6;font-size:16px;line-height:1.6;margin-bottom:10px">Ваш аккаунт заблокирован организаторами турнира.</p>
+    <p style="color:#b9c8e6;font-size:16px;line-height:1.6;margin-bottom:10px">Ваш аккаунт и устройство заблокированы организаторами турнира.</p>
     <p id="ban-reason-text" style="color:var(--red);font-size:14.5px;margin-bottom:28px;padding:12px 18px;border-radius:12px;background:rgba(255,93,115,.08);border:1px solid rgba(255,93,115,.3);display:none"></p>
-    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line);margin-bottom:24px">
+    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line)">
       <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Для связи пишите</div>
       <a href="https://t.me/YouAreScamers" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px">
         <svg class="i" style="font-size:24px"><use href="#i-send"/></svg>
         @YouAreScamers
       </a>
     </div>
-    <button type="button" id="ban-logout-btn" style="padding:12px 28px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--muted);font:600 14px 'Inter',sans-serif;cursor:pointer;transition:.2s">Выйти из аккаунта</button>
+    <p style="color:var(--muted);font-size:12px;margin-top:20px">Обход блокировки невозможен. Все попытки фиксируются.</p>
   </div>
 </div>
 
@@ -848,6 +848,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   let realtimeChannel = null;
   let modalStageId = null, modalTournamentId = null, modalIsNew = false;
   let currentUserId = null, cupTargetUserId = null;
+  let currentFingerprint = null;
+  let currentIP = null;
 
   function toast(msg, isError){
     toastEl.textContent = msg;
@@ -881,48 +883,140 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   function initials(nick){ if(!nick) return '?'; return nick.trim().slice(0,2).toUpperCase(); }
 
-  /* ============ BAN OVERLAY ============ */
-  function applyBanState(){
-    const banned = !!(userProfile && userProfile.banned);
-    const overlay = $('#ban-overlay');
-    if(banned){
-      document.documentElement.setAttribute('data-banned', 'true');
-      overlay.classList.remove('hidden');
-      // Закрываем все модалки
-      ['#user-modal','#cup-modal','#stage-modal'].forEach(sel => {
-        const m = document.querySelector(sel);
-        if(m) m.classList.add('hidden');
-      });
-      const reasonEl = $('#ban-reason-text');
-      if(userProfile.banned_reason){
-        reasonEl.textContent = 'Причина: ' + userProfile.banned_reason;
-        reasonEl.style.display = 'block';
-      } else {
-        reasonEl.style.display = 'none';
+  /* ============ ANTI-BAN BYPASS ============ */
+  function getFingerprint(){
+    const parts = [];
+    parts.push(navigator.userAgent || '');
+    parts.push(navigator.language || '');
+    parts.push((screen.width||0) + 'x' + (screen.height||0));
+    parts.push(String(screen.colorDepth || 24));
+    parts.push(String(new Date().getTimezoneOffset()));
+    parts.push(String(navigator.hardwareConcurrency || 0));
+    parts.push(String(navigator.maxTouchPoints || 0));
+    parts.push(navigator.platform || '');
+    try{
+      const c = document.createElement('canvas');
+      c.width = 220; c.height = 60;
+      const ctx = c.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = '15px Arial';
+      ctx.fillStyle = '#f60';
+      ctx.fillRect(125, 1, 62, 20);
+      ctx.fillStyle = '#069';
+      ctx.fillText('GDCC-FP-2024', 2, 15);
+      ctx.fillStyle = 'rgba(102,204,0,0.7)';
+      ctx.fillText('GDCC-FP-2024', 4, 17);
+      parts.push(c.toDataURL());
+    }catch(_){}
+    try{
+      const gl = document.createElement('canvas').getContext('webgl');
+      if(gl){
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        if(dbg) parts.push(gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) || '');
       }
-    } else {
-      document.documentElement.removeAttribute('data-banned');
-      overlay.classList.add('hidden');
+    }catch(_){}
+    const str = parts.join('|');
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for(let i = 0; i < str.length; i++){
+      const ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return 'fp_' + (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+  }
+
+  async function fetchIP(){
+    try{
+      const cached = localStorage.getItem('gdcc-ip');
+      const ts = localStorage.getItem('gdcc-ip-ts');
+      if(cached && ts && Date.now() - parseInt(ts) < 3600000) return cached;
+    }catch(_){}
+    try{
+      const r = await fetch('https://api.ipify.org?format=json', { cache: 'no-store' });
+      const d = await r.json();
+      const ip = d && d.ip ? d.ip : null;
+      if(ip){
+        try{
+          localStorage.setItem('gdcc-ip', ip);
+          localStorage.setItem('gdcc-ip-ts', String(Date.now()));
+        }catch(_){}
+      }
+      return ip;
+    }catch(_){
+      try{ return localStorage.getItem('gdcc-ip'); }catch(_){ return null; }
     }
   }
-  function setupBanLogout(){
-    const btn = $('#ban-logout-btn');
-    if(!btn || btn.dataset.bound) return;
-    btn.dataset.bound = '1';
-    btn.addEventListener('click', async () => {
-      if(!sb) return;
-      if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
-      await sb.auth.signOut();
-      user = null; userProfile = null; myApplications = []; profilePoints = { points: 0 };
-      applyBanState();
-      location.reload();
+
+  async function checkBannedDevice(){
+    if(!sb) return false;
+    try{
+      currentFingerprint = currentFingerprint || getFingerprint();
+      if(!currentIP) currentIP = await fetchIP();
+      const orClauses = [];
+      if(currentFingerprint) orClauses.push('fingerprint.eq.' + currentFingerprint);
+      if(currentIP) orClauses.push('ip.eq.' + currentIP);
+      if(!orClauses.length) return false;
+      const { data, error } = await sb.from('banned_devices').select('*').or(orClauses.join(',')).limit(1);
+      if(error){ console.warn('banned_devices check error', error); return false; }
+      if(data && data.length){
+        showBanOverlay(data[0].reason || null);
+        return true;
+      }
+      return false;
+    }catch(err){ console.warn(err); return false; }
+  }
+
+  function showBanOverlay(reason){
+    document.documentElement.setAttribute('data-banned', 'true');
+    const overlay = $('#ban-overlay');
+    if(!overlay) return;
+    overlay.classList.remove('hidden');
+    ['#user-modal','#cup-modal','#stage-modal','.lang-gate'].forEach(sel => {
+      document.querySelectorAll(sel).forEach(m => m.classList.add('hidden'));
     });
+    const reasonEl = $('#ban-reason-text');
+    if(reason){
+      reasonEl.textContent = 'Причина: ' + reason;
+      reasonEl.style.display = 'block';
+    } else {
+      reasonEl.style.display = 'none';
+    }
+  }
+
+  async function trackDevice(userId){
+    if(!sb || !userId) return;
+    try{
+      currentFingerprint = currentFingerprint || getFingerprint();
+      if(!currentIP) currentIP = await fetchIP();
+      await sb.from('user_devices').upsert({
+        user_id: userId,
+        fingerprint: currentFingerprint,
+        ip: currentIP,
+        user_agent: navigator.userAgent,
+        last_seen: new Date().toISOString()
+      }, { onConflict: 'user_id,fingerprint' });
+    }catch(err){ console.warn('trackDevice failed', err); }
+  }
+
+  /* ============ BAN STATE ============ */
+  function applyBanState(){
+    const banned = !!(userProfile && userProfile.banned);
+    if(banned){
+      showBanOverlay(userProfile.banned_reason || null);
+    } else if(!document.documentElement.hasAttribute('data-device-banned')){
+      document.documentElement.removeAttribute('data-banned');
+      const overlay = $('#ban-overlay');
+      if(overlay) overlay.classList.add('hidden');
+    }
   }
 
   function show(id){
     if(!PAGE_IDS.includes(id)) id = 'home';
     if(id === 'admin' && !canModerate()) id = 'home';
     if(userProfile && userProfile.banned) return;
+    if(document.documentElement.hasAttribute('data-banned')) return;
     current = id;
     $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
     $$('[data-nav]').forEach(a => {
@@ -945,6 +1039,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!PAGE_IDS.includes(id)) id = 'home';
     if(id === 'admin' && !canModerate()) return;
     if(userProfile && userProfile.banned) return;
+    if(document.documentElement.hasAttribute('data-banned')) return;
     show(id);
     try{ if(readHash() !== id) history.pushState(null,'','#'+id); }catch(_){}
   }
@@ -1177,6 +1272,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
   function openApply(stageId){
     if(userProfile && userProfile.banned) return;
+    if(document.documentElement.hasAttribute('data-banned')) return;
     currentStageId = stageId; editingId = null; go('apply');
   }
 
@@ -1589,7 +1685,26 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(reason === null) return;
     const { error } = await sb.from('profiles').update({ banned: true, banned_reason: reason.trim() || null }).eq('id', userId);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
-    toast('Юзер забанен');
+
+    // Копируем устройства/IP юзера в banned_devices
+    try{
+      const { data: devices } = await sb.from('user_devices').select('*').eq('user_id', userId);
+      if(devices && devices.length){
+        for(const d of devices){
+          try{
+            await sb.from('banned_devices').insert([{
+              fingerprint: d.fingerprint,
+              ip: d.ip,
+              reason: reason.trim() || 'Забанен',
+              banned_user_id: userId,
+              banned_by: user.email
+            }]);
+          }catch(_){}
+        }
+      }
+    }catch(err){ console.warn('copy devices failed', err); }
+
+    toast('🚫 Юзер забанен (устройство + IP)');
     await loadAllUsers();
     await renderLeaderboard();
     await openUserModal(userId);
@@ -1597,6 +1712,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function unbanUser(userId){
     const { error } = await sb.from('profiles').update({ banned: false, banned_reason: null }).eq('id', userId);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
+    try{ await sb.from('banned_devices').delete().eq('banned_user_id', userId); }catch(err){ console.warn(err); }
     toast('Юзер разбанен');
     await loadAllUsers();
     await renderLeaderboard();
@@ -2250,6 +2366,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault();
+    if(document.documentElement.hasAttribute('data-banned')){ toast('Вы забанены', true); return; }
     const email = e.target.elements.email.value.trim();
     const password = e.target.elements.password.value;
     setAuthError('login','');
@@ -2273,6 +2390,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   });
   $('#register-form').addEventListener('submit', async e => {
     e.preventDefault();
+    if(document.documentElement.hasAttribute('data-banned')){
+      toast('Регистрация с этого устройства запрещена', true);
+      return;
+    }
     const formEl = e.target;
     const email = formEl.elements.email.value.trim();
     const password = formEl.elements.password.value;
@@ -2318,8 +2439,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function afterLogin(){
     await checkModerator();
     await loadProfile();
-    setupBanLogout();
-    if(userProfile && userProfile.banned){ return; }
+    if(user && user.id) await trackDevice(user.id);
+    if(userProfile && userProfile.banned) return;
+    if(document.documentElement.hasAttribute('data-banned')) return;
     await loadTournaments();
     await loadStages();
     await loadMyApplications();
@@ -2341,7 +2463,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
           userProfile = payload.new;
           applyBanState();
           if(userProfile.banned){
-            // Закрываем всё
             $$('.page').forEach(p => p.classList.remove('active'));
             return;
           }
@@ -2369,11 +2490,16 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(hash.includes('access_token=') || hash.includes('error_description=')){
       try{ history.replaceState(null, '', location.pathname + location.search); }catch(_){}
     }
+    // Проверка устройства/IP — если забанено, дальше не идём
+    const deviceBanned = await checkBannedDevice();
+    if(deviceBanned){ document.documentElement.setAttribute('data-device-banned', 'true'); return; }
+
     const { data } = await sb.auth.getSession();
     user = data.session ? data.session.user : null;
     sb.auth.onAuthStateChange((_ev, s) => {
       const wasUser = user;
       user = s ? s.user : null;
+      if(document.documentElement.hasAttribute('data-banned') || document.documentElement.hasAttribute('data-device-banned')) return;
       if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
       else if(!user){
         userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points: 0 };
@@ -2383,7 +2509,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       }
     });
     if(user) await afterLogin();
-    else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); setupBanLogout(); }
+    else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); }
   }
 
   const saved = storedLang();
@@ -2400,9 +2526,11 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await loadTournaments();
     await loadStages();
     await initAuth();
-    renderTournaments();
-    renderHomeActiveStage();
-    await renderLeaderboard();
+    if(!document.documentElement.hasAttribute('data-device-banned') && !document.documentElement.hasAttribute('data-banned')){
+      renderTournaments();
+      renderHomeActiveStage();
+      await renderLeaderboard();
+    }
   })();
 
 })();
