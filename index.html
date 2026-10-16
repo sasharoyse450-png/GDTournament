@@ -62,6 +62,7 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-success:hover{transform:translateY(-1px)}
+.btn-gold{background:linear-gradient(180deg,#f6c344,#d69b1a)}
 main{flex:1}
 .page{display:none}
 .page.active{display:block;animation:fade .3s ease}
@@ -151,7 +152,8 @@ main{flex:1}
 .stage-locked-note{padding:10px 14px;border-radius:10px;background:rgba(143,164,203,.08);border:1px solid rgba(143,164,203,.25);color:var(--muted);font-size:12px;display:flex;gap:8px;align-items:center}
 .stage-card code{font-family:'JetBrains Mono',monospace;font-size:11.5px}
 .lb-podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:32px}
-.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9))}
+.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));cursor:pointer;transition:.2s}
+.podium-card:hover{transform:translateY(-4px)}
 .podium-card.first{border-color:var(--gold);box-shadow:0 0 40px rgba(246,183,60,.2)}
 .podium-card.second{border-color:#c0c8d8}
 .podium-card.third{border-color:#c98555}
@@ -225,6 +227,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .status-badge.open{background:rgba(47,212,138,.14);color:var(--green)}
 .status-badge.closed{background:rgba(143,164,203,.14);color:var(--muted)}
 .status-badge.draft{background:rgba(246,183,60,.14);color:var(--gold)}
+.status-badge.banned{background:rgba(255,93,115,.14);color:var(--red)}
 .empty-state{text-align:center;padding:56px 24px}
 .empty-state .stat-icon{color:var(--gold);background:rgba(246,183,60,.12);width:68px;height:68px;font-size:32px}
 .empty-state h2{font-size:22px;margin-bottom:8px}
@@ -286,6 +289,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .t-stage-row .actions{display:flex;gap:6px;flex-wrap:wrap}
 .modal-back{position:fixed;inset:0;z-index:300;background:rgba(5,10,23,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;overflow-y:auto}
 .modal{width:min(760px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,rgba(14,26,58,.98),rgba(9,18,42,.98));border:1px solid var(--line);border-radius:20px;padding:26px 28px 28px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal.modal-sm{width:min(520px,100%)}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line-soft)}
 .modal-head h2{font-size:22px;font-weight:800;margin:0}
 .modal-head p{color:var(--muted);font-size:13.5px;margin-top:6px}
@@ -297,19 +301,28 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .modal-section{margin-bottom:18px}
 .modal-section h3{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-2);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .modal-section h3::before{content:"";width:3px;height:14px;background:var(--blue-2);border-radius:2px}
-.admin-mobile-card{display:none}
+/* CUP */
+.cup-icon{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(246,183,60,.2),rgba(246,140,0,.1));color:var(--gold);flex:none;border:1px solid rgba(246,183,60,.35)}
+.cup-card{padding:16px 18px;border-radius:14px;border:1px solid rgba(246,183,60,.35);background:linear-gradient(135deg,rgba(246,183,60,.08),rgba(9,18,42,.9));display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.cup-card-info{flex:1;min-width:0}
+.cup-card-info h4{font-family:'Exo 2',sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;word-break:break-word}
+.cup-card-info p{color:var(--muted);font-size:12.5px}
+.cup-card-info small{color:#5f7399;font-size:11.5px;display:block;margin-top:6px}
+.user-card{padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.5);display:flex;gap:12px;align-items:center;margin-bottom:10px;transition:.2s;cursor:pointer}
+.user-card:hover{border-color:var(--blue-2);background:rgba(31,139,255,.06)}
+.user-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2a98ff,#1169e8);display:grid;place-items:center;font-family:'Exo 2',sans-serif;font-weight:800;font-size:18px;color:#fff;flex:none}
+.user-info{flex:1;min-width:0}
+.user-info b{display:block;font-weight:600;font-size:14.5px;word-break:break-word}
+.user-info small{color:var(--muted);font-size:12px;word-break:break-all;display:block}
+.user-stats{display:flex;gap:10px;flex-wrap:wrap;flex:none}
+.user-stat-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(31,139,255,.12);color:var(--blue-2);font-size:11.5px;font-weight:700;font-family:'Exo 2',sans-serif}
+.user-stat-pill.gold{background:rgba(246,183,60,.15);color:var(--gold)}
+.user-stat-pill.red{background:rgba(255,93,115,.15);color:var(--red)}
 @media(max-width:760px){
-  .admin-mobile-card{display:block;padding:16px;margin-bottom:12px;border-radius:14px;border:1px solid var(--line);background:rgba(10,20,45,.5)}
-  .admin-mobile-card .row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;font-size:13px;border-bottom:1px solid var(--line-soft)}
-  .admin-mobile-card .row:last-child{border-bottom:0}
-  .admin-mobile-card .row b{color:var(--muted);font-weight:500;font-size:12px}
-  .admin-mobile-card .actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-  .admin-mobile-card .actions .btn{flex:1;min-width:80px;height:40px;font-size:13px}
-  .admin-desktop-table{display:none}
-  .dash-grid{grid-template-columns:1fr}
-  .t-stage-row{grid-template-columns:1fr;text-align:left}
   .modal{padding:20px;border-radius:16px}
   .modal-grid,.modal-grid-3{grid-template-columns:1fr}
+  .user-card{flex-direction:column;align-items:stretch}
+  .user-stats{justify-content:flex-start}
 }
 @media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
 @media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}}
@@ -355,6 +368,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-video" viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3z"/></symbol>
 <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 0 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
 <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="5"/><circle cx="16" cy="16" r="5"/><path d="M11 6h.01M18 14h.01"/></symbol>
+<symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
+<symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15L19 4M18 5l2 2M15 8l2 2"/></symbol>
 </defs>
 </svg>
 
@@ -387,6 +403,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 
 <main>
 
+<!-- HOME -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -432,11 +449,12 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b>Честная игра</b><span>Строгая проверка записей.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-cup"/></svg><div><b>Этапы в турнире</b><span>Пройди все — стань чемпионом.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-coins"/></svg><div><b>Очки за этапы</b><span>У каждого этапа своя награда.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-fire"/></svg><div><b>Прокачка</b><span>Каждый этап +1 к уровню.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b>Кубки</b><span>Награды в профиле за победы.</span></div></div>
     </div>
   </div>
 </section>
 
+<!-- RULES -->
 <section class="page" id="page-rules">
   <div class="wrap">
     <div class="page-head">
@@ -451,12 +469,13 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3>Запрещено</h3><p style="color:#b9c8e6;font-size:14px">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3>Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире. Первый этап доступен всем.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3>Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Финальные правила</h3><p style="color:#b9c8e6;font-size:14px">Организаторы могут менять правила. Спорные ситуации решаются индивидуально.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3>Кубки</h3><p style="color:#b9c8e6;font-size:14px">За победы и достижения организаторы вручают именные кубки. Они отображаются в профиле игрока.</p></div></article>
       </div>
     </div>
   </div>
 </section>
 
+<!-- TOURNAMENTS -->
 <section class="page" id="page-tournaments">
   <div class="wrap">
     <div class="page-head">
@@ -464,12 +483,11 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h1>Турниры</h1>
       <p>Выбери турнир. Внутри каждого — этапы. Доступ к следующему этапу после одобрения предыдущего.</p>
     </div>
-    <div class="page-body">
-      <div class="tournaments-grid" id="tournaments-grid"></div>
-    </div>
+    <div class="page-body"><div class="tournaments-grid" id="tournaments-grid"></div></div>
   </div>
 </section>
 
+<!-- TOURNAMENT -->
 <section class="page" id="page-tournament">
   <div class="wrap">
     <div class="page-head">
@@ -479,12 +497,11 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <p id="t-page-desc">—</p>
       <div id="t-page-progress" style="margin-top:16px"></div>
     </div>
-    <div class="page-body">
-      <div class="stages-grid" id="stages-grid"></div>
-    </div>
+    <div class="page-body"><div class="stages-grid" id="stages-grid"></div></div>
   </div>
 </section>
 
+<!-- APPLY -->
 <section class="page" id="page-apply">
   <div class="wrap">
     <div class="page-head">
@@ -541,21 +558,30 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- LEADERBOARD -->
 <section class="page" id="page-leaderboard">
   <div class="wrap">
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-chart"/></svg><span>Турнирная таблица</span></div>
       <h1>Турнирная таблица</h1>
-      <p>Сортировка по очкам. Очки начисляются за одобренные этапы.</p>
+      <p>Нажми на ник — увидишь профиль с кубками и статистикой.</p>
       <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)"><svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg><span>Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b></div>
     </div>
     <div class="page-body">
       <div class="lb-podium" id="lb-podium"></div>
-      <div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>#</th><th>Ник</th><th>🏆 Очки</th><th>Уровень</th></tr></thead><tbody id="leaderboard-body"></tbody></table></div></div>
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Ник</th><th>🏆 Очки</th><th>Уровень</th><th>Кубки</th></tr></thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- CABINET -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -580,7 +606,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <p class="auth-note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
           </div>
-          <aside class="card"><h3 style="font-size:17px">Зачем аккаунт?</h3><ul class="aside-list"><li><svg class="i"><use href="#i-check"/></svg><span>Подать видео на этапы</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Отслеживать статус заявок</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Прокачивать очки и уровень</span></li></ul></aside>
+          <aside class="card"><h3 style="font-size:17px">Зачем аккаунт?</h3><ul class="aside-list"><li><svg class="i"><use href="#i-check"/></svg><span>Подать видео на этапы</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Получать кубки и очки</span></li><li><svg class="i"><use href="#i-check"/></svg><span>Отслеживать статус заявок</span></li></ul></aside>
         </div>
       </div>
     </div>
@@ -594,6 +620,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="cab-level-card" style="margin:0"><div class="cab-level-badge" data-user-level>0</div><div class="cab-level-info"><h2>Уровень</h2><p>Число одобренных этапов</p></div></div>
           <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)"><div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div><div class="cab-level-info"><h2 style="color:var(--gold)">Очки</h2><p>Сумма очков за этапы</p></div></div>
         </div>
+        <h2 style="font-size:20px;margin-bottom:16px;display:flex;align-items:center;gap:10px"><svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg> Мои кубки</h2>
+        <div id="cabinet-cups" style="margin-bottom:26px"></div>
         <h2 style="font-size:20px;margin-bottom:16px">Мои заявки</h2>
         <div class="app-list" id="cabinet-apps"></div>
       </div>
@@ -601,6 +629,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- DOCS -->
 <section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span>Документы</span></div><h1>Необходимые документы</h1><p>Что нужно подготовить.</p></div>
@@ -613,17 +642,22 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- ADMIN -->
 <section class="page" id="page-admin">
   <div class="wrap">
-    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div><h1>Панель администратора</h1><p>Управление турнирами, этапами и заявками.</p></div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span>Админка</span></div><h1>Панель администратора</h1><p>Управление турнирами, этапами, заявками и юзерами.</p></div>
     <div class="page-body">
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active">Дашборд</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments">Турниры</button>
         <button type="button" data-admin-tab="apps">Заявки</button>
+        <button type="button" data-admin-tab="users" id="tab-users">Юзеры</button>
+        <button type="button" data-admin-tab="cups" id="tab-cups">Кубки</button>
         <button type="button" data-admin-tab="log" id="tab-log">Лог</button>
         <button type="button" data-admin-tab="moderators" id="tab-moderators">Модераторы</button>
       </div>
+
+      <!-- DASHBOARD -->
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span>Всего заявок</span></div>
@@ -637,6 +671,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div class="dash-card" style="margin-bottom:22px"><h3><svg class="i"><use href="#i-clock"/></svg> Последние действия</h3><div class="dash-recent" id="dash-recent"></div></div>
       </div>
+
+      <!-- TOURNAMENTS -->
       <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Новый турнир</h3>
@@ -649,6 +685,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div id="admin-tournaments-list"></div>
       </div>
+
+      <!-- APPS -->
       <div id="admin-apps" class="hidden">
         <div class="admin-filters">
           <input type="search" id="admin-search" placeholder="Поиск: ник, telegram, email...">
@@ -661,16 +699,46 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <button type="button" class="btn btn-ghost btn-sm" id="refresh-apps-btn" title="Обновить"><svg class="i"><use href="#i-refresh"/></svg></button>
         </div>
         <div class="card table-card">
-          <div class="table-wrap admin-desktop-table">
+          <div class="table-wrap">
             <table class="table">
-              <thead><tr><th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th><th data-sort="tournament">Турнир</th><th data-sort="stage">Этап</th><th data-sort="nick">Ник <span class="sort-arrow">▼</span></th><th data-sort="telegram">Контакты</th><th>Видео</th><th data-sort="status">Статус</th><th>Действия</th></tr></thead>
+              <thead><tr><th data-sort="created_at">Дата <span class="sort-arrow">▼</span></th><th data-sort="tournament">Турнир</th><th data-sort="stage">Этап</th><th data-sort="nick">Ник</th><th data-sort="telegram">Контакты</th><th>Видео</th><th data-sort="status">Статус</th><th>Действия</th></tr></thead>
               <tbody id="admin-body"></tbody>
             </table>
           </div>
-          <div id="admin-mobile-list"></div>
         </div>
       </div>
+
+      <!-- USERS -->
+      <div id="admin-users" class="hidden">
+        <div class="admin-filters">
+          <input type="search" id="users-search" placeholder="Поиск по нику или email...">
+          <button type="button" data-user-filter="all" class="active">Все</button>
+          <button type="button" data-user-filter="banned">Забаненные</button>
+          <button type="button" data-user-filter="top">Топ (очки > 0)</button>
+        </div>
+        <div id="admin-users-list"></div>
+      </div>
+
+      <!-- CUPS -->
+      <div id="admin-cups" class="hidden">
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+            <svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg>
+            Вручить кубок
+          </h3>
+          <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">Сначала выбери юзера во вкладке «Юзеры», потом нажми «Вручить кубок» в профиле.</p>
+          <button type="button" class="btn btn-primary" onclick="document.querySelector('[data-admin-tab=users]').click()">
+            <svg class="i"><use href="#i-users"/></svg><span>К юзерам</span>
+          </button>
+        </div>
+        <h3 style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Все выданные кубки</h3>
+        <div id="admin-cups-list"></div>
+      </div>
+
+      <!-- LOG -->
       <div id="admin-log" class="hidden"><div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th>Когда</th><th>Кто</th><th>Что</th><th>Детали</th></tr></thead><tbody id="admin-log-body"></tbody></table></div></div></div>
+
+      <!-- MODERATORS -->
       <div id="admin-moderators" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> Добавить модератора</h3>
@@ -702,6 +770,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- STAGE MODAL -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head">
@@ -716,7 +785,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
     <div class="modal-section"><h3>Описание и задача</h3>
       <div class="field"><label for="m-desc">Описание</label><input class="input" type="text" id="m-desc" placeholder="Короткое описание"></div>
-      <div class="field" style="margin-bottom:0"><label for="m-task">Что нужно сделать</label><input class="input" type="text" id="m-task" placeholder="Например: пройти уровень за минимум попыток"></div>
+      <div class="field" style="margin-bottom:0"><label for="m-task">Что нужно сделать</label><input class="input" type="text" id="m-task" placeholder="Пройти уровень за минимум попыток"></div>
     </div>
     <div class="modal-section"><h3>Правила этапа</h3>
       <div class="field" style="margin:0"><label for="m-rules">По одному правилу на строку</label><textarea class="input" id="m-rules" placeholder="Без practice mode&#10;Хенд кам обязателен" style="height:100px"></textarea></div>
@@ -744,6 +813,37 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- USER MODAL -->
+<div class="modal-back hidden" id="user-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div><h2 id="um-title">Профиль игрока</h2><p id="um-subtitle">—</p></div>
+      <button class="modal-close" id="um-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="um-body"></div>
+    <div class="modal-actions" id="um-actions"></div>
+  </div>
+</div>
+
+<!-- CUP MODAL -->
+<div class="modal-back hidden" id="cup-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div><h2 id="cm-title">Вручить кубок</h2><p id="cm-subtitle">—</p></div>
+      <button class="modal-close" id="cm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field"><label for="cm-name">Название кубка <span class="req">*</span></label><input class="input" type="text" id="cm-name" placeholder="1st October Tournament"><span class="hint">Например: «1st October Tournament», «Кубок чемпиона», «Season 1 Winner»</span></div>
+      <div class="field"><label for="cm-desc">Описание (необязательно)</label><textarea class="input" id="cm-desc" placeholder="За победу в турнире..." style="height:80px"></textarea></div>
+      <div class="field" style="margin-bottom:0"><label for="cm-tournament">Связать с турниром (необязательно)</label><select class="input" id="cm-tournament"><option value="">— не привязывать —</option></select></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="cm-cancel">Отмена</button>
+      <button type="button" class="btn btn-gold" id="cm-save"><svg class="i"><use href="#i-trophy"/></svg><span>Вручить</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -760,29 +860,26 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   const PAGE_IDS = ['home','rules','tournaments','tournament','apply','leaderboard','cabinet','docs','admin'];
   const $ = s => document.querySelector(s);
   const $$ = s => document.querySelectorAll(s);
-  const nav = $('#nav');
-  const burger = $('#burger');
-  const toastEl = $('#toast');
-  const form = $('#apply-form');
-  const successEl = $('#apply-success');
-  const submitBtn = $('#submit-btn');
+  const nav = $('#nav'), burger = $('#burger'), toastEl = $('#toast');
+  const form = $('#apply-form'), successEl = $('#apply-success'), submitBtn = $('#submit-btn');
   const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
-  const navAdmin = $('#nav-admin');
-  const navAdminBadge = $('#nav-admin-badge');
-  const stageModal = $('#stage-modal');
+  const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
+  const stageModal = $('#stage-modal'), userModal = $('#user-modal'), cupModal = $('#cup-modal');
 
   let toastTimer, current = null;
   let user = null, userProfile = null, myApplications = [], profilePoints = { points: 0 };
-  let tournaments = [], stages = [];
+  let tournaments = [], stages = [], allUsers = [], allCups = [], allPoints = [];
   let currentTournamentId = null;
   let editingId = null, currentStageId = null;
   let adminTab = 'dashboard';
   let adminAppFilter = 'all', adminTournamentFilter = 'all', adminStageFilter = 'all';
   let adminSearch = '', adminSortField = 'created_at', adminSortDir = 'desc';
   let adminApps = [], adminLog = [], moderators = [];
+  let usersSearch = '', usersFilter = 'all';
   let isModeratorFlag = false;
   let realtimeChannel = null;
   let modalStageId = null, modalTournamentId = null, modalIsNew = false;
+  let currentUserId = null, cupTargetUserId = null;
 
   function toast(msg, isError){
     toastEl.textContent = msg;
@@ -813,6 +910,10 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(diff < 86400000) return Math.floor(diff/3600000) + ' ч назад';
     if(diff < 604800000) return Math.floor(diff/86400000) + ' дн назад';
     return d.toLocaleDateString('ru-RU');
+  }
+  function initials(nick){
+    if(!nick) return '?';
+    return nick.trim().slice(0, 2).toUpperCase();
   }
 
   function show(id){
@@ -858,6 +959,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $('#tournament-back').addEventListener('click', () => go('tournaments'));
   window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
+  /* ============ DATA LOADING ============ */
   async function loadTournaments(){
     if(!sb){ tournaments = []; return; }
     try{ const { data, error } = await sb.from('tournaments').select('*').order('number', { ascending: true }); if(error) throw error; tournaments = data || []; }
@@ -872,6 +974,30 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     if(!sb || !user){ profilePoints = { points: 0 }; return; }
     try{ const { data, error } = await sb.from('profile_points').select('*').eq('id', user.id).maybeSingle(); if(error) throw error; profilePoints = data || { points: 0 }; }
     catch(_){ profilePoints = { points: 0 }; }
+  }
+  async function loadMyCups(){
+    if(!sb || !user) return [];
+    try{ const { data, error } = await sb.from('cups').select('*').eq('user_id', user.id).order('awarded_at', { ascending: false }); if(error) throw error; return data || []; }
+    catch(_){ return []; }
+  }
+  async function loadAllUsers(){
+    if(!sb || !canModerate()){ allUsers = []; return; }
+    try{
+      const [{ data: profiles, error: e1 }, { data: points, error: e2 }, { data: cups, error: e3 }] = await Promise.all([
+        sb.from('profiles').select('*').order('created_at', { ascending: true }),
+        sb.from('profile_points').select('*'),
+        sb.from('cups').select('user_id')
+      ]);
+      if(e1) throw e1; if(e2) throw e2; if(e3) throw e3;
+      const pointsMap = {}; (points || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
+      const cupsMap = {}; (cups || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
+      allUsers = (profiles || []).map(p => ({ ...p, points: pointsMap[p.id] || 0, cups_count: cupsMap[p.id] || 0 }));
+    }catch(err){ console.error(err); allUsers = []; }
+  }
+  async function loadAllCups(){
+    if(!sb) return;
+    try{ const { data, error } = await sb.from('public_cups').select('*').order('awarded_at', { ascending: false }); if(error) throw error; allCups = data || []; }
+    catch(err){ console.error(err); allCups = []; }
   }
   function stagesOfTournament(tid){ return stages.filter(s => s.tournament_id === tid).sort((a,b) => a.number - b.number); }
   function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id === tid && a.status === 'approved').length; }
@@ -888,7 +1014,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   function tournamentStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
   function stageStatusLabel(s){ return ({ open:'Открыт', closed:'Закрыт', draft:'Черновик' })[s] || s; }
 
-  /* HOME ACTIVE STAGE */
+  /* ============ HOME ACTIVE STAGE ============ */
   function renderHomeActiveStage(){
     const wrap = $('#home-active-stage');
     if(!wrap) return;
@@ -907,6 +1033,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     wrap.classList.remove('hidden');
   }
 
+  /* ============ TOURNAMENTS ============ */
   function renderTournaments(){
     const grid = $('#tournaments-grid');
     grid.replaceChildren();
@@ -959,7 +1086,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     grid.replaceChildren();
     if(!tStages.length){
       if(canModerate()){
-        grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Нет открытых этапов</h2><p>Все этапы в черновике. Открой этап в админке, чтобы игроки могли подавать видео.</p><a class="btn btn-primary" href="#admin"><svg class="i"><use href="#i-admin"/></svg><span>В админку</span></a></div>';
+        grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Нет открытых этапов</h2><p>Все этапы в черновике. Открой этап в админке.</p><a class="btn btn-primary" href="#admin"><svg class="i"><use href="#i-admin"/></svg><span>В админку</span></a></div>';
       } else {
         grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>Этапов пока нет</h2><p>Загляни позже — админ ещё не открыл этапы.</p></div>';
       }
@@ -1056,6 +1183,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     $('#apply-title').textContent = '🎥 Подача видео: ' + (stage.title || ('Этап ' + stage.number));
     $('#apply-subtitle').textContent = 'Загрузи ссылку на видео этого этапа. Админ проверит и откроет следующий.';
     if(!user){ gate.classList.remove('hidden'); return; }
+    // Проверяем бан
+    if(userProfile && userProfile.banned){ $('#apply-blocked-reason').textContent = 'Вы забанены. Причина: ' + (userProfile.banned_reason || 'не указана'); blocked.classList.remove('hidden'); return; }
     if(!canAccessStage(stage) && !editingId){ $('#apply-blocked-reason').textContent = 'Нужно одобрение предыдущего этапа в этом турнире.'; blocked.classList.remove('hidden'); return; }
     if(stage.status !== 'open' && !editingId){ $('#apply-blocked-reason').textContent = 'Приём заявок на этот этап закрыт.'; blocked.classList.remove('hidden'); return; }
     if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-reason').textContent = 'Время подачи заявок истекло.'; blocked.classList.remove('hidden'); return; }
@@ -1063,6 +1192,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     info.classList.remove('hidden');
   }
 
+  /* ============ APPLY ============ */
   function normalizeUrl(v){
     let s = (v||'').trim();
     if(!s) return null;
@@ -1082,6 +1212,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if(!user || !currentStageId){ return; }
+    if(userProfile && userProfile.banned){ toast('Вы забанены', true); return; }
     const v = n => (form.elements[n].value || '').trim();
     const errs = {
       nick: !v('nick') ? 'Укажи ник' : (v('nick').length < 2 ? 'Ник короткий' : ''),
@@ -1127,18 +1258,21 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     finally{ submitBtn.disabled = false; submitBtn.querySelector('span').textContent = editingId ? 'Сохранить' : 'Отправить видео'; }
   });
 
+  /* ============ LEADERBOARD ============ */
   async function renderLeaderboard(){
     if(!sb) return;
     try{
-      const [{ data: profilesData, error: e1 }, { data: pointsData, error: e2 }] = await Promise.all([
-        sb.from('participants').select('*').order('created_at', { ascending: true }),
-        sb.from('profile_points').select('*')
+      const [{ data: profilesData, error: e1 }, { data: pointsData, error: e2 }, { data: cupsData, error: e3 }] = await Promise.all([
+        sb.from('profiles').select('*').order('created_at', { ascending: true }),
+        sb.from('profile_points').select('*'),
+        sb.from('cups').select('user_id')
       ]);
-      if(e1) throw e1;
-      if(e2) throw e2;
-      const pointsMap = {};
-      (pointsData || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
-      const list = (profilesData || []).map(p => ({ id: p.id, nick: p.nick, level: p.level || 0, points: pointsMap[p.id] || 0 }))
+      if(e1) throw e1; if(e2) throw e2; if(e3) throw e3;
+      const pointsMap = {}; (pointsData || []).forEach(p => { pointsMap[p.id] = p.points || 0; });
+      const cupsMap = {}; (cupsData || []).forEach(c => { cupsMap[c.user_id] = (cupsMap[c.user_id] || 0) + 1; });
+      const list = (profilesData || [])
+        .filter(p => (p.level || 0) > 0 || pointsMap[p.id] > 0 || cupsMap[p.id] > 0)
+        .map(p => ({ id: p.id, nick: p.nick, level: p.level || 0, points: pointsMap[p.id] || 0, cups: cupsMap[p.id] || 0, banned: p.banned }))
         .sort((a, b) => { if(b.points !== a.points) return b.points - a.points; if(b.level !== a.level) return b.level - a.level; return 0; });
       window.setParticipantsCount(list.length);
       const podium = $('#lb-podium');
@@ -1147,7 +1281,8 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         const cls = ['first','second','third'][i];
         const card = document.createElement('div');
         card.className = 'podium-card ' + cls;
-        card.innerHTML = '<div class="podium-rank">' + (i+1) + '</div><div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div><div class="podium-level">' + p.points + '</div><div class="podium-level-label">очков</div><div style="color:var(--muted);font-size:11.5px;margin-top:6px">Уровень: ' + p.level + '</div>';
+        card.innerHTML = '<div class="podium-rank">' + (i+1) + '</div><div class="podium-nick">' + escapeHtml(p.nick || '—') + '</div><div class="podium-level">' + p.points + '</div><div class="podium-level-label">очков</div><div style="color:var(--muted);font-size:11.5px;margin-top:6px">Уровень: ' + p.level + (p.cups ? ' · 🏆 ×' + p.cups : '') + '</div>';
+        card.addEventListener('click', () => openUserModal(p.id, true));
         podium.appendChild(card);
       });
       while(podium.children.length < 3){
@@ -1158,21 +1293,25 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       }
       const tb = $('#leaderboard-body');
       tb.replaceChildren();
-      if(!list.length){ tb.innerHTML = '<tr><td colspan="4" class="empty">Пока нет участников</td></tr>'; return; }
+      if(!list.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">Пока нет участников</td></tr>'; return; }
       list.forEach((p, i) => {
         const rank = i + 1;
         const rankCls = rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : '';
         const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.addEventListener('click', () => openUserModal(p.id, true));
         tr.innerHTML =
           '<td><span class="rank-badge ' + rankCls + '">' + rank + '</span></td>' +
-          '<td style="font-weight:600">' + escapeHtml(p.nick || '—') + '</td>' +
+          '<td style="font-weight:600">' + escapeHtml(p.nick || '—') + (p.banned ? ' <span class="status-badge banned">Бан</span>' : '') + '</td>' +
           '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>' + p.points + '</span></td>' +
-          '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + p.level + '</span></td>';
+          '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>' + p.level + '</span></td>' +
+          '<td>' + (p.cups ? '<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-trophy"/></svg>' + p.cups + '</span>' : '<span style="color:var(--muted)">—</span>') + '</td>';
         tb.appendChild(tr);
       });
     }catch(err){ console.error(err); }
   }
 
+  /* ============ CABINET ============ */
   async function loadProfile(){
     if(!sb || !user){ userProfile = null; return; }
     try{
@@ -1197,7 +1336,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     try{ const { data } = await sb.from('moderators').select('email').eq('email', user.email).maybeSingle(); isModeratorFlag = !!data; }
     catch(_){ isModeratorFlag = false; }
   }
-  function renderCabinet(){
+  async function renderCabinet(){
     const logged = !!user;
     $('#cabinet-auth').classList.toggle('hidden', logged);
     $('#cabinet-dashboard').classList.toggle('hidden', !logged);
@@ -1205,6 +1344,28 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     document.querySelector('[data-user-email]').textContent = user.email || '—';
     document.querySelector('[data-user-level]').textContent = userProfile ? (userProfile.level || 0) : 0;
     document.querySelector('[data-user-points]').textContent = profilePoints ? (profilePoints.points || 0) : 0;
+
+    // Кубки
+    const cupsWrap = $('#cabinet-cups');
+    cupsWrap.replaceChildren();
+    const myCups = await loadMyCups();
+    if(!myCups.length){
+      cupsWrap.innerHTML = '<div class="card" style="text-align:center;color:var(--muted);padding:24px"><svg class="i" style="font-size:32px;color:var(--muted);opacity:.5"><use href="#i-trophy"/></svg><p style="margin-top:8px;font-size:13.5px">Пока нет кубков. Участвуй в турнирах и побеждай!</p></div>';
+    } else {
+      myCups.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'cup-card';
+        card.innerHTML =
+          '<div class="cup-icon"><svg class="i" style="font-size:26px"><use href="#i-trophy"/></svg></div>' +
+          '<div class="cup-card-info">' +
+            '<h4>' + escapeHtml(c.title) + '</h4>' +
+            (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') +
+            '<small>Получен: ' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small>' +
+          '</div>';
+        cupsWrap.appendChild(card);
+      });
+    }
+
     const list = $('#cabinet-apps');
     list.replaceChildren();
     if(!myApplications.length){
@@ -1277,10 +1438,241 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
+  /* ============ USER PROFILE MODAL ============ */
+  async function openUserModal(userId, publicView){
+    currentUserId = userId;
+    userModal.classList.remove('hidden');
+    const wrap = $('#um-body'), actions = $('#um-actions');
+    wrap.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">Загрузка…</p>';
+    actions.replaceChildren();
+
+    try{
+      // Профиль
+      const { data: profile } = await sb.from('profiles').select('*').eq('id', userId).maybeSingle();
+      if(!profile){ wrap.innerHTML = '<p style="color:var(--red)">Профиль не найден</p>'; return; }
+      // Очки
+      const { data: points } = await sb.from('profile_points').select('*').eq('id', userId).maybeSingle();
+      // Кубки
+      const { data: cups } = await sb.from('cups').select('*').eq('user_id', userId).order('awarded_at', { ascending: false });
+      // Заявки
+      const { data: apps } = await sb.from('applications').select('*').eq('user_id', userId).order('created_at', { ascending: false });
+
+      const level = profile.level || 0;
+      const pts = (points && points.points) || 0;
+      const cupsArr = cups || [];
+      const appsArr = apps || [];
+
+      $('#um-title').textContent = profile.nick || 'Игрок';
+      $('#um-subtitle').textContent = 'Уровень ' + level + ' · ' + pts + ' очков · ' + cupsArr.length + ' кубков' + (profile.banned ? ' · ЗАБАНЕН' : '');
+
+      let html = '';
+      // Шапка профиля
+      html += '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25)">';
+      html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">' + initials(profile.nick) + '</div>';
+      html += '<div style="flex:1;min-width:0">';
+      html += '<div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">' + escapeHtml(profile.nick || '—') + '</div>';
+      html += '<div style="color:var(--muted);font-size:12.5px">С нами с ' + new Date(profile.created_at).toLocaleDateString('ru-RU') + '</div>';
+      html += '</div>';
+      html += '<div style="display:flex;gap:8px;flex-wrap:wrap">';
+      html += '<span class="user-stat-pill">🔥 ' + level + '</span>';
+      html += '<span class="user-stat-pill gold">🏆 ' + pts + '</span>';
+      if(cupsArr.length) html += '<span class="user-stat-pill gold">🥇 ' + cupsArr.length + '</span>';
+      if(profile.banned) html += '<span class="user-stat-pill red">🚫 Бан</span>';
+      html += '</div></div>';
+
+      // Кубки
+      html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">🏆 Кубки (' + cupsArr.length + ')</h3>';
+      if(cupsArr.length){
+        cupsArr.forEach(c => {
+          const t = tournaments.find(x => x.id === c.tournament_id);
+          html += '<div class="cup-card"><div class="cup-icon"><svg class="i" style="font-size:22px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>' + escapeHtml(c.title) + '</h4>' + (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') + '<small>' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + (t ? ' · Турнир #' + t.number : '') + '</small></div></div>';
+        });
+      } else {
+        html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">Нет кубков</p>';
+      }
+
+      // Заявки
+      html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px">📋 Заявки (' + appsArr.length + ')</h3>';
+      if(appsArr.length){
+        html += '<div style="max-height:220px;overflow-y:auto">';
+        appsArr.slice(0, 20).forEach(a => {
+          const s = stages.find(x => x.id === a.stage_id);
+          const t = tournaments.find(x => x.id === a.tournament_id);
+          const statusLabel = {pending:'На проверке', approved:'✓ Одобрено', rejected:'✕ Отклонено'}[a.status] || a.status;
+          html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.4);margin-bottom:6px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px;align-items:center">';
+          html += '<span style="color:var(--muted)">' + (t ? '#' + t.number + '·' : '') + (s ? '#' + s.number + ' ' + escapeHtml(s.title || '') : '—') + '</span>';
+          html += '<span class="status-badge ' + a.status + '">' + statusLabel + '</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+      } else {
+        html += '<p style="color:var(--muted);font-size:13.5px">Нет заявок</p>';
+      }
+
+      // Бан инфо
+      if(profile.banned){
+        html += '<div style="margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);color:var(--red);font-size:13px">';
+        html += '<b>Забанен.</b> ' + escapeHtml(profile.banned_reason || 'Причина не указана');
+        html += '</div>';
+      }
+
+      wrap.innerHTML = html;
+
+      // Админские действия
+      if(canModerate()){
+        const addBtn = (icon, text, cls, fn) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'btn btn-' + cls;
+          b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg><span>' + text + '</span>';
+          b.addEventListener('click', fn);
+          actions.appendChild(b);
+        };
+        if(isAdmin()){
+          addBtn('i-coins', 'Изм. очки', 'ghost', () => changeUserPoints(userId, pts));
+          addBtn('i-fire', 'Изм. уровень', 'ghost', () => changeUserLevel(userId, level));
+          addBtn('i-edit', 'Ник', 'ghost', () => changeUserNick(userId, profile.nick));
+        }
+        addBtn('i-trophy', 'Вручить кубок', 'gold', () => openCupModal(userId, profile.nick));
+        if(isAdmin()){
+          if(profile.banned){
+            addBtn('i-check', 'Разбанить', 'success', () => unbanUser(userId));
+          } else {
+            addBtn('i-ban', 'Забанить', 'danger', () => banUser(userId));
+          }
+        }
+      }
+      const closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'btn btn-ghost';
+      closeBtn.textContent = 'Закрыть';
+      closeBtn.addEventListener('click', closeUserModal);
+      actions.appendChild(closeBtn);
+    }catch(err){
+      console.error(err);
+      wrap.innerHTML = '<p style="color:var(--red)">Ошибка загрузки профиля</p>';
+    }
+  }
+  function closeUserModal(){
+    userModal.classList.add('hidden');
+    currentUserId = null;
+  }
+  $('#um-close').addEventListener('click', closeUserModal);
+  userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      if(!userModal.classList.contains('hidden')) closeUserModal();
+      if(!cupModal.classList.contains('hidden')) closeCupModal();
+      if(!stageModal.classList.contains('hidden')) closeStageModal();
+    }
+  });
+
+  async function changeUserPoints(userId, current){
+    const v = prompt('Новое количество очков:', current);
+    if(v === null) return;
+    const num = parseInt(v, 10);
+    if(isNaN(num) || num < 0){ toast('Некорректное число', true); return; }
+    // Обновляем через bonuses таблицу — но для простоты используем UPDATE на profile_points невозможно (view).
+    // Используем специальную таблицу adjustments.
+    const { error } = await sb.from('point_adjustments').upsert({ user_id: userId, points: num, updated_at: new Date().toISOString() });
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Очки обновлены');
+    await loadAllUsers();
+    await renderLeaderboard();
+    await openUserModal(userId, false);
+  }
+  async function changeUserLevel(userId, current){
+    const v = prompt('Новый уровень:', current);
+    if(v === null) return;
+    const num = parseInt(v, 10);
+    if(isNaN(num) || num < 0){ toast('Некорректное число', true); return; }
+    const { error } = await sb.from('profiles').update({ level: num }).eq('id', userId);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Уровень обновлён');
+    await loadAllUsers();
+    await renderLeaderboard();
+    await openUserModal(userId, false);
+  }
+  async function changeUserNick(userId, current){
+    const v = prompt('Новый ник:', current || '');
+    if(v === null) return;
+    if(!v.trim()){ toast('Ник не может быть пустым', true); return; }
+    const { error } = await sb.from('profiles').update({ nick: v.trim() }).eq('id', userId);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Ник обновлён');
+    await loadAllUsers();
+    await renderLeaderboard();
+    await openUserModal(userId, false);
+  }
+  async function banUser(userId){
+    const reason = prompt('Причина бана (увидит юзер):', '');
+    if(reason === null) return;
+    const { error } = await sb.from('profiles').update({ banned: true, banned_reason: reason.trim() || null }).eq('id', userId);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Юзер забанен');
+    await loadAllUsers();
+    await renderLeaderboard();
+    await openUserModal(userId, false);
+  }
+  async function unbanUser(userId){
+    const { error } = await sb.from('profiles').update({ banned: false, banned_reason: null }).eq('id', userId);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('Юзер разбанен');
+    await loadAllUsers();
+    await renderLeaderboard();
+    await openUserModal(userId, false);
+  }
+
+  /* ============ CUP MODAL ============ */
+  function openCupModal(userId, nick){
+    cupTargetUserId = userId;
+    cupModal.classList.remove('hidden');
+    $('#cm-subtitle').textContent = 'Игрок: ' + (nick || '—');
+    $('#cm-name').value = '';
+    $('#cm-desc').value = '';
+    const sel = $('#cm-tournament');
+    sel.innerHTML = '<option value="">— не привязывать —</option>';
+    tournaments.forEach(t => {
+      const o = document.createElement('option');
+      o.value = t.id;
+      o.textContent = '#' + t.number + ' ' + (t.title || '');
+      sel.appendChild(o);
+    });
+    setTimeout(() => $('#cm-name').focus(), 100);
+  }
+  function closeCupModal(){
+    cupModal.classList.add('hidden');
+    cupTargetUserId = null;
+  }
+  $('#cm-close').addEventListener('click', closeCupModal);
+  $('#cm-cancel').addEventListener('click', closeCupModal);
+  cupModal.addEventListener('click', e => { if(e.target === cupModal) closeCupModal(); });
+  $('#cm-save').addEventListener('click', async () => {
+    const name = $('#cm-name').value.trim();
+    if(!name){ toast('Укажи название кубка', true); return; }
+    const desc = $('#cm-desc').value.trim();
+    const tId = $('#cm-tournament').value || null;
+    const { error } = await sb.from('cups').insert([{
+      user_id: cupTargetUserId,
+      title: name,
+      description: desc || null,
+      tournament_id: tId,
+      awarded_by: user.email
+    }]);
+    if(error){ toast('Ошибка: ' + error.message, true); return; }
+    toast('🏆 Кубок вручён!');
+    closeCupModal();
+    await loadAllCups();
+    await renderLeaderboard();
+    if(currentUserId) await openUserModal(currentUserId, false);
+    if(current === 'admin') renderAdmin();
+  });
+
+  /* ============ ADMIN ============ */
   $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
     adminTab = b.dataset.adminTab;
     $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-    ['dashboard','tournaments','apps','log','moderators'].forEach(tab => {
+    ['dashboard','tournaments','apps','users','cups','log','moderators'].forEach(tab => {
       const el = document.getElementById('admin-' + tab);
       if(el) el.classList.toggle('hidden', tab !== adminTab);
     });
@@ -1291,10 +1683,14 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     navAdmin.classList.remove('hidden');
     $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
     $('#tab-moderators').classList.toggle('hidden', !isAdmin());
-    if(!isAdmin() && (adminTab === 'tournaments' || adminTab === 'moderators')) adminTab = 'dashboard';
+    $('#tab-users').classList.toggle('hidden', !isAdmin());
+    $('#tab-cups').classList.toggle('hidden', !isAdmin());
+    if(!isAdmin() && ['tournaments','moderators','users','cups'].includes(adminTab)) adminTab = 'dashboard';
     if(adminTab === 'dashboard') renderDashboard();
     else if(adminTab === 'tournaments') renderAdminTournaments();
     else if(adminTab === 'apps') renderAdminApps();
+    else if(adminTab === 'users') renderAdminUsers();
+    else if(adminTab === 'cups') renderAdminCups();
     else if(adminTab === 'log') renderAdminLog();
     else if(adminTab === 'moderators') renderAdminModerators();
   }
@@ -1302,6 +1698,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   async function renderDashboard(){
     await loadAdminApps();
     await loadAdminLog();
+    await loadAllUsers();
     updateAdminStats();
     renderDashChart(); renderDashModerators(); renderDashRecent();
   }
@@ -1319,8 +1716,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     navAdminBadge.classList.toggle('hidden', pending === 0);
   }
   function renderDashChart(){
-    const wrap = $('#dash-chart');
-    wrap.replaceChildren();
+    const wrap = $('#dash-chart'); wrap.replaceChildren();
     const days = [];
     for(let i = 6; i >= 0; i--){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - i); days.push(d); }
     const counts = days.map(d => { const next = new Date(d); next.setDate(next.getDate() + 1); return adminApps.filter(a => { const t = new Date(a.created_at).getTime(); return t >= d.getTime() && t < next.getTime(); }).length; });
@@ -1335,8 +1731,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
   function renderDashModerators(){
-    const wrap = $('#dash-moderators');
-    wrap.replaceChildren();
+    const wrap = $('#dash-moderators'); wrap.replaceChildren();
     const counts = {};
     adminLog.filter(l => l.action === 'approve' || l.action === 'reject').forEach(l => { const e = l.admin_email || 'system'; counts[e] = (counts[e] || 0) + 1; });
     const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5);
@@ -1349,8 +1744,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
   function renderDashRecent(){
-    const wrap = $('#dash-recent');
-    wrap.replaceChildren();
+    const wrap = $('#dash-recent'); wrap.replaceChildren();
     const recent = adminLog.slice(0, 8);
     if(!recent.length){ wrap.innerHTML = '<p style="color:var(--muted);font-size:13px">Пока нет действий</p>'; return; }
     recent.forEach(l => {
@@ -1365,6 +1759,84 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     });
   }
 
+  /* ============ ADMIN USERS ============ */
+  async function renderAdminUsers(){
+    await loadAllUsers();
+    const wrap = $('#admin-users-list');
+    wrap.replaceChildren();
+    let list = allUsers.slice();
+    if(usersFilter === 'banned') list = list.filter(u => u.banned);
+    else if(usersFilter === 'top') list = list.filter(u => u.points > 0);
+    if(usersSearch){
+      const q = usersSearch.toLowerCase();
+      list = list.filter(u => (u.nick||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
+    }
+    if(!list.length){
+      wrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-users"/></svg></div><h2>Юзеров нет</h2><p>По фильтру ничего не нашлось.</p></div>';
+      return;
+    }
+    list.forEach(u => {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML =
+        '<div class="user-avatar">' + initials(u.nick) + '</div>' +
+        '<div class="user-info"><b>' + escapeHtml(u.nick || '—') + (u.banned ? ' <span class="status-badge banned">Бан</span>' : '') + '</b><small>' + escapeHtml(u.email || '—') + '</small></div>' +
+        '<div class="user-stats">' +
+          '<span class="user-stat-pill">🔥 ' + (u.level||0) + '</span>' +
+          '<span class="user-stat-pill gold">🏆 ' + (u.points||0) + '</span>' +
+          (u.cups_count ? '<span class="user-stat-pill gold">🥇 ' + u.cups_count + '</span>' : '') +
+        '</div>';
+      card.addEventListener('click', () => openUserModal(u.id, false));
+      wrap.appendChild(card);
+    });
+  }
+  $('#users-search').addEventListener('input', e => { usersSearch = e.target.value.trim(); renderAdminUsers(); });
+  $$('[data-user-filter]').forEach(b => b.addEventListener('click', () => {
+    $$('[data-user-filter]').forEach(x => x.classList.toggle('active', x === b));
+    usersFilter = b.dataset.userFilter;
+    renderAdminUsers();
+  }));
+
+  /* ============ ADMIN CUPS ============ */
+  async function renderAdminCups(){
+    await loadAllCups();
+    await loadTournaments();
+    const wrap = $('#admin-cups-list');
+    wrap.replaceChildren();
+    if(!allCups.length){
+      wrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-trophy"/></svg></div><h2>Кубков пока нет</h2><p>Вручи первый кубок из профиля юзера.</p></div>';
+      return;
+    }
+    allCups.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'cup-card';
+      const t = c.tournament_number ? 'Турнир #' + c.tournament_number : '';
+      card.innerHTML =
+        '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div>' +
+        '<div class="cup-card-info">' +
+          '<h4>' + escapeHtml(c.title) + '</h4>' +
+          '<p><b style="color:var(--text)">' + escapeHtml(c.nick || '—') + '</b>' + (t ? ' · ' + t : '') + '</p>' +
+          (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') +
+          '<small>' + new Date(c.awarded_at).toLocaleDateString('ru-RU') + '</small>' +
+        '</div>';
+      const delBtn = document.createElement('button');
+      delBtn.className = 'btn btn-danger btn-sm';
+      delBtn.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+      delBtn.title = 'Удалить кубок';
+      delBtn.addEventListener('click', async () => {
+        if(!confirm('Удалить кубок «' + c.title + '» у ' + c.nick + '?')) return;
+        const { error } = await sb.from('cups').delete().eq('id', c.id);
+        if(error){ toast('Ошибка', true); return; }
+        toast('Кубок удалён');
+        await loadAllCups();
+        renderAdminCups();
+      });
+      card.appendChild(delBtn);
+      wrap.appendChild(card);
+    });
+  }
+
+  /* ============ ADMIN TOURNAMENTS ============ */
   async function renderAdminTournaments(){
     await loadTournaments();
     await loadStages();
@@ -1434,7 +1906,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       else if(action === 's-add') openStageModal(null, tid, true);
     };
   }
-
   async function updateTournament(id, patch){
     const { error } = await sb.from('tournaments').update(patch).eq('id', id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
@@ -1495,9 +1966,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     renderAdminTournaments();
   });
 
+  /* ============ STAGE MODAL ============ */
   function openStageModal(stageId, tournamentId, isNew){
-    modalStageId = stageId;
-    modalIsNew = !!isNew;
+    modalStageId = stageId; modalIsNew = !!isNew;
     const s = stageId ? stages.find(x => x.id === stageId) : null;
     modalTournamentId = isNew ? tournamentId : (s ? s.tournament_id : null);
     const t = tournaments.find(x => x.id === modalTournamentId);
@@ -1527,7 +1998,6 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   $('#modal-close').addEventListener('click', closeStageModal);
   $('#modal-cancel').addEventListener('click', closeStageModal);
   stageModal.addEventListener('click', e => { if(e.target === stageModal) closeStageModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !stageModal.classList.contains('hidden')) closeStageModal(); });
   $('#modal-save').addEventListener('click', async () => {
     const title = $('#m-title').value.trim();
     const number = parseInt($('#m-number').value, 10);
@@ -1538,8 +2008,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const deadlineRaw = $('#m-deadline').value;
     const maxRaw = $('#m-max').value;
     const payload = {
-      tournament_id: modalTournamentId,
-      number, title,
+      tournament_id: modalTournamentId, number, title,
       description: $('#m-desc').value.trim() || null,
       task: $('#m-task').value.trim() || null,
       rules: $('#m-rules').value.trim() || null,
@@ -1552,8 +2021,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       max_participants: maxRaw ? parseInt(maxRaw, 10) : null,
       deadline: deadlineRaw ? new Date(deadlineRaw).toISOString() : null
     };
-    const btn = $('#modal-save');
-    btn.disabled = true;
+    const btn = $('#modal-save'); btn.disabled = true;
     try{
       if(modalIsNew){
         payload.status = 'draft';
@@ -1575,6 +2043,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     }finally{ btn.disabled = false; }
   });
 
+  /* ============ ADMIN APPS ============ */
   async function loadAdminApps(){
     if(!sb || !canModerate()){ adminApps = []; return; }
     try{ const { data, error } = await sb.from('applications').select('*').order('created_at', { ascending: false }); if(error) throw error; adminApps = data || []; }
@@ -1584,22 +2053,19 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     loadAdminApps().then(() => { renderTournamentFilter(); renderStageFilter(); updateAdminStats(); renderAdminTable(); });
   }
   function renderTournamentFilter(){
-    const sel = $('#admin-tournament-filter');
-    const cur = sel.value;
+    const sel = $('#admin-tournament-filter'); const cur = sel.value;
     sel.innerHTML = '<option value="all">Все турниры</option>';
     tournaments.forEach(t => { const o = document.createElement('option'); o.value = t.id; o.textContent = '#' + t.number + ' ' + (t.title || ''); sel.appendChild(o); });
     if(tournaments.some(t => t.id === cur)) sel.value = cur;
   }
   function renderStageFilter(){
-    const sel = $('#admin-stage-filter');
-    const cur = sel.value;
+    const sel = $('#admin-stage-filter'); const cur = sel.value;
     sel.innerHTML = '<option value="all">Все этапы</option>';
     let list = stages;
     if(adminTournamentFilter !== 'all') list = stages.filter(s => s.tournament_id === adminTournamentFilter);
     list.sort((a,b) => a.number - b.number).forEach(s => {
       const t = tournaments.find(x => x.id === s.tournament_id);
-      const o = document.createElement('option');
-      o.value = s.id;
+      const o = document.createElement('option'); o.value = s.id;
       o.textContent = '#' + (t ? t.number : '?') + '·' + s.number + ' ' + (s.title || '');
       sel.appendChild(o);
     });
@@ -1646,13 +2112,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   function renderAdminTable(){
     const list = applyFilters();
-    const tb = $('#admin-body'), mobileList = $('#admin-mobile-list');
-    tb.replaceChildren(); mobileList.replaceChildren();
-    if(!list.length){
-      tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>';
-      mobileList.innerHTML = '<div class="admin-mobile-card" style="text-align:center;color:var(--muted)">Заявок нет</div>';
-      return;
-    }
+    const tb = $('#admin-body');
+    tb.replaceChildren();
+    if(!list.length){ tb.innerHTML = '<tr><td colspan="8" class="empty">Заявок нет</td></tr>'; return; }
     list.forEach(a => {
       const stage = stages.find(s => s.id === a.stage_id);
       const t = tournaments.find(x => x.id === a.tournament_id);
@@ -1665,7 +2127,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(a.created_at) + '</td>' +
         '<td style="min-width:150px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--blue-2)">#' + (t ? t.number : '—') + '</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">' + escapeHtml(t ? (t.title || '') : '') + '</div></td>' +
         '<td style="min-width:140px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--green)">#' + (stage ? stage.number : '—') + '</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">' + escapeHtml(stage ? (stage.title || '') : '') + '</div></td>' +
-        '<td style="font-weight:600">' + escapeHtml(a.nick || '—') + '</td>' +
+        '<td style="font-weight:600;cursor:pointer" data-open-user="' + a.user_id + '">' + escapeHtml(a.nick || '—') + '</td>' +
         '<td style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</td>';
       const tdVideo = document.createElement('td');
       if(a.video){
@@ -1692,29 +2154,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       tdActions.appendChild(buildActions(a));
       tr.appendChild(tdActions);
       tb.appendChild(tr);
-      const card = document.createElement('div');
-      card.className = 'admin-mobile-card';
-      card.innerHTML =
-        '<div class="row"><b>Дата</b><span>' + timeAgo(a.created_at) + '</span></div>' +
-        '<div class="row"><b>Турнир</b><span><b style="color:var(--blue-2)">#' + (t ? t.number : '—') + '</b> ' + escapeHtml(t ? (t.title || '') : '') + '</span></div>' +
-        '<div class="row"><b>Этап</b><span><b style="color:var(--green)">#' + (stage ? stage.number : '—') + '</b> ' + escapeHtml(stage ? (stage.title || '') : '') + '</span></div>' +
-        '<div class="row"><b>Ник</b><span style="font-weight:600">' + escapeHtml(a.nick || '—') + '</span></div>' +
-        '<div class="row"><b>Контакты</b><span style="font-size:12px">' + escapeHtml(contacts.join(' · ')) + '</span></div>' +
-        '<div class="row"><b>Статус</b><span class="status-badge ' + a.status + '">' + ({pending:'На проверке', approved:'Одобрено', rejected:'Отклонено'}[a.status] || a.status) + '</span></div>' +
-        (a.admin_comment ? '<div style="padding:8px 0;font-size:12px;color:var(--muted)">💬 ' + escapeHtml(a.admin_comment) + '</div>' : '');
-      const actions = document.createElement('div');
-      actions.className = 'actions';
-      if(a.video){
-        const v = document.createElement('a');
-        v.className = 'btn btn-ghost';
-        v.href = a.video; v.target = '_blank'; v.rel = 'noopener';
-        v.innerHTML = '<svg class="i"><use href="#i-play"/></svg> Видео';
-        actions.appendChild(v);
-      }
-      actions.appendChild(buildActions(a));
-      card.appendChild(actions);
-      mobileList.appendChild(card);
     });
+    // Делегирование клика на ник
+    tb.onclick = e => {
+      const userId = e.target.dataset && e.target.dataset.openUser;
+      if(userId){ openUserModal(userId, false); }
+    };
   }
   function buildActions(a){
     const wrap = document.createElement('div');
@@ -1749,10 +2194,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       const { error } = await sb.from('applications').delete().eq('id', a.id);
       if(error){ toast('Ошибка', true); return; }
       toast('Удалено');
-      await loadAdminApps();
-      updateAdminStats();
-      renderAdminTable();
-      await renderLeaderboard();
+      await loadAdminApps(); updateAdminStats(); renderAdminTable(); await renderLeaderboard();
     });
     wrap.appendChild(dl);
     return wrap;
@@ -1763,8 +2205,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const { error } = await sb.from('applications').update({ admin_comment: newComment.trim() || null }).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast('Комментарий сохранён');
-    await loadAdminApps();
-    renderAdminTable();
+    await loadAdminApps(); renderAdminTable();
   }
   async function updateAppStatus(a, newStatus){
     let comment = a.admin_comment || '';
@@ -1776,15 +2217,12 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     const { error } = await sb.from('applications').update(patch).eq('id', a.id);
     if(error){ toast('Ошибка: ' + error.message, true); return; }
     toast(newStatus === 'approved' ? '✓ Одобрено' : '✕ Отклонено');
-    await loadAdminApps();
-    updateAdminStats();
-    renderAdminTable();
-    await renderLeaderboard();
-    await loadMyApplications();
-    await loadProfilePoints();
+    await loadAdminApps(); updateAdminStats(); renderAdminTable(); await renderLeaderboard();
+    await loadMyApplications(); await loadProfilePoints();
     if(adminTab === 'dashboard') renderDashboard();
   }
 
+  /* ============ ADMIN LOG / MODERATORS ============ */
   async function loadAdminLog(){
     if(!sb || !canModerate()){ adminLog = []; return; }
     try{ const { data, error } = await sb.from('admin_log').select('*').order('created_at', { ascending: false }).limit(200); if(error) throw error; adminLog = data || []; }
@@ -1792,14 +2230,13 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   async function renderAdminLog(){
     await loadAdminLog();
-    const tb = $('#admin-log-body');
-    tb.replaceChildren();
+    const tb = $('#admin-log-body'); tb.replaceChildren();
     if(!adminLog.length){ tb.innerHTML = '<tr><td colspan="4" class="empty">Действий пока нет</td></tr>'; return; }
     adminLog.forEach(l => {
       const d = l.details || {};
       const tr = document.createElement('tr');
       const actionLabel = l.action === 'approve' ? '✓ Одобрил' : l.action === 'reject' ? '✕ Отклонил' : l.action;
-      tr.innerHTML = '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(l.created_at) + '</td><td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td><td style="font-weight:600">' + actionLabel + '</td><td style="font-size:12px;color:var(--muted)">' + (d.nick ? 'Ник: ' + escapeHtml(d.nick) : '') + (d.from ? ' · ' + escapeHtml(d.from) + ' → ' + escapeHtml(d.to) : '') + '</td>';
+      tr.innerHTML = '<td style="font-size:12px;color:var(--muted);white-space:nowrap">' + timeAgo(l.created_at) + '</td><td style="font-size:12.5px">' + escapeHtml(l.admin_email || 'system') + '</td><td style="font-weight:600">' + actionLabel + '</td><td style="font-size:12px;color:var(--muted)">' + (d.nick ? 'Ник: ' + escapeHtml(d.nick) : '') + '</td>';
       tb.appendChild(tr);
     });
   }
@@ -1810,8 +2247,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
   }
   async function renderAdminModerators(){
     await loadModerators();
-    const tb = $('#admin-mods-body');
-    tb.replaceChildren();
+    const tb = $('#admin-mods-body'); tb.replaceChildren();
     if(!moderators.length){ tb.innerHTML = '<tr><td colspan="3" class="empty">Модераторов пока нет</td></tr>'; return; }
     moderators.forEach(m => {
       const tr = document.createElement('tr');
@@ -1824,12 +2260,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
         if(!confirm('Убрать модератора ' + m.email + '?')) return;
         const { error } = await sb.from('moderators').delete().eq('id', m.id);
         if(error){ toast('Ошибка', true); return; }
-        toast('Удалено');
-        await renderAdminModerators();
+        toast('Удалено'); await renderAdminModerators();
       });
-      td.appendChild(btn);
-      tr.appendChild(td);
-      tb.appendChild(tr);
+      td.appendChild(btn); tr.appendChild(td); tb.appendChild(tr);
     });
   }
   $('#add-mod-btn').addEventListener('click', async () => {
@@ -1843,16 +2276,15 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
       return;
     }
     $('#new-mod-email').value = '';
-    toast('Модератор добавлен');
-    await renderAdminModerators();
+    toast('Модератор добавлен'); await renderAdminModerators();
   });
 
+  /* ============ AUTH ============ */
   $$('[data-auth-tab]').forEach(b => b.addEventListener('click', () => {
     $$('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === b));
     $('#login-form').classList.toggle('hidden', b.dataset.authTab !== 'login');
     $('#register-form').classList.toggle('hidden', b.dataset.authTab !== 'register');
-    $('#login-error').textContent = '';
-    $('#register-error').textContent = '';
+    $('#login-error').textContent = ''; $('#register-error').textContent = '';
   }));
   function setAuthError(which, msg){
     const el = $('#' + which + '-error');
@@ -1932,9 +2364,9 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
     await loadStages();
     await loadMyApplications();
     await loadProfilePoints();
-    if(canModerate()) await loadAdminApps();
+    if(canModerate()){ await loadAdminApps(); await loadAllUsers(); }
     if(isAdmin()) await loadModerators();
-    renderCabinet();
+    await renderCabinet();
     renderAdmin();
     renderHomeActiveStage();
     updateAdminStats();
