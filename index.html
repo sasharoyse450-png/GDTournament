@@ -131,6 +131,12 @@ main{flex:1}
 .t-progress-seg.done{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .t-progress-seg.current{background:linear-gradient(180deg,#2a98ff,#1169e8)}
 .t-stages-count{font-size:12px;color:var(--muted)}
+.t-join{padding:12px 16px;border-radius:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;font-size:13px}
+.t-join.pending{background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.35);color:var(--gold)}
+.t-join.approved{background:rgba(47,212,138,.08);border:1px solid rgba(47,212,138,.35);color:var(--green)}
+.t-join.rejected{background:rgba(255,93,115,.08);border:1px solid rgba(255,93,115,.35);color:var(--red)}
+.t-join-seats{margin-top:6px;padding:10px 14px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:12.5px;color:var(--blue-2);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.t-join-seats.full{background:rgba(255,93,115,.08);border-color:rgba(255,93,115,.3);color:var(--red)}
 .stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
 .stage-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));padding:22px;display:flex;flex-direction:column;gap:12px}
 .stage-card:hover{transform:translateY(-3px)}
@@ -444,8 +450,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h2 data-i18n="home.how">Как принять участие</h2>
       <div class="steps">
         <a class="card step" href="#rules"><div class="num">1</div><h3 data-i18n="home.s1.t">Изучи правила</h3><p data-i18n="home.s1.p">Формат турнира, запреты и условия участия.</p><span class="go"><span data-i18n="home.s1.go">К правилам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#tournaments"><div class="num">2</div><h3 data-i18n="home.s2.t">Выбери турнир и этап</h3><p data-i18n="home.s2.p">Открытые турниры с этапами внутри.</p><span class="go"><span data-i18n="home.s2.go">К турнирам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
-        <a class="card step" href="#docs"><div class="num">3</div><h3 data-i18n="home.s3.t">Подготовь видео</h3><p data-i18n="home.s3.p">Запись игры с хенд камом и чит индикатором.</p><span class="go"><span data-i18n="home.s3.go">К документам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#tournaments"><div class="num">2</div><h3 data-i18n="home.s2.t">Выбери турнир и подай заявку</h3><p data-i18n="home.s2.p">Заполни анкету — админ рассмотрит и примет решение.</p><span class="go"><span data-i18n="home.s2.go">К турнирам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
+        <a class="card step" href="#docs"><div class="num">3</div><h3 data-i18n="home.s3.t">Подготовь видео</h3><p data-i18n="home.s3.p">После одобрения подаёшь видео на этапы.</p><span class="go"><span data-i18n="home.s3.go">К документам</span> <svg class="i"><use href="#i-arrow"/></svg></span></a>
       </div>
     </div>
     <div class="features">
@@ -465,8 +471,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3 data-i18n="rules.r1.t">Общие положения</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3 data-i18n="rules.r2.t">Формат турнира</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r2.p">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3 data-i18n="rules.r3.t">Запрещено</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r3.p">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация и бан устройства.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3 data-i18n="rules.r4.t">Доступ к этапу</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r4.p">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.</p></div></article>
-        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3 data-i18n="rules.r5.t">Очки и уровень</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r5.p">Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">4</div><div><h3 data-i18n="rules.r4.t">Доступ к турниру</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r4.p">Чтобы получить доступ к этапам, нужно подать заявку на участие и получить одобрение администратора.</p></div></article>
+        <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">5</div><div><h3 data-i18n="rules.r5.t">Доступ к этапам</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r5.p">Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">6</div><div><h3 data-i18n="rules.r6.t">Кубки</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r6.p">За победы организаторы вручают именные кубки. Они отображаются в профиле игрока.</p></div></article>
       </div>
     </div>
@@ -475,7 +481,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 
 <section class="page" id="page-tournaments">
   <div class="wrap">
-    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></div><h1 data-i18n="tournaments.title">Турниры</h1><p data-i18n="tournaments.lead">Выбери турнир. Внутри каждого — этапы. Доступ к следующему этапу после одобрения предыдущего.</p></div>
+    <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></div><h1 data-i18n="tournaments.title">Турниры</h1><p data-i18n="tournaments.lead">Подай заявку на участие в турнире. После одобрения администратором откроются этапы.</p></div>
     <div class="page-body"><div class="tournaments-grid" id="tournaments-grid"></div></div>
   </div>
 </section>
@@ -488,6 +494,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <h1 id="t-page-title">Турнир</h1>
       <p id="t-page-desc">—</p>
       <div id="t-page-progress" style="margin-top:16px"></div>
+      <div id="t-page-reg" style="margin-top:12px"></div>
     </div>
     <div class="page-body"><div class="stages-grid" id="stages-grid"></div></div>
   </div>
@@ -506,7 +513,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
     <div class="page-body">
       <div id="apply-gate" class="card hidden"><div class="empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2 data-i18n="apply.gate.t">Нужен аккаунт</h2><p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку.</p><a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.btn">Войти / Регистрация</span></a></div></div>
-      <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2 data-i18n="apply.blocked.t">Этап заблокирован</h2><p id="apply-blocked-reason" data-i18n="apply.blocked.p">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
+      <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2 id="apply-blocked-title" data-i18n="apply.blocked.t">Этап заблокирован</h2><p id="apply-blocked-reason" data-i18n="apply.blocked.p">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       <div id="apply-notfound" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div><h2 data-i18n="apply.notfound.t">Этап не выбран</h2><p data-i18n="apply.notfound.p">Выбери турнир и этап на странице «Турниры».</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       <div id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
         <div class="card">
@@ -604,7 +611,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <p class="auth-note" data-i18n-html="auth.register.note">Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.</p>
             </form>
           </div>
-          <aside class="card"><h3 style="font-size:17px" data-i18n="cab.why.t">Зачем аккаунт?</h3><ul class="aside-list"><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.1">Подать видео на этапы</span></li><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.2">Получать кубки и очки</span></li><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.3">Отслеживать статус заявок</span></li></ul></aside>
+          <aside class="card"><h3 style="font-size:17px" data-i18n="cab.why.t">Зачем аккаунт?</h3><ul class="aside-list"><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.1">Подать заявку на участие в турнире</span></li><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.2">Получать кубки и очки</span></li><li><svg class="i"><use href="#i-check"/></svg><span data-i18n="cab.why.3">Отслеживать статус заявок</span></li></ul></aside>
         </div>
       </div>
     </div>
@@ -630,7 +637,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <h2 style="font-size:20px;margin-bottom:16px;display:flex;align-items:center;gap:10px"><svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg> <span data-i18n="cab.cups">Мои кубки</span></h2>
         <div id="cabinet-cups" style="margin-bottom:26px"></div>
-        <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.apps">Мои заявки</h2>
+        <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.regs">Мои заявки на турниры</h2>
+        <div class="app-list" id="cabinet-regs" style="margin-bottom:26px"></div>
+        <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.apps">Заявки на этапы</h2>
         <div class="app-list" id="cabinet-apps"></div>
       </div>
     </div>
@@ -655,8 +664,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-body">
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active" data-i18n="admin.tab.dashboard">Дашборд</button>
+        <button type="button" data-admin-tab="regs" id="tab-regs" data-i18n="admin.tab.regs">Заявки на турниры</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
-        <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки</button>
+        <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
         <button type="button" data-admin-tab="users" id="tab-users" data-i18n="admin.tab.users">Юзеры</button>
         <button type="button" data-admin-tab="cups" id="tab-cups" data-i18n="admin.tab.cups">Кубки</button>
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
@@ -672,6 +682,25 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <div class="dash-grid">
           <div class="dash-card"><h3><svg class="i"><use href="#i-chart"/></svg> <span data-i18n="admin.chart.title">Заявок за 7 дней</span></h3><div class="dash-bar-chart" id="dash-chart"></div></div>
           <div class="dash-card"><h3><svg class="i"><use href="#i-activity"/></svg> <span data-i18n="admin.recent.title">Последние действия</span></h3><div class="dash-recent" id="dash-recent"></div></div>
+        </div>
+      </div>
+      <div id="admin-regs" class="hidden">
+        <div class="admin-filters">
+          <input type="search" id="regs-search" data-i18n-ph="admin.search" placeholder="Поиск...">
+          <select id="regs-tournament-filter"><option value="all" data-i18n="admin.allTournaments">Все турниры</option></select>
+          <button type="button" data-reg-filter="all" class="active" data-i18n="admin.filter.all">Все</button>
+          <button type="button" data-reg-filter="pending" data-i18n="admin.filter.pending">На проверке</button>
+          <button type="button" data-reg-filter="approved" data-i18n="admin.filter.approved">Одобренные</button>
+          <button type="button" data-reg-filter="rejected" data-i18n="admin.filter.rejected">Отклонённые</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="refresh-regs-btn"><svg class="i"><use href="#i-refresh"/></svg></button>
+        </div>
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th data-i18n="admin.th.date">Дата</th><th data-i18n="admin.th.tournament">Турнир</th><th data-i18n="admin.th.nick">Ник</th><th data-i18n="admin.th.contacts">Контакты</th><th data-i18n="admin.th.platform">Устройство</th><th data-i18n="admin.th.motivation">Мотивация</th><th data-i18n="admin.th.status">Статус</th><th data-i18n="admin.th.actions">Действия</th></tr></thead>
+              <tbody id="admin-regs-body"></tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div id="admin-tournaments" class="hidden">
@@ -755,6 +784,44 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: заявка на участие в турнире -->
+<div class="modal-back hidden" id="reg-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 id="reg-modal-title">Заявка на участие</h2>
+        <p id="reg-modal-subtitle">—</p>
+      </div>
+      <button class="modal-close" id="reg-modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label for="reg-nick">Ваш ник в Geometry Dash</label>
+        <input class="input" type="text" id="reg-nick" readonly>
+        <span class="hint">Ник берётся из профиля. Меняется в кабинете.</span>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="reg-telegram">Telegram <span class="req">*</span></label><input class="input" type="text" id="reg-telegram" placeholder="@username" maxlength="33"></div>
+        <div class="field"><label for="reg-discord">Discord</label><input class="input" type="text" id="reg-discord" placeholder="username#1234" maxlength="40"></div>
+      </div>
+      <div class="field">
+        <label for="reg-platform">Устройство <span class="req">*</span></label>
+        <select class="input" id="reg-platform"><option value="PC" selected>PC</option><option value="Mobile">Mobile</option><option value="Console">Console</option></select>
+      </div>
+      <div class="field">
+        <label for="reg-motivation">Почему хотите участвовать? <span class="req">*</span></label>
+        <textarea class="input" id="reg-motivation" placeholder="1–3 предложения" maxlength="600" style="height:90px"></textarea>
+        <span class="hint">Минимум 20 символов.</span>
+      </div>
+      <div class="error" id="reg-modal-error"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="reg-modal-cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="reg-modal-submit"><svg class="i"><use href="#i-send"/></svg><span>Отправить заявку</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="modal-title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -818,8 +885,8 @@ const I18N = {
     'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','home.active.title':'🎥 Сейчас открыт приём видео','home.active.btn':'Подать видео','stat.participants':'Участников',
     'home.how':'Как принять участие',
     'home.s1.t':'Изучи правила','home.s1.p':'Формат турнира, запреты и условия участия.','home.s1.go':'К правилам',
-    'home.s2.t':'Выбери турнир и этап','home.s2.p':'Открытые турниры с этапами внутри.','home.s2.go':'К турнирам',
-    'home.s3.t':'Подготовь видео','home.s3.p':'Запись игры с хенд камом и чит индикатором.','home.s3.go':'К документам',
+    'home.s2.t':'Выбери турнир и подай заявку','home.s2.p':'Заполни анкету — админ рассмотрит и примет решение.','home.s2.go':'К турнирам',
+    'home.s3.t':'Подготовь видео','home.s3.p':'После одобрения подаёшь видео на этапы.','home.s3.go':'К документам',
     'feat.1.t':'Честная игра','feat.1.d':'Строгая проверка записей.',
     'feat.2.t':'Этапы в турнире','feat.2.d':'Пройди все — стань чемпионом.',
     'feat.3.t':'Очки за этапы','feat.3.d':'У каждого этапа своя награда.',
@@ -828,14 +895,19 @@ const I18N = {
     'rules.r1.t':'Общие положения','rules.r1.p':'Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.',
     'rules.r2.t':'Формат турнира','rules.r2.p':'Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.',
     'rules.r3.t':'Запрещено','rules.r3.p':'Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация и бан устройства.',
-    'rules.r4.t':'Доступ к этапу','rules.r4.p':'Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.',
-    'rules.r5.t':'Очки и уровень','rules.r5.p':'Уровень = число одобренных этапов. Очки зависят от награды за каждый этап.',
+    'rules.r4.t':'Доступ к турниру','rules.r4.p':'Чтобы получить доступ к этапам, нужно подать заявку на участие и получить одобрение администратора.',
+    'rules.r5.t':'Доступ к этапам','rules.r5.p':'Чтобы подать на этап N, нужно одобрение этапа N−1 в этом же турнире.',
     'rules.r6.t':'Кубки','rules.r6.p':'За победы организаторы вручают именные кубки. Они отображаются в профиле игрока.',
-    'tournaments.title':'Турниры','tournaments.lead':'Выбери турнир. Внутри каждого — этапы. Доступ к следующему этапу после одобрения предыдущего.',
+    'tournaments.title':'Турниры','tournaments.lead':'Подай заявку на участие в турнире. После одобрения администратором откроются этапы.',
+    'tournament.join.btn':'Принять участие','tournament.join.btnAgain':'Заявка отклонена — переподать','tournament.join.pending':'⏳ Заявка на проверке','tournament.join.approved':'✓ Вы приняты','tournament.join.rejected':'✕ Заявка отклонена','tournament.join.status':'Ваш статус:',
+    'tournament.seats':'Принято:','tournament.seats.full':'Мест нет','tournament.open.stages':'Открыть этапы',
+    'reg.title':'Заявка на участие','reg.subtitle':'Заполни анкету. Админ рассмотрит и примет решение.',
+    'reg.nick':'Ваш ник в Geometry Dash','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Устройство','reg.motivation':'Почему хотите участвовать?','reg.submit':'Отправить заявку','reg.sending':'Отправляем…',
+    'reg.err.tg':'Укажи Telegram (@username, 5+ символов)','reg.err.motiv':'Расскажи, почему хочешь участвовать (минимум 20 символов)','reg.success':'Заявка отправлена! Жди решения админа.','reg.already':'Заявка уже отправлена',
     'apply.eyebrow':'Подача видео','apply.title':'Форма подачи заявки','apply.lead':'Заполни все поля внимательно.',
     'apply.tournament':'Турнир','apply.stage':'Этап',
     'apply.gate.t':'Нужен аккаунт','apply.gate.p':'Войдите или зарегистрируйтесь, чтобы подать заявку.','apply.gate.btn':'Войти / Регистрация',
-    'apply.blocked.t':'Этап заблокирован','apply.blocked.p':'Пройди предыдущие этапы.',
+    'apply.blocked.t':'Этап заблокирован','apply.blocked.p':'Пройди предыдущие этапы.','apply.blocked.noreg':'Ты не принят на этот турнир. Подай заявку на участие.',
     'apply.notfound.t':'Этап не выбран','apply.notfound.p':'Выбери турнир и этап на странице «Турниры».',
     'apply.edit.banner':'Режим редактирования заявки',
     'form.nick':'Ваш ник в Geometry Dash','form.nick.hint':'Ник берётся из профиля. Изменить можно в кабинете.',
@@ -852,10 +924,11 @@ const I18N = {
     'activity.title':'Лента активности','activity.lead':'Что происходит в турнире прямо сейчас.','activity.empty':'Пока ничего не произошло.',
     'cab.title':'Личный кабинет','cab.lead':'Войдите или зарегистрируйтесь.','cab.signedAs':'Вы вошли как','cab.logout':'Выйти',
     'cab.level':'Уровень','cab.level.desc':'Число одобренных этапов','cab.points':'Очки','cab.points.desc':'Сумма очков за этапы',
-    'cab.cups':'Мои кубки','cab.apps':'Мои заявки','cab.noCups':'Пока нет кубков. Участвуй в турнирах и побеждай!',
+    'cab.cups':'Мои кубки','cab.apps':'Заявки на этапы','cab.regs':'Мои заявки на турниры','cab.noCups':'Пока нет кубков. Участвуй в турнирах и побеждай!',
     'cab.noApps.t':'Нет заявок','cab.noApps.p':'Выберите турнир и подайте видео на этап.','cab.noApps.btn':'К турнирам',
+    'cab.noRegs.t':'Нет заявок на турниры','cab.noRegs.p':'Перейди в «Турниры» и подай заявку на участие.','cab.noRegs.btn':'К турнирам',
     'cab.customize':'Настройка профиля','cab.nick':'Ник в GD','cab.color':'Цвет ника','cab.saveProfile':'Сохранить профиль','cab.saved':'Профиль обновлён',
-    'cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать видео на этапы','cab.why.2':'Получать кубки и очки','cab.why.3':'Отслеживать статус заявок',
+    'cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку на участие в турнире','cab.why.2':'Получать кубки и очки','cab.why.3':'Отслеживать статус заявок',
     'auth.login':'Вход','auth.register':'Регистрация','auth.email':'Email','auth.password':'Пароль','auth.password2':'Повторите пароль',
     'auth.password.ph':'Минимум 6 символов','auth.gdNick':'Ваш ник в Geometry Dash','auth.gdNick.hint':'Этот ник будет отображаться везде в турнире.',
     'auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись на «Регистрация».',
@@ -866,17 +939,18 @@ const I18N = {
     'footer.tag':'Турнир сообщества',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
-    'admin.tab.dashboard':'Дашборд','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки','admin.tab.users':'Юзеры','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
+    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
     'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир',
     'admin.search':'Поиск...','admin.allTournaments':'Все турниры','admin.allStages':'Все этапы',
     'admin.filter.all':'Все','admin.filter.pending':'На проверке','admin.filter.approved':'Одобренные','admin.filter.rejected':'Отклонённые',
-    'admin.th.date':'Дата','admin.th.tournament':'Турнир','admin.th.stage':'Этап','admin.th.nick':'Ник','admin.th.contacts':'Контакты','admin.th.video':'Видео','admin.th.motivation':'Мотивация','admin.th.status':'Статус','admin.th.actions':'Действия',
+    'admin.th.date':'Дата','admin.th.tournament':'Турнир','admin.th.stage':'Этап','admin.th.nick':'Ник','admin.th.contacts':'Контакты','admin.th.platform':'Устройство','admin.th.video':'Видео','admin.th.motivation':'Мотивация','admin.th.status':'Статус','admin.th.actions':'Действия',
     'admin.users.search':'Поиск...','admin.users.all':'Все','admin.users.banned':'Забаненные','admin.users.top':'Топ','admin.users.multi':'Мультиаккаунты',
     'admin.cups.title':'Вручить кубок','admin.cups.hint':'Сначала выбери юзера во вкладке «Юзеры».','admin.cups.goUsers':'К юзерам',
     'admin.words.title':'Добавить стоп-слово','admin.words.hint':'Ники, содержащие это слово, будут блокироваться при регистрации.','admin.words.addBtn':'Добавить','admin.words.word':'Слово','admin.words.added':'Добавлено',
     'admin.log.when':'Когда','admin.log.who':'Кто','admin.log.what':'Что',
+    'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
     'status.pending':'На проверке','status.approved':'Одобрено','status.rejected':'Отклонено',
@@ -885,7 +959,7 @@ const I18N = {
     'stage.closed.note':'Приём видео закрыт','stage.locked.note':'Пройди этап','stage.points':'очков',
     'stage.deadline':'Осталось:','stage.deadline.expired':'Время истекло','stage.slots':'Занято:','stage.slots.full':'Мест нет',
     'toast.copied':'Скопировано',
-    'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован'
+    'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире'
   },
   en: {
     'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.cabinet':'Cabinet','nav.admin':'Admin',
@@ -894,8 +968,8 @@ const I18N = {
     'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','home.active.title':'🎥 Submission is open now','home.active.btn':'Submit video','stat.participants':'Participants',
     'home.how':'How to take part',
     'home.s1.t':'Read the rules','home.s1.p':'Tournament format, restrictions and conditions.','home.s1.go':'To the rules',
-    'home.s2.t':'Pick a tournament and a stage','home.s2.p':'Open tournaments with stages inside.','home.s2.go':'To tournaments',
-    'home.s3.t':'Prepare the video','home.s3.p':'Gameplay recording with hand cam and cheat indicator.','home.s3.go':'To documents',
+    'home.s2.t':'Pick a tournament and apply','home.s2.p':'Fill the form — the admin will review your application.','home.s2.go':'To tournaments',
+    'home.s3.t':'Prepare the video','home.s3.p':'After approval you submit videos for stages.','home.s3.go':'To documents',
     'feat.1.t':'Fair play','feat.1.d':'Strict recording checks.',
     'feat.2.t':'Stages in a tournament','feat.2.d':'Clear them all — become a champion.',
     'feat.3.t':'Points for stages','feat.3.d':'Each stage has its own reward.',
@@ -904,14 +978,19 @@ const I18N = {
     'rules.r1.t':'General provisions','rules.r1.p':'The tournament is held among members of our community. Participation is available only after applying and being approved.',
     'rules.r2.t':'Tournament format','rules.r2.p':'Each tournament contains several stages. Stages open one by one.',
     'rules.r3.t':'Prohibited','rules.r3.p':'Cheats, bugs, third-party software, mods, macros or any unfair methods. Violation — disqualification and device ban.',
-    'rules.r4.t':'Stage access','rules.r4.p':'To submit for stage N, you need an approved stage N−1 in the same tournament.',
-    'rules.r5.t':'Points and level','rules.r5.p':'Level = number of approved stages. Points depend on the reward for each stage.',
+    'rules.r4.t':'Tournament access','rules.r4.p':'To access stages, you need to apply for the tournament and be approved by an admin.',
+    'rules.r5.t':'Stage access','rules.r5.p':'To submit for stage N, you need an approved stage N−1 in the same tournament.',
     'rules.r6.t':'Cups','rules.r6.p':'For victories, organizers award named cups. They are shown on the player profile.',
-    'tournaments.title':'Tournaments','tournaments.lead':'Pick a tournament. Inside each — stages. Access to the next stage after the previous is approved.',
+    'tournaments.title':'Tournaments','tournaments.lead':'Apply to join a tournament. After admin approval stages become available.',
+    'tournament.join.btn':'Join tournament','tournament.join.btnAgain':'Rejected — apply again','tournament.join.pending':'⏳ Application under review','tournament.join.approved':'✓ You are in','tournament.join.rejected':'✕ Rejected','tournament.join.status':'Status:',
+    'tournament.seats':'Approved:','tournament.seats.full':'No seats left','tournament.open.stages':'Open stages',
+    'reg.title':'Join application','reg.subtitle':'Fill the form. Admin will review your application.',
+    'reg.nick':'Your Geometry Dash nickname','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Platform','reg.motivation':'Why do you want to join?','reg.submit':'Send application','reg.sending':'Sending…',
+    'reg.err.tg':'Enter Telegram (@username, 5+ chars)','reg.err.motiv':'Tell us why (min 20 chars)','reg.success':'Application sent! Wait for admin decision.','reg.already':'Application already sent',
     'apply.eyebrow':'Video submission','apply.title':'Application form','apply.lead':'Fill all fields carefully.',
     'apply.tournament':'Tournament','apply.stage':'Stage',
     'apply.gate.t':'Account required','apply.gate.p':'Log in or register to apply.','apply.gate.btn':'Log in / Register',
-    'apply.blocked.t':'Stage is locked','apply.blocked.p':'Complete previous stages.',
+    'apply.blocked.t':'Stage is locked','apply.blocked.p':'Complete previous stages.','apply.blocked.noreg':'You are not approved for this tournament. Apply first.',
     'apply.notfound.t':'No stage selected','apply.notfound.p':'Pick a tournament and a stage on the Tournaments page.',
     'apply.edit.banner':'Application editing mode',
     'form.nick':'Your Geometry Dash nickname','form.nick.hint':'Nickname comes from your profile. Change it in the cabinet.',
@@ -928,10 +1007,11 @@ const I18N = {
     'activity.title':'Activity feed','activity.lead':'What is happening in the tournament right now.','activity.empty':'Nothing yet.',
     'cab.title':'Personal cabinet','cab.lead':'Log in or register.','cab.signedAs':'Signed in as','cab.logout':'Log out',
     'cab.level':'Level','cab.level.desc':'Number of approved stages','cab.points':'Points','cab.points.desc':'Sum of points for stages',
-    'cab.cups':'My cups','cab.apps':'My applications','cab.noCups':'No cups yet. Take part in tournaments and win!',
+    'cab.cups':'My cups','cab.apps':'Stage applications','cab.regs':'My tournament applications','cab.noCups':'No cups yet. Take part in tournaments and win!',
     'cab.noApps.t':'No applications','cab.noApps.p':'Pick a tournament and submit a video for a stage.','cab.noApps.btn':'To tournaments',
+    'cab.noRegs.t':'No tournament applications','cab.noRegs.p':'Go to Tournaments and apply to participate.','cab.noRegs.btn':'To tournaments',
     'cab.customize':'Profile settings','cab.nick':'GD nickname','cab.color':'Nickname color','cab.saveProfile':'Save profile','cab.saved':'Profile updated',
-    'cab.why.t':'Why an account?','cab.why.1':'Submit videos for stages','cab.why.2':'Earn cups and points','cab.why.3':'Track application status',
+    'cab.why.t':'Why an account?','cab.why.1':'Apply for tournaments','cab.why.2':'Earn cups and points','cab.why.3':'Track application status',
     'auth.login':'Log in','auth.register':'Register','auth.email':'Email','auth.password':'Password','auth.password2':'Repeat password',
     'auth.password.ph':'At least 6 characters','auth.gdNick':'Your Geometry Dash nickname','auth.gdNick.hint':'This nickname will be shown everywhere.',
     'auth.login.btn':'Log in','auth.login.note':'No account? Switch to "Register".',
@@ -942,17 +1022,18 @@ const I18N = {
     'footer.tag':'Community tournament',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
-    'admin.tab.dashboard':'Dashboard','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Applications','admin.tab.users':'Users','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
+    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
     'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament',
     'admin.search':'Search...','admin.allTournaments':'All tournaments','admin.allStages':'All stages',
     'admin.filter.all':'All','admin.filter.pending':'Pending','admin.filter.approved':'Approved','admin.filter.rejected':'Rejected',
-    'admin.th.date':'Date','admin.th.tournament':'Tournament','admin.th.stage':'Stage','admin.th.nick':'Nickname','admin.th.contacts':'Contacts','admin.th.video':'Video','admin.th.motivation':'Motivation','admin.th.status':'Status','admin.th.actions':'Actions',
+    'admin.th.date':'Date','admin.th.tournament':'Tournament','admin.th.stage':'Stage','admin.th.nick':'Nickname','admin.th.contacts':'Contacts','admin.th.platform':'Platform','admin.th.video':'Video','admin.th.motivation':'Motivation','admin.th.status':'Status','admin.th.actions':'Actions',
     'admin.users.search':'Search...','admin.users.all':'All','admin.users.banned':'Banned','admin.users.top':'Top','admin.users.multi':'Multi-accounts',
     'admin.cups.title':'Award a cup','admin.cups.hint':'First pick a user in the Users tab.','admin.cups.goUsers':'To users',
     'admin.words.title':'Add stop word','admin.words.hint':'Nicknames containing this word will be blocked on registration.','admin.words.addBtn':'Add','admin.words.word':'Word','admin.words.added':'Added',
     'admin.log.when':'When','admin.log.who':'Who','admin.log.what':'What',
+    'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
     'status.pending':'Pending','status.approved':'Approved','status.rejected':'Rejected',
@@ -961,7 +1042,7 @@ const I18N = {
     'stage.closed.note':'Submission is closed','stage.locked.note':'Complete stage','stage.points':'points',
     'stage.deadline':'Left:','stage.deadline.expired':'Expired','stage.slots':'Slots:','stage.slots.full':'Full',
     'toast.copied':'Copied',
-    'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned'
+    'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament'
   }
 };
 
@@ -975,21 +1056,25 @@ const form = $('#apply-form'), successEl = $('#apply-success'), submitBtn = $('#
 const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
 const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
 const stageModal = $('#stage-modal'), userModal = $('#user-modal'), cupModal = $('#cup-modal');
+const regModal = $('#reg-modal');
 
 let toastTimer, current = null;
-let user = null, userProfile = null, myApplications = [], profilePoints = { points: 0 };
+let user = null, userProfile = null, myApplications = [], myRegs = [], profilePoints = { points: 0 };
 let tournaments = [], stages = [], allUsers = [], allCups = [], bannedWords = [], activityList = [];
+let allRegs = [];
 let currentTournamentId = null;
 let editingId = null, currentStageId = null;
 let adminTab = 'dashboard';
 let adminAppFilter = 'all', adminTournamentFilter = 'all', adminStageFilter = 'all';
 let adminSearch = '', adminSortField = 'created_at', adminSortDir = 'desc';
 let adminApps = [], adminLog = [];
+let regFilter = 'all', regTournamentFilter = 'all', regSearch = '';
 let usersSearch = '', usersFilter = 'all';
 let isModeratorFlag = false;
 let realtimeChannel = null;
 let modalStageId = null, modalTournamentId = null, modalIsNew = false;
 let currentUserId = null, cupTargetUserId = null;
+let regModalTid = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
@@ -1080,7 +1165,7 @@ async function checkBannedDevice(){
 function showBanOverlay(reason){
   document.documentElement.setAttribute('data-banned','true');
   const ov = $('#ban-overlay'); if(!ov) return; ov.classList.remove('hidden');
-  ['#user-modal','#cup-modal','#stage-modal','.lang-gate'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
+  ['#user-modal','#cup-modal','#stage-modal','#reg-modal','.lang-gate'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
 }
@@ -1140,13 +1225,10 @@ $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open
 $('#tournament-back').addEventListener('click', () => go('tournaments'));
 window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
-/* Hero CTA — Заявка на участие */
+/* Hero CTA */
 document.getElementById('hero-apply-btn').addEventListener('click', e => {
   e.preventDefault();
-  if(!user){ go('cabinet'); return; }
-  const openStage = stages.find(s => s.status === 'open' && canAccessStage(s));
-  if(openStage){ currentStageId = openStage.id; go('apply'); }
-  else go('tournaments');
+  go('tournaments');
 });
 
 /* DATA */
@@ -1154,6 +1236,14 @@ async function loadTournaments(){ if(!sb){ tournaments=[]; return; } try{ const 
 async function loadStages(){ if(!sb){ stages=[]; return; } try{ const {data,error}=await sb.from('stages').select('*').order('number',{ascending:true}); if(error) throw error; stages=data||[]; }catch(_){ stages=[]; } }
 async function loadProfilePoints(){ if(!sb||!user){ profilePoints={points:0}; return; } try{ const {data,error}=await sb.from('profile_points').select('*').eq('id',user.id).maybeSingle(); if(error) throw error; profilePoints=data||{points:0}; }catch(_){ profilePoints={points:0}; } }
 async function loadMyCups(){ if(!sb||!user) return []; try{ const {data,error}=await sb.from('cups').select('*').eq('user_id',user.id).order('awarded_at',{ascending:false}); if(error) throw error; return data||[]; }catch(_){ return []; } }
+async function loadMyRegs(){
+  if(!sb || !user){ myRegs = []; return; }
+  try{ const {data,error}=await sb.from('tournament_registrations').select('*').eq('user_id',user.id).order('created_at',{ascending:false}); if(error) throw error; myRegs = data||[]; }catch(_){ myRegs = []; }
+}
+async function loadAllRegs(){
+  if(!sb || !canModerate()){ allRegs = []; return; }
+  try{ const {data,error}=await sb.from('tournament_registrations').select('*').order('created_at',{ascending:false}); if(error) throw error; allRegs = data||[]; }catch(_){ allRegs = []; }
+}
 async function loadAllUsers(){
   if(!sb || !canModerate()){ allUsers=[]; return; }
   try{
@@ -1170,14 +1260,24 @@ async function loadActivity(){ if(!sb) return; try{ const {data,error}=await sb.
 async function loadBannedWords(){ if(!sb) return; try{ const {data,error}=await sb.from('banned_words').select('*').order('added_at',{ascending:false}); if(error) throw error; bannedWords=data||[]; }catch(_){ bannedWords=[]; } }
 function stagesOfTournament(tid){ return stages.filter(s => s.tournament_id === tid).sort((a,b)=>a.number-b.number); }
 function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id===tid && a.status==='approved').length; }
+function getMyReg(tid){ return user ? myRegs.find(r => r.tournament_id === tid) : null; }
+function approvedRegsInTournament(tid){
+  if(!allRegs.length) return 0;
+  return allRegs.filter(r => r.tournament_id === tid && r.status === 'approved').length;
+}
+function canAccessTournament(tid){
+  if(!user) return false;
+  const reg = getMyReg(tid);
+  return !!(reg && reg.status === 'approved');
+}
 function canAccessStage(stage){
   if(!stage) return false;
   if(userProfile && userProfile.banned) return false;
   if(stage.status === 'draft' && !canModerate()) return false;
+  if(!canAccessTournament(stage.tournament_id)) return false;
   if(stage.number === 1) return true;
   const prev = stages.find(s => s.tournament_id === stage.tournament_id && s.number === stage.number-1);
   if(!prev) return true;
-  if(!user) return false;
   const app = myApplications.find(a => a.stage_id === prev.id);
   return !!(app && app.status === 'approved');
 }
@@ -1193,7 +1293,7 @@ function renderHomeActiveStage(){
   const tr = tournaments.find(x => x.id === s.tournament_id);
   if(!tr || tr.status === 'draft'){ wrap.classList.add('hidden'); return; }
   $('#home-active-stage-title').textContent = t('tournament.num')+' #'+tr.number+' · '+(s.title||(t('stage.num')+' '+s.number))+' · +'+(s.reward_points||1)+' '+t('stage.points');
-  $('#home-active-stage-btn').onclick = (e) => { e.preventDefault(); if(!user){ go('cabinet'); return; } if(!canAccessStage(s)){ currentTournamentId=tr.id; go('tournament'); return; } openApply(s.id); };
+  $('#home-active-stage-btn').onclick = (e) => { e.preventDefault(); currentTournamentId=tr.id; go('tournament'); };
   wrap.classList.remove('hidden');
 }
 
@@ -1211,19 +1311,49 @@ function renderTournaments(){
     const approved = user ? approvedInTournament(t_.id) : 0;
     const total = tStages.length || 4;
     const tp = tStages.reduce((s,x)=>s+(x.reward_points||1),0);
+    const reg = getMyReg(t_.id);
+    const regsCount = canModerate() ? allRegs.filter(r => r.tournament_id === t_.id && r.status === 'approved').length : 0;
+    const regsLimitReached = canModerate() && regsCount >= MAX_PARTICIPANTS_PER_TOURNAMENT;
     const card = document.createElement('div');
     card.className = 'tournament-card ' + t_.status;
     let ph = '';
-    if(t_.status !== 'draft'){
+    if(t_.status !== 'draft' && user){
       ph = '<div class="t-progress"><div class="t-progress-head"><span>'+(LANG==='ru'?'Прогресс':'Progress')+'</span><span>'+approved+' / '+total+'</span></div><div class="t-progress-bar">';
       for(let i=1;i<=total;i++){ let c='t-progress-seg'; if(i<=approved) c+=' done'; else if(i===approved+1) c+=' current'; ph+='<div class="'+c+'"></div>'; }
       ph += '</div></div>';
     }
+    let joinBlock = '';
+    if(user && reg){
+      const cls = reg.status;
+      const statusLabel = reg.status === 'approved' ? t('tournament.join.approved') : reg.status === 'rejected' ? t('tournament.join.rejected') : t('tournament.join.pending');
+      joinBlock = '<div class="t-join '+cls+'"><span style="font-weight:700">'+statusLabel+'</span>';
+      if(reg.status === 'approved'){
+        joinBlock += '<button type="button" class="btn btn-primary btn-sm" data-open-tid="'+t_.id+'"><svg class="i"><use href="#i-cup"/></svg><span>'+t('tournament.open.stages')+'</span></button>';
+      } else if(reg.status === 'rejected'){
+        joinBlock += '<button type="button" class="btn btn-primary btn-sm" data-join-tid="'+t_.id+'"><svg class="i"><use href="#i-refresh"/></svg><span>'+t('tournament.join.btnAgain')+'</span></button>';
+      }
+      joinBlock += '</div>';
+    } else if(t_.status === 'open'){
+      joinBlock = '<button type="button" class="btn btn-primary btn-block" data-join-tid="'+t_.id+'"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+'</span></button>';
+    }
+    let seats = '';
+    if(canModerate()){
+      seats = '<div class="t-join-seats'+(regsLimitReached?' full':'')+'">👥 '+t('tournament.seats')+' <b>'+regsCount+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b>'+(regsLimitReached?' · '+t('tournament.seats.full'):'')+'</div>';
+    }
     card.innerHTML = '<div class="t-head"><div class="t-number">'+t('tournament.num')+' #'+t_.number+'</div><span class="t-status '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>'+
       '<div class="t-title">'+escapeHtml(t_.title||(t('tournament.num')+' '+t_.number))+'</div>'+
       (t_.description ? '<div class="t-desc">'+escapeHtml(t_.description)+'</div>' : '')+
-      '<div class="t-stages-count">📋 '+tStages.length+' '+(LANG==='ru'?'этапов':'stages')+' · 🏆 '+tp+' '+t('stage.points')+'</div>'+ph;
-    card.addEventListener('click', () => { currentTournamentId = t_.id; go('tournament'); });
+      '<div class="t-stages-count">📋 '+tStages.length+' '+(LANG==='ru'?'этапов':'stages')+' · 🏆 '+tp+' '+t('stage.points')+'</div>'+ph+seats+joinBlock;
+    if(!user || !reg || reg.status === 'approved'){
+      card.addEventListener('click', (ev) => {
+        if(ev.target.closest('button')) return;
+        currentTournamentId = t_.id; go('tournament');
+      });
+    }
+    const jbtn = card.querySelector('[data-join-tid]');
+    if(jbtn) jbtn.addEventListener('click', ev => { ev.stopPropagation(); openRegModal(t_.id); });
+    const obtn = card.querySelector('[data-open-tid]');
+    if(obtn) obtn.addEventListener('click', ev => { ev.stopPropagation(); currentTournamentId = t_.id; go('tournament'); });
     grid.appendChild(card);
   });
 }
@@ -1240,7 +1370,37 @@ function renderTournamentPage(){
   const pw = $('#t-page-progress');
   if(user) pw.innerHTML = '<div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);font-size:14px;color:var(--muted)"><span>'+(LANG==='ru'?'Прогресс:':'Progress:')+'</span><b style="font-family:\'Exo 2\',sans-serif;font-size:20px;color:var(--text)">'+approved+' / '+tStages.length+'</b></div>';
   else pw.innerHTML = '';
+  const rw = $('#t-page-reg');
+  if(!user){
+    rw.innerHTML = '';
+  } else {
+    const reg = getMyReg(t_.id);
+    if(!reg && t_.status === 'open'){
+      rw.innerHTML = '<button type="button" class="btn btn-primary" id="t-page-join-btn"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+'</span></button>';
+      $('#t-page-join-btn').addEventListener('click', () => openRegModal(t_.id));
+    } else if(reg && reg.status !== 'approved'){
+      const cls = reg.status;
+      const statusLabel = reg.status === 'rejected' ? t('tournament.join.rejected') : t('tournament.join.pending');
+      rw.innerHTML = '<div class="t-join '+cls+'" style="display:inline-flex">'+statusLabel+(reg.status==='rejected'?'<button type="button" class="btn btn-primary btn-sm" style="margin-left:12px" id="t-page-rejoin-btn"><svg class="i"><use href="#i-refresh"/></svg><span>'+t('tournament.join.btnAgain')+'</span></button>':'')+'</div>';
+      const rb = $('#t-page-rejoin-btn');
+      if(rb) rb.addEventListener('click', () => openRegModal(t_.id));
+    } else {
+      rw.innerHTML = '';
+    }
+  }
   const grid = $('#stages-grid'); grid.replaceChildren();
+  if(!user){
+    grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2>'+(LANG==='ru'?'Войдите, чтобы участвовать':'Log in to participate')+'</h2><p>'+(LANG==='ru'?'Заявка на турнир и доступ к этапам доступны после входа.':'Tournament application and stage access are available after login.')+'</p></div>';
+    return;
+  }
+  if(!canAccessTournament(t_.id) && !canModerate()){
+    const reg = getMyReg(t_.id);
+    const msg = reg
+      ? (reg.status === 'pending' ? (LANG==='ru'?'Заявка на проверке — этапы откроются после одобрения.':'Application under review — stages will open after approval.') : (LANG==='ru'?'Заявка отклонена. Можешь переподать.':'Application rejected. You can reapply.'))
+      : t('apply.blocked.noreg');
+    grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2>'+(LANG==='ru'?'Доступ к этапам закрыт':'Stage access closed')+'</h2><p>'+msg+'</p></div>';
+    return;
+  }
   if(!tStages.length){
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-tag"/></svg></div><h2>'+(LANG==='ru'?'Этапов пока нет':'No stages yet')+'</h2></div>';
     return;
@@ -1342,6 +1502,86 @@ function openApply(stageId){
   currentStageId = stageId; editingId = null; go('apply');
 }
 
+/* REG MODAL */
+function openRegModal(tid){
+  if(!user){ go('cabinet'); return; }
+  if(userProfile && userProfile.banned){ toast(t('ban.title'), true); return; }
+  const t_ = tournaments.find(x => x.id === tid);
+  if(!t_) return;
+  regModalTid = tid;
+  $('#reg-modal-title').textContent = t('reg.title');
+  $('#reg-modal-subtitle').textContent = (t('tournament.num')+' #'+t_.number)+' · '+(t_.title||'');
+  $('#reg-nick').value = userProfile ? (userProfile.nick || '') : '';
+  const existing = getMyReg(tid);
+  $('#reg-telegram').value = existing ? (existing.telegram || '') : '';
+  $('#reg-discord').value = existing ? (existing.discord || '') : '';
+  $('#reg-platform').value = existing ? (existing.platform || 'PC') : 'PC';
+  $('#reg-motivation').value = existing ? (existing.motivation || '') : '';
+  $('#reg-modal-error').classList.remove('show');
+  $('#reg-modal-error').textContent = '';
+  regModal.classList.remove('hidden');
+  setTimeout(() => $('#reg-telegram').focus(), 100);
+}
+function closeRegModal(){ regModal.classList.add('hidden'); regModalTid = null; }
+$('#reg-modal-close').addEventListener('click', closeRegModal);
+$('#reg-modal-cancel').addEventListener('click', closeRegModal);
+regModal.addEventListener('click', e => { if(e.target === regModal) closeRegModal(); });
+$('#reg-modal-submit').addEventListener('click', async () => {
+  if(!regModalTid || !user) return;
+  const tg = ($('#reg-telegram').value || '').trim();
+  const dc = ($('#reg-discord').value || '').trim();
+  const pl = $('#reg-platform').value;
+  const mo = ($('#reg-motivation').value || '').trim();
+  const errEl = $('#reg-modal-error');
+  let err = '';
+  if(!tg || !/^@?[A-Za-z0-9_]{5,32}$/.test(tg)) err = t('reg.err.tg');
+  else if(!mo || mo.length < 20) err = t('reg.err.motiv');
+  if(err){ errEl.textContent = err; errEl.classList.add('show'); return; }
+  errEl.classList.remove('show');
+  const btn = $('#reg-modal-submit'); btn.disabled = true;
+  const span = btn.querySelector('span');
+  const prev = span.textContent; span.textContent = t('reg.sending');
+  try{
+    const t_ = tournaments.find(x => x.id === regModalTid);
+    const payload = {
+      user_id: user.id,
+      tournament_id: regModalTid,
+      email: user.email,
+      nick: userProfile ? (userProfile.nick || '') : '',
+      telegram: '@' + tg.replace(/^@/,''),
+      discord: dc,
+      platform: pl,
+      motivation: mo,
+      status: 'pending'
+    };
+    const { data: existing } = await sb.from('tournament_registrations').select('id,status').eq('user_id', user.id).eq('tournament_id', regModalTid).maybeSingle();
+    if(existing){
+      if(existing.status === 'approved'){ toast(t('reg.already'), true); closeRegModal(); return; }
+      const { error } = await sb.from('tournament_registrations').update({
+        nick: payload.nick, telegram: payload.telegram, discord: payload.discord,
+        platform: payload.platform, motivation: payload.motivation, status: 'pending', admin_comment: null
+      }).eq('id', existing.id);
+      if(error) throw error;
+    } else {
+      const { error } = await sb.from('tournament_registrations').insert([payload]);
+      if(error){
+        if(/duplicate|unique/i.test(error.message)) throw new Error(t('reg.already'));
+        throw error;
+      }
+    }
+    try{ await sb.from('activity_feed').insert([{ user_id:user.id, user_nick:payload.nick, action:'reg', details:{ tournament_id: regModalTid, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
+    toast(t('reg.success'));
+    closeRegModal();
+    await loadMyRegs();
+    if(canModerate()) await loadAllRegs();
+    renderTournaments();
+    if(currentTournamentId === regModalTid) renderTournamentPage();
+    if(current === 'cabinet') renderCabinet();
+    if(current === 'admin') renderAdmin();
+  }catch(e){ console.error(e); toast(e.message || 'Error', true); }
+  finally{ btn.disabled = false; span.textContent = prev; }
+});
+
 function refreshApplyView(){
   const gate=$('#apply-gate'), bl=$('#apply-blocked'), nf=$('#apply-notfound'), wr=$('#apply-wrap'), info=$('#apply-info-block');
   gate.classList.add('hidden'); bl.classList.add('hidden'); nf.classList.add('hidden'); wr.classList.add('hidden'); info.classList.add('hidden');
@@ -1356,10 +1596,16 @@ function refreshApplyView(){
   $('#apply-subtitle').textContent = t('apply.lead');
   if(userProfile && userProfile.nick) $('#nick').value = userProfile.nick;
   if(!user){ gate.classList.remove('hidden'); return; }
-  if(userProfile && userProfile.banned){ $('#apply-blocked-reason').textContent = t('ban.title'); bl.classList.remove('hidden'); return; }
-  if(!canAccessStage(stage) && !editingId){ $('#apply-blocked-reason').textContent = t('apply.blocked.p'); bl.classList.remove('hidden'); return; }
-  if(stage.status !== 'open' && !editingId){ $('#apply-blocked-reason').textContent = t('stage.closed.note'); bl.classList.remove('hidden'); return; }
-  if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-reason').textContent = t('stage.deadline.expired'); bl.classList.remove('hidden'); return; }
+  if(userProfile && userProfile.banned){ $('#apply-blocked-title').textContent = t('ban.title'); $('#apply-blocked-reason').textContent = ''; bl.classList.remove('hidden'); return; }
+  if(!canAccessTournament(stage.tournament_id) && !canModerate() && !editingId){
+    $('#apply-blocked-title').textContent = t('apply.blocked.t');
+    $('#apply-blocked-reason').textContent = t('apply.blocked.noreg');
+    bl.classList.remove('hidden');
+    return;
+  }
+  if(!canAccessStage(stage) && !editingId){ $('#apply-blocked-title').textContent = t('apply.blocked.t'); $('#apply-blocked-reason').textContent = t('apply.blocked.p'); bl.classList.remove('hidden'); return; }
+  if(stage.status !== 'open' && !editingId){ $('#apply-blocked-title').textContent = t('apply.blocked.t'); $('#apply-blocked-reason').textContent = t('stage.closed.note'); bl.classList.remove('hidden'); return; }
+  if(stage.deadline && new Date(stage.deadline) < new Date() && !editingId){ $('#apply-blocked-title').textContent = t('apply.blocked.t'); $('#apply-blocked-reason').textContent = t('stage.deadline.expired'); bl.classList.remove('hidden'); return; }
   wr.classList.remove('hidden'); info.classList.remove('hidden');
 }
 
@@ -1474,6 +1720,8 @@ async function renderActivity(){
     else if(a.action === 'ban') icon = 'i-ban';
     else if(a.action === 'reject') icon = 'i-x';
     else if(a.action === 'apply') icon = 'i-video';
+    else if(a.action === 'reg' || a.action === 'reg_approve') icon = 'i-cup';
+    else if(a.action === 'reg_reject') icon = 'i-x';
     let text = '';
     const nick = '<b style="color:'+(a.nick_color||'inherit')+'">'+escapeHtml(a.nick||'—')+'</b>';
     if(a.action === 'register') text = nick+' '+t('act.register');
@@ -1482,6 +1730,9 @@ async function renderActivity(){
     else if(a.action === 'reject') text = nick+' '+t('act.reject');
     else if(a.action === 'cup') text = nick+' '+t('act.cup')+(d.title?' — «'+escapeHtml(d.title)+'»':'');
     else if(a.action === 'ban') text = nick+' '+t('act.ban');
+    else if(a.action === 'reg') text = nick+' '+t('act.reg')+(d.tournament_number?' · #'+d.tournament_number:'');
+    else if(a.action === 'reg_approve') text = nick+' '+t('act.reg_approve')+(d.tournament_number?' · #'+d.tournament_number:'');
+    else if(a.action === 'reg_reject') text = nick+' '+t('act.reg_reject')+(d.tournament_number?' · #'+d.tournament_number:'');
     else text = nick;
     item.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><div class="activity-content"><div>'+text+'</div><small>'+timeAgo(a.created_at)+'</small></div>';
     wrap.appendChild(item);
@@ -1544,6 +1795,36 @@ async function renderCabinet(){
       const card = document.createElement('div'); card.className='cup-card';
       card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:26px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>'+escapeHtml(c.title)+'</h4>'+(c.description?'<p>'+escapeHtml(c.description)+'</p>':'')+'<small>'+(LANG==='ru'?'Получен: ':'Received: ')+new Date(c.awarded_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+'</small></div>';
       cupsWrap.appendChild(card);
+    });
+  }
+  const regWrap = $('#cabinet-regs'); regWrap.replaceChildren();
+  if(!myRegs.length){
+    regWrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>'+t('cab.noRegs.t')+'</h2><p>'+t('cab.noRegs.p')+'</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>'+t('cab.noRegs.btn')+'</span></a></div>';
+  } else {
+    myRegs.forEach(r => {
+      const t_ = tournaments.find(x => x.id === r.tournament_id);
+      const label = t_ ? ('#'+t_.number+' · '+(t_.title||(t('tournament.num')+' '+t_.number))) : '—';
+      const item = document.createElement('div'); item.className='app-item';
+      item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">🏆 '+escapeHtml(label)+'</span><span class="status-badge '+r.status+'">'+t('status.'+r.status)+'</span><span class="app-item-date">'+timeAgo(r.created_at)+'</span></div><div style="color:var(--muted);font-size:13px">'+(LANG==='ru'?'Ник: ':'Nick: ')+'<b style="color:var(--text)">'+escapeHtml(r.nick||'—')+'</b>'+(r.telegram?' · TG: '+escapeHtml(r.telegram):'')+(r.platform?' · '+escapeHtml(r.platform):'')+'</div>'+(r.admin_comment?'<div class="app-comment"><b>'+(LANG==='ru'?'Комментарий':'Comment')+'</b>'+escapeHtml(r.admin_comment)+'</div>':'')+'</div>';
+      const actions = document.createElement('div'); actions.className='app-item-actions';
+      if(r.status !== 'approved'){
+        const rep = document.createElement('button'); rep.type='button'; rep.className='btn btn-primary btn-sm';
+        rep.innerHTML = '<svg class="i"><use href="#i-refresh"/></svg><span>'+(r.status==='rejected'?(LANG==='ru'?'Переподать':'Reapply'):(LANG==='ru'?'Изменить':'Edit'))+'</span>';
+        rep.addEventListener('click', () => openRegModal(r.tournament_id));
+        actions.appendChild(rep);
+        const del = document.createElement('button'); del.type='button'; del.className='btn btn-danger btn-sm';
+        del.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+        del.addEventListener('click', async () => {
+          if(!confirm(LANG==='ru'?'Удалить заявку?':'Delete application?')) return;
+          const { error } = await sb.from('tournament_registrations').delete().eq('id', r.id).eq('user_id', user.id);
+          if(error){ toast('Error', true); return; }
+          toast(LANG==='ru'?'Удалено':'Deleted');
+          await loadMyRegs(); renderCabinet();
+        });
+        actions.appendChild(del);
+      }
+      item.appendChild(actions);
+      regWrap.appendChild(item);
     });
   }
   const list = $('#cabinet-apps'); list.replaceChildren();
@@ -1693,7 +1974,7 @@ async function openUserModal(userId){
 function closeUserModal(){ userModal.classList.add('hidden'); currentUserId = null; }
 $('#um-close').addEventListener('click', closeUserModal);
 userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); } });
 
 async function changeUserPoints(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество очков:':'New points:', current);
@@ -1771,7 +2052,7 @@ $('#cm-save').addEventListener('click', async () => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','tournaments','apps','users','cups','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','cups','words','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -1786,6 +2067,7 @@ function renderAdmin(){
   $('#tab-words').classList.toggle('hidden', !isAdmin());
   if(!isAdmin() && ['tournaments','users','cups','words'].includes(adminTab)) adminTab = 'dashboard';
   if(adminTab === 'dashboard') renderDashboard();
+  else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
   else if(adminTab === 'apps') renderAdminApps();
   else if(adminTab === 'users') renderAdminUsers();
@@ -1795,12 +2077,12 @@ function renderAdmin(){
 }
 
 async function renderDashboard(){
-  await loadAdminApps(); await loadActivity(); updateAdminStats();
+  await loadAdminApps(); await loadAllRegs(); await loadActivity(); updateAdminStats();
   renderDashChart(); renderDashRecent();
 }
 function updateAdminStats(){
-  const total = adminApps.length;
-  const p = adminApps.filter(a => a.status === 'pending').length;
+  const total = adminApps.length + allRegs.length;
+  const p = adminApps.filter(a => a.status === 'pending').length + allRegs.filter(r => r.status === 'pending').length;
   const a = adminApps.filter(a => a.status === 'approved').length;
   const r = adminApps.filter(a => a.status === 'rejected').length;
   const el = k => document.querySelector('[data-admin-'+k+']');
@@ -1814,9 +2096,10 @@ function updateAdminStats(){
 function renderDashChart(){
   const wrap = $('#dash-chart'); if(!wrap) return;
   wrap.replaceChildren();
+  const all = adminApps.concat(allRegs);
   const days = [];
   for(let i=6;i>=0;i--){ const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i); days.push(d); }
-  const counts = days.map(d => { const n=new Date(d); n.setDate(n.getDate()+1); return adminApps.filter(a => { const tt=new Date(a.created_at).getTime(); return tt>=d.getTime() && tt<n.getTime(); }).length; });
+  const counts = days.map(d => { const n=new Date(d); n.setDate(n.getDate()+1); return all.filter(a => { const tt=new Date(a.created_at).getTime(); return tt>=d.getTime() && tt<n.getTime(); }).length; });
   const max = Math.max(1, ...counts);
   const names = LANG==='ru' ? ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'] : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   days.forEach((d,i) => {
@@ -1838,10 +2121,114 @@ function renderDashRecent(){
     else if(l.action === 'reject') what = '✕ '+(LANG==='ru'?'Отклонил':'Rejected')+' '+escapeHtml(l.nick||'');
     else if(l.action === 'register') what = '+ '+(LANG==='ru'?'Регистрация':'Registered')+' '+escapeHtml(l.nick||'');
     else if(l.action === 'cup') what = '🏆 '+(LANG==='ru'?'Кубок':'Cup')+' '+escapeHtml(l.nick||'');
+    else if(l.action === 'reg') what = '📨 '+(LANG==='ru'?'Заявка на турнир':'Tournament application')+' '+escapeHtml(l.nick||'');
     row.innerHTML = '<span class="what">'+what+'</span><span class="when">'+timeAgo(l.created_at)+'</span>';
     wrap.appendChild(row);
   });
 }
+
+/* ADMIN — REGISTRATIONS */
+async function renderAdminRegs(){
+  await loadAllRegs();
+  const tsel = $('#regs-tournament-filter');
+  if(tsel){
+    const cur = tsel.value;
+    tsel.innerHTML = '<option value="all">'+t('admin.allTournaments')+'</option>';
+    tournaments.forEach(t_ => { const o=document.createElement('option'); o.value=t_.id; o.textContent='#'+t_.number+' '+(t_.title||''); tsel.appendChild(o); });
+    if(tournaments.some(t_ => t_.id === cur)) tsel.value = cur;
+  }
+  renderRegsTable();
+}
+function renderRegsTable(){
+  const tb = $('#admin-regs-body'); if(!tb) return;
+  tb.replaceChildren();
+  let list = allRegs.slice();
+  if(regTournamentFilter !== 'all') list = list.filter(r => r.tournament_id === regTournamentFilter);
+  if(regFilter !== 'all') list = list.filter(r => r.status === regFilter);
+  if(regSearch){
+    list = list.filter(r => (r.nick||'').toLowerCase().includes(regSearch) || (r.telegram||'').toLowerCase().includes(regSearch) || (r.email||'').toLowerCase().includes(regSearch));
+  }
+  if(!list.length){ tb.innerHTML = '<tr><td colspan="8" class="empty">'+t('admin.regs.empty')+'</td></tr>'; return; }
+  list.forEach(r => {
+    const t_ = tournaments.find(x => x.id === r.tournament_id);
+    const contacts = []; if(r.telegram) contacts.push('TG: '+r.telegram); if(r.discord) contacts.push('DC: '+r.discord); if(r.email) contacts.push('✉ '+r.email);
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td style="font-size:12px;color:var(--muted);white-space:nowrap">'+timeAgo(r.created_at)+'</td><td style="min-width:150px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--blue-2)">#'+(t_?t_.number:'—')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">'+escapeHtml(t_?t_.title||'':'')+'</div></td><td style="font-weight:600;cursor:pointer" data-open-user="'+r.user_id+'">'+escapeHtml(r.nick||'—')+'</td><td style="font-size:12px">'+escapeHtml(contacts.join(' · '))+'</td><td style="font-size:12px">'+escapeHtml(r.platform||'—')+'</td>';
+    const tdM = document.createElement('td');
+    tdM.style.cssText = 'max-width:260px;font-size:12px;color:var(--muted);white-space:pre-wrap;word-break:break-word';
+    tdM.textContent = r.motivation || '—';
+    tr.appendChild(tdM);
+    const tdS = document.createElement('td');
+    const b = document.createElement('span'); b.className='status-badge '+r.status; b.textContent = t('status.'+r.status); tdS.appendChild(b);
+    if(r.admin_comment){ const cm = document.createElement('div'); cm.style.cssText = 'font-size:11px;color:var(--muted);margin-top:6px;max-width:180px;word-break:break-word'; cm.textContent = '💬 '+r.admin_comment; tdS.appendChild(cm); }
+    tr.appendChild(tdS);
+    const tdA = document.createElement('td'); tdA.appendChild(buildRegActions(r)); tr.appendChild(tdA);
+    tb.appendChild(tr);
+  });
+  tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) openUserModal(u); };
+}
+function buildRegActions(r){
+  const w = document.createElement('div'); w.className='admin-actions';
+  const approvedInT = allRegs.filter(x => x.tournament_id === r.tournament_id && x.status === 'approved').length;
+  const limitReached = approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT;
+  if(r.status !== 'approved'){
+    const ap = document.createElement('button'); ap.className='btn btn-success btn-sm'; ap.textContent='✓';
+    if(limitReached && r.status !== 'approved'){ ap.disabled = true; ap.title = t('admin.regs.full'); ap.style.opacity = '.5'; ap.style.cursor = 'not-allowed'; }
+    ap.addEventListener('click', () => updateRegStatus(r, 'approved'));
+    w.appendChild(ap);
+  }
+  if(r.status !== 'rejected'){
+    const rj = document.createElement('button'); rj.className='btn btn-ghost btn-sm'; rj.textContent='✕';
+    rj.addEventListener('click', () => updateRegStatus(r, 'rejected'));
+    w.appendChild(rj);
+  }
+  const cm = document.createElement('button'); cm.className='btn btn-ghost btn-sm'; cm.innerHTML='<svg class="i"><use href="#i-chat"/></svg>';
+  cm.addEventListener('click', async () => {
+    const v = prompt('Comment:', r.admin_comment||''); if(v === null) return;
+    const { error } = await sb.from('tournament_registrations').update({ admin_comment:v.trim()||null }).eq('id',r.id);
+    if(error){ toast('Error', true); return; }
+    toast(LANG==='ru'?'Сохранено':'Saved'); await renderAdminRegs();
+  });
+  w.appendChild(cm);
+  const dl = document.createElement('button'); dl.className='btn btn-danger btn-sm'; dl.textContent='🗑';
+  dl.addEventListener('click', async () => {
+    if(!confirm('?')) return;
+    const { error } = await sb.from('tournament_registrations').delete().eq('id',r.id);
+    if(error){ toast('Error', true); return; }
+    toast(LANG==='ru'?'Удалено':'Deleted');
+    await renderAdminRegs(); updateAdminStats();
+  });
+  w.appendChild(dl);
+  return w;
+}
+async function updateRegStatus(r, newStatus){
+  if(newStatus === 'approved' && r.status !== 'approved'){
+    const approvedInT = allRegs.filter(x => x.tournament_id === r.tournament_id && x.status === 'approved').length;
+    if(approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT){
+      toast((LANG==='ru'?'Лимит турнира достигнут: ':'Tournament limit reached: ')+MAX_PARTICIPANTS_PER_TOURNAMENT, true);
+      return;
+    }
+  }
+  const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), r.admin_comment || '');
+  if(ask === null) return;
+  const patch = { status:newStatus };
+  if(ask.trim() !== (r.admin_comment || '')) patch.admin_comment = ask.trim() || null;
+  const { error } = await sb.from('tournament_registrations').update(patch).eq('id',r.id);
+  if(error){ toast('Error', true); return; }
+  const t_ = tournaments.find(x => x.id === r.tournament_id);
+  try{ await sb.from('activity_feed').insert([{ user_id:r.user_id, user_nick:r.nick, action: newStatus === 'approved' ? 'reg_approve' : 'reg_reject', details:{ tournament_id: r.tournament_id, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
+  toast(newStatus === 'approved' ? '✓' : '✕');
+  await renderAdminRegs(); updateAdminStats();
+  await loadMyRegs();
+  if(current === 'tournaments') renderTournaments();
+}
+$('#regs-search').addEventListener('input', e => { regSearch = e.target.value.trim().toLowerCase(); renderRegsTable(); });
+$('#regs-tournament-filter').addEventListener('change', e => { regTournamentFilter = e.target.value; renderRegsTable(); });
+$$('[data-reg-filter]').forEach(b => b.addEventListener('click', () => {
+  $$('[data-reg-filter]').forEach(x => x.classList.toggle('active', x === b));
+  regFilter = b.dataset.regFilter; renderRegsTable();
+}));
+$('#refresh-regs-btn').addEventListener('click', async () => { await loadAllRegs(); renderRegsTable(); toast(LANG==='ru'?'Обновлено':'Refreshed'); });
 
 async function renderAdminUsers(){
   await loadAllUsers();
@@ -1917,7 +2304,7 @@ $('#add-word-btn').addEventListener('click', async () => {
 });
 
 async function renderAdminTournaments(){
-  await loadTournaments(); await loadStages(); await loadAdminApps();
+  await loadTournaments(); await loadStages(); await loadAdminApps(); await loadAllRegs();
   const wrap = $('#admin-tournaments-list'); if(!wrap) return;
   wrap.replaceChildren();
   if(!tournaments.length){ wrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>'+(LANG==='ru'?'Турниров нет':'No tournaments')+'</h2></div>'; return; }
@@ -1925,8 +2312,10 @@ async function renderAdminTournaments(){
     const card = document.createElement('div'); card.className='card'; card.style.marginBottom='20px';
     const tStages = stagesOfTournament(t_.id);
     const tp = tStages.reduce((s,x)=>s+(x.reward_points||1),0);
-    const approvedInT = adminApps.filter(x => x.tournament_id === t_.id && x.status === 'approved').length;
-    const limitReached = approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT;
+    const regsApproved = allRegs.filter(x => x.tournament_id === t_.id && x.status === 'approved').length;
+    const regsPending = allRegs.filter(x => x.tournament_id === t_.id && x.status === 'pending').length;
+    const regsTotal = allRegs.filter(x => x.tournament_id === t_.id).length;
+    const limitReached = regsApproved >= MAX_PARTICIPANTS_PER_TOURNAMENT;
     let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap"><div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">'+t('tournament.num')+' #'+t_.number+'</div><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+escapeHtml(t_.title||'—')+'</div>';
     if(t_.description) html += '<div style="color:var(--muted);font-size:13.5px">'+escapeHtml(t_.description)+'</div>';
     html += '</div><span class="status-badge '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>';
@@ -1935,7 +2324,7 @@ async function renderAdminTournaments(){
     if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
     if(t_.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="'+t_.id+'">'+(LANG==='ru'?'В черновик':'To draft')+'</button>';
     html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button><button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="'+t_.id+'">🗑</button></div>';
-    html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px">'+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+approvedInT+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
+    html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap">'+(LANG==='ru'?'Заявок на турнир: ':'Tournament applications: ')+'<b>'+regsTotal+'</b> · '+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+regsApproved+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b> · '+(LANG==='ru'?'На проверке: ':'Pending: ')+'<b>'+regsPending+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
     html += '<div style="border-top:1px solid var(--line-soft);padding-top:16px"><div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">'+(LANG==='ru'?'Этапы':'Stages')+' ('+tStages.length+') · 🏆 '+tp+' '+t('stage.points')+'</div>';
     if(!tStages.length) html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">'+(LANG==='ru'?'Этапов нет.':'No stages.')+'</p>';
     else tStages.forEach(s => {
@@ -2107,13 +2496,6 @@ function buildActions(a){
 }
 async function editComment(a){ const v = prompt('Comment:', a.admin_comment||''); if(v === null) return; const { error } = await sb.from('applications').update({ admin_comment:v.trim()||null }).eq('id',a.id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Сохранено':'Saved'); await loadAdminApps(); renderAdminTable(); }
 async function updateAppStatus(a, newStatus){
-  if(newStatus === 'approved' && a.status !== 'approved'){
-    const approvedInT = adminApps.filter(x => x.tournament_id === a.tournament_id && x.status === 'approved').length;
-    if(approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT){
-      toast((LANG==='ru'?'Лимит турнира достигнут: ':'Tournament limit reached: ')+MAX_PARTICIPANTS_PER_TOURNAMENT, true);
-      return;
-    }
-  }
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), a.admin_comment || '');
   if(ask === null) return;
   const patch = { status:newStatus };
@@ -2230,9 +2612,9 @@ $('#logout-btn').addEventListener('click', async () => {
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
   await sb.auth.signOut();
   toast(LANG==='ru'?'Вы вышли':'Logged out');
-  user = null; userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points:0 };
+  user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
   applyBanState();
-  renderCabinet(); renderAdmin(); renderHomeActiveStage();
+  renderCabinet(); renderAdmin(); renderHomeActiveStage(); renderTournaments();
   go('home');
 });
 
@@ -2243,12 +2625,13 @@ async function afterLogin(){
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
   await loadTournaments(); await loadStages();
-  await loadMyApplications(); await loadProfilePoints();
-  if(canModerate()){ await loadAdminApps(); await loadAllUsers(); await loadActivity(); }
+  await loadMyApplications(); await loadProfilePoints(); await loadMyRegs();
+  if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
   renderAdmin();
   renderHomeActiveStage();
   updateAdminStats();
+  if(current === 'tournaments') renderTournaments();
   setupRealtime();
 }
 function setupRealtime(){
@@ -2271,7 +2654,17 @@ function setupRealtime(){
       if(current === 'cabinet') renderCabinet();
       await renderLeaderboard();
     })
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activity_feed' }, async payload => {
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
+      await loadMyRegs(); await loadAllRegs(); updateAdminStats();
+      if(adminTab === 'regs') renderRegsTable();
+      if(adminTab === 'tournaments') renderAdminTournaments();
+      if(adminTab === 'dashboard') renderDashboard();
+      if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
+      if(current === 'cabinet') renderCabinet();
+      if(current === 'tournaments') renderTournaments();
+      if(current === 'tournament') renderTournamentPage();
+    })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activity_feed' }, async () => {
       await renderActivity();
       if(current === 'admin') renderDashboard();
     })
@@ -2295,7 +2688,7 @@ async function initAuth(){
     if(document.documentElement.hasAttribute('data-banned') || document.documentElement.hasAttribute('data-device-banned')) return;
     if(user && (!wasUser || wasUser.id !== user.id)) afterLogin();
     else if(!user){
-      userProfile = null; myApplications = []; isModeratorFlag = false; profilePoints = { points:0 };
+      userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
       applyBanState();
       renderCabinet(); renderAdmin(); renderHomeActiveStage();
       if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
