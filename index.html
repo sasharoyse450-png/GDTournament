@@ -3877,60 +3877,81 @@ async function afterLogin(){
 function setupRealtime(){
   if(!sb) return;
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
+  
   realtimeChannel = sb.channel('gdcc-all')
+    // 1. ПРОФИЛИ (Бан, пропуска, ник)
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async payload => {
       if(user && payload.new.id === user.id){
         userProfile = payload.new;
         applyBanState();
         window.updatePassesUI(userProfile.passes || 0);
+        window.updateHeaderUI();
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
+        if(current === 'cabinet') renderCabinet();
       }
       if(current === 'leaderboard') await renderLeaderboard();
-      if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
+      if(canModerate() && current === 'admin'){
+        if(adminTab === 'users') renderAdminUsers();
+        if(adminTab === 'settings') renderAdminSettings();
+      }
     })
+
+    // 2. ЗАЯВКИ НА ЭТАПЫ
     .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
-      await loadAdminApps(); updateAdminStats();
-      if(adminTab === 'apps') renderAdminTable();
-      if(adminTab === 'dashboard') renderDashboard();
-      if(payload.eventType === 'INSERT' && canModerate()) toast(LANG==='ru'?'📥 Новая заявка!':'📥 New application!');
-      if(user) await loadProfilePoints();
-      if(current === 'cabinet') renderCabinet();
-      await renderLeaderboard();
+      if(canModerate()) {
+        await loadAdminApps(); updateAdminStats();
+        if(current === 'admin' && adminTab === 'apps') renderAdminTable();
+        if(current === 'admin' && adminTab === 'dashboard') renderDashboard();
+        if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📥 Новая заявка!':'📥 New application!');
+      }
+      if(user) {
+        await loadProfilePoints(); await loadMyApplications();
+        if(current === 'cabinet') renderCabinet();
+        if(current === 'leaderboard') await renderLeaderboard();
+        if(current === 'tournament') renderTournamentPage();
+      }
     })
+
+    // 3. ЗАЯВКИ НА ТУРНИРЫ
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
       const rec = payload.new || payload.old;
-      if(!canModerate()){
-        if(!rec || rec.user_id !== user.id) return;
+      if(!canModerate() && (!rec || rec.user_id !== user?.id)) return;
+      
+      await loadMyRegs(); if(canModerate()) await loadAllRegs(); updateAdminStats();
+      
+      if(canModerate() && current === 'admin') {
+        if(adminTab === 'regs') renderRegsTable();
+        if(adminTab === 'tournaments') renderAdminTournaments();
+        if(adminTab === 'dashboard') renderDashboard();
+        if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
       }
-      await loadMyRegs(); await loadAllRegs(); updateAdminStats();
-      if(adminTab === 'regs') renderRegsTable();
-      if(adminTab === 'tournaments') renderAdminTournaments();
-      if(adminTab === 'dashboard') renderDashboard();
-      if(payload.eventType === 'INSERT' && canModerate()) toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
       if(current === 'cabinet') renderCabinet();
       if(current === 'tournaments') renderTournaments();
       if(current === 'tournament') renderTournamentPage();
     })
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activity_feed' }, async () => {
-      if(current === 'admin') renderDashboard();
-    })
+
+    // 4. КУБКИ
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cups' }, async () => {
-      await loadAllCups();
-      await renderLeaderboard();
+      if(canModerate()) await loadAllCups();
+      if(current === 'leaderboard') await renderLeaderboard();
+      if(user && current === 'cabinet') { await loadMyCups(); renderCabinet(); }
     })
+
+    // 5. ОБРАЩЕНИЯ (ТИКЕТЫ)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, async () => {
       if (current === 'support') { await loadTickets(); renderSupport(); }
-      if (canModerate() && adminTab === 'tickets') renderAdminTickets();
+      if (canModerate() && current === 'admin' && adminTab === 'tickets') renderAdminTickets();
     })
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ticket_messages' }, async payload => {
       if (currentTicketId && payload.new.ticket_id === currentTicketId) {
         await loadTicketMessages(currentTicketId);
       }
-      if (canModerate() && adminTab === 'tickets') renderAdminTickets();
+      if (canModerate() && current === 'admin' && adminTab === 'tickets') renderAdminTickets();
     })
+
+    // 6. ЧАТ
     .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_messages' }, async payload => {
       if (current === 'chat') {
-        if (payload.eventType === 'INSERT') isChatLoaded = false;
         await renderChat();
       }
     })
