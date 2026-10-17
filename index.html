@@ -339,8 +339,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .user-stat-pill.gold{background:rgba(246,183,60,.15);color:var(--gold)}
 .user-stat-pill.red{background:rgba(255,93,115,.15);color:var(--red)}
 .user-stat-pill.purple{background:rgba(179,107,255,.15);color:var(--purple)}
-
-/* Классы для правильной сетки вместо инлайн-стилей */
 .apply-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
 .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
@@ -366,13 +364,10 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr}
 }
 @media(max-width:760px){
-  /* Шапка */
-  .logo-text{font-size:11px} /* Уменьшаем лого, чтобы влезало */
+  .logo-text{font-size:11px}
   .header-in{padding:0 16px}
-  .header-actions #login-btn{display:none} /* Прячем кнопку "Войти", она есть в бургере */
+  .header-actions #login-btn{display:none}
   .nav-login{display:flex}
-
-  /* Главная */
   .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center}
   .hero-art-wrap{display:none}
   .hero-cta{flex-direction:column;align-items:stretch;width:100%}
@@ -381,24 +376,18 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .features{grid-template-columns:1fr}
   .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}
   .wrap{padding:0 16px}
-
-  /* Формы (Регистрация, Подача видео, Модалки) */
-  .field-row{grid-template-columns:1fr;gap:0} /* Все поля в один столбец */
-  .input,textarea.input,select.input{font-size:16px} /* Отключает зум на iOS */
+  .field-row{grid-template-columns:1fr;gap:0}
+  .input,textarea.input,select.input{font-size:16px}
   .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh}
   .modal-grid,.modal-grid-3{grid-template-columns:1fr}
   .modal-actions{flex-direction:column;gap:8px}
   .modal-actions .btn{width:100%}
-
-  /* Кабинет */
   .cab-head{align-items:flex-start;flex-direction:column}
   .cab-level-card{flex-direction:column;text-align:center;padding:16px}
   .app-item-actions{width:100%;justify-content:stretch;margin-top:10px}
   .app-item-actions .btn{flex:1;justify-content:center}
   .cab-dl{grid-template-columns:1fr}
   .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
-
-  /* Админка */
   .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start}
   .admin-tabs button{flex-shrink:0}
   .admin-actions{flex-direction:column;width:100%}
@@ -408,8 +397,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .t-stage-row .actions{justify-content:center}
   .user-card{flex-direction:column;align-items:stretch;text-align:center}
   .user-stats{justify-content:center}
-  
-  /* Таблицы */
   .table th,.table td{padding:10px 12px;font-size:13px}
 }
 </style>
@@ -528,7 +515,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></div><h1 data-i18n="rules.title">Правила турнира</h1><p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
     <div class="page-body">
-      <!-- ИСПРАВЛЕНО: убран инлайн-стиль -->
       <div class="rules-grid">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3 data-i18n="rules.r1.t">Общие положения</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3 data-i18n="rules.r2.t">Формат турнира</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r2.p">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
@@ -578,7 +564,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2 id="apply-blocked-title" data-i18n="apply.blocked.t">Этап заблокирован</h2><p id="apply-blocked-reason" data-i18n="apply.blocked.p">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       <div id="apply-notfound" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div><h2 data-i18n="apply.notfound.t">Этап не выбран</h2><p data-i18n="apply.notfound.p">Выбери турнир и этап на странице «Турниры».</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       
-      <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки -->
       <div id="apply-wrap" class="apply-grid">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
@@ -621,6 +606,12 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="eyebrow"><svg class="i"><use href="#i-chart"/></svg><span data-i18n="nav.leaderboard">Таблица</span></div>
       <h1 data-i18n="lb.title">Турнирная таблица</h1>
       <p data-i18n="lb.lead">Нажми на ник — увидишь профиль с кубками и статистикой.</p>
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <label for="lb-tournament-select" style="font-size:13px;color:var(--muted)" data-i18n="lb.filter">Показать топ:</label>
+        <select id="lb-tournament-select" class="input" style="width:auto;min-width:240px;height:38px;font-size:13px">
+          <option value="all">Общий топ</option>
+        </select>
+      </div>
       <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(10,20,45,.8);margin-top:16px;font-size:14px;color:var(--muted)"><svg class="i" style="color:var(--blue-2);font-size:18px"><use href="#i-users"/></svg><span data-i18n="lb.participants">Участников:</span> <b style="font-family:'Exo 2',sans-serif;font-size:20px;color:var(--text)" data-participants-count>—</b></div>
     </div>
     <div class="page-body">
@@ -628,7 +619,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="card table-card">
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.points">🏆 Очки</th><th data-i18n="lb.th.level">Уровень</th><th data-i18n="lb.th.cups">Кубки</th></tr></thead>
+            <thead><tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.stages">Этапов</th><th data-i18n="lb.th.points">🏆 Очки</th><th data-i18n="lb.th.speed">⚡ Скорость</th><th data-i18n="lb.th.cups">Кубки</th></tr></thead>
             <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
@@ -655,8 +646,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div id="cabinet-auth">
       <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div><h1 data-i18n="cab.title">Личный кабинет</h1><p data-i18n="cab.lead">Войдите или зарегистрируйтесь.</p></div>
       <div class="page-body">
-        
-        <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки, теперь форма регистрации не ломается на телефоне -->
         <div class="apply-grid">
           <div class="card">
             <div class="auth-tabs"><button type="button" data-auth-tab="login" class="active" data-i18n="auth.login">Вход</button><button type="button" data-auth-tab="register" data-i18n="auth.register">Регистрация</button></div>
@@ -716,7 +705,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div><h1 data-i18n="docs.title">Необходимые документы</h1><p data-i18n="docs.lead">Что нужно подготовить.</p></div>
     <div class="page-body">
-      <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки -->
       <div class="docs-grid">
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d1.t">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d1.p">Скриншот или видео с чит индикатором.</p></div></article>
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d2.t">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d2.p">Видео с камерой, показывающее руки.</p></div></article>
@@ -986,7 +974,7 @@ const I18N = {
     'success.cabinet':'В личный кабинет','success.tournaments':'К турнирам',
     'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила турнира</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео в облако и открыл(а) доступ',
     'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
-    'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.level':'Уровень','lb.th.cups':'Кубки','lb.empty':'Пока нет участников',
+    'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.level':'Уровень','lb.th.stages':'Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
     'activity.title':'Лента активности','activity.lead':'Что происходит в турнире прямо сейчас.','activity.empty':'Пока ничего не произошло.',
     'cab.title':'Личный кабинет','cab.lead':'Войдите или зарегистрируйтесь.','cab.signedAs':'Вы вошли как','cab.logout':'Выйти',
     'cab.level':'Уровень','cab.level.desc':'Число одобренных этапов','cab.points':'Очки','cab.points.desc':'Сумма очков за этапы',
@@ -1073,7 +1061,7 @@ const I18N = {
     'success.cabinet':'To cabinet','success.tournaments':'To tournaments',
     'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">tournament rules</a>','aside.2':'Prepared a recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded the video to the cloud and made it public',
     'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
-    'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.level':'Level','lb.th.cups':'Cups','lb.empty':'No participants yet',
+    'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.level':'Level','lb.th.stages':'Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
     'activity.title':'Activity feed','activity.lead':'What is happening in the tournament right now.','activity.empty':'Nothing yet.',
     'cab.title':'Personal cabinet','cab.lead':'Log in or register.','cab.signedAs':'Signed in as','cab.logout':'Log out',
     'cab.level':'Level','cab.level.desc':'Number of approved stages','cab.points':'Points','cab.points.desc':'Sum of points for stages',
@@ -1735,42 +1723,122 @@ form.addEventListener('submit', async e => {
 
 async function renderLeaderboard(){
   if(!sb) return;
+  const sel = $('#lb-tournament-select');
+  if(sel){
+    const cur = sel.value || 'all';
+    sel.innerHTML = '<option value="all">'+(LANG==='ru'?'Общий топ':'Global top')+'</option>';
+    tournaments.forEach(t_ => {
+      const o = document.createElement('option');
+      o.value = t_.id;
+      o.textContent = '#'+t_.number+' '+(t_.title||'');
+      sel.appendChild(o);
+    });
+    if(cur && (cur === 'all' || tournaments.some(t_ => t_.id === cur))) sel.value = cur;
+  }
+  const filterTid = sel && sel.value !== 'all' ? sel.value : null;
+
   try{
-    const [pR,ptR,cR] = await Promise.all([ sb.from('profiles').select('*').order('created_at',{ascending:true}), sb.from('profile_points').select('*'), sb.from('cups').select('user_id') ]);
-    if(pR.error) throw pR.error;
-    const pm={}, cm={};
-    (ptR.data||[]).forEach(p => { pm[p.id]=p.points||0; });
-    (cR.data||[]).forEach(c => { cm[c.user_id]=(cm[c.user_id]||0)+1; });
-    const list = (pR.data||[])
-      .filter(p => (p.level||0)>0 || pm[p.id]>0 || cm[p.id]>0)
-      .map(p => ({ id:p.id, nick:p.nick, nick_color:p.nick_color, level:p.level||0, points:pm[p.id]||0, cups:cm[p.id]||0, banned:p.banned }))
-      .sort((a,b) => { if(b.points!==a.points) return b.points-a.points; if(b.level!==a.level) return b.level-a.level; return 0; });
+    // Заявки на этапы
+    let q = sb.from('applications').select('user_id,status,approved_at,created_at,stage_id,tournament_id,stage:stages(reward_points,opened_at,created_at)');
+    if(filterTid) q = q.eq('tournament_id', filterTid);
+    q = q.eq('status', 'approved');
+    const { data: apps, error } = await q;
+    if(error) throw error;
+
+    const [profRes, cupsRes] = await Promise.all([
+      sb.from('profiles').select('*'),
+      sb.from('cups').select('user_id')
+    ]);
+    const profileMap = {};
+    (profRes.data||[]).forEach(p => { profileMap[p.id] = p; });
+    const cupsCount = {};
+    (cupsRes.data||[]).forEach(c => { cupsCount[c.user_id] = (cupsCount[c.user_id]||0)+1; });
+
+    // Заявки на турниры (для скорости вступления)
+    let regQ = sb.from('tournament_registrations').select('user_id,tournament_id,created_at,status').eq('status','approved');
+    if(filterTid) regQ = regQ.eq('tournament_id', filterTid);
+    const { data: regs } = await regQ;
+
+    // Собираем данные по юзерам
+    const byUser = {};
+    (apps||[]).forEach(a => {
+      if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
+      byUser[a.user_id].points += (a.stage && a.stage.reward_points ? a.stage.reward_points : 1);
+      byUser[a.user_id].stages += 1;
+      if(a.stage){
+        const openTime = a.stage.opened_at || a.stage.created_at;
+        if(openTime && a.created_at){
+          const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
+          byUser[a.user_id].total_hours += hours;
+          byUser[a.user_id].stage_count_with_time += 1;
+        }
+      }
+      if(a.approved_at && (!byUser[a.user_id].last_approved_at || new Date(a.approved_at) > new Date(byUser[a.user_id].last_approved_at))) {
+        byUser[a.user_id].last_approved_at = a.approved_at;
+      }
+    });
+
+    // Участники, которые подали заявку на турнир, но ещё не прошли ни одного этапа — они тоже в таблице
+    (regs||[]).forEach(r => {
+      if(!byUser[r.user_id]){
+        byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
+      }
+    });
+
+    const list = Object.values(byUser).map(u => {
+      const p = profileMap[u.id] || {};
+      const avg_hours = u.stage_count_with_time > 0 ? (u.total_hours / u.stage_count_with_time) : null;
+      return {
+        id: u.id, nick: p.nick || '—', nick_color: p.nick_color, banned: p.banned,
+        points: u.points, stages: u.stages, cups: cupsCount[u.id]||0,
+        avg_hours: avg_hours, last_approved_at: u.last_approved_at
+      };
+    }).sort((a,b) => {
+      if(b.stages !== a.stages) return b.stages - a.stages;
+      if(b.points !== a.points) return b.points - a.points;
+      if(a.avg_hours !== null && b.avg_hours !== null && a.avg_hours !== b.avg_hours) return a.avg_hours - b.avg_hours;
+      if(a.avg_hours !== null) return -1;
+      if(b.avg_hours !== null) return 1;
+      if(a.last_approved_at && b.last_approved_at) return new Date(a.last_approved_at) - new Date(b.last_approved_at);
+      return 0;
+    });
+
     window.setParticipantsCount(list.length);
+
     const p = $('#lb-podium'); p.replaceChildren();
     list.slice(0,3).forEach((u,i) => {
       const c = document.createElement('div');
       c.className = 'podium-card '+['first','second','third'][i];
-      c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick" style="color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick||'—')+'</div><div class="podium-level">'+u.points+'</div><div class="podium-level-label">'+t('stage.points')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:6px">'+t('lb.th.level')+': '+u.level+(u.cups?' · 🏆 ×'+u.cups:'')+'</div>';
+      const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
+      c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick" style="color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick)+'</div><div class="podium-level">'+u.stages+'</div><div class="podium-level-label">'+(LANG==='ru'?'этапов':'stages')+'</div><div style="color:var(--gold);font-size:14px;font-weight:700;margin-top:4px">'+u.points+' '+t('stage.points')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:4px">⚡ '+speedStr+'</div>';
       c.addEventListener('click', () => openUserModal(u.id));
       p.appendChild(c);
     });
     while(p.children.length < 3){
       const s = document.createElement('div'); s.className='podium-card';
-      s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">0</div><div class="podium-level-label">'+t('stage.points')+'</div>';
+      s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">0</div><div class="podium-level-label">'+(LANG==='ru'?'этапов':'stages')+'</div>';
       p.appendChild(s);
     }
+
     const tb = $('#leaderboard-body'); tb.replaceChildren();
-    if(!list.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
+    if(!list.length){ tb.innerHTML = '<tr><td colspan="6" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
     list.forEach((u,i) => {
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
+      const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
       const tr = document.createElement('tr'); tr.style.cursor='pointer';
       tr.addEventListener('click', () => openUserModal(u.id));
-      tr.innerHTML = '<td><span class="rank-badge '+rc+'">'+r+'</span></td><td style="font-weight:600;color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick||'—')+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td><td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td><td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.level+'</span></td><td>'+(u.cups?'<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-trophy"/></svg>'+u.cups+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>';
+      tr.innerHTML = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>'+
+        '<td style="font-weight:600;color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>'+
+        '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>'+
+        '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td>'+
+        '<td style="font-size:13px;color:var(--muted)">⚡ '+speedStr+'</td>'+
+        '<td>'+(u.cups?'<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-trophy"/></svg>'+u.cups+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>';
       tb.appendChild(tr);
     });
   }catch(err){ console.error(err); }
 }
+if($('#lb-tournament-select')) $('#lb-tournament-select').addEventListener('change', () => renderLeaderboard());
 
 async function renderActivity(){
   await loadActivity();
@@ -2709,6 +2777,7 @@ function setupRealtime(){
         applyBanState();
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
       }
+      if(current === 'leaderboard') await renderLeaderboard();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
       await loadAdminApps(); updateAdminStats();
