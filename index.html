@@ -559,6 +559,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-shop" viewBox="0 0 24 24"><path d="M3 9l2-6h14l2 6"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 22V13h6v9"/></symbol>
 <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
 </defs>
 </svg>
 
@@ -594,7 +595,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 </header>
 
 <main>
-<!-- HOME PAGE -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -634,7 +634,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- RULES PAGE -->
 <section class="page" id="page-rules">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></div><h1 data-i18n="rules.title">Правила турнира</h1><p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
@@ -651,7 +650,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- TOURNAMENTS PAGE -->
 <section class="page" id="page-tournaments">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></div><h1 data-i18n="tournaments.title">Турниры</h1><p data-i18n="tournaments.lead">Подай заявку на участие в турнире. После одобрения администратором откроются этапы.</p></div>
@@ -659,7 +657,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- SHOP PAGE -->
 <section class="page" id="page-shop">
   <div class="wrap">
     <div class="page-head">
@@ -680,7 +677,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- TOURNAMENT PAGE -->
 <section class="page" id="page-tournament">
   <div class="wrap">
     <div class="page-head">
@@ -695,7 +691,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- APPLY PAGE -->
 <section class="page" id="page-apply">
   <div class="wrap">
     <div class="page-head">
@@ -748,7 +743,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- LEADERBOARD PAGE -->
 <section class="page" id="page-leaderboard">
   <div class="wrap">
     <div class="page-head">
@@ -777,7 +771,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- CHAT PAGE -->
 <section class="page" id="page-chat">
   <div class="wrap">
     <div class="page-head">
@@ -797,7 +790,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- SUPPORT PAGE -->
 <section class="page" id="page-support">
   <div class="wrap">
     <div class="page-head">
@@ -812,7 +804,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- CABINET PAGE -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -822,7 +813,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="card">
             <div class="auth-tabs"><button type="button" data-auth-tab="login" class="active" data-i18n="auth.login">Вход</button><button type="button" data-auth-tab="register" data-i18n="auth.register">Регистрация</button></div>
             <form id="login-form" novalidate>
-              <div class="field"><label for="login-email" data-i18n="auth.email">Email</label><input class="input" id="login-email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required></div>
+              <div class="field"><label for="login-identifier" data-i18n="auth.emailOrNick">Email или Ник</label><input class="input" id="login-identifier" name="identifier" type="text" placeholder="you@example.com или Player123" autocomplete="username" required></div>
               <div class="field"><label for="login-password" data-i18n="auth.password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
               <div class="error" id="login-error"></div>
               <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
@@ -873,7 +864,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- DOCS PAGE -->
 <section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div><h1 data-i18n="docs.title">Необходимые документы</h1><p data-i18n="docs.lead">Что нужно подготовить.</p></div>
@@ -886,7 +876,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- ADMIN PAGE -->
 <section class="page" id="page-admin">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></div><h1 data-i18n="admin.title">Панель администратора</h1><p data-i18n="admin.lead">Управление турнирами, этапами, заявками и юзерами.</p></div>
@@ -1077,7 +1066,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- MODALS -->
 <div class="modal-back hidden" id="ticket-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1126,7 +1114,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button class="modal-close" id="ticket-chat-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
     <div id="ticket-chat-body" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-bottom:16px;padding-right:8px">
-      <!-- messages -->
     </div>
     <form id="ticket-chat-form" style="display:flex;flex-direction:column;gap:10px">
       <textarea class="input" id="ticket-chat-input" placeholder="Написать сообщение..." maxlength="2000" style="height:80px"></textarea>
@@ -1255,7 +1242,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 const I18N = {
   ru: {
     'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
-    'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам',
+    'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам','btn.copyLink':'Поделиться профилем',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
     'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','stat.participants':'Участников',
     'home.how':'Как принять участие',
@@ -1308,7 +1295,7 @@ const I18N = {
     'cab.noRegs.t':'Нет заявок на турниры','cab.noRegs.p':'Перейди в «Турниры» и подай заявку на участие.','cab.noRegs.btn':'К турнирам',
     'cab.customize':'Настройка профиля','cab.nick':'Ник в GD','cab.color':'Цвет ника','cab.saveProfile':'Сохранить профиль','cab.saved':'Профиль обновлён',
     'cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку на участие в турнире','cab.why.2':'Получать кубки и очки','cab.why.3':'Отслеживать статус заявок',
-    'auth.login':'Вход','auth.register':'Регистрация','auth.email':'Email','auth.password':'Пароль','auth.password2':'Повторите пароль',
+    'auth.login':'Вход','auth.register':'Регистрация','auth.email':'Email','auth.emailOrNick':'Email или Ник','auth.password':'Пароль','auth.password2':'Повторите пароль',
     'auth.password.ph':'Минимум 6 символов','auth.gdNick':'Ваш ник в Geometry Dash','auth.gdNick.hint':'Этот ник будет отображаться везде в турнире.',
     'auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись на «Регистрация».',
     'auth.register.btn':'Зарегистрироваться','auth.register.note':'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.',
@@ -1349,13 +1336,13 @@ const I18N = {
     'shop.unavailable':'Оплата временно недоступна — платёжная система на стадии подключения.',
     'shop.disabled':'Продажа приостановлена',
     'shop.disabled.banner':'Продажа пропусков временно приостановлена администратором.',
-    'toast.copied':'Скопировано',
+    'toast.copied':'Ссылка скопирована!',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире',
     'loading':'Загрузка...'
   },
   en: {
     'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
-    'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments',
+    'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments','btn.copyLink':'Share profile',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
     'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','stat.participants':'Participants',
     'home.how':'How to take part',
@@ -1408,7 +1395,7 @@ const I18N = {
     'cab.noRegs.t':'No tournament applications','cab.noRegs.p':'Go to Tournaments and apply to participate.','cab.noRegs.btn':'To tournaments',
     'cab.customize':'Profile settings','cab.nick':'GD nickname','cab.color':'Nickname color','cab.saveProfile':'Save profile','cab.saved':'Profile updated',
     'cab.why.t':'Why an account?','cab.why.1':'Apply for tournaments','cab.why.2':'Earn cups and points','cab.why.3':'Track application status',
-    'auth.login':'Log in','auth.register':'Register','auth.email':'Email','auth.password':'Password','auth.password2':'Repeat password',
+    'auth.login':'Log in','auth.register':'Register','auth.email':'Email','auth.emailOrNick':'Email or Nickname','auth.password':'Password','auth.password2':'Repeat password',
     'auth.password.ph':'At least 6 characters','auth.gdNick':'Your Geometry Dash nickname','auth.gdNick.hint':'This nickname will be shown everywhere.',
     'auth.login.btn':'Log in','auth.login.note':'No account? Switch to "Register".',
     'auth.register.btn':'Register','auth.register.note':'By registering you agree to the <a href="#rules">rules</a>.',
@@ -1449,7 +1436,7 @@ const I18N = {
     'shop.unavailable':'Payment is currently unavailable — payment system is being connected.',
     'shop.disabled':'Sales suspended',
     'shop.disabled.banner':'Pass sales are temporarily suspended by the administrator.',
-    'toast.copied':'Copied',
+    'toast.copied':'Link copied!',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament',
     'loading':'Loading...'
   }
@@ -1493,7 +1480,8 @@ let passesSearch = '';
 let ticketsList = [];
 let allTickets = [];
 let currentTicketId = null;
-let chatMessages = [];
+let chatPollInterval = null;
+let chatLastIds = '';
 let isChatLoaded = false;
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
@@ -1691,6 +1679,11 @@ function updateDonationUI(){
 }
 
 function show(id){
+  if(id && id.startsWith('user=')) {
+    const uid = id.split('=')[1];
+    openUserModal(uid);
+    return;
+  }
   if(!PAGE_IDS.includes(id)) id = 'home';
   if(id === 'admin' && !canModerate()) id = 'home';
   if(userProfile && userProfile.banned) return;
@@ -1702,7 +1695,8 @@ function show(id){
   $$('[data-nav]').forEach(a => { const on = a.dataset.nav === id; a.classList.toggle('active', on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
   if(id === 'cabinet') renderCabinet();
   if(id === 'leaderboard') renderLeaderboard();
-  if(id === 'chat') renderChat();
+  if(id === 'chat') { chatLastIds = ''; isChatLoaded = false; renderChat(); startChatPolling(); }
+  else { stopChatPolling(); }
   if(id === 'tournaments') renderTournaments();
   if(id === 'shop') renderShop();
   if(id === 'support') renderSupport();
@@ -1713,7 +1707,7 @@ function show(id){
   nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
 }
 function go(id){
-  if(!PAGE_IDS.includes(id)) id = 'home';
+  if(!PAGE_IDS.includes(id) && !id.startsWith('user=')) id = 'home';
   if(id === 'admin' && !canModerate()) return;
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
@@ -1724,7 +1718,7 @@ document.addEventListener('click', e => {
   const a = e.target.closest && e.target.closest('a[href^="#"]');
   if(!a) return;
   const id = a.getAttribute('href').slice(1);
-  if(!PAGE_IDS.includes(id)) return;
+  if(!PAGE_IDS.includes(id) && !id.startsWith('user=')) return;
   e.preventDefault(); go(id);
 });
 window.addEventListener('popstate', () => show(readHash()));
@@ -2355,7 +2349,31 @@ async function renderLeaderboard(){
 }
 if($('#lb-tournament-select')) $('#lb-tournament-select').addEventListener('change', () => renderLeaderboard());
 
-async function renderChat() {
+// CHAT SYSTEM
+function startChatPolling() {
+  stopChatPolling();
+  chatPollInterval = setInterval(refreshChatLight, 500);
+}
+function stopChatPolling() {
+  if (chatPollInterval) { clearInterval(chatPollInterval); chatPollInterval = null; }
+}
+
+async function refreshChatLight() {
+  if (!sb || current !== 'chat' || document.hidden) return;
+  try {
+    const { data, error } = await sb.from('chat_messages')
+      .select('*')
+      .order('created_at', { ascending: true })
+      .limit(100);
+    if (error || !data) return;
+    const ids = data.map(m => m.id).join(',');
+    if (ids === chatLastIds) return;
+    chatLastIds = ids;
+    await renderChat(data);
+  } catch(_) {}
+}
+
+async function renderChat(msgsData) {
   if (!sb) return;
   const container = $('#chat-messages');
   if (!container) return;
@@ -2365,13 +2383,21 @@ async function renderChat() {
   }
 
   try {
-    const { data: msgs, error } = await sb.from('chat_messages')
-      .select('*')
-      .order('created_at', { ascending: true })
-      .limit(100);
-    if (error) throw error;
+    let msgs = msgsData;
+    if (!msgs) {
+      const { data, error } = await sb.from('chat_messages')
+        .select('*')
+        .order('created_at', { ascending: true })
+        .limit(100);
+      if (error) throw error;
+      msgs = data || [];
+    }
 
-    if (!msgs || msgs.length === 0) {
+    const ids = msgs.map(m => m.id).join(',');
+    if (ids === chatLastIds && isChatLoaded) return;
+    chatLastIds = ids;
+
+    if (!msgs.length) {
       container.innerHTML = '<div class="chat-msg" style="justify-content:center;opacity:.6"><div style="text-align:center;padding:20px">' + t('chat.empty') + '</div></div>';
       isChatLoaded = true;
       return;
@@ -2389,15 +2415,9 @@ async function renderChat() {
       const p = profileMap[m.user_id] || { nick: 'Unknown', nick_color: '#eaf1ff' };
       const isMe = user && m.user_id === user.id;
       const canDelete = isMe || isAdmin();
-      
       const el = document.createElement('div');
       el.className = 'chat-msg' + (isMe ? ' me' : '');
-      
-      let deleteBtn = '';
-      if (canDelete) {
-        deleteBtn = `<button class="chat-msg-del" data-del-id="${m.id}" title="Удалить"><svg class="i" style="font-size:14px"><use href="#i-trash"/></svg></button>`;
-      }
-
+      let deleteBtn = canDelete ? `<button class="chat-msg-del" data-del-id="${m.id}" title="Удалить"><svg class="i" style="font-size:14px"><use href="#i-trash"/></svg></button>` : '';
       el.innerHTML = `
         <div class="user-avatar" style="background:${isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#b36bff,#7a3cff)'}">${initials(p.nick)}</div>
         <div class="chat-msg-body">
@@ -2409,7 +2429,6 @@ async function renderChat() {
           <div class="chat-msg-text">${escapeHtml(m.content)}</div>
         </div>
       `;
-      
       el.querySelector('.chat-msg-nick').addEventListener('click', () => openUserModal(m.user_id));
       const delBtn = el.querySelector('.chat-msg-del');
       if (delBtn) {
@@ -2418,10 +2437,10 @@ async function renderChat() {
           if (!confirm(LANG==='ru'?'Удалить сообщение?':'Delete message?')) return;
           const { error: err } = await sb.from('chat_messages').delete().eq('id', m.id);
           if (err) { toast('Error', true); return; }
-          await renderChat();
+          chatLastIds = ''; // Force update
+          await refreshChatLight();
         });
       }
-      
       container.appendChild(el);
     });
 
@@ -2429,7 +2448,6 @@ async function renderChat() {
       container.scrollTop = container.scrollHeight;
     }
     isChatLoaded = true;
-
   } catch (e) {
     console.error(e);
     container.innerHTML = '<p style="text-align:center;color:var(--red);padding:20px">Ошибка загрузки чата</p>';
@@ -2449,20 +2467,22 @@ $('#chat-form')?.addEventListener('submit', async e => {
   const btn = $('#chat-submit');
   btn.disabled = true;
   try {
-    const { error } = await sb.from('chat_messages').insert([{
-      user_id: user.id,
-      content: content
-    }]);
+    const { error } = await sb.from('chat_messages').insert([{ user_id: user.id, content: content }]);
     if (error) throw error;
     input.value = '';
-    isChatLoaded = false; 
-    await renderChat();
+    chatLastIds = ''; // Force update
+    await refreshChatLight();
   } catch (err) {
     console.error(err);
     toast('Error: ' + err.message, true);
   } finally {
     btn.disabled = false;
   }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) stopChatPolling();
+  else if (current === 'chat') startChatPolling();
 });
 
 async function loadProfile(){
@@ -2641,264 +2661,10 @@ $('#save-profile-btn').addEventListener('click', async () => {
   }catch(err){ console.error(err); toast('Error', true); }
 });
 
-// --- Support / Tickets ---
-async function loadTickets() {
-  if (!sb || !user) { ticketsList = []; return; }
-  try {
-    const { data, error } = await sb.from('tickets').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
-    if (error) throw error;
-    ticketsList = data || [];
-  } catch (_) { ticketsList = []; }
-}
-
-function renderSupport() {
-  const list = $('#support-tickets-list');
-  if (!list) return;
-  list.replaceChildren();
-  if (!user) {
-    list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2>' + t('apply.gate.t') + '</h2><p>' + t('apply.gate.p') + '</p><a class="btn btn-primary" href="#cabinet">' + t('apply.gate.btn') + '</a></div>';
-    return;
-  }
-  if (!ticketsList.length) {
-    list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-chat"/></svg></div><h2>' + t('support.empty') + '</h2><p>' + t('support.empty.lead') + '</p></div>';
-    return;
-  }
-  ticketsList.forEach(ticket => {
-    const item = document.createElement('div');
-    item.className = 'app-item';
-    const typeLabel = ticket.type === 'appeal_ban' ? '🔨 ' + t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? '📋 ' + t('ticket.type.rejection') : '💬 ' + t('ticket.type.other');
-    const statusClass = ticket.status === 'open' ? 'pending' : 'closed';
-    item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">' + escapeHtml(ticket.subject) + '</span><span class="status-badge ' + statusClass + '">' + t('status.' + ticket.status) + '</span><span class="app-item-date">' + timeAgo(ticket.created_at) + '</span></div><div style="color:var(--muted);font-size:13px">' + typeLabel + '</div></div>';
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-primary btn-sm';
-    btn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>' + t('support.open') + '</span>';
-    btn.addEventListener('click', () => openTicketChat(ticket.id));
-    const actions = document.createElement('div');
-    actions.className = 'app-item-actions';
-    actions.appendChild(btn);
-    item.appendChild(actions);
-    list.appendChild(item);
-  });
-}
-
-function openTicketModal(type = 'other', relatedId = null) {
-  if (!user) { go('cabinet'); return; }
-  $('#ticket-subject').value = '';
-  $('#ticket-type').value = type;
-  $('#ticket-related').value = relatedId || '';
-  $('#ticket-message').value = '';
-  $('#ticket-modal').classList.remove('hidden');
-  const banOv = $('#ban-overlay');
-  if (banOv) banOv.classList.add('hidden');
-  setTimeout(() => $('#ticket-subject').focus(), 100);
-}
-
-function closeTicketModal() {
-  $('#ticket-modal').classList.add('hidden');
-  if (userProfile && userProfile.banned) {
-    const banOv = $('#ban-overlay');
-    if (banOv) banOv.classList.remove('hidden');
-  }
-}
-
-$('#ticket-modal-close').addEventListener('click', closeTicketModal);
-$('#ticket-modal-cancel').addEventListener('click', closeTicketModal);
-$('#ticket-modal').addEventListener('click', e => { if (e.target === $('#ticket-modal')) closeTicketModal(); });
-
-$('#ticket-modal-submit').addEventListener('click', async () => {
-  const subject = $('#ticket-subject').value.trim();
-  const type = $('#ticket-type').value;
-  const related = $('#ticket-related').value.trim();
-  const msg = $('#ticket-message').value.trim();
-  if (!subject) { toast(t('ticket.err.subject'), true); return; }
-  if (!msg) { toast(t('ticket.err.message'), true); return; }
-
-  const btn = $('#ticket-modal-submit');
-  btn.disabled = true;
-  try {
-    const { data: ticketData, error: ticketErr } = await sb.from('tickets').insert([{
-      user_id: user.id,
-      subject: subject,
-      type: type,
-      related_id: related || null
-    }]).select().single();
-    if (ticketErr) throw ticketErr;
-
-    const { error: msgErr } = await sb.from('ticket_messages').insert([{
-      ticket_id: ticketData.id,
-      sender_id: user.id,
-      content: msg
-    }]);
-    if (msgErr) throw msgErr;
-
-    toast(t('ticket.success'));
-    closeTicketModal();
-    await loadTickets();
-    if (current === 'support') renderSupport();
-    if (current === 'admin' && adminTab === 'tickets') renderAdminTickets();
-  } catch (e) {
-    console.error(e);
-    toast('Error: ' + e.message, true);
-  } finally {
-    btn.disabled = false;
-  }
-});
-
-async function openTicketChat(ticketId) {
-  currentTicketId = ticketId;
-  $('#ticket-chat-modal').classList.remove('hidden');
-  $('#ticket-chat-body').innerHTML = '<p style="text-align:center;color:var(--muted)">' + t('loading') + '</p>';
-  await loadTicketMessages(ticketId);
-  const banOv = $('#ban-overlay');
-  if (banOv) banOv.classList.add('hidden');
-}
-
-function closeTicketChat() {
-  $('#ticket-chat-modal').classList.add('hidden');
-  currentTicketId = null;
-  if (userProfile && userProfile.banned) {
-    const banOv = $('#ban-overlay');
-    if (banOv) banOv.classList.remove('hidden');
-  }
-}
-
-$('#ticket-chat-close').addEventListener('click', closeTicketChat);
-$('#ticket-chat-modal').addEventListener('click', e => { if (e.target === $('#ticket-chat-modal')) closeTicketChat(); });
-
-async function loadTicketMessages(ticketId) {
-  const wrap = $('#ticket-chat-body');
-  try {
-    const { data: ticket } = await sb.from('tickets').select('*').eq('id', ticketId).single();
-    if (ticket) {
-      $('#ticket-chat-title').textContent = ticket.subject;
-      $('#ticket-chat-subtitle').textContent = t('status.' + ticket.status) + ' · ' + (ticket.type === 'appeal_ban' ? t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? t('ticket.type.rejection') : t('ticket.type.other'));
-    }
-    
-    const { data: messages, error } = await sb.from('ticket_messages')
-      .select('*')
-      .eq('ticket_id', ticketId)
-      .order('created_at', { ascending: true });
-    if (error) throw error;
-    
-    let profileMap = {};
-    if (messages && messages.length > 0) {
-      const senderIds = [...new Set(messages.map(m => m.sender_id))];
-      const { data: profiles } = await sb.from('profiles').select('id, nick, nick_color').in('id', senderIds);
-      if (profiles) profiles.forEach(p => profileMap[p.id] = p);
-    }
-
-    wrap.replaceChildren();
-    if (!messages || !messages.length) {
-      wrap.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">' + t('ticket.noMessages') + '</p>';
-      return;
-    }
-    messages.forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'comment-item';
-      const isMe = m.sender_id === user.id;
-      const profile = profileMap[m.sender_id];
-      const nick = profile ? profile.nick : (isMe ? 'Me' : 'Admin');
-      const color = profile ? profile.nick_color : 'inherit';
-      el.innerHTML = '<div class="comment-avatar" style="background:' + (isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#f6b73c,#d69b1a)') + '">' + initials(nick) + '</div>' +
-        '<div class="comment-body">' +
-          '<div class="comment-head">' +
-            '<span class="comment-nick" style="color:' + (color||'inherit') + '">' + escapeHtml(nick) + '</span>' +
-            '<span class="comment-date">' + timeAgo(m.created_at) + '</span>' +
-          '</div>' +
-          '<div class="comment-text">' + escapeHtml(m.content) + '</div>' +
-        '</div>';
-      wrap.appendChild(el);
-    });
-    wrap.scrollTop = wrap.scrollHeight;
-  } catch (e) {
-    console.error(e);
-    wrap.innerHTML = '<p style="color:var(--red);text-align:center">Error</p>';
-  }
-}
-
-$('#ticket-chat-form').addEventListener('submit', async e => {
-  e.preventDefault();
-  if (!user || !currentTicketId) return;
-  const input = $('#ticket-chat-input');
-  const content = input.value.trim();
-  if (!content) return;
-  const btn = $('#ticket-chat-submit');
-  btn.disabled = true;
-  try {
-    const { error } = await sb.from('ticket_messages').insert([{
-      ticket_id: currentTicketId,
-      sender_id: user.id,
-      content: content
-    }]);
-    if (error) throw error;
-    input.value = '';
-    await loadTicketMessages(currentTicketId);
-  } catch (e) {
-    console.error(e);
-    toast('Error', true);
-  } finally {
-    btn.disabled = false;
-  }
-});
-
-// Admin tickets
-async function loadAllTickets() {
-  if (!sb || !canModerate()) { allTickets = []; return; }
-  try {
-    const { data, error } = await sb.from('tickets').select('*').order('created_at', { ascending: false });
-    if (error) throw error;
-    allTickets = data || [];
-  } catch (_) { allTickets = []; }
-}
-
-async function renderAdminTickets() {
-  await loadAllTickets();
-  const tb = $('#admin-tickets-body');
-  if (!tb) return;
-  tb.replaceChildren();
-  if (!allTickets.length) {
-    tb.innerHTML = '<tr><td colspan="7" class="empty">' + t('admin.tickets.empty') + '</td></tr>';
-    return;
-  }
-  
-  const userIds = [...new Set(allTickets.map(t => t.user_id))];
-  const { data: profiles } = await sb.from('profiles').select('id, nick').in('id', userIds);
-  const profileMap = {};
-  if(profiles) profiles.forEach(p => profileMap[p.id] = p);
-
-  allTickets.forEach(ticket => {
-    const tr = document.createElement('tr');
-    const p = profileMap[ticket.user_id];
-    const nick = p ? p.nick : ticket.user_id;
-    const typeLabel = ticket.type === 'appeal_ban' ? '🔨 ' + t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? '📋 ' + t('ticket.type.rejection') : '💬 ' + t('ticket.type.other');
-    const statusBadge = '<span class="status-badge ' + (ticket.status === 'open' ? 'pending' : 'closed') + '">' + t('status.' + ticket.status) + '</span>';
-    tr.innerHTML = '<td>' + escapeHtml(nick) + '</td><td>' + escapeHtml(ticket.subject) + '</td><td>' + typeLabel + '</td><td>' + statusBadge + '</td><td style="font-size:12px;color:var(--muted)">' + timeAgo(ticket.created_at) + '</td>';
-    const tdActions = document.createElement('td');
-    const openBtn = document.createElement('button');
-    openBtn.className = 'btn btn-primary btn-sm';
-    openBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg> ' + t('support.open');
-    openBtn.addEventListener('click', () => openTicketChat(ticket.id));
-    tdActions.appendChild(openBtn);
-    if (ticket.status === 'open') {
-      const closeBtn = document.createElement('button');
-      closeBtn.className = 'btn btn-ghost btn-sm';
-      closeBtn.textContent = '✕ ' + t('status.closed');
-      closeBtn.style.marginLeft = '4px';
-      closeBtn.addEventListener('click', async () => {
-        await sb.from('tickets').update({ status: 'closed' }).eq('id', ticket.id);
-        await renderAdminTickets();
-        toast('Closed');
-      });
-      tdActions.appendChild(closeBtn);
-    }
-    tr.appendChild(tdActions);
-    tb.appendChild(tr);
-  });
-}
-
-// End Support / Tickets
-
 async function openUserModal(userId){
+  if (!location.hash.startsWith('#user=')) {
+    history.pushState(null, '', '#user=' + userId);
+  }
   currentUserId = userId; userModal.classList.remove('hidden');
   const wrap = $('#um-body'), actions = $('#um-actions');
   wrap.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">'+(LANG==='ru'?'Загрузка…':'Loading…')+'</p>';
@@ -2918,6 +2684,9 @@ async function openUserModal(userId){
     const passes = profile.passes || 0;
     $('#um-title').textContent = profile.nick || '—';
     $('#um-subtitle').textContent = t('lb.th.level')+' '+lvl+' · '+pts+' '+t('stage.points')+' · '+passes+' 🎟 · '+cups.length+' '+(LANG==='ru'?'кубков':'cups')+(profile.banned?' · '+(LANG==='ru'?'ЗАБАНЕН':'BANNED'):'');
+    
+    document.title = (profile.nick || '—') + ' - Профиль';
+    
     let html = '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25);flex-wrap:wrap">';
     html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">'+initials(profile.nick)+'</div>';
     html += '<div style="flex:1;min-width:0"><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px;color:'+(profile.nick_color||'inherit')+'">'+escapeHtml(profile.nick||'—')+'</div>';
@@ -2945,6 +2714,7 @@ async function openUserModal(userId){
     } else html += '<p style="color:var(--muted);font-size:13.5px">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>';
     if(profile.banned) html += '<div style="margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);color:var(--red);font-size:13px"><b>'+(LANG==='ru'?'Забанен.':'Banned.')+'</b> '+escapeHtml(profile.banned_reason||(LANG==='ru'?'Причина не указана':'No reason'))+'</div>';
     wrap.innerHTML = html;
+    
     if(canModerate()){
       const add = (icon, text, cls, fn) => {
         const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
@@ -2963,11 +2733,31 @@ async function openUserModal(userId){
         else add('i-ban', LANG==='ru'?'Забанить':'Ban', 'danger', () => banUser(userId));
       }
     }
+    
+    const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
+    copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>'+t('btn.copyLink')+'</span>';
+    copyBtn.addEventListener('click', () => {
+      const url = window.location.origin + window.location.pathname + '#user=' + userId;
+      navigator.clipboard.writeText(url).then(() => {
+        toast(t('toast.copied'));
+      }).catch(() => {
+        toast('Error', true);
+      });
+    });
+    actions.appendChild(copyBtn);
+    
     const close = document.createElement('button'); close.type='button'; close.className='btn btn-ghost'; close.textContent = LANG==='ru'?'Закрыть':'Close';
     close.addEventListener('click', closeUserModal); actions.appendChild(close);
   }catch(err){ console.error(err); wrap.innerHTML = '<p style="color:var(--red)">Error</p>'; }
 }
-function closeUserModal(){ userModal.classList.add('hidden'); currentUserId = null; }
+function closeUserModal(){ 
+  userModal.classList.add('hidden'); 
+  currentUserId = null; 
+  document.title = 'International Geometry Dash Championship';
+  if (location.hash.startsWith('#user=')) {
+    go('home');
+  }
+}
 $('#um-close').addEventListener('click', closeUserModal);
 userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
 document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); if(!$('#ticket-modal').classList.contains('hidden')) closeTicketModal(); if(!$('#ticket-chat-modal').classList.contains('hidden')) closeTicketChat(); } });
@@ -3743,7 +3533,7 @@ function setAuthError(which, msg){ const el = $('#'+which+'-error'); el.textCont
 $('#login-form').addEventListener('submit', async e => {
   e.preventDefault();
   if(document.documentElement.hasAttribute('data-banned')){ toast(t('ban.title'), true); return; }
-  const email = e.target.elements.email.value.trim();
+  const identifier = e.target.elements.identifier.value.trim();
   const password = e.target.elements.password.value;
   setAuthError('login','');
   if(!sb){ toast('Supabase?', true); return; }
@@ -3751,14 +3541,28 @@ $('#login-form').addEventListener('submit', async e => {
   const prev = btn.textContent; btn.disabled = true; btn.textContent = LANG==='ru'?'Отправляем…':'Sending…';
   
   try{
-    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    let emailToTry = identifier;
+    
+    if (!identifier.includes('@')) {
+      const { data: foundEmail, error: rpcErr } = await sb.rpc('get_email_by_nick', { nickname: identifier });
+      if (foundEmail) {
+        emailToTry = foundEmail;
+      } else {
+        setAuthError('login', LANG==='ru'?'Игрок с таким ником не найден.':'Player with this nickname not found.');
+        return;
+      }
+    }
+
+    const { data, error } = await sb.auth.signInWithPassword({ email: emailToTry, password });
+    
     if(error){
       const msg = (error.message||'').toLowerCase();
       if(/confirm|not confirmed/i.test(msg)) setAuthError('login', LANG==='ru'?'Email не подтверждён.':'Email not confirmed.');
-      else if(/invalid/i.test(msg)) setAuthError('login', LANG==='ru'?'Неверный email или пароль':'Invalid credentials');
+      else if(/invalid/i.test(msg)) setAuthError('login', LANG==='ru'?'Неверный логин или пароль':'Invalid credentials');
       else setAuthError('login', 'Error: '+error.message.slice(0,100));
       return;
     }
+    
     toast(LANG==='ru'?'Добро пожаловать!':'Welcome!');
     e.target.reset();
     
@@ -3788,6 +3592,15 @@ $('#register-form').addEventListener('submit', async e => {
   if(password.length < 6){ setAuthError('register', LANG==='ru'?'Пароль минимум 6 символов':'Password min 6 chars'); return; }
   if(password !== password2){ setAuthError('register', LANG==='ru'?'Пароли не совпадают':'Passwords do not match'); return; }
   if(!sb){ toast('Supabase?', true); return; }
+  
+  try {
+    const { data: nickCheck } = await sb.from('profiles').select('id').ilike('nick', gdNick).limit(1);
+    if(nickCheck && nickCheck.length > 0){ 
+      setAuthError('register', LANG==='ru'?'Этот ник уже занят. Придумай другой.':'This nickname is already taken.'); 
+      return; 
+    }
+  } catch (_) {}
+
   try{
     const { data: badW } = await sb.from('banned_words').select('word').limit(200);
     if(badW && badW.length){
@@ -3828,6 +3641,7 @@ $('#register-form').addEventListener('submit', async e => {
 });
 $('#logout-btn').addEventListener('click', async () => {
   if(!sb) return;
+  stopChatPolling();
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
   await sb.auth.signOut();
   toast(LANG==='ru'?'Вы вышли':'Logged out');
@@ -3879,7 +3693,6 @@ function setupRealtime(){
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
   
   realtimeChannel = sb.channel('gdcc-all')
-    // 1. ПРОФИЛИ (Бан, пропуска, ник)
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async payload => {
       if(user && payload.new.id === user.id){
         userProfile = payload.new;
@@ -3895,8 +3708,6 @@ function setupRealtime(){
         if(adminTab === 'settings') renderAdminSettings();
       }
     })
-
-    // 2. ЗАЯВКИ НА ЭТАПЫ
     .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
       if(canModerate()) {
         await loadAdminApps(); updateAdminStats();
@@ -3911,8 +3722,6 @@ function setupRealtime(){
         if(current === 'tournament') renderTournamentPage();
       }
     })
-
-    // 3. ЗАЯВКИ НА ТУРНИРЫ
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
       const rec = payload.new || payload.old;
       if(!canModerate() && (!rec || rec.user_id !== user?.id)) return;
@@ -3929,15 +3738,11 @@ function setupRealtime(){
       if(current === 'tournaments') renderTournaments();
       if(current === 'tournament') renderTournamentPage();
     })
-
-    // 4. КУБКИ
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cups' }, async () => {
       if(canModerate()) await loadAllCups();
       if(current === 'leaderboard') await renderLeaderboard();
       if(user && current === 'cabinet') { await loadMyCups(); renderCabinet(); }
     })
-
-    // 5. ОБРАЩЕНИЯ (ТИКЕТЫ)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, async () => {
       if (current === 'support') { await loadTickets(); renderSupport(); }
       if (canModerate() && current === 'admin' && adminTab === 'tickets') renderAdminTickets();
@@ -3947,13 +3752,6 @@ function setupRealtime(){
         await loadTicketMessages(currentTicketId);
       }
       if (canModerate() && current === 'admin' && adminTab === 'tickets') renderAdminTickets();
-    })
-
-    // 6. ЧАТ
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_messages' }, async payload => {
-      if (current === 'chat') {
-        await renderChat();
-      }
     })
     .subscribe();
 }
