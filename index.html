@@ -269,7 +269,10 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .auth-note{font-size:12.5px;color:var(--muted);margin-top:12px;text-align:center}
 .auth-note a{color:var(--blue-2)}
 .footer{border-top:1px solid var(--line-soft);padding:20px 0;color:#5f7399;font-size:13px}
-.footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.footer-links a{color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--blue-2)}
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
@@ -342,8 +345,25 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .apply-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
 .rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
 .docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.comment-list{display:flex;flex-direction:column;gap:12px;max-height:300px;overflow-y:auto;margin-bottom:16px;padding-right:8px}
+.comment-item{padding:12px;border-radius:10px;background:rgba(10,20,45,.6);border:1px solid var(--line-soft);display:flex;gap:12px}
+.comment-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#2a98ff,#1169e8);display:grid;place-items:center;font-weight:700;font-size:14px;color:#fff;flex:none}
+.comment-body{flex:1;min-width:0}
+.comment-head{display:flex;justify-content:space-between;margin-bottom:4px}
+.comment-nick{font-weight:600;font-size:13.5px}
+.comment-date{font-size:11.5px;color:var(--muted)}
+.comment-text{font-size:13.5px;color:#eaf1ff;word-break:break-word}
 
-/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ (ГЛОБАЛЬНЫЙ ФИКС) ========== */
+/* Shop styles */
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.shop-card{position:relative;overflow:hidden;transition:.2s;border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(14,26,58,.9),rgba(9,18,42,.95));padding:26px;display:flex;flex-direction:column;gap:16px}
+.shop-card:hover{transform:translateY(-4px);border-color:var(--blue-2);box-shadow:0 14px 44px rgba(31,139,255,.22)}
+.shop-icon{display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,rgba(246,183,60,.2),rgba(246,140,0,.1));color:var(--gold);font-size:32px;border:1px solid rgba(246,183,60,.35);margin-bottom:8px}
+.shop-title{font-family:'Exo 2',sans-serif;font-size:22px;font-weight:800}
+.shop-desc{color:var(--muted);font-size:14px}
+.shop-price{font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--gold)}
+.balance-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:16px}
+
 @media(max-width:1200px){
   .burger{display:grid}
   .header-in{gap:12px}
@@ -398,6 +418,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .user-card{flex-direction:column;align-items:stretch;text-align:center}
   .user-stats{justify-content:center}
   .table th,.table td{padding:10px 12px;font-size:13px}
+  .footer .wrap{flex-direction:column;text-align:center}
+  .footer-links{justify-content:center}
 }
 </style>
 </head>
@@ -442,6 +464,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></symbol>
 <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
 <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c5.5 0 8-3 8-5a2 2 0 0 0-2-2h-2a2 2 0 0 1 0-4h3a3 3 0 0 0 3-3 10 10 0 0 0-10-6z"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 8h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4V8z"/><path d="M9 12h6"/></symbol>
+<symbol id="i-shop" viewBox="0 0 24 24"><path d="M3 9l2-6h14l2 6"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 22V13h6v9"/></symbol>
 </defs>
 </svg>
 
@@ -454,6 +478,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <nav class="nav" id="nav">
       <a href="#home" data-nav="home"><svg class="i"><use href="#i-home"/></svg><span data-i18n="nav.home">Главная</span></a>
       <a href="#tournaments" data-nav="tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></a>
+      <a href="#shop" data-nav="shop"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></a>
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span data-i18n="nav.leaderboard">Таблица</span></a>
       <a href="#activity" data-nav="activity"><svg class="i"><use href="#i-activity"/></svg><span data-i18n="nav.activity">Лента</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
@@ -461,6 +486,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
     </nav>
     <div class="header-actions">
+      <div id="header-balance" class="balance-badge hidden" title="Ваши пропуски">
+        <svg class="i"><use href="#i-ticket"/></svg> <span data-user-passes>0</span>
+      </div>
       <div class="lang" role="group">
         <button type="button" data-lang="ru" aria-pressed="true">RU</button>
         <button type="button" data-lang="en" aria-pressed="false">EN</button>
@@ -531,6 +559,24 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></div><h1 data-i18n="tournaments.title">Турниры</h1><p data-i18n="tournaments.lead">Подай заявку на участие в турнире. После одобрения администратором откроются этапы.</p></div>
     <div class="page-body"><div class="tournaments-grid" id="tournaments-grid"></div></div>
+  </div>
+</section>
+
+<section class="page" id="page-shop">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
+      <h1 data-i18n="shop.title">Магазин</h1>
+      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
+      <div style="margin-top:16px" id="shop-balance">
+        <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
+      </div>
+    </div>
+    <div class="page-body">
+      <div class="shop-grid" id="shop-grid">
+        <!-- Сгенерируется через JS -->
+      </div>
+    </div>
   </div>
 </section>
 
@@ -766,6 +812,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
             <input class="input" type="text" id="new-t-title" data-i18n-ph="admin.newTournament.title" placeholder="Название турнира">
             <input class="input" type="text" id="new-t-desc" data-i18n-ph="admin.newTournament.desc" placeholder="Описание">
           </div>
+          <div class="check-wrap" style="margin-bottom:14px">
+            <label class="check"><input type="checkbox" id="new-t-paid"><span data-i18n="admin.newTournament.paid">Платный турнир (требуется пропуск)</span></label>
+          </div>
           <button type="button" class="btn btn-primary" id="create-tournament-btn"><svg class="i"><use href="#i-plus"/></svg><span data-i18n="admin.newTournament.btn">Создать турнир</span></button>
         </div>
         <div id="admin-tournaments-list"></div>
@@ -825,7 +874,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 </section>
 </main>
 
-<footer class="footer"><div class="wrap"><span>© International Geometry Dash Championship</span><span data-i18n="footer.tag">Турнир сообщества</span></div></footer>
+<footer class="footer">
+  <div class="wrap">
+    <div style="font-weight:600;color:var(--text)">© International Geometry Dash Championship</div>
+    <div class="footer-links">
+      <a href="https://telegra.ph/POLITIKA-KONFIDENCIALNOSTI-08-12-99" target="_blank" rel="noopener" data-i18n="footer.privacy">Политика конфиденциальности</a>
+      <a href="https://telegra.ph/PUBLICHNAYA-OFERTA-08-12-15" target="_blank" rel="noopener" data-i18n="footer.terms">Пользовательское соглашение</a>
+      <a href="https://t.me/GDManage" target="_blank" rel="noopener" data-i18n="footer.support">Поддержка: @GDManage</a>
+    </div>
+  </div>
+</footer>
 
 <div class="lang-gate" id="lang-gate">
   <div class="gate-card">
@@ -908,13 +966,32 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<div class="modal-back hidden" id="comments-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 data-i18n="comments.title">Обсуждение этапа</h2>
+        <p id="comments-modal-subtitle">—</p>
+      </div>
+      <button class="modal-close" id="comments-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="comments-modal-body">
+      <div class="comment-list" id="comments-list"></div>
+      <form id="comment-form" style="display:flex;flex-direction:column;gap:10px">
+        <textarea class="input" id="comment-input" placeholder="Написать комментарий..." maxlength="500" style="height:80px"></textarea>
+        <button type="submit" class="btn btn-primary" id="comment-submit-btn"><svg class="i"><use href="#i-send"/></svg><span data-i18n="comments.submit">Отправить</span></button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
   <div style="max-width:520px;width:100%">
     <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)"><svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg></div>
     <h1 style="font-family:'Exo 2',sans-serif;font-weight:900;font-size:clamp(32px,6vw,52px);color:#ff5d73;line-height:1;margin-bottom:18px;text-shadow:0 0 40px rgba(255,93,115,.5)" data-i18n="ban.title">ВЫ ЗАБАНЕНЫ</h1>
     <p style="color:#b9c8e6;font-size:16px;margin-bottom:10px" data-i18n="ban.desc">Ваш аккаунт и устройство заблокированы.</p>
     <p id="ban-reason-text" style="color:var(--red);font-size:14.5px;margin-bottom:28px;padding:12px 18px;border-radius:12px;background:rgba(255,93,115,.08);border:1px solid rgba(255,93,115,.3);display:none"></p>
-    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line)"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px" data-i18n="ban.contact">Для связи пишите</div><a href="https://t.me/YouAreScamers" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px"><svg class="i" style="font-size:24px"><use href="#i-send"/></svg>@YouAreScamers</a></div>
+    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line)"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px" data-i18n="ban.contact">Для связи пишите</div><a href="https://t.me/GDManage" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px"><svg class="i" style="font-size:24px"><use href="#i-send"/></svg>@GDManage</a></div>
   </div>
 </div>
 
@@ -933,7 +1010,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
 const I18N = {
   ru: {
-    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.leaderboard':'Таблица','nav.activity':'Лента','nav.cabinet':'Кабинет','nav.admin':'Админка',
+    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.activity':'Лента','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
     'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','stat.participants':'Участников',
@@ -955,9 +1032,11 @@ const I18N = {
     'tournaments.title':'Турниры','tournaments.lead':'Подай заявку на участие в турнире. После одобрения администратором откроются этапы.',
     'tournament.join.btn':'Принять участие','tournament.join.btnAgain':'Заявка отклонена — переподать','tournament.join.pending':'⏳ Заявка на проверке','tournament.join.approved':'✓ Вы приняты','tournament.join.rejected':'✕ Заявка отклонена',
     'tournament.seats':'Принято:','tournament.seats.full':'Мест нет','tournament.open.stages':'Открыть этапы',
+    'tournament.paid':'Платный (Пропуск)', 'tournament.free': 'Бесплатный',
     'reg.title':'Заявка на участие','reg.subtitle':'Заполни анкету. Админ рассмотрит и примет решение.',
     'reg.nick':'Ваш ник в Geometry Dash','reg.nick.hint':'Ник берётся из профиля. Меняется в кабинете.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Устройство','reg.motivation':'Почему хотите участвовать?','reg.motivation.ph':'1–3 предложения','reg.motivation.hint':'Минимум 20 символов.','reg.submit':'Отправить заявку','reg.sending':'Отправляем…',
     'reg.err.tg':'Укажи Telegram (@username, 5+ символов)','reg.err.motiv':'Расскажи, почему хочешь участвовать (минимум 20 символов)','reg.success':'Заявка отправлена! Жди решения админа.','reg.already':'Заявка уже отправлена',
+    'reg.no_pass':'У вас нет пропусков для этого платного турнира. Купите пропуск в магазине.',
     'apply.eyebrow':'Подача видео','apply.title':'Форма подачи заявки','apply.lead':'Заполни все поля внимательно.',
     'apply.tournament':'Турнир','apply.stage':'Этап',
     'apply.gate.t':'Нужен аккаунт','apply.gate.p':'Войдите или зарегистрируйтесь, чтобы подать заявку.','apply.gate.btn':'Войти / Регистрация',
@@ -990,13 +1069,13 @@ const I18N = {
     'docs.title':'Необходимые документы','docs.lead':'Что нужно подготовить.',
     'docs.d1.t':'Античит (чит индикатор)','docs.d1.p':'Скриншот или видео с чит индикатором.',
     'docs.d2.t':'Хенд кам','docs.d2.p':'Видео с камерой, показывающее руки.',
-    'footer.tag':'Турнир сообщества',
+    'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
     'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
-    'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир',
+    'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир', 'admin.newTournament.paid':'Платный турнир (требуется пропуск)',
     'admin.search':'Поиск...','admin.allTournaments':'Все турниры','admin.allStages':'Все этапы',
     'admin.filter.all':'Все','admin.filter.pending':'На проверке','admin.filter.approved':'Одобренные','admin.filter.rejected':'Отклонённые',
     'admin.th.date':'Дата','admin.th.tournament':'Турнир','admin.th.stage':'Этап','admin.th.nick':'Ник','admin.th.contacts':'Контакты','admin.th.platform':'Устройство','admin.th.video':'Видео','admin.th.motivation':'Мотивация','admin.th.status':'Статус','admin.th.actions':'Действия',
@@ -1016,11 +1095,15 @@ const I18N = {
     'stage.modal.title.label':'Название','stage.modal.number':'Номер','stage.modal.desc.label':'Описание','stage.modal.task':'Задача','stage.modal.rules.ph':'Одно правило на строку',
     'stage.modal.level.name':'Название','stage.modal.level.id':'ID','stage.modal.difficulty':'Сложность','stage.modal.level.url':'Ссылка на видео',
     'stage.modal.points':'Очки','stage.modal.max':'Лимит мест','stage.modal.deadline':'Дедлайн','stage.modal.rewardText':'Текст награды',
+    'comments.title':'Обсуждение этапа','comments.submit':'Отправить','comments.empty':'Пока нет комментариев. Будь первым!','comments.placeholder':'Написать комментарий...',
+    'shop.title':'Магазин', 'shop.lead':'Покупайте пропуски для участия в платных турнирах.',
+    'shop.buy':'Купить', 'shop.your_passes':'Ваши пропуска:', 'shop.price':'Цена', 'shop.rub':'руб.',
+    'shop.success':'Покупка успешна! (Демо-режим: RollyPay будет подключен позже)',
     'toast.copied':'Скопировано',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире'
   },
   en: {
-    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.cabinet':'Cabinet','nav.admin':'Admin',
+    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
     'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','stat.participants':'Participants',
@@ -1042,9 +1125,11 @@ const I18N = {
     'tournaments.title':'Tournaments','tournaments.lead':'Apply to join a tournament. After admin approval stages become available.',
     'tournament.join.btn':'Join tournament','tournament.join.btnAgain':'Rejected — apply again','tournament.join.pending':'⏳ Application under review','tournament.join.approved':'✓ You are in','tournament.join.rejected':'✕ Rejected',
     'tournament.seats':'Approved:','tournament.seats.full':'No seats left','tournament.open.stages':'Open stages',
+    'tournament.paid':'Paid (Pass)', 'tournament.free': 'Free',
     'reg.title':'Join application','reg.subtitle':'Fill the form. Admin will review your application.',
     'reg.nick':'Your Geometry Dash nickname','reg.nick.hint':'Nickname comes from your profile. Change it in the cabinet.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Platform','reg.motivation':'Why do you want to join?','reg.motivation.ph':'1–3 sentences','reg.motivation.hint':'Minimum 20 characters.','reg.submit':'Send application','reg.sending':'Sending…',
     'reg.err.tg':'Enter Telegram (@username, 5+ chars)','reg.err.motiv':'Tell us why (min 20 chars)','reg.success':'Application sent! Wait for admin decision.','reg.already':'Application already sent',
+    'reg.no_pass':'You have no passes for this paid tournament. Buy one in the shop.',
     'apply.eyebrow':'Video submission','apply.title':'Application form','apply.lead':'Fill all fields carefully.',
     'apply.tournament':'Tournament','apply.stage':'Stage',
     'apply.gate.t':'Account required','apply.gate.p':'Log in or register to apply.','apply.gate.btn':'Log in / Register',
@@ -1077,13 +1162,13 @@ const I18N = {
     'docs.title':'Required documents','docs.lead':'What to prepare.',
     'docs.d1.t':'Anti-cheat (cheat indicator)','docs.d1.p':'Screenshot or video with the cheat indicator on.',
     'docs.d2.t':'Hand cam','docs.d2.p':'Video with camera showing your hands.',
-    'footer.tag':'Community tournament',
+    'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
     'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
-    'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament',
+    'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament', 'admin.newTournament.paid':'Paid tournament (requires pass)',
     'admin.search':'Search...','admin.allTournaments':'All tournaments','admin.allStages':'All stages',
     'admin.filter.all':'All','admin.filter.pending':'Pending','admin.filter.approved':'Approved','admin.filter.rejected':'Rejected',
     'admin.th.date':'Date','admin.th.tournament':'Tournament','admin.th.stage':'Stage','admin.th.nick':'Nickname','admin.th.contacts':'Contacts','admin.th.platform':'Platform','admin.th.video':'Video','admin.th.motivation':'Motivation','admin.th.status':'Status','admin.th.actions':'Actions',
@@ -1103,12 +1188,16 @@ const I18N = {
     'stage.modal.title.label':'Title','stage.modal.number':'Number','stage.modal.desc.label':'Description','stage.modal.task':'Task','stage.modal.rules.ph':'One rule per line',
     'stage.modal.level.name':'Name','stage.modal.level.id':'ID','stage.modal.difficulty':'Difficulty','stage.modal.level.url':'Video link',
     'stage.modal.points':'Points','stage.modal.max':'Slot limit','stage.modal.deadline':'Deadline','stage.modal.rewardText':'Reward text',
+    'comments.title':'Stage discussion','comments.submit':'Send','comments.empty':'No comments yet. Be the first!','comments.placeholder':'Write a comment...',
+    'shop.title':'Shop', 'shop.lead':'Buy passes to participate in paid tournaments.',
+    'shop.buy':'Buy', 'shop.your_passes':'Your passes:', 'shop.price':'Price', 'shop.rub':'RUB',
+    'shop.success':'Purchase successful! (Demo: RollyPay coming soon)',
     'toast.copied':'Copied',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament'
   }
 };
 
-const PAGE_IDS = ['home','rules','tournaments','tournament','apply','leaderboard','activity','cabinet','docs','admin'];
+const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','activity','cabinet','docs','admin'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 
 const $ = s => document.querySelector(s);
@@ -1118,11 +1207,11 @@ const form = $('#apply-form'), successEl = $('#apply-success'), submitBtn = $('#
 const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
 const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
 const stageModal = $('#stage-modal'), userModal = $('#user-modal'), cupModal = $('#cup-modal');
-const regModal = $('#reg-modal');
+const regModal = $('#reg-modal'), commentsModal = $('#comments-modal');
 
 let toastTimer, current = null;
 let user = null, userProfile = null, myApplications = [], myRegs = [], profilePoints = { points: 0 };
-let tournaments = [], stages = [], allUsers = [], allCups = [], bannedWords = [], activityList = [];
+let tournaments = [], stages = [], allUsers = [], allCups = [], bannedWords = [], activityList = [], shopItems = [];
 let allRegs = [];
 let currentTournamentId = null;
 let editingId = null, currentStageId = null;
@@ -1136,7 +1225,7 @@ let isModeratorFlag = false;
 let realtimeChannel = null;
 let modalStageId = null, modalTournamentId = null, modalIsNew = false;
 let currentUserId = null, cupTargetUserId = null;
-let regModalTid = null;
+let regModalTid = null, currentCommentsStageId = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
@@ -1181,6 +1270,7 @@ function applyLang(l){
   $$('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
   try{ renderTournaments(); }catch(_){}
+  try{ renderShop(); }catch(_){}
   try{ if(currentTournamentId) renderTournamentPage(); }catch(_){}
   try{ renderLeaderboard(); }catch(_){}
   try{ renderActivity(); }catch(_){}
@@ -1263,6 +1353,7 @@ function show(id){
   if(id === 'leaderboard') renderLeaderboard();
   if(id === 'activity') renderActivity();
   if(id === 'tournaments') renderTournaments();
+  if(id === 'shop') renderShop();
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
   if(id === 'admin') renderAdmin();
@@ -1290,6 +1381,11 @@ $('#login-btn').addEventListener('click', () => go('cabinet'));
 $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
 $('#tournament-back').addEventListener('click', () => go('tournaments'));
 window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
+window.updatePassesUI = n => {
+  $$('[data-user-passes]').forEach(el => el.textContent = (n == null ? '0' : n));
+  const hb = $('#header-balance');
+  if (hb) hb.classList.toggle('hidden', !user);
+};
 
 document.getElementById('hero-apply-btn').addEventListener('click', e => {
   e.preventDefault();
@@ -1298,6 +1394,7 @@ document.getElementById('hero-apply-btn').addEventListener('click', e => {
 
 async function loadTournaments(){ if(!sb){ tournaments=[]; return; } try{ const {data,error}=await sb.from('tournaments').select('*').order('number',{ascending:true}); if(error) throw error; tournaments=data||[]; }catch(_){ tournaments=[]; } }
 async function loadStages(){ if(!sb){ stages=[]; return; } try{ const {data,error}=await sb.from('stages').select('*').order('number',{ascending:true}); if(error) throw error; stages=data||[]; }catch(_){ stages=[]; } }
+async function loadShopItems(){ if(!sb){ shopItems=[]; return; } try{ const {data,error}=await sb.from('shop_items').select('*').order('price',{ascending:true}); if(error) throw error; shopItems=data||[]; }catch(_){ shopItems=[]; } }
 async function loadProfilePoints(){ if(!sb||!user){ profilePoints={points:0}; return; } try{ const {data,error}=await sb.from('profile_points').select('*').eq('id',user.id).maybeSingle(); if(error) throw error; profilePoints=data||{points:0}; }catch(_){ profilePoints={points:0}; } }
 async function loadMyCups(){ if(!sb||!user) return []; try{ const {data,error}=await sb.from('cups').select('*').eq('user_id',user.id).order('awarded_at',{ascending:false}); if(error) throw error; return data||[]; }catch(_){ return []; } }
 async function loadMyRegs(){
@@ -1379,7 +1476,8 @@ function renderTournaments(){
       }
       joinBlock += '</div>';
     } else if(t_.status === 'open'){
-      joinBlock = '<button type="button" class="btn btn-primary btn-block" data-join-tid="'+t_.id+'"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+'</span></button>';
+      const priceStr = t_.is_paid ? ' <span style="font-size:11px;background:var(--gold);color:#000;padding:2px 6px;border-radius:4px;margin-left:6px">'+t('tournament.paid')+'</span>' : '';
+      joinBlock = '<button type="button" class="btn btn-primary btn-block" data-join-tid="'+t_.id+'"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+priceStr+'</span></button>';
     }
     let seats = '';
     if(canModerate()){
@@ -1401,6 +1499,61 @@ function renderTournaments(){
   });
 }
 
+function renderShop() {
+  const grid = $('#shop-grid'); if(!grid) return;
+  grid.replaceChildren();
+  if (!shopItems.length) {
+    grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>';
+    return;
+  }
+  shopItems.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'shop-card';
+    card.innerHTML = `
+      <div class="shop-icon"><svg class="i"><use href="#i-ticket"/></svg></div>
+      <div class="shop-title">${escapeHtml(item.name)}</div>
+      <div class="shop-desc">${escapeHtml(item.description || '')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
+        <div class="shop-price">${item.price} <span style="font-size:16px;color:var(--muted)">${t('shop.rub')}</span></div>
+        <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}">${t('shop.buy')}</button>
+      </div>
+    `;
+    card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
+    grid.appendChild(card);
+  });
+}
+
+async function buyItem(item) {
+  if (!user) { go('cabinet'); return; }
+  if (!sb) { toast('Supabase не подключен', true); return; }
+  
+  // Демо-режим покупки (позже заменить на RollyPay)
+  const btn = document.querySelector(`.buy-btn[data-id="${item.id}"]`);
+  if(btn) btn.disabled = true;
+  
+  try {
+    if (item.type === 'pass') {
+      const currentPasses = userProfile.passes || 0;
+      const { error } = await sb.from('profiles').update({ passes: currentPasses + 1 }).eq('id', user.id);
+      if (error) throw error;
+      
+      userProfile.passes = currentPasses + 1;
+      window.updatePassesUI(userProfile.passes);
+      if(current === 'shop') {
+        const shopBal = $('#shop-balance .balance-badge span:last-child');
+        if(shopBal) shopBal.textContent = userProfile.passes;
+      }
+      
+      toast(t('shop.success'));
+    }
+  } catch (e) {
+    console.error(e);
+    toast('Ошибка покупки', true);
+  } finally {
+    if(btn) btn.disabled = false;
+  }
+}
+
 function renderTournamentPage(){
   const t_ = tournaments.find(x => x.id === currentTournamentId);
   if(!t_){ go('tournaments'); return; }
@@ -1419,7 +1572,8 @@ function renderTournamentPage(){
   } else {
     const reg = getMyReg(t_.id);
     if(!reg && t_.status === 'open'){
-      rw.innerHTML = '<button type="button" class="btn btn-primary" id="t-page-join-btn"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+'</span></button>';
+      const priceStr = t_.is_paid ? ' <span style="font-size:11px;background:var(--gold);color:#000;padding:2px 6px;border-radius:4px;margin-left:6px">'+t('tournament.paid')+'</span>' : '';
+      rw.innerHTML = '<button type="button" class="btn btn-primary" id="t-page-join-btn"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+priceStr+'</span></button>';
       $('#t-page-join-btn').addEventListener('click', () => openRegModal(t_.id));
     } else if(reg && reg.status !== 'approved'){
       const cls = reg.status;
@@ -1489,12 +1643,17 @@ function renderTournamentPage(){
     html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);font-size:12.5px;color:var(--gold);display:flex;align-items:center;gap:8px"><svg class="i" style="font-size:16px"><use href="#i-coins"/></svg><b style="font-family:\'Exo 2\',sans-serif;font-size:15px">+'+(s.reward_points||1)+'</b><span>'+t('stage.points')+'</span></div>';
     if(locked && !status) html += '<div class="stage-locked-note"><svg class="i"><use href="#i-lock"/></svg> '+t('stage.locked.note')+' '+(s.number-1)+'</div>';
     card.innerHTML = html;
-    const btnRow = document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap';
+    const btnRow = document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;align-items:center';
     if(s.level_url){
       const a = document.createElement('a'); a.className='btn btn-ghost btn-sm'; a.href=s.level_url; a.target='_blank'; a.rel='noopener';
       a.innerHTML = '<svg class="i"><use href="#i-play"/></svg><span>'+(LANG==='ru'?'Уровень':'Level')+'</span>';
       btnRow.appendChild(a);
     }
+    const commentsBtn = document.createElement('button'); commentsBtn.className='btn btn-ghost btn-sm';
+    commentsBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>'+t('comments.title')+'</span>';
+    commentsBtn.addEventListener('click', () => openCommentsModal(s.id));
+    btnRow.appendChild(commentsBtn);
+
     if(!locked){
       if(myApp && status === 'approved'){
         const d = document.createElement('div'); d.style.cssText='padding:10px 14px;border-radius:10px;background:rgba(47,212,138,.1);border:1px solid rgba(47,212,138,.3);color:var(--green);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;flex:1';
@@ -1556,6 +1715,16 @@ function openRegModal(tid){
   if(userProfile && userProfile.banned){ toast(t('ban.title'), true); return; }
   const t_ = tournaments.find(x => x.id === tid);
   if(!t_) return;
+
+  if (t_.is_paid) {
+    const passes = userProfile ? (userProfile.passes || 0) : 0;
+    if (passes < 1) {
+      toast(t('reg.no_pass'), true);
+      go('shop');
+      return;
+    }
+  }
+
   regModalTid = tid;
   $('#reg-modal-title').textContent = t('reg.title');
   $('#reg-modal-subtitle').textContent = (t('tournament.num')+' #'+t_.number)+' · '+(t_.title||'');
@@ -1584,11 +1753,25 @@ $('#reg-modal-submit').addEventListener('click', async () => {
   else if(!mo || mo.length < 20) errKey = 'reg.err.motiv';
   if(errKey){ setRegErr(errKey); return; }
   setRegErr('');
+  
+  const t_ = tournaments.find(x => x.id === regModalTid);
+  const existing = getMyReg(regModalTid);
+  const isNewApplication = !existing || existing.status === 'rejected';
+
+  if (t_.is_paid && isNewApplication) {
+    const passes = userProfile ? (userProfile.passes || 0) : 0;
+    if (passes < 1) {
+      toast(t('reg.no_pass'), true);
+      closeRegModal();
+      go('shop');
+      return;
+    }
+  }
+
   const btn = $('#reg-modal-submit'); btn.disabled = true;
   const span = btn.querySelector('span');
   const prev = span.textContent; span.textContent = t('reg.sending');
   try{
-    const t_ = tournaments.find(x => x.id === regModalTid);
     const payload = {
       user_id: user.id,
       tournament_id: regModalTid,
@@ -1600,7 +1783,7 @@ $('#reg-modal-submit').addEventListener('click', async () => {
       motivation: mo,
       status: 'pending'
     };
-    const { data: existing } = await sb.from('tournament_registrations').select('id,status').eq('user_id', user.id).eq('tournament_id', regModalTid).maybeSingle();
+    
     if(existing){
       if(existing.status === 'approved'){ toast(t('reg.already'), true); closeRegModal(); return; }
       const { error } = await sb.from('tournament_registrations').update({
@@ -1615,6 +1798,14 @@ $('#reg-modal-submit').addEventListener('click', async () => {
         throw error;
       }
     }
+
+    if (t_.is_paid && isNewApplication) {
+      const newPasses = Math.max(0, (userProfile.passes || 0) - 1);
+      await sb.from('profiles').update({ passes: newPasses }).eq('id', user.id);
+      userProfile.passes = newPasses;
+      window.updatePassesUI(newPasses);
+    }
+
     try{ await sb.from('activity_feed').insert([{ user_id:user.id, user_nick:payload.nick, action:'reg', details:{ tournament_id: regModalTid, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
     toast(t('reg.success'));
     closeRegModal();
@@ -1738,7 +1929,6 @@ async function renderLeaderboard(){
   const filterTid = sel && sel.value !== 'all' ? sel.value : null;
 
   try{
-    // Заявки на этапы
     let q = sb.from('applications').select('user_id,status,approved_at,created_at,stage_id,tournament_id,stage:stages(reward_points,opened_at,created_at)');
     if(filterTid) q = q.eq('tournament_id', filterTid);
     q = q.eq('status', 'approved');
@@ -1754,12 +1944,10 @@ async function renderLeaderboard(){
     const cupsCount = {};
     (cupsRes.data||[]).forEach(c => { cupsCount[c.user_id] = (cupsCount[c.user_id]||0)+1; });
 
-    // Заявки на турниры (для скорости вступления)
     let regQ = sb.from('tournament_registrations').select('user_id,tournament_id,created_at,status').eq('status','approved');
     if(filterTid) regQ = regQ.eq('tournament_id', filterTid);
     const { data: regs } = await regQ;
 
-    // Собираем данные по юзерам
     const byUser = {};
     (apps||[]).forEach(a => {
       if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
@@ -1778,7 +1966,6 @@ async function renderLeaderboard(){
       }
     });
 
-    // Участники, которые подали заявку на турнир, но ещё не прошли ни одного этапа — они тоже в таблице
     (regs||[]).forEach(r => {
       if(!byUser[r.user_id]){
         byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
@@ -1885,10 +2072,11 @@ async function loadProfile(){
     if(error) throw error;
     if(!data){
       await sb.from('profiles').insert([{ id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0 }]);
-      userProfile = { id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, banned:false, nick_color:'#eaf1ff' };
+      userProfile = { id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, banned:false, nick_color:'#eaf1ff', passes: 0 };
     } else userProfile = data;
   }catch(_){ userProfile = null; }
   applyBanState();
+  window.updatePassesUI(userProfile ? userProfile.passes : 0);
 }
 async function loadMyApplications(){
   if(!sb || !user){ myApplications=[]; return; }
@@ -2058,13 +2246,14 @@ async function openUserModal(userId){
     const pts = (ptR.data && ptR.data.points) || 0;
     const cups = cR.data || [], apps = aR.data || [];
     const lvl = profile.level || 0;
+    const passes = profile.passes || 0;
     $('#um-title').textContent = profile.nick || '—';
-    $('#um-subtitle').textContent = t('lb.th.level')+' '+lvl+' · '+pts+' '+t('stage.points')+' · '+cups.length+' '+(LANG==='ru'?'кубков':'cups')+(profile.banned?' · '+(LANG==='ru'?'ЗАБАНЕН':'BANNED'):'');
+    $('#um-subtitle').textContent = t('lb.th.level')+' '+lvl+' · '+pts+' '+t('stage.points')+' · '+passes+' 🎟 · '+cups.length+' '+(LANG==='ru'?'кубков':'cups')+(profile.banned?' · '+(LANG==='ru'?'ЗАБАНЕН':'BANNED'):'');
     let html = '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25);flex-wrap:wrap">';
     html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">'+initials(profile.nick)+'</div>';
     html += '<div style="flex:1;min-width:0"><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px;color:'+(profile.nick_color||'inherit')+'">'+escapeHtml(profile.nick||'—')+'</div>';
     html += '<div style="color:var(--muted);font-size:12.5px">'+(LANG==='ru'?'С нами с ':'Since ')+new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+'</div></div>';
-    html += '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="user-stat-pill">🔥 '+lvl+'</span><span class="user-stat-pill gold">🏆 '+pts+'</span>';
+    html += '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="user-stat-pill">🔥 '+lvl+'</span><span class="user-stat-pill gold">🏆 '+pts+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+passes+'</span>';
     if(cups.length) html += '<span class="user-stat-pill gold">🥇 '+cups.length+'</span>';
     if(profile.banned) html += '<span class="user-stat-pill red">🚫</span>';
     html += '</div></div>';
@@ -2096,6 +2285,7 @@ async function openUserModal(userId){
       if(isAdmin()){
         add('i-coins', LANG==='ru'?'Изм. очки':'Edit points', 'ghost', () => changeUserPoints(userId, pts));
         add('i-fire', LANG==='ru'?'Изм. уровень':'Edit level', 'ghost', () => changeUserLevel(userId, lvl));
+        add('i-ticket', LANG==='ru'?'Изм. пропуска':'Edit passes', 'ghost', () => changeUserPasses(userId, passes));
         add('i-edit', LANG==='ru'?'Ник':'Nick', 'ghost', () => changeUserNick(userId, profile.nick));
       }
       add('i-trophy', LANG==='ru'?'Вручить кубок':'Award cup', 'gold', () => openCupModal(userId, profile.nick));
@@ -2111,7 +2301,7 @@ async function openUserModal(userId){
 function closeUserModal(){ userModal.classList.add('hidden'); currentUserId = null; }
 $('#um-close').addEventListener('click', closeUserModal);
 userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); } });
 
 async function changeUserPoints(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество очков:':'New points:', current);
@@ -2130,6 +2320,19 @@ async function changeUserLevel(userId, current){
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
   await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+}
+async function changeUserPasses(userId, current){
+  const v = prompt(LANG==='ru'?'Новое количество пропусков:':'New passes:', current);
+  if(v === null) return;
+  const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
+  const { error } = await sb.from('profiles').update({ passes: num }).eq('id',userId);
+  if(error){ toast('Error: '+error.message, true); return; }
+  toast(LANG==='ru'?'Пропуска обновлены':'Passes updated');
+  await loadAllUsers(); await openUserModal(userId);
+  if(userId === (user ? user.id : null)) {
+    userProfile.passes = num;
+    window.updatePassesUI(num);
+  }
 }
 async function changeUserNick(userId, current){
   const v = prompt(LANG==='ru'?'Новый ник:':'New nickname:', current || '');
@@ -2182,6 +2385,84 @@ $('#cm-save').addEventListener('click', async () => {
   closeCupModal(); await loadAllCups(); await renderLeaderboard();
   if(currentUserId) await openUserModal(currentUserId);
   if(current === 'admin') renderAdmin();
+});
+
+async function openCommentsModal(stageId) {
+  if (!user) { go('cabinet'); return; }
+  currentCommentsStageId = stageId;
+  commentsModal.classList.remove('hidden');
+  const stage = stages.find(s => s.id === stageId);
+  $('#comments-modal-subtitle').textContent = stage ? (stage.title || (t('stage.num') + ' ' + stage.number)) : '';
+  await loadComments();
+  setTimeout(() => $('#comment-input').focus(), 100);
+}
+function closeCommentsModal() {
+  commentsModal.classList.add('hidden');
+  currentCommentsStageId = null;
+}
+$('#comments-close').addEventListener('click', closeCommentsModal);
+commentsModal.addEventListener('click', e => { if (e.target === commentsModal) closeCommentsModal(); });
+
+async function loadComments() {
+  if (!sb || !currentCommentsStageId) return;
+  const list = $('#comments-list');
+  list.innerHTML = '<p style="color:var(--muted);text-align:center;font-size:13px">Загрузка...</p>';
+  try {
+    const { data, error } = await sb.from('stage_comments')
+      .select('*, profile:profiles(nick, nick_color)')
+      .eq('stage_id', currentCommentsStageId)
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    list.replaceChildren();
+    if (!data.length) {
+      list.innerHTML = '<p style="color:var(--muted);text-align:center;font-size:13px;padding:20px 0">' + t('comments.empty') + '</p>';
+      return;
+    }
+    data.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'comment-item';
+      const nick = c.profile ? c.profile.nick : 'Unknown';
+      const color = c.profile ? c.profile.nick_color : 'inherit';
+      el.innerHTML = '<div class="comment-avatar">' + initials(nick) + '</div>' +
+        '<div class="comment-body">' +
+          '<div class="comment-head">' +
+            '<span class="comment-nick" style="color:' + (color||'inherit') + '">' + escapeHtml(nick) + '</span>' +
+            '<span class="comment-date">' + timeAgo(c.created_at) + '</span>' +
+          '</div>' +
+          '<div class="comment-text">' + escapeHtml(c.content) + '</div>' +
+        '</div>';
+      list.appendChild(el);
+    });
+    list.scrollTop = list.scrollHeight;
+  } catch (e) {
+    console.error(e);
+    list.innerHTML = '<p style="color:var(--red);text-align:center;font-size:13px">Ошибка загрузки</p>';
+  }
+}
+
+$('#comment-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!user || !currentCommentsStageId) return;
+  const input = $('#comment-input');
+  const content = input.value.trim();
+  if (!content) return;
+  const btn = $('#comment-submit-btn');
+  btn.disabled = true;
+  try {
+    const { error } = await sb.from('stage_comments').insert([{
+      stage_id: currentCommentsStageId,
+      user_id: user.id,
+      content: content
+    }]);
+    if (error) throw error;
+    input.value = '';
+    await loadComments();
+  } catch (e) {
+    console.error(e);
+    toast('Ошибка отправки', true);
+  } finally {
+    btn.disabled = false;
+  }
 });
 
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
@@ -2389,7 +2670,7 @@ async function renderAdminUsers(){
   }
   list.forEach(u => {
     const card = document.createElement('div'); card.className='user-card';
-    card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b style="color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick||'—')+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span>'+(u.cups_count?'<span class="user-stat-pill gold">🥇 '+u.cups_count+'</span>':'')+'</div>';
+    card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b style="color:'+(u.nick_color||'inherit')+'">'+escapeHtml(u.nick||'—')+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.passes||0)+'</span></div>';
     card.addEventListener('click', () => openUserModal(u.id));
     wrap.appendChild(card);
   });
@@ -2450,7 +2731,7 @@ async function renderAdminTournaments(){
     const regsPending = allRegs.filter(x => x.tournament_id === t_.id && x.status === 'pending').length;
     const regsTotal = allRegs.filter(x => x.tournament_id === t_.id).length;
     const limitReached = regsApproved >= MAX_PARTICIPANTS_PER_TOURNAMENT;
-    let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap"><div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">'+t('tournament.num')+' #'+t_.number+'</div><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+escapeHtml(t_.title||'—')+'</div>';
+    let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap"><div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">'+t('tournament.num')+' #'+t_.number+'</div><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+escapeHtml(t_.title||'—')+' '+(t_.is_paid ? '<span class="status-badge" style="background:rgba(246,183,60,.15);color:var(--gold);font-size:12px;vertical-align:middle;margin-left:6px">PLUS</span>' : '')+'</div>';
     if(t_.description) html += '<div style="color:var(--muted);font-size:13.5px">'+escapeHtml(t_.description)+'</div>';
     html += '</div><span class="status-badge '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>';
     html += '<div class="admin-actions" style="margin-bottom:16px">';
@@ -2492,7 +2773,8 @@ async function editTournament(id){
   const t_ = tournaments.find(x => x.id === id); if(!t_) return;
   const nt = prompt(LANG==='ru'?'Название:':'Name:', t_.title||''); if(nt === null) return;
   const nd = prompt(LANG==='ru'?'Описание:':'Description:', t_.description||''); if(nd === null) return;
-  const { error } = await sb.from('tournaments').update({ title:nt, description:nd||null }).eq('id',id);
+  const isPaid = confirm(LANG==='ru'?'Сделать турнир платным (требуется пропуск)?':'Make tournament paid (requires pass)?');
+  const { error } = await sb.from('tournaments').update({ title:nt, description:nd||null, is_paid: isPaid }).eq('id',id);
   if(error){ toast('Error', true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated'); await loadTournaments(); renderAdminTournaments();
 }
@@ -2502,13 +2784,14 @@ async function updateStage(id, patch){ const { error } = await sb.from('stages')
 $('#create-tournament-btn').addEventListener('click', async () => {
   const num = parseInt($('#new-t-number').value, 10);
   const title = $('#new-t-title').value.trim();
+  const isPaid = $('#new-t-paid').checked;
   if(!num || num < 1){ toast('N?', true); return; }
   if(!title){ toast('Title?', true); return; }
   const desc = $('#new-t-desc').value.trim();
-  const { error } = await sb.from('tournaments').insert([{ number:num, title, description:desc||null, status:'draft' }]);
+  const { error } = await sb.from('tournaments').insert([{ number:num, title, description:desc||null, status:'draft', is_paid: isPaid }]);
   if(error){ toast(/duplicate|unique/i.test(error.message) ? 'Duplicate' : 'Error', true); return; }
   toast(LANG==='ru'?'Создан':'Created');
-  $('#new-t-number').value = num + 1; $('#new-t-title').value = ''; $('#new-t-desc').value = '';
+  $('#new-t-number').value = num + 1; $('#new-t-title').value = ''; $('#new-t-desc').value = ''; $('#new-t-paid').checked = false;
   await loadTournaments(); renderAdminTournaments();
 });
 
@@ -2747,7 +3030,7 @@ $('#logout-btn').addEventListener('click', async () => {
   toast(LANG==='ru'?'Вы вышли':'Logged out');
   user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
   applyBanState();
-  renderCabinet(); renderAdmin(); renderTournaments();
+  renderCabinet(); renderAdmin(); renderTournaments(); window.updatePassesUI(0);
   go('home');
 });
 
@@ -2757,13 +3040,14 @@ async function afterLogin(){
   if(user && user.id) await trackDevice(user.id);
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
-  await loadTournaments(); await loadStages();
+  await loadTournaments(); await loadStages(); await loadShopItems();
   await loadMyApplications(); await loadProfilePoints(); await loadMyRegs();
   if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
   renderAdmin();
   updateAdminStats();
   if(current === 'tournaments') renderTournaments();
+  if(current === 'shop') renderShop();
   setupRealtime();
 }
 
@@ -2775,6 +3059,7 @@ function setupRealtime(){
       if(user && payload.new.id === user.id){
         userProfile = payload.new;
         applyBanState();
+        window.updatePassesUI(userProfile.passes || 0);
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
       }
       if(current === 'leaderboard') await renderLeaderboard();
@@ -2830,10 +3115,11 @@ async function initAuth(){
       applyBanState();
       renderCabinet(); renderAdmin();
       if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
+      window.updatePassesUI(0);
     }
   });
   if(user) await afterLogin();
-  else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); }
+  else { userProfile = null; applyBanState(); renderCabinet(); renderAdmin(); window.updatePassesUI(0); }
 }
 
 const saved = storedLang();
@@ -2846,10 +3132,10 @@ if(!saved){
   if(b) b.focus();
 }
 (async function init(){
-  await loadTournaments(); await loadStages();
+  await loadTournaments(); await loadStages(); await loadShopItems();
   await initAuth();
   if(!document.documentElement.hasAttribute('data-device-banned') && !document.documentElement.hasAttribute('data-banned')){
-    renderTournaments(); await renderLeaderboard(); await renderActivity();
+    renderTournaments(); renderShop(); await renderLeaderboard(); await renderActivity();
   }
 })();
 </script>
