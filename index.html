@@ -486,7 +486,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
     </nav>
     <div class="header-actions">
-      <div id="header-balance" class="balance-badge hidden" title="Ваши пропуски">
+      <div id="header-balance" class="balance-badge hidden" title="Ваши пропуска">
         <svg class="i"><use href="#i-ticket"/></svg> <span data-user-passes>0</span>
       </div>
       <div class="lang" role="group">
@@ -567,15 +567,17 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
-      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
+      <p data-i18n="shop.lead">Покупайте пропуска для участия в платных турнирах.</p>
       <div style="margin-top:16px" id="shop-balance">
         <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
       </div>
     </div>
     <div class="page-body">
-      <div class="shop-grid" id="shop-grid">
-        <!-- Сгенерируется через JS -->
+      <div id="shop-disabled-banner" class="card hidden" style="margin-bottom:20px;padding:16px 20px;border-color:rgba(255,93,115,.35);background:rgba(255,93,115,.08);color:var(--red);font-size:14px;align-items:center;gap:10px">
+        <svg class="i" style="font-size:20px;flex:none"><use href="#i-ban"/></svg>
+        <span data-i18n="shop.disabled.banner">Продажа пропусков временно приостановлена администратором.</span>
       </div>
+      <div class="shop-grid" id="shop-grid"></div>
     </div>
   </div>
 </section>
@@ -769,6 +771,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
         <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
         <button type="button" data-admin-tab="users" id="tab-users" data-i18n="admin.tab.users">Юзеры</button>
+        <button type="button" data-admin-tab="passes" id="tab-passes" data-i18n="admin.tab.passes">Пропуска</button>
         <button type="button" data-admin-tab="cups" id="tab-cups" data-i18n="admin.tab.cups">Кубки</button>
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
         <button type="button" data-admin-tab="log" id="tab-log" data-i18n="admin.tab.log">Лог</button>
@@ -848,6 +851,23 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <button type="button" data-user-filter="multi" data-i18n="admin.users.multi">Мультиаккаунты</button>
         </div>
         <div id="admin-users-list"></div>
+      </div>
+      <div id="admin-passes" class="hidden">
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.passes.title">Продажа пропусков</span></h3>
+          <label class="check" style="font-size:14px">
+            <input type="checkbox" id="shop-enabled-toggle">
+            <span data-i18n="admin.passes.enabled">Разрешить продажу пропусков в магазине</span>
+          </label>
+          <p class="hint" style="margin-top:10px" data-i18n="admin.passes.hint">Выключите, чтобы пользователи не могли купить пропуск. Уже существующие пропуска не пропадают.</p>
+        </div>
+        <div class="card" style="padding:20px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-coins"/></svg> <span data-i18n="admin.passes.manage">Управление пропусками пользователей</span></h3>
+          <div class="admin-filters" style="margin-bottom:16px">
+            <input type="search" id="passes-search" data-i18n-ph="admin.passes.search" placeholder="Поиск по нику или email...">
+          </div>
+          <div id="admin-passes-list"></div>
+        </div>
       </div>
       <div id="admin-cups" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
@@ -1072,7 +1092,7 @@ const I18N = {
     'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
-    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
+    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.passes':'Пропуска','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
     'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир', 'admin.newTournament.paid':'Платный турнир (требуется пропуск)',
@@ -1084,6 +1104,7 @@ const I18N = {
     'admin.words.title':'Добавить стоп-слово','admin.words.hint':'Ники, содержащие это слово, будут блокироваться при регистрации.','admin.words.addBtn':'Добавить','admin.words.word':'Слово','admin.words.added':'Добавлено',
     'admin.log.when':'Когда','admin.log.who':'Кто','admin.log.what':'Что',
     'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
+    'admin.passes.title':'Продажа пропусков','admin.passes.enabled':'Разрешить продажу пропусков в магазине','admin.passes.hint':'Выключите, чтобы пользователи не могли купить пропуск. Уже существующие пропуска не пропадают.','admin.passes.manage':'Управление пропусками пользователей','admin.passes.search':'Поиск по нику или email...','admin.passes.setPrompt':'Введите количество пропусков:','admin.passes.updated':'Пропуска обновлены','admin.passes.empty':'Нет пользователей','admin.passes.toggle.on':'Продажа включена','admin.passes.toggle.off':'Продажа выключена','admin.passes.onlyAdmin':'Доступно только главному админу',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
     'status.pending':'На проверке','status.approved':'Одобрено','status.rejected':'Отклонено',
@@ -1098,7 +1119,9 @@ const I18N = {
     'comments.title':'Обсуждение этапа','comments.submit':'Отправить','comments.empty':'Пока нет комментариев. Будь первым!','comments.placeholder':'Написать комментарий...',
     'shop.title':'Магазин', 'shop.lead':'Покупайте пропуски для участия в платных турнирах.',
     'shop.buy':'Купить', 'shop.your_passes':'Ваши пропуска:', 'shop.price':'Цена', 'shop.rub':'руб.',
-    'shop.success':'Покупка успешна! (Демо-режим: RollyPay будет подключен позже)',
+    'shop.unavailable':'Оплата временно недоступна — платёжная система на стадии подключения.',
+    'shop.disabled':'Продажа приостановлена',
+    'shop.disabled.banner':'Продажа пропусков временно приостановлена администратором.',
     'toast.copied':'Скопировано',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире'
   },
@@ -1165,7 +1188,7 @@ const I18N = {
     'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
-    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
+    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.passes':'Passes','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
     'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament', 'admin.newTournament.paid':'Paid tournament (requires pass)',
@@ -1177,6 +1200,7 @@ const I18N = {
     'admin.words.title':'Add stop word','admin.words.hint':'Nicknames containing this word will be blocked on registration.','admin.words.addBtn':'Add','admin.words.word':'Word','admin.words.added':'Added',
     'admin.log.when':'When','admin.log.who':'Who','admin.log.what':'What',
     'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
+    'admin.passes.title':'Pass sales','admin.passes.enabled':'Allow selling passes in the shop','admin.passes.hint':'Disable to prevent users from buying a pass. Existing passes remain untouched.','admin.passes.manage':'Manage user passes','admin.passes.search':'Search by nick or email...','admin.passes.setPrompt':'Enter pass count:','admin.passes.updated':'Passes updated','admin.passes.empty':'No users','admin.passes.toggle.on':'Sales enabled','admin.passes.toggle.off':'Sales disabled','admin.passes.onlyAdmin':'Available to super admin only',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
     'status.pending':'Pending','status.approved':'Approved','status.rejected':'Rejected',
@@ -1191,7 +1215,9 @@ const I18N = {
     'comments.title':'Stage discussion','comments.submit':'Send','comments.empty':'No comments yet. Be the first!','comments.placeholder':'Write a comment...',
     'shop.title':'Shop', 'shop.lead':'Buy passes to participate in paid tournaments.',
     'shop.buy':'Buy', 'shop.your_passes':'Your passes:', 'shop.price':'Price', 'shop.rub':'RUB',
-    'shop.success':'Purchase successful! (Demo: RollyPay coming soon)',
+    'shop.unavailable':'Payment is currently unavailable — payment system is being connected.',
+    'shop.disabled':'Sales suspended',
+    'shop.disabled.banner':'Pass sales are temporarily suspended by the administrator.',
     'toast.copied':'Copied',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament'
   }
@@ -1229,6 +1255,8 @@ let regModalTid = null, currentCommentsStageId = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
+let shopEnabled = true;             // флаг "продажа пропусков включена" (глобально, кеш)
+let passesSearch = '';              // поиск в админ-табе "Пропуска"
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
@@ -1337,6 +1365,37 @@ function applyBanState(){
   const banned = !!(userProfile && userProfile.banned);
   if(banned){ showBanOverlay(userProfile.banned_reason || null); }
   else if(!document.documentElement.hasAttribute('data-device-banned')){ document.documentElement.removeAttribute('data-banned'); const ov=$('#ban-overlay'); if(ov) ov.classList.add('hidden'); }
+}
+
+/* ============================================================
+   ГЛОБАЛЬНЫЙ ФЛАГ "ПРОДАЖА ПРОПУСКОВ"
+   Хранение: таблица settings (key/value) в Supabase;
+   fallback: localStorage, если таблица недоступна.
+   ============================================================ */
+async function loadShopEnabled(){
+  // 1) локальный кеш
+  try{
+    const ls = localStorage.getItem('gdcc-shop-enabled');
+    if(ls !== null) shopEnabled = ls !== 'false';
+  }catch(_){}
+  // 2) серверное значение
+  if(!sb) return;
+  try{
+    const { data, error } = await sb.from('settings').select('value').eq('key','shop_enabled').maybeSingle();
+    if(error) return; // таблицы нет — оставляем local
+    if(data) shopEnabled = data.value !== 'false';
+  }catch(_){}
+}
+async function setShopEnabled(enabled){
+  shopEnabled = !!enabled;
+  try{ localStorage.setItem('gdcc-shop-enabled', String(shopEnabled)); }catch(_){}
+  if(sb){
+    try{
+      await sb.from('settings').upsert({ key:'shop_enabled', value:String(shopEnabled), updated_at:new Date().toISOString() }, { onConflict:'key' });
+    }catch(_){}
+  }
+  renderShop();
+  if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
 }
 
 function show(id){
@@ -1499,9 +1558,19 @@ function renderTournaments(){
   });
 }
 
+/* ---------- SHOP (публичный) ---------- */
 function renderShop() {
   const grid = $('#shop-grid'); if(!grid) return;
   grid.replaceChildren();
+
+  // баннер "продажа приостановлена"
+  const banner = $('#shop-disabled-banner');
+  if (banner) {
+    banner.classList.toggle('hidden', shopEnabled);
+    if (!shopEnabled) banner.style.display = 'flex';
+    else banner.style.display = '';
+  }
+
   if (!shopItems.length) {
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>';
     return;
@@ -1509,49 +1578,28 @@ function renderShop() {
   shopItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'shop-card';
+    const disabled = !shopEnabled;
     card.innerHTML = `
       <div class="shop-icon"><svg class="i"><use href="#i-ticket"/></svg></div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
       <div class="shop-desc">${escapeHtml(item.description || '')}</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price">${item.price} <span style="font-size:16px;color:var(--muted)">${t('shop.rub')}</span></div>
-        <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}">${t('shop.buy')}</button>
+        <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>
       </div>
     `;
-    card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
+    if (!disabled) {
+      card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
+    }
     grid.appendChild(card);
   });
 }
 
+/* ЗАГЛУШКА: покупка НЕ работает, ничего не начисляется. */
 async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
-  if (!sb) { toast('Supabase не подключен', true); return; }
-  
-  // Демо-режим покупки (позже заменить на RollyPay)
-  const btn = document.querySelector(`.buy-btn[data-id="${item.id}"]`);
-  if(btn) btn.disabled = true;
-  
-  try {
-    if (item.type === 'pass') {
-      const currentPasses = userProfile.passes || 0;
-      const { error } = await sb.from('profiles').update({ passes: currentPasses + 1 }).eq('id', user.id);
-      if (error) throw error;
-      
-      userProfile.passes = currentPasses + 1;
-      window.updatePassesUI(userProfile.passes);
-      if(current === 'shop') {
-        const shopBal = $('#shop-balance .balance-badge span:last-child');
-        if(shopBal) shopBal.textContent = userProfile.passes;
-      }
-      
-      toast(t('shop.success'));
-    }
-  } catch (e) {
-    console.error(e);
-    toast('Ошибка покупки', true);
-  } finally {
-    if(btn) btn.disabled = false;
-  }
+  if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
+  toast(t('shop.unavailable'), true);
 }
 
 function renderTournamentPage(){
@@ -2325,14 +2373,8 @@ async function changeUserPasses(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество пропусков:':'New passes:', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  const { error } = await sb.from('profiles').update({ passes: num }).eq('id',userId);
-  if(error){ toast('Error: '+error.message, true); return; }
-  toast(LANG==='ru'?'Пропуска обновлены':'Passes updated');
-  await loadAllUsers(); await openUserModal(userId);
-  if(userId === (user ? user.id : null)) {
-    userProfile.passes = num;
-    window.updatePassesUI(num);
-  }
+  await adminSetPasses(userId, num);
+  await openUserModal(userId);
 }
 async function changeUserNick(userId, current){
   const v = prompt(LANG==='ru'?'Новый ник:':'New nickname:', current || '');
@@ -2362,6 +2404,117 @@ async function unbanUser(userId){
   toast(LANG==='ru'?'Разбанен':'Unbanned');
   await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
 }
+
+/* ============================================================
+   АДМИН: НАЧИСЛЕНИЕ/СПИСАНИЕ ПРОПУСКОВ
+   ============================================================ */
+async function adminSetPasses(userId, val){
+  if(!sb) return;
+  if(!isAdmin()){ toast(t('admin.passes.onlyAdmin'), true); return; }
+  const num = Math.max(0, parseInt(val,10) || 0);
+  const { error } = await sb.from('profiles').update({ passes: num }).eq('id', userId);
+  if(error){ toast('Error: '+error.message, true); return; }
+  // локальный кеш
+  const u = allUsers.find(x => x.id === userId);
+  if(u) u.passes = num;
+  // если это текущий пользователь — обновим UI
+  if(user && user.id === userId && userProfile){
+    userProfile.passes = num;
+    window.updatePassesUI(num);
+  }
+  toast(t('admin.passes.updated'));
+  if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
+  if(currentUserId === userId){
+    // обновим модалку, если открыта
+    await openUserModal(userId);
+  }
+}
+
+async function renderAdminPasses(){
+  if(!isAdmin()){
+    const wrap = $('#admin-passes-list');
+    if(wrap) wrap.innerHTML = '<div class="empty-state"><p style="color:var(--muted)">'+t('admin.passes.onlyAdmin')+'</p></div>';
+    return;
+  }
+  await loadShopEnabled();
+  await loadAllUsers();
+
+  const toggle = $('#shop-enabled-toggle');
+  if(toggle) toggle.checked = shopEnabled;
+
+  const wrap = $('#admin-passes-list'); if(!wrap) return;
+  wrap.replaceChildren();
+
+  let list = allUsers.slice();
+  if(passesSearch){
+    const q = passesSearch.toLowerCase();
+    list = list.filter(u => (u.nick||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
+  }
+
+  if(!list.length){
+    wrap.innerHTML = '<div class="empty-state" style="padding:20px"><p style="color:var(--muted)">'+t('admin.passes.empty')+'</p></div>';
+    return;
+  }
+
+  list.forEach(u => {
+    const card = document.createElement('div');
+    card.className = 'user-card';
+    card.style.cursor = 'default';
+    const passes = u.passes || 0;
+    card.innerHTML = `
+      <div class="user-avatar">${initials(u.nick)}</div>
+      <div class="user-info">
+        <b style="color:${u.nick_color||'inherit'}">${escapeHtml(u.nick||'—')}</b>
+        <small>${escapeHtml(u.email||'—')}</small>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+        <button type="button" class="btn btn-danger btn-sm" data-pass-action="minus" data-uid="${u.id}" title="-1">−1</button>
+        <span style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:20px;color:var(--gold);min-width:44px;text-align:center">${passes}</span>
+        <button type="button" class="btn btn-success btn-sm" data-pass-action="plus" data-uid="${u.id}" title="+1">+1</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-pass-action="set" data-uid="${u.id}" title="set">✎</button>
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+
+  wrap.onclick = async e => {
+    const btn = e.target.closest('button[data-pass-action]');
+    if(!btn) return;
+    const action = btn.dataset.passAction;
+    const uid = btn.dataset.uid;
+    const u = allUsers.find(x => x.id === uid);
+    if(!u) return;
+    let newVal = u.passes || 0;
+    if(action === 'plus') newVal++;
+    else if(action === 'minus') newVal = Math.max(0, newVal - 1);
+    else if(action === 'set'){
+      const v = prompt(t('admin.passes.setPrompt'), String(newVal));
+      if(v === null) return;
+      const n = parseInt(v, 10);
+      if(isNaN(n) || n < 0){ toast('Invalid', true); return; }
+      newVal = n;
+    }
+    await adminSetPasses(uid, newVal);
+  };
+}
+
+/* Слушатели для админ-таба "Пропуска" */
+(function initPassesTabListeners(){
+  const toggle = document.getElementById('shop-enabled-toggle');
+  if(toggle){
+    toggle.addEventListener('change', async e => {
+      await setShopEnabled(e.target.checked);
+      toast(e.target.checked ? t('admin.passes.toggle.on') : t('admin.passes.toggle.off'));
+    });
+  }
+  const search = document.getElementById('passes-search');
+  if(search){
+    search.addEventListener('input', e => {
+      passesSearch = e.target.value.trim();
+      if(adminTab === 'passes') renderAdminPasses();
+    });
+  }
+})();
 
 function openCupModal(userId, nick){
   cupTargetUserId = userId; cupModal.classList.remove('hidden');
@@ -2468,7 +2621,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','cups','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','passes','cups','words','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -2479,14 +2632,16 @@ function renderAdmin(){
   navAdmin.classList.remove('hidden');
   $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
   $('#tab-users').classList.toggle('hidden', !isAdmin());
+  $('#tab-passes').classList.toggle('hidden', !isAdmin());
   $('#tab-cups').classList.toggle('hidden', !isAdmin());
   $('#tab-words').classList.toggle('hidden', !isAdmin());
-  if(!isAdmin() && ['tournaments','users','cups','words'].includes(adminTab)) adminTab = 'dashboard';
+  if(!isAdmin() && ['tournaments','users','passes','cups','words'].includes(adminTab)) adminTab = 'dashboard';
   if(adminTab === 'dashboard') renderDashboard();
   else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
   else if(adminTab === 'apps') renderAdminApps();
   else if(adminTab === 'users') renderAdminUsers();
+  else if(adminTab === 'passes') renderAdminPasses();
   else if(adminTab === 'cups') renderAdminCups();
   else if(adminTab === 'words') renderAdminWords();
   else if(adminTab === 'log') renderAdminLog();
@@ -3041,6 +3196,7 @@ async function afterLogin(){
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
   await loadTournaments(); await loadStages(); await loadShopItems();
+  await loadShopEnabled();
   await loadMyApplications(); await loadProfilePoints(); await loadMyRegs();
   if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
@@ -3063,6 +3219,7 @@ function setupRealtime(){
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
       }
       if(current === 'leaderboard') await renderLeaderboard();
+      if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
       await loadAdminApps(); updateAdminStats();
@@ -3133,6 +3290,7 @@ if(!saved){
 }
 (async function init(){
   await loadTournaments(); await loadStages(); await loadShopItems();
+  await loadShopEnabled();
   await initAuth();
   if(!document.documentElement.hasAttribute('data-device-banned') && !document.documentElement.hasAttribute('data-banned')){
     renderTournaments(); renderShop(); await renderLeaderboard(); await renderActivity();
