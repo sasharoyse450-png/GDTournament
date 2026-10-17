@@ -273,6 +273,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .footer-links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .footer-links a{color:var(--muted);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--blue-2)}
+.footer-links a.donate { color: var(--gold); font-weight: 600; }
+.footer-links a.donate:hover { color: #ffd166; }
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
@@ -466,6 +468,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2a10 10 0 0 0 0 20c5.5 0 8-3 8-5a2 2 0 0 0-2-2h-2a2 2 0 0 1 0-4h3a3 3 0 0 0 3-3 10 10 0 0 0-10-6z"/></symbol>
 <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M4 8h16v4a2 2 0 0 0 0 4v4H4v-4a2 2 0 0 0 0-4V8z"/><path d="M9 12h6"/></symbol>
 <symbol id="i-shop" viewBox="0 0 24 24"><path d="M3 9l2-6h14l2 6"/><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M9 22V13h6v9"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
 </defs>
 </svg>
 
@@ -568,7 +571,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
-      <p data-i18n="shop.lead">Покупайте пропуска для участия в платных турнирах.</p>
+      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
       <div style="margin-top:16px" id="shop-balance">
         <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
       </div>
@@ -786,7 +789,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
         <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
         <button type="button" data-admin-tab="users" id="tab-users" data-i18n="admin.tab.users">Юзеры</button>
-        <button type="button" data-admin-tab="passes" id="tab-passes" data-i18n="admin.tab.passes">Пропуска</button>
+        <button type="button" data-admin-tab="settings" id="tab-settings" data-i18n="admin.tab.settings">Настройки</button>
         <button type="button" data-admin-tab="tickets" id="tab-tickets" data-i18n="admin.tab.tickets">Обращения</button>
         <button type="button" data-admin-tab="cups" id="tab-cups" data-i18n="admin.tab.cups">Кубки</button>
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
@@ -868,19 +871,27 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
         <div id="admin-users-list"></div>
       </div>
-      <div id="admin-passes" class="hidden">
+      <div id="admin-settings" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
-          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.passes.title">Продажа пропусков</span></h3>
-          <label class="check" style="font-size:14px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.settings.shop">Магазин и продажа</span></h3>
+          <label class="check" style="font-size:14px;margin-bottom:14px">
             <input type="checkbox" id="shop-enabled-toggle">
-            <span data-i18n="admin.passes.enabled">Разрешить продажу пропусков в магазине</span>
+            <span data-i18n="admin.settings.shopEnabled">Разрешить продажу пропусков в магазине</span>
           </label>
-          <p class="hint" style="margin-top:10px" data-i18n="admin.passes.hint">Выключите, чтобы пользователи не могли купить пропуск. Уже существующие пропуска не пропадают.</p>
+          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.shopHint">Выключите, чтобы пользователи не могли купить пропуск.</p>
+        </div>
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--red)"><use href="#i-heart"/></svg> <span data-i18n="admin.settings.donate">Донат на развитие</span></h3>
+          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.donateHint">Ссылка (например, на Boosty или DonationAlerts), которая появится в подвале сайта.</p>
+          <div class="field-row">
+            <div class="field" style="margin:0"><label for="donation-url-input" data-i18n="admin.settings.donateUrl">Ссылка на донат</label><input class="input" type="url" id="donation-url-input" placeholder="https://boosty.to/username"></div>
+            <div class="field" style="margin:0;justify-content:flex-end"><button type="button" class="btn btn-primary" id="save-donation-btn" data-i18n="btn.save">Сохранить</button></div>
+          </div>
         </div>
         <div class="card" style="padding:20px">
-          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-coins"/></svg> <span data-i18n="admin.passes.manage">Управление пропусками пользователей</span></h3>
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-coins"/></svg> <span data-i18n="admin.settings.passes">Управление пропусками пользователей</span></h3>
           <div class="admin-filters" style="margin-bottom:16px">
-            <input type="search" id="passes-search" data-i18n-ph="admin.passes.search" placeholder="Поиск по нику или email...">
+            <input type="search" id="passes-search" data-i18n-ph="admin.settings.search" placeholder="Поиск по нику или email...">
           </div>
           <div id="admin-passes-list"></div>
         </div>
@@ -927,6 +938,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <a href="https://telegra.ph/POLITIKA-KONFIDENCIALNOSTI-08-12-99" target="_blank" rel="noopener" data-i18n="footer.privacy">Политика конфиденциальности</a>
       <a href="https://telegra.ph/PUBLICHNAYA-OFERTA-08-12-15" target="_blank" rel="noopener" data-i18n="footer.terms">Пользовательское соглашение</a>
       <a href="https://t.me/GDManage" target="_blank" rel="noopener" data-i18n="footer.support">Поддержка: @GDManage</a>
+      <a href="#" id="footer-donate-link" class="donate hidden" target="_blank" rel="noopener"><svg class="i" style="vertical-align:-2px;margin-right:4px"><use href="#i-heart"/></svg><span data-i18n="footer.donate">Поддержать проект</span></a>
     </div>
   </div>
 </footer>
@@ -1187,10 +1199,10 @@ const I18N = {
     'docs.title':'Необходимые документы','docs.lead':'Что нужно подготовить.',
     'docs.d1.t':'Античит (чит индикатор)','docs.d1.p':'Скриншот или видео с чит индикатором.',
     'docs.d2.t':'Хенд кам','docs.d2.p':'Видео с камерой, показывающее руки.',
-    'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage',
+    'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage', 'footer.donate':'Поддержать проект',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
-    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.passes':'Пропуска','admin.tab.tickets':'Обращения','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
+    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.settings':'Настройки','admin.tab.tickets':'Обращения','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
     'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир', 'admin.newTournament.paid':'Платный турнир (требуется пропуск)',
@@ -1202,7 +1214,7 @@ const I18N = {
     'admin.words.title':'Добавить стоп-слово','admin.words.hint':'Ники, содержащие это слово, будут блокироваться при регистрации.','admin.words.addBtn':'Добавить','admin.words.word':'Слово','admin.words.added':'Добавлено',
     'admin.log.when':'Когда','admin.log.who':'Кто','admin.log.what':'Что',
     'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
-    'admin.passes.title':'Продажа пропусков','admin.passes.enabled':'Разрешить продажу пропусков в магазине','admin.passes.hint':'Выключите, чтобы пользователи не могли купить пропуск. Уже существующие пропуска не пропадают.','admin.passes.manage':'Управление пропусками пользователей','admin.passes.search':'Поиск по нику или email...','admin.passes.setPrompt':'Введите количество пропусков:','admin.passes.updated':'Пропуска обновлены','admin.passes.empty':'Нет пользователей','admin.passes.toggle.on':'Продажа включена','admin.passes.toggle.off':'Продажа выключена','admin.passes.onlyAdmin':'Доступно только главному админу',
+    'admin.settings.shop':'Магазин и продажа','admin.settings.shopEnabled':'Разрешить продажу пропусков в магазине','admin.settings.shopHint':'Выключите, чтобы пользователи не могли купить пропуск.','admin.settings.passes':'Управление пропусками пользователей','admin.settings.search':'Поиск по нику или email...','admin.settings.setPrompt':'Введите количество пропусков:','admin.settings.updated':'Пропуска обновлены','admin.settings.empty':'Нет пользователей','admin.settings.toggle.on':'Продажа включена','admin.settings.toggle.off':'Продажа выключена','admin.settings.onlyAdmin':'Доступно только главному админу','admin.settings.donate':'Донат на развитие','admin.settings.donateHint':'Ссылка (например, на Boosty или DonationAlerts), которая появится в подвале сайта.','admin.settings.donateUrl':'Ссылка на донат','admin.settings.donateSaved':'Ссылка сохранена',
     'admin.tickets.empty':'Нет обращений',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
@@ -1287,10 +1299,10 @@ const I18N = {
     'docs.title':'Required documents','docs.lead':'What to prepare.',
     'docs.d1.t':'Anti-cheat (cheat indicator)','docs.d1.p':'Screenshot or video with the cheat indicator on.',
     'docs.d2.t':'Hand cam','docs.d2.p':'Video with camera showing your hands.',
-    'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage',
+    'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage', 'footer.donate':'Support project',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
-    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.passes':'Passes','admin.tab.tickets':'Tickets','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
+    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.settings':'Settings','admin.tab.tickets':'Tickets','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
     'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament', 'admin.newTournament.paid':'Paid tournament (requires pass)',
@@ -1302,7 +1314,7 @@ const I18N = {
     'admin.words.title':'Add stop word','admin.words.hint':'Nicknames containing this word will be blocked on registration.','admin.words.addBtn':'Add','admin.words.word':'Word','admin.words.added':'Added',
     'admin.log.when':'When','admin.log.who':'Who','admin.log.what':'What',
     'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
-    'admin.passes.title':'Pass sales','admin.passes.enabled':'Allow selling passes in the shop','admin.passes.hint':'Disable to prevent users from buying a pass. Existing passes remain untouched.','admin.passes.manage':'Manage user passes','admin.passes.search':'Search by nick or email...','admin.passes.setPrompt':'Enter pass count:','admin.passes.updated':'Passes updated','admin.passes.empty':'No users','admin.passes.toggle.on':'Sales enabled','admin.passes.toggle.off':'Sales disabled','admin.passes.onlyAdmin':'Available to super admin only',
+    'admin.settings.shop':'Shop & Sales','admin.settings.shopEnabled':'Allow selling passes in the shop','admin.settings.shopHint':'Disable to prevent users from buying a pass.','admin.settings.passes':'Manage user passes','admin.settings.search':'Search by nick or email...','admin.settings.setPrompt':'Enter pass count:','admin.settings.updated':'Passes updated','admin.settings.empty':'No users','admin.settings.toggle.on':'Sales enabled','admin.settings.toggle.off':'Sales disabled','admin.settings.onlyAdmin':'Available to super admin only','admin.settings.donate':'Donation','admin.settings.donateHint':'Link (e.g., Boosty) that will appear in the footer.','admin.settings.donateUrl':'Donation URL','admin.settings.donateSaved':'Link saved',
     'admin.tickets.empty':'No tickets',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
@@ -1360,6 +1372,7 @@ let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
 let shopEnabled = true;
+let donationUrl = '';
 let passesSearch = '';
 let ticketsList = [];
 let allTickets = [];
@@ -1475,17 +1488,26 @@ function applyBanState(){
   else if(!document.documentElement.hasAttribute('data-device-banned')){ document.documentElement.removeAttribute('data-banned'); const ov=$('#ban-overlay'); if(ov) ov.classList.add('hidden'); }
 }
 
-async function loadShopEnabled(){
+async function loadSettings(){
   try{
-    const ls = localStorage.getItem('gdcc-shop-enabled');
-    if(ls !== null) shopEnabled = ls !== 'false';
+    const lsShop = localStorage.getItem('gdcc-shop-enabled');
+    if(lsShop !== null) shopEnabled = lsShop !== 'false';
+    const lsDonate = localStorage.getItem('gdcc-donation-url');
+    if(lsDonate) donationUrl = lsDonate;
   }catch(_){}
-  if(!sb) return;
-  try{
-    const { data, error } = await sb.from('settings').select('value').eq('key','shop_enabled').maybeSingle();
-    if(error) return;
-    if(data) shopEnabled = data.value !== 'false';
-  }catch(_){}
+
+  if(sb){
+    try{
+      const { data, error } = await sb.from('settings').select('key, value');
+      if(!error && data){
+        data.forEach(row => {
+          if(row.key === 'shop_enabled') shopEnabled = row.value !== 'false';
+          if(row.key === 'donation_url') donationUrl = row.value || '';
+        });
+      }
+    }catch(_){}
+  }
+  updateDonationUI();
 }
 async function setShopEnabled(enabled){
   shopEnabled = !!enabled;
@@ -1496,7 +1518,22 @@ async function setShopEnabled(enabled){
     }catch(_){}
   }
   renderShop();
-  if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
+  if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
+}
+
+function updateDonationUI(){
+  const link = $('#footer-donate-link');
+  const input = $('#donation-url-input');
+  if(input) input.value = donationUrl;
+  
+  if (donationUrl && link) {
+    link.href = donationUrl;
+    link.classList.remove('hidden');
+    try{ localStorage.setItem('gdcc-donation-url', donationUrl); }catch(_){}
+  } else if (link) {
+    link.classList.add('hidden');
+    try{ localStorage.removeItem('gdcc-donation-url'); }catch(_){}
+  }
 }
 
 function show(id){
@@ -2073,9 +2110,8 @@ async function renderLeaderboard(){
   const filterTid = sel && sel.value !== 'all' ? sel.value : null;
 
   try{
-    let q = sb.from('applications').select('user_id,status,approved_at,created_at,stage_id,tournament_id,stage:stages(reward_points,opened_at,created_at)');
+    let q = sb.from('public_applications').select('*');
     if(filterTid) q = q.eq('tournament_id', filterTid);
-    q = q.eq('status', 'approved');
     const { data: apps, error } = await q;
     if(error) throw error;
 
@@ -2088,22 +2124,21 @@ async function renderLeaderboard(){
     const cupsCount = {};
     (cupsRes.data||[]).forEach(c => { cupsCount[c.user_id] = (cupsCount[c.user_id]||0)+1; });
 
-    let regQ = sb.from('tournament_registrations').select('user_id,tournament_id,created_at,status').eq('status','approved');
+    let regQ = sb.from('public_registrations').select('user_id,tournament_id,created_at');
     if(filterTid) regQ = regQ.eq('tournament_id', filterTid);
     const { data: regs } = await regQ;
 
     const byUser = {};
     (apps||[]).forEach(a => {
       if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
-      byUser[a.user_id].points += (a.stage && a.stage.reward_points ? a.stage.reward_points : 1);
+      byUser[a.user_id].points += (a.reward_points || 1);
       byUser[a.user_id].stages += 1;
-      if(a.stage){
-        const openTime = a.stage.opened_at || a.stage.created_at;
-        if(openTime && a.created_at){
-          const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
-          byUser[a.user_id].total_hours += hours;
-          byUser[a.user_id].stage_count_with_time += 1;
-        }
+      
+      const openTime = a.opened_at || a.stage_created_at;
+      if(openTime && a.created_at){
+        const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
+        byUser[a.user_id].total_hours += hours;
+        byUser[a.user_id].stage_count_with_time += 1;
       }
       if(a.approved_at && (!byUser[a.user_id].last_approved_at || new Date(a.approved_at) > new Date(byUser[a.user_id].last_approved_at))) {
         byUser[a.user_id].last_approved_at = a.approved_at;
@@ -2517,11 +2552,22 @@ async function loadTicketMessages(ticketId) {
       $('#ticket-chat-title').textContent = ticket.subject;
       $('#ticket-chat-subtitle').textContent = t('status.' + ticket.status) + ' · ' + (ticket.type === 'appeal_ban' ? t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? t('ticket.type.rejection') : t('ticket.type.other'));
     }
+    
+    // Fetch messages
     const { data: messages, error } = await sb.from('ticket_messages')
-      .select('*, profile:profiles(nick, nick_color)')
+      .select('*')
       .eq('ticket_id', ticketId)
       .order('created_at', { ascending: true });
     if (error) throw error;
+    
+    // Fetch profiles for sender_ids manually (bypassing Supabase JOIN issues)
+    let profileMap = {};
+    if (messages && messages.length > 0) {
+      const senderIds = [...new Set(messages.map(m => m.sender_id))];
+      const { data: profiles } = await sb.from('profiles').select('id, nick, nick_color').in('id', senderIds);
+      if (profiles) profiles.forEach(p => profileMap[p.id] = p);
+    }
+
     wrap.replaceChildren();
     if (!messages || !messages.length) {
       wrap.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">' + t('ticket.noMessages') + '</p>';
@@ -2531,8 +2577,9 @@ async function loadTicketMessages(ticketId) {
       const el = document.createElement('div');
       el.className = 'comment-item';
       const isMe = m.sender_id === user.id;
-      const nick = m.profile ? m.profile.nick : (isMe ? 'Me' : 'Admin');
-      const color = m.profile ? m.profile.nick_color : 'inherit';
+      const profile = profileMap[m.sender_id];
+      const nick = profile ? profile.nick : (isMe ? 'Me' : 'Admin');
+      const color = profile ? profile.nick_color : 'inherit';
       el.innerHTML = '<div class="comment-avatar" style="background:' + (isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#f6b73c,#d69b1a)') + '">' + initials(nick) + '</div>' +
         '<div class="comment-body">' +
           '<div class="comment-head">' +
@@ -2579,7 +2626,7 @@ $('#ticket-chat-form').addEventListener('submit', async e => {
 async function loadAllTickets() {
   if (!sb || !canModerate()) { allTickets = []; return; }
   try {
-    const { data, error } = await sb.from('tickets').select('*, profile:profiles(nick)').order('created_at', { ascending: false });
+    const { data, error } = await sb.from('tickets').select('*').order('created_at', { ascending: false });
     if (error) throw error;
     allTickets = data || [];
   } catch (_) { allTickets = []; }
@@ -2594,9 +2641,17 @@ async function renderAdminTickets() {
     tb.innerHTML = '<tr><td colspan="7" class="empty">' + t('admin.tickets.empty') + '</td></tr>';
     return;
   }
+  
+  // Fetch profiles for tickets
+  const userIds = [...new Set(allTickets.map(t => t.user_id))];
+  const { data: profiles } = await sb.from('profiles').select('id, nick').in('id', userIds);
+  const profileMap = {};
+  if(profiles) profiles.forEach(p => profileMap[p.id] = p);
+
   allTickets.forEach(ticket => {
     const tr = document.createElement('tr');
-    const nick = ticket.profile ? ticket.profile.nick : ticket.user_id;
+    const p = profileMap[ticket.user_id];
+    const nick = p ? p.nick : ticket.user_id;
     const typeLabel = ticket.type === 'appeal_ban' ? '🔨 ' + t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? '📋 ' + t('ticket.type.rejection') : '💬 ' + t('ticket.type.other');
     const statusBadge = '<span class="status-badge ' + (ticket.status === 'open' ? 'pending' : 'closed') + '">' + t('status.' + ticket.status) + '</span>';
     tr.innerHTML = '<td>' + escapeHtml(nick) + '</td><td>' + escapeHtml(ticket.subject) + '</td><td>' + typeLabel + '</td><td>' + statusBadge + '</td><td style="font-size:12px;color:var(--muted)">' + timeAgo(ticket.created_at) + '</td>';
@@ -2755,7 +2810,7 @@ async function unbanUser(userId){
 
 async function adminSetPasses(userId, val){
   if(!sb) return;
-  if(!isAdmin()){ toast(t('admin.passes.onlyAdmin'), true); return; }
+  if(!isAdmin()){ toast(t('admin.settings.onlyAdmin'), true); return; }
   const num = Math.max(0, parseInt(val,10) || 0);
   const { error } = await sb.rpc('admin_set_passes', { target: userId, amount: num });
   if(error){ toast('Error: '+error.message, true); return; }
@@ -2765,24 +2820,27 @@ async function adminSetPasses(userId, val){
     userProfile.passes = num;
     window.updatePassesUI(num);
   }
-  toast(t('admin.passes.updated'));
-  if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
+  toast(t('admin.settings.updated'));
+  if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
   if(currentUserId === userId){
     await openUserModal(userId);
   }
 }
 
-async function renderAdminPasses(){
+async function renderAdminSettings(){
   if(!isAdmin()){
     const wrap = $('#admin-passes-list');
-    if(wrap) wrap.innerHTML = '<div class="empty-state"><p style="color:var(--muted)">'+t('admin.passes.onlyAdmin')+'</p></div>';
+    if(wrap) wrap.innerHTML = '<div class="empty-state"><p style="color:var(--muted)">'+t('admin.settings.onlyAdmin')+'</p></div>';
     return;
   }
-  await loadShopEnabled();
+  await loadSettings();
   await loadAllUsers();
 
   const toggle = $('#shop-enabled-toggle');
   if(toggle) toggle.checked = shopEnabled;
+  
+  const donationInput = $('#donation-url-input');
+  if(donationInput) donationInput.value = donationUrl;
 
   const wrap = $('#admin-passes-list'); if(!wrap) return;
   wrap.replaceChildren();
@@ -2794,7 +2852,7 @@ async function renderAdminPasses(){
   }
 
   if(!list.length){
-    wrap.innerHTML = '<div class="empty-state" style="padding:20px"><p style="color:var(--muted)">'+t('admin.passes.empty')+'</p></div>';
+    wrap.innerHTML = '<div class="empty-state" style="padding:20px"><p style="color:var(--muted)">'+t('admin.settings.empty')+'</p></div>';
     return;
   }
 
@@ -2830,7 +2888,7 @@ async function renderAdminPasses(){
     if(action === 'plus') newVal++;
     else if(action === 'minus') newVal = Math.max(0, newVal - 1);
     else if(action === 'set'){
-      const v = prompt(t('admin.passes.setPrompt'), String(newVal));
+      const v = prompt(t('admin.settings.setPrompt'), String(newVal));
       if(v === null) return;
       const n = parseInt(v, 10);
       if(isNaN(n) || n < 0){ toast('Invalid', true); return; }
@@ -2840,19 +2898,32 @@ async function renderAdminPasses(){
   };
 }
 
-(function initPassesTabListeners(){
+(function initSettingsTabListeners(){
   const toggle = document.getElementById('shop-enabled-toggle');
   if(toggle){
     toggle.addEventListener('change', async e => {
       await setShopEnabled(e.target.checked);
-      toast(e.target.checked ? t('admin.passes.toggle.on') : t('admin.passes.toggle.off'));
+      toast(e.target.checked ? t('admin.settings.toggle.on') : t('admin.settings.toggle.off'));
     });
   }
   const search = document.getElementById('passes-search');
   if(search){
     search.addEventListener('input', e => {
       passesSearch = e.target.value.trim();
-      if(adminTab === 'passes') renderAdminPasses();
+      if(adminTab === 'settings') renderAdminSettings();
+    });
+  }
+  const saveDonationBtn = document.getElementById('save-donation-btn');
+  if(saveDonationBtn){
+    saveDonationBtn.addEventListener('click', async () => {
+      const url = document.getElementById('donation-url-input').value.trim();
+      if(sb){
+        const { error } = await sb.rpc('admin_set_donation_url', { url });
+        if(error){ toast('Error: '+error.message, true); return; }
+      }
+      donationUrl = url;
+      updateDonationUI();
+      toast(t('admin.settings.donateSaved'));
     });
   }
 })();
@@ -2962,7 +3033,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','passes','tickets','cups','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','words','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -2973,17 +3044,17 @@ function renderAdmin(){
   navAdmin.classList.remove('hidden');
   $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
   $('#tab-users').classList.toggle('hidden', !isAdmin());
-  $('#tab-passes').classList.toggle('hidden', !isAdmin());
+  $('#tab-settings').classList.toggle('hidden', !isAdmin());
   $('#tab-tickets').classList.toggle('hidden', !isAdmin());
   $('#tab-cups').classList.toggle('hidden', !isAdmin());
   $('#tab-words').classList.toggle('hidden', !isAdmin());
-  if(!isAdmin() && ['tournaments','users','passes','tickets','cups','words'].includes(adminTab)) adminTab = 'dashboard';
+  if(!isAdmin() && ['tournaments','users','settings','tickets','cups','words'].includes(adminTab)) adminTab = 'dashboard';
   if(adminTab === 'dashboard') renderDashboard();
   else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
   else if(adminTab === 'apps') renderAdminApps();
   else if(adminTab === 'users') renderAdminUsers();
-  else if(adminTab === 'passes') renderAdminPasses();
+  else if(adminTab === 'settings') renderAdminSettings();
   else if(adminTab === 'tickets') renderAdminTickets();
   else if(adminTab === 'cups') renderAdminCups();
   else if(adminTab === 'words') renderAdminWords();
@@ -3543,7 +3614,7 @@ async function afterLogin(){
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
   await loadTournaments(); await loadStages(); await loadShopItems();
-  await loadShopEnabled();
+  await loadSettings();
   await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
   if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
@@ -3567,7 +3638,7 @@ function setupRealtime(){
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
       }
       if(current === 'leaderboard') await renderLeaderboard();
-      if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
+      if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, async payload => {
       await loadAdminApps(); updateAdminStats();
@@ -3648,7 +3719,7 @@ if(!saved){
 }
 (async function init(){
   await loadTournaments(); await loadStages(); await loadShopItems();
-  await loadShopEnabled();
+  await loadSettings();
   await initAuth();
   if(!document.documentElement.hasAttribute('data-device-banned') && !document.documentElement.hasAttribute('data-banned')){
     renderTournaments(); renderShop(); await renderLeaderboard(); await renderActivity();
