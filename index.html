@@ -311,7 +311,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .t-stage-row .info b{display:block;font-weight:600;color:var(--text)}
 .t-stage-row .info span{color:var(--muted);font-size:12px}
 .t-stage-row .actions{display:flex;gap:6px;flex-wrap:wrap}
-.modal-back{position:fixed;inset:0;z-index:300;background:rgba(5,10,23,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;overflow-y:auto}
+.modal-back{position:fixed;inset:0;z-index:10000;background:rgba(5,10,23,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;overflow-y:auto}
 .modal{width:min(760px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,rgba(14,26,58,.98),rgba(9,18,42,.98));border:1px solid var(--line);border-radius:20px;padding:26px 28px 28px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
 .modal.modal-sm{width:min(520px,100%)}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line-soft)}
@@ -481,6 +481,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <a href="#shop" data-nav="shop"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></a>
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span data-i18n="nav.leaderboard">Таблица</span></a>
       <a href="#activity" data-nav="activity"><svg class="i"><use href="#i-activity"/></svg><span data-i18n="nav.activity">Лента</span></a>
+      <a href="#support" data-nav="support"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.support">Поддержка</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
       <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span><span class="nav-badge hidden" id="nav-admin-badge">0</span></a>
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
@@ -689,6 +690,20 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<section class="page" id="page-support">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.support">Поддержка</span></div>
+      <h1 data-i18n="support.title">Поддержка</h1>
+      <p data-i18n="support.lead">Свяжитесь с администрацией или подайте апелляцию.</p>
+      <button class="btn btn-primary" id="new-ticket-btn" style="margin-top:16px"><svg class="i"><use href="#i-plus"/></svg><span data-i18n="support.new">Создать обращение</span></button>
+    </div>
+    <div class="page-body">
+      <div id="support-tickets-list" class="app-list"></div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -772,6 +787,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
         <button type="button" data-admin-tab="users" id="tab-users" data-i18n="admin.tab.users">Юзеры</button>
         <button type="button" data-admin-tab="passes" id="tab-passes" data-i18n="admin.tab.passes">Пропуска</button>
+        <button type="button" data-admin-tab="tickets" id="tab-tickets" data-i18n="admin.tab.tickets">Обращения</button>
         <button type="button" data-admin-tab="cups" id="tab-cups" data-i18n="admin.tab.cups">Кубки</button>
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
         <button type="button" data-admin-tab="log" id="tab-log" data-i18n="admin.tab.log">Лог</button>
@@ -869,6 +885,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div id="admin-passes-list"></div>
         </div>
       </div>
+      <div id="admin-tickets" class="hidden">
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>#</th><th data-i18n="admin.th.nick">Ник</th><th data-i18n="ticket.subject">Тема</th><th data-i18n="ticket.type">Тип</th><th data-i18n="admin.th.status">Статус</th><th data-i18n="admin.th.date">Дата</th><th data-i18n="admin.th.actions">Действия</th></tr></thead>
+              <tbody id="admin-tickets-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
       <div id="admin-cups" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg> <span data-i18n="admin.cups.title">Вручить кубок</span></h3>
@@ -917,6 +943,66 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: создание обращения -->
+<div class="modal-back hidden" id="ticket-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 data-i18n="ticket.create.title">Новое обращение</h2>
+        <p data-i18n="ticket.create.lead">Опишите вашу проблему.</p>
+      </div>
+      <button class="modal-close" id="ticket-modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label for="ticket-subject" data-i18n="ticket.subject">Тема</label>
+        <input class="input" type="text" id="ticket-subject" maxlength="100">
+      </div>
+      <div class="field">
+        <label for="ticket-type" data-i18n="ticket.type">Тип</label>
+        <select class="input" id="ticket-type">
+          <option value="other" data-i18n="ticket.type.other">Другое</option>
+          <option value="appeal_ban" data-i18n="ticket.type.ban">Апелляция на бан</option>
+          <option value="appeal_rejection" data-i18n="ticket.type.rejection">Оспорить отклонение</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="ticket-related" data-i18n="ticket.related">Связанный объект (необязательно)</label>
+        <input class="input" type="text" id="ticket-related" placeholder="ID заявки или ссылка">
+      </div>
+      <div class="field">
+        <label for="ticket-message" data-i18n="ticket.message">Сообщение</label>
+        <textarea class="input" id="ticket-message" style="height:100px" maxlength="2000"></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="ticket-modal-cancel" data-i18n="btn.cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="ticket-modal-submit" data-i18n="ticket.submit">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка: чат тикета -->
+<div class="modal-back hidden" id="ticket-chat-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h2 id="ticket-chat-title">—</h2>
+        <p id="ticket-chat-subtitle">—</p>
+      </div>
+      <button class="modal-close" id="ticket-chat-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="ticket-chat-body" style="max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-bottom:16px;padding-right:8px">
+      <!-- messages -->
+    </div>
+    <form id="ticket-chat-form" style="display:flex;flex-direction:column;gap:10px">
+      <textarea class="input" id="ticket-chat-input" placeholder="Написать сообщение..." maxlength="2000" style="height:80px"></textarea>
+      <button type="submit" class="btn btn-primary" id="ticket-chat-submit"><svg class="i"><use href="#i-send"/></svg><span data-i18n="ticket.chat.send">Отправить</span></button>
+    </form>
+  </div>
+</div>
+
+<!-- Модалка: заявка на турнир -->
 <div class="modal-back hidden" id="reg-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -954,6 +1040,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: настройка этапа -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="modal-title" data-i18n="stage.modal.title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -966,6 +1053,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: профиль игрока -->
 <div class="modal-back hidden" id="user-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="um-title">Профиль игрока</h2><p id="um-subtitle">—</p></div><button class="modal-close" id="um-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -974,6 +1062,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: вручение кубка -->
 <div class="modal-back hidden" id="cup-modal">
   <div class="modal modal-sm">
     <div class="modal-head"><div><h2 id="cm-title">Вручить кубок</h2><p id="cm-subtitle">—</p></div><button class="modal-close" id="cm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -986,6 +1075,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- Модалка: комментарии к этапу -->
 <div class="modal-back hidden" id="comments-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1011,7 +1101,13 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <h1 style="font-family:'Exo 2',sans-serif;font-weight:900;font-size:clamp(32px,6vw,52px);color:#ff5d73;line-height:1;margin-bottom:18px;text-shadow:0 0 40px rgba(255,93,115,.5)" data-i18n="ban.title">ВЫ ЗАБАНЕНЫ</h1>
     <p style="color:#b9c8e6;font-size:16px;margin-bottom:10px" data-i18n="ban.desc">Ваш аккаунт и устройство заблокированы.</p>
     <p id="ban-reason-text" style="color:var(--red);font-size:14.5px;margin-bottom:28px;padding:12px 18px;border-radius:12px;background:rgba(255,93,115,.08);border:1px solid rgba(255,93,115,.3);display:none"></p>
-    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line)"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px" data-i18n="ban.contact">Для связи пишите</div><a href="https://t.me/GDManage" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px"><svg class="i" style="font-size:24px"><use href="#i-send"/></svg>@GDManage</a></div>
+    <div style="padding:20px 24px;border-radius:16px;background:rgba(10,20,45,.7);border:1px solid var(--line)">
+      <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px" data-i18n="ban.contact">Для связи пишите</div>
+      <a href="https://t.me/GDManage" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:26px;color:var(--blue-2);text-decoration:none;display:inline-flex;align-items:center;gap:10px"><svg class="i" style="font-size:24px"><use href="#i-send"/></svg>@GDManage</a>
+      <div style="margin-top:16px">
+        <button class="btn btn-ghost" id="appeal-ban-btn" data-i18n="ticket.appeal">Подать апелляцию</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1030,7 +1126,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
 const I18N = {
   ru: {
-    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.activity':'Лента','nav.cabinet':'Кабинет','nav.admin':'Админка',
+    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.activity':'Лента','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
     'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','stat.participants':'Участников',
@@ -1075,6 +1171,8 @@ const I18N = {
     'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
     'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.level':'Уровень','lb.th.stages':'Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
     'activity.title':'Лента активности','activity.lead':'Что происходит в турнире прямо сейчас.','activity.empty':'Пока ничего не произошло.',
+    'support.title':'Поддержка','support.lead':'Свяжитесь с администрацией или подайте апелляцию.','support.new':'Создать обращение','support.empty':'Нет обращений','support.empty.lead':'Если у вас есть вопрос или проблема, создайте обращение.','support.open':'Открыть',
+    'ticket.create.title':'Новое обращение','ticket.create.lead':'Опишите вашу проблему.','ticket.subject':'Тема','ticket.type':'Тип','ticket.type.other':'Другое','ticket.type.ban':'Апелляция на бан','ticket.type.rejection':'Оспорить отклонение','ticket.related':'Связанный объект (необязательно)','ticket.message':'Сообщение','ticket.submit':'Отправить','ticket.success':'Обращение создано!','ticket.err.subject':'Укажите тему','ticket.err.message':'Введите сообщение','ticket.noMessages':'Нет сообщений','ticket.chat.send':'Отправить','ticket.appeal':'Подать апелляцию',
     'cab.title':'Личный кабинет','cab.lead':'Войдите или зарегистрируйтесь.','cab.signedAs':'Вы вошли как','cab.logout':'Выйти',
     'cab.level':'Уровень','cab.level.desc':'Число одобренных этапов','cab.points':'Очки','cab.points.desc':'Сумма очков за этапы',
     'cab.cups':'Мои кубки','cab.apps':'Заявки на этапы','cab.regs':'Мои заявки на турниры','cab.noCups':'Пока нет кубков. Участвуй в турнирах и побеждай!',
@@ -1092,7 +1190,7 @@ const I18N = {
     'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
-    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.passes':'Пропуска','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
+    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.passes':'Пропуска','admin.tab.tickets':'Обращения','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
     'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир', 'admin.newTournament.paid':'Платный турнир (требуется пропуск)',
@@ -1105,6 +1203,7 @@ const I18N = {
     'admin.log.when':'Когда','admin.log.who':'Кто','admin.log.what':'Что',
     'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
     'admin.passes.title':'Продажа пропусков','admin.passes.enabled':'Разрешить продажу пропусков в магазине','admin.passes.hint':'Выключите, чтобы пользователи не могли купить пропуск. Уже существующие пропуска не пропадают.','admin.passes.manage':'Управление пропусками пользователей','admin.passes.search':'Поиск по нику или email...','admin.passes.setPrompt':'Введите количество пропусков:','admin.passes.updated':'Пропуска обновлены','admin.passes.empty':'Нет пользователей','admin.passes.toggle.on':'Продажа включена','admin.passes.toggle.off':'Продажа выключена','admin.passes.onlyAdmin':'Доступно только главному админу',
+    'admin.tickets.empty':'Нет обращений',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
     'status.pending':'На проверке','status.approved':'Одобрено','status.rejected':'Отклонено',
@@ -1123,10 +1222,11 @@ const I18N = {
     'shop.disabled':'Продажа приостановлена',
     'shop.disabled.banner':'Продажа пропусков временно приостановлена администратором.',
     'toast.copied':'Скопировано',
-    'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире'
+    'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире',
+    'loading':'Загрузка...'
   },
   en: {
-    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.cabinet':'Cabinet','nav.admin':'Admin',
+    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.activity':'Feed','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
     'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','stat.participants':'Participants',
@@ -1171,6 +1271,8 @@ const I18N = {
     'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
     'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.level':'Level','lb.th.stages':'Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
     'activity.title':'Activity feed','activity.lead':'What is happening in the tournament right now.','activity.empty':'Nothing yet.',
+    'support.title':'Support','support.lead':'Contact the administration or file an appeal.','support.new':'Create ticket','support.empty':'No tickets','support.empty.lead':'If you have a question or a problem, create a ticket.','support.open':'Open',
+    'ticket.create.title':'New ticket','ticket.create.lead':'Describe your problem.','ticket.subject':'Subject','ticket.type':'Type','ticket.type.other':'Other','ticket.type.ban':'Ban appeal','ticket.type.rejection':'Appeal rejection','ticket.related':'Related object (optional)','ticket.message':'Message','ticket.submit':'Send','ticket.success':'Ticket created!','ticket.err.subject':'Enter subject','ticket.err.message':'Enter message','ticket.noMessages':'No messages','ticket.chat.send':'Send','ticket.appeal':'File an appeal',
     'cab.title':'Personal cabinet','cab.lead':'Log in or register.','cab.signedAs':'Signed in as','cab.logout':'Log out',
     'cab.level':'Level','cab.level.desc':'Number of approved stages','cab.points':'Points','cab.points.desc':'Sum of points for stages',
     'cab.cups':'My cups','cab.apps':'Stage applications','cab.regs':'My tournament applications','cab.noCups':'No cups yet. Take part in tournaments and win!',
@@ -1188,7 +1290,7 @@ const I18N = {
     'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
-    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.passes':'Passes','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
+    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.passes':'Passes','admin.tab.tickets':'Tickets','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
     'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament', 'admin.newTournament.paid':'Paid tournament (requires pass)',
@@ -1201,6 +1303,7 @@ const I18N = {
     'admin.log.when':'When','admin.log.who':'Who','admin.log.what':'What',
     'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
     'admin.passes.title':'Pass sales','admin.passes.enabled':'Allow selling passes in the shop','admin.passes.hint':'Disable to prevent users from buying a pass. Existing passes remain untouched.','admin.passes.manage':'Manage user passes','admin.passes.search':'Search by nick or email...','admin.passes.setPrompt':'Enter pass count:','admin.passes.updated':'Passes updated','admin.passes.empty':'No users','admin.passes.toggle.on':'Sales enabled','admin.passes.toggle.off':'Sales disabled','admin.passes.onlyAdmin':'Available to super admin only',
+    'admin.tickets.empty':'No tickets',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
     'status.pending':'Pending','status.approved':'Approved','status.rejected':'Rejected',
@@ -1219,11 +1322,12 @@ const I18N = {
     'shop.disabled':'Sales suspended',
     'shop.disabled.banner':'Pass sales are temporarily suspended by the administrator.',
     'toast.copied':'Copied',
-    'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament'
+    'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament',
+    'loading':'Loading...'
   }
 };
 
-const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','activity','cabinet','docs','admin'];
+const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','activity','support','cabinet','docs','admin'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 
 const $ = s => document.querySelector(s);
@@ -1255,8 +1359,11 @@ let regModalTid = null, currentCommentsStageId = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
-let shopEnabled = true;             // флаг "продажа пропусков включена" (глобально, кеш)
-let passesSearch = '';              // поиск в админ-табе "Пропуска"
+let shopEnabled = true;
+let passesSearch = '';
+let ticketsList = [];
+let allTickets = [];
+let currentTicketId = null;
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
@@ -1302,6 +1409,7 @@ function applyLang(l){
   try{ if(currentTournamentId) renderTournamentPage(); }catch(_){}
   try{ renderLeaderboard(); }catch(_){}
   try{ renderActivity(); }catch(_){}
+  try{ if(current === 'support') renderSupport(); }catch(_){}
   try{ if(user) renderCabinet(); }catch(_){}
   try{ if(canModerate()) renderAdmin(); }catch(_){}
   try{ if(current === 'apply') refreshApplyView(); }catch(_){}
@@ -1367,22 +1475,15 @@ function applyBanState(){
   else if(!document.documentElement.hasAttribute('data-device-banned')){ document.documentElement.removeAttribute('data-banned'); const ov=$('#ban-overlay'); if(ov) ov.classList.add('hidden'); }
 }
 
-/* ============================================================
-   ГЛОБАЛЬНЫЙ ФЛАГ "ПРОДАЖА ПРОПУСКОВ"
-   Хранение: таблица settings (key/value) в Supabase;
-   fallback: localStorage, если таблица недоступна.
-   ============================================================ */
 async function loadShopEnabled(){
-  // 1) локальный кеш
   try{
     const ls = localStorage.getItem('gdcc-shop-enabled');
     if(ls !== null) shopEnabled = ls !== 'false';
   }catch(_){}
-  // 2) серверное значение
   if(!sb) return;
   try{
     const { data, error } = await sb.from('settings').select('value').eq('key','shop_enabled').maybeSingle();
-    if(error) return; // таблицы нет — оставляем local
+    if(error) return;
     if(data) shopEnabled = data.value !== 'false';
   }catch(_){}
 }
@@ -1391,7 +1492,7 @@ async function setShopEnabled(enabled){
   try{ localStorage.setItem('gdcc-shop-enabled', String(shopEnabled)); }catch(_){}
   if(sb){
     try{
-      await sb.from('settings').upsert({ key:'shop_enabled', value:String(shopEnabled), updated_at:new Date().toISOString() }, { onConflict:'key' });
+      await sb.rpc('admin_set_shop_enabled', { enabled: shopEnabled });
     }catch(_){}
   }
   renderShop();
@@ -1413,6 +1514,7 @@ function show(id){
   if(id === 'activity') renderActivity();
   if(id === 'tournaments') renderTournaments();
   if(id === 'shop') renderShop();
+  if(id === 'support') renderSupport();
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
   if(id === 'admin') renderAdmin();
@@ -1558,19 +1660,14 @@ function renderTournaments(){
   });
 }
 
-/* ---------- SHOP (публичный) ---------- */
 function renderShop() {
   const grid = $('#shop-grid'); if(!grid) return;
   grid.replaceChildren();
-
-  // баннер "продажа приостановлена"
   const banner = $('#shop-disabled-banner');
   if (banner) {
     banner.classList.toggle('hidden', shopEnabled);
-    if (!shopEnabled) banner.style.display = 'flex';
-    else banner.style.display = '';
+    if (!shopEnabled) banner.style.display = 'flex'; else banner.style.display = '';
   }
-
   if (!shopItems.length) {
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>';
     return;
@@ -1595,7 +1692,6 @@ function renderShop() {
   });
 }
 
-/* ЗАГЛУШКА: покупка НЕ работает, ничего не начисляется. */
 async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
@@ -1849,7 +1945,7 @@ $('#reg-modal-submit').addEventListener('click', async () => {
 
     if (t_.is_paid && isNewApplication) {
       const newPasses = Math.max(0, (userProfile.passes || 0) - 1);
-      await sb.from('profiles').update({ passes: newPasses }).eq('id', user.id);
+      await sb.rpc('consume_pass');
       userProfile.passes = newPasses;
       window.updatePassesUI(newPasses);
     }
@@ -2197,6 +2293,12 @@ async function renderCabinet(){
         });
         actions.appendChild(del);
       }
+      if(r.status === 'rejected'){
+        const ap = document.createElement('button'); ap.type='button'; ap.className='btn btn-ghost btn-sm';
+        ap.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>Оспорить</span>';
+        ap.addEventListener('click', () => openTicketModal('appeal_rejection', r.id));
+        actions.appendChild(ap);
+      }
       item.appendChild(actions);
       regWrap.appendChild(item);
     });
@@ -2250,6 +2352,12 @@ async function renderCabinet(){
       });
       actions.appendChild(del);
     }
+    if(a.status === 'rejected'){
+      const ap = document.createElement('button'); ap.type='button'; ap.className='btn btn-ghost btn-sm';
+      ap.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>Оспорить</span>';
+      ap.addEventListener('click', () => openTicketModal('appeal_rejection', a.id));
+      actions.appendChild(ap);
+    }
     item.appendChild(actions); list.appendChild(item);
   });
 }
@@ -2276,6 +2384,246 @@ $('#save-profile-btn').addEventListener('click', async () => {
     if(current === 'cabinet') renderCabinet();
   }catch(err){ console.error(err); toast('Error', true); }
 });
+
+// --- Support / Tickets ---
+async function loadTickets() {
+  if (!sb || !user) { ticketsList = []; return; }
+  try {
+    const { data, error } = await sb.from('tickets').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
+    if (error) throw error;
+    ticketsList = data || [];
+  } catch (_) { ticketsList = []; }
+}
+
+function renderSupport() {
+  const list = $('#support-tickets-list');
+  if (!list) return;
+  list.replaceChildren();
+  if (!user) {
+    list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2>' + t('apply.gate.t') + '</h2><p>' + t('apply.gate.p') + '</p><a class="btn btn-primary" href="#cabinet">' + t('apply.gate.btn') + '</a></div>';
+    return;
+  }
+  if (!ticketsList.length) {
+    list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-chat"/></svg></div><h2>' + t('support.empty') + '</h2><p>' + t('support.empty.lead') + '</p></div>';
+    return;
+  }
+  ticketsList.forEach(ticket => {
+    const item = document.createElement('div');
+    item.className = 'app-item';
+    const typeLabel = ticket.type === 'appeal_ban' ? '🔨 ' + t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? '📋 ' + t('ticket.type.rejection') : '💬 ' + t('ticket.type.other');
+    const statusClass = ticket.status === 'open' ? 'pending' : 'closed';
+    item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">' + escapeHtml(ticket.subject) + '</span><span class="status-badge ' + statusClass + '">' + t('status.' + ticket.status) + '</span><span class="app-item-date">' + timeAgo(ticket.created_at) + '</span></div><div style="color:var(--muted);font-size:13px">' + typeLabel + '</div></div>';
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-primary btn-sm';
+    btn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>' + t('support.open') + '</span>';
+    btn.addEventListener('click', () => openTicketChat(ticket.id));
+    const actions = document.createElement('div');
+    actions.className = 'app-item-actions';
+    actions.appendChild(btn);
+    item.appendChild(actions);
+    list.appendChild(item);
+  });
+}
+
+function openTicketModal(type = 'other', relatedId = null) {
+  if (!user) { go('cabinet'); return; }
+  $('#ticket-subject').value = '';
+  $('#ticket-type').value = type;
+  $('#ticket-related').value = relatedId || '';
+  $('#ticket-message').value = '';
+  $('#ticket-modal').classList.remove('hidden');
+  const banOv = $('#ban-overlay');
+  if (banOv) banOv.classList.add('hidden');
+  setTimeout(() => $('#ticket-subject').focus(), 100);
+}
+
+function closeTicketModal() {
+  $('#ticket-modal').classList.add('hidden');
+  if (userProfile && userProfile.banned) {
+    const banOv = $('#ban-overlay');
+    if (banOv) banOv.classList.remove('hidden');
+  }
+}
+
+$('#ticket-modal-close').addEventListener('click', closeTicketModal);
+$('#ticket-modal-cancel').addEventListener('click', closeTicketModal);
+$('#ticket-modal').addEventListener('click', e => { if (e.target === $('#ticket-modal')) closeTicketModal(); });
+
+$('#ticket-modal-submit').addEventListener('click', async () => {
+  const subject = $('#ticket-subject').value.trim();
+  const type = $('#ticket-type').value;
+  const related = $('#ticket-related').value.trim();
+  const msg = $('#ticket-message').value.trim();
+  if (!subject) { toast(t('ticket.err.subject'), true); return; }
+  if (!msg) { toast(t('ticket.err.message'), true); return; }
+
+  const btn = $('#ticket-modal-submit');
+  btn.disabled = true;
+  try {
+    const { data: ticketData, error: ticketErr } = await sb.from('tickets').insert([{
+      user_id: user.id,
+      subject: subject,
+      type: type,
+      related_id: related || null
+    }]).select().single();
+    if (ticketErr) throw ticketErr;
+
+    const { error: msgErr } = await sb.from('ticket_messages').insert([{
+      ticket_id: ticketData.id,
+      sender_id: user.id,
+      content: msg
+    }]);
+    if (msgErr) throw msgErr;
+
+    toast(t('ticket.success'));
+    closeTicketModal();
+    await loadTickets();
+    if (current === 'support') renderSupport();
+    if (current === 'admin' && adminTab === 'tickets') renderAdminTickets();
+  } catch (e) {
+    console.error(e);
+    toast('Error: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+async function openTicketChat(ticketId) {
+  currentTicketId = ticketId;
+  $('#ticket-chat-modal').classList.remove('hidden');
+  $('#ticket-chat-body').innerHTML = '<p style="text-align:center;color:var(--muted)">' + t('loading') + '</p>';
+  await loadTicketMessages(ticketId);
+  const banOv = $('#ban-overlay');
+  if (banOv) banOv.classList.add('hidden');
+}
+
+function closeTicketChat() {
+  $('#ticket-chat-modal').classList.add('hidden');
+  currentTicketId = null;
+  if (userProfile && userProfile.banned) {
+    const banOv = $('#ban-overlay');
+    if (banOv) banOv.classList.remove('hidden');
+  }
+}
+
+$('#ticket-chat-close').addEventListener('click', closeTicketChat);
+$('#ticket-chat-modal').addEventListener('click', e => { if (e.target === $('#ticket-chat-modal')) closeTicketChat(); });
+
+async function loadTicketMessages(ticketId) {
+  const wrap = $('#ticket-chat-body');
+  try {
+    const { data: ticket } = await sb.from('tickets').select('*').eq('id', ticketId).single();
+    if (ticket) {
+      $('#ticket-chat-title').textContent = ticket.subject;
+      $('#ticket-chat-subtitle').textContent = t('status.' + ticket.status) + ' · ' + (ticket.type === 'appeal_ban' ? t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? t('ticket.type.rejection') : t('ticket.type.other'));
+    }
+    const { data: messages, error } = await sb.from('ticket_messages')
+      .select('*, profile:profiles(nick, nick_color)')
+      .eq('ticket_id', ticketId)
+      .order('created_at', { ascending: true });
+    if (error) throw error;
+    wrap.replaceChildren();
+    if (!messages || !messages.length) {
+      wrap.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px">' + t('ticket.noMessages') + '</p>';
+      return;
+    }
+    messages.forEach(m => {
+      const el = document.createElement('div');
+      el.className = 'comment-item';
+      const isMe = m.sender_id === user.id;
+      const nick = m.profile ? m.profile.nick : (isMe ? 'Me' : 'Admin');
+      const color = m.profile ? m.profile.nick_color : 'inherit';
+      el.innerHTML = '<div class="comment-avatar" style="background:' + (isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#f6b73c,#d69b1a)') + '">' + initials(nick) + '</div>' +
+        '<div class="comment-body">' +
+          '<div class="comment-head">' +
+            '<span class="comment-nick" style="color:' + (color||'inherit') + '">' + escapeHtml(nick) + '</span>' +
+            '<span class="comment-date">' + timeAgo(m.created_at) + '</span>' +
+          '</div>' +
+          '<div class="comment-text">' + escapeHtml(m.content) + '</div>' +
+        '</div>';
+      wrap.appendChild(el);
+    });
+    wrap.scrollTop = wrap.scrollHeight;
+  } catch (e) {
+    console.error(e);
+    wrap.innerHTML = '<p style="color:var(--red);text-align:center">Error</p>';
+  }
+}
+
+$('#ticket-chat-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!user || !currentTicketId) return;
+  const input = $('#ticket-chat-input');
+  const content = input.value.trim();
+  if (!content) return;
+  const btn = $('#ticket-chat-submit');
+  btn.disabled = true;
+  try {
+    const { error } = await sb.from('ticket_messages').insert([{
+      ticket_id: currentTicketId,
+      sender_id: user.id,
+      content: content
+    }]);
+    if (error) throw error;
+    input.value = '';
+    await loadTicketMessages(currentTicketId);
+  } catch (e) {
+    console.error(e);
+    toast('Error', true);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// Admin tickets
+async function loadAllTickets() {
+  if (!sb || !canModerate()) { allTickets = []; return; }
+  try {
+    const { data, error } = await sb.from('tickets').select('*, profile:profiles(nick)').order('created_at', { ascending: false });
+    if (error) throw error;
+    allTickets = data || [];
+  } catch (_) { allTickets = []; }
+}
+
+async function renderAdminTickets() {
+  await loadAllTickets();
+  const tb = $('#admin-tickets-body');
+  if (!tb) return;
+  tb.replaceChildren();
+  if (!allTickets.length) {
+    tb.innerHTML = '<tr><td colspan="7" class="empty">' + t('admin.tickets.empty') + '</td></tr>';
+    return;
+  }
+  allTickets.forEach(ticket => {
+    const tr = document.createElement('tr');
+    const nick = ticket.profile ? ticket.profile.nick : ticket.user_id;
+    const typeLabel = ticket.type === 'appeal_ban' ? '🔨 ' + t('ticket.type.ban') : ticket.type === 'appeal_rejection' ? '📋 ' + t('ticket.type.rejection') : '💬 ' + t('ticket.type.other');
+    const statusBadge = '<span class="status-badge ' + (ticket.status === 'open' ? 'pending' : 'closed') + '">' + t('status.' + ticket.status) + '</span>';
+    tr.innerHTML = '<td>' + escapeHtml(nick) + '</td><td>' + escapeHtml(ticket.subject) + '</td><td>' + typeLabel + '</td><td>' + statusBadge + '</td><td style="font-size:12px;color:var(--muted)">' + timeAgo(ticket.created_at) + '</td>';
+    const tdActions = document.createElement('td');
+    const openBtn = document.createElement('button');
+    openBtn.className = 'btn btn-primary btn-sm';
+    openBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg> ' + t('support.open');
+    openBtn.addEventListener('click', () => openTicketChat(ticket.id));
+    tdActions.appendChild(openBtn);
+    if (ticket.status === 'open') {
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'btn btn-ghost btn-sm';
+      closeBtn.textContent = '✕ ' + t('status.closed');
+      closeBtn.style.marginLeft = '4px';
+      closeBtn.addEventListener('click', async () => {
+        await sb.from('tickets').update({ status: 'closed' }).eq('id', ticket.id);
+        await renderAdminTickets();
+        toast('Closed');
+      });
+      tdActions.appendChild(closeBtn);
+    }
+    tr.appendChild(tdActions);
+    tb.appendChild(tr);
+  });
+}
+
+// End Support / Tickets
 
 async function openUserModal(userId){
   currentUserId = userId; userModal.classList.remove('hidden');
@@ -2349,7 +2697,7 @@ async function openUserModal(userId){
 function closeUserModal(){ userModal.classList.add('hidden'); currentUserId = null; }
 $('#um-close').addEventListener('click', closeUserModal);
 userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); if(!$('#ticket-modal').classList.contains('hidden')) closeTicketModal(); if(!$('#ticket-chat-modal').classList.contains('hidden')) closeTicketChat(); } });
 
 async function changeUserPoints(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество очков:':'New points:', current);
@@ -2405,19 +2753,14 @@ async function unbanUser(userId){
   await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
 }
 
-/* ============================================================
-   АДМИН: НАЧИСЛЕНИЕ/СПИСАНИЕ ПРОПУСКОВ
-   ============================================================ */
 async function adminSetPasses(userId, val){
   if(!sb) return;
   if(!isAdmin()){ toast(t('admin.passes.onlyAdmin'), true); return; }
   const num = Math.max(0, parseInt(val,10) || 0);
-  const { error } = await sb.from('profiles').update({ passes: num }).eq('id', userId);
+  const { error } = await sb.rpc('admin_set_passes', { target: userId, amount: num });
   if(error){ toast('Error: '+error.message, true); return; }
-  // локальный кеш
   const u = allUsers.find(x => x.id === userId);
   if(u) u.passes = num;
-  // если это текущий пользователь — обновим UI
   if(user && user.id === userId && userProfile){
     userProfile.passes = num;
     window.updatePassesUI(num);
@@ -2425,7 +2768,6 @@ async function adminSetPasses(userId, val){
   toast(t('admin.passes.updated'));
   if(current === 'admin' && adminTab === 'passes') renderAdminPasses();
   if(currentUserId === userId){
-    // обновим модалку, если открыта
     await openUserModal(userId);
   }
 }
@@ -2498,7 +2840,6 @@ async function renderAdminPasses(){
   };
 }
 
-/* Слушатели для админ-таба "Пропуска" */
 (function initPassesTabListeners(){
   const toggle = document.getElementById('shop-enabled-toggle');
   if(toggle){
@@ -2621,7 +2962,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','passes','cups','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','passes','tickets','cups','words','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -2633,15 +2974,17 @@ function renderAdmin(){
   $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
   $('#tab-users').classList.toggle('hidden', !isAdmin());
   $('#tab-passes').classList.toggle('hidden', !isAdmin());
+  $('#tab-tickets').classList.toggle('hidden', !isAdmin());
   $('#tab-cups').classList.toggle('hidden', !isAdmin());
   $('#tab-words').classList.toggle('hidden', !isAdmin());
-  if(!isAdmin() && ['tournaments','users','passes','cups','words'].includes(adminTab)) adminTab = 'dashboard';
+  if(!isAdmin() && ['tournaments','users','passes','tickets','cups','words'].includes(adminTab)) adminTab = 'dashboard';
   if(adminTab === 'dashboard') renderDashboard();
   else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
   else if(adminTab === 'apps') renderAdminApps();
   else if(adminTab === 'users') renderAdminUsers();
   else if(adminTab === 'passes') renderAdminPasses();
+  else if(adminTab === 'tickets') renderAdminTickets();
   else if(adminTab === 'cups') renderAdminCups();
   else if(adminTab === 'words') renderAdminWords();
   else if(adminTab === 'log') renderAdminLog();
@@ -2781,9 +3124,11 @@ async function updateRegStatus(r, newStatus){
   }
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), r.admin_comment || '');
   if(ask === null) return;
-  const patch = { status:newStatus };
-  if(ask.trim() !== (r.admin_comment || '')) patch.admin_comment = ask.trim() || null;
-  const { error } = await sb.from('tournament_registrations').update(patch).eq('id',r.id);
+  const { error } = await sb.rpc('admin_review_registration', {
+    reg_id: r.id,
+    new_status: newStatus,
+    comment: ask.trim() || null
+  });
   if(error){ toast('Error', true); return; }
   const t_ = tournaments.find(x => x.id === r.tournament_id);
   try{ await sb.from('activity_feed').insert([{ user_id:r.user_id, user_nick:r.nick, action: newStatus === 'approved' ? 'reg_approve' : 'reg_reject', details:{ tournament_id: r.tournament_id, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
@@ -3070,9 +3415,11 @@ async function editComment(a){ const v = prompt('Comment:', a.admin_comment||'')
 async function updateAppStatus(a, newStatus){
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), a.admin_comment || '');
   if(ask === null) return;
-  const patch = { status:newStatus };
-  if(ask.trim() !== (a.admin_comment || '')) patch.admin_comment = ask.trim() || null;
-  const { error } = await sb.from('applications').update(patch).eq('id',a.id);
+  const { error } = await sb.rpc('admin_review_application', {
+    app_id: a.id,
+    new_status: newStatus,
+    comment: ask.trim() || null
+  });
   if(error){ toast('Error', true); return; }
   try{ await sb.from('activity_feed').insert([{ user_id:a.user_id, user_nick:a.nick, action:newStatus === 'approved' ? 'approve' : 'reject', details:{ stage_id:a.stage_id } }]); }catch(_){}
   toast(newStatus === 'approved' ? '✓' : '✕');
@@ -3168,7 +3515,7 @@ $('#register-form').addEventListener('submit', async e => {
       return;
     }
     if(data && data.user && data.user.id){
-      try{ await sb.from('profiles').update({ signup_fingerprint: fp, gd_nick: gdNick, nick: gdNick }).eq('id', data.user.id); }catch(_){}
+      try{ await sb.rpc('register_fingerprint', { fp }); }catch(_){}
     }
     if(data && data.session){
       formEl.reset(); toast(LANG==='ru'?'Аккаунт создан!':'Account created!'); await afterLogin(); return;
@@ -3197,13 +3544,14 @@ async function afterLogin(){
   if(document.documentElement.hasAttribute('data-banned')) return;
   await loadTournaments(); await loadStages(); await loadShopItems();
   await loadShopEnabled();
-  await loadMyApplications(); await loadProfilePoints(); await loadMyRegs();
+  await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
   if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
   await renderCabinet();
   renderAdmin();
   updateAdminStats();
   if(current === 'tournaments') renderTournaments();
   if(current === 'shop') renderShop();
+  if(current === 'support') renderSupport();
   setupRealtime();
 }
 
@@ -3252,6 +3600,16 @@ function setupRealtime(){
       await loadAllCups();
       await renderLeaderboard();
     })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, async () => {
+      if (current === 'support') { await loadTickets(); renderSupport(); }
+      if (canModerate() && adminTab === 'tickets') renderAdminTickets();
+    })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ticket_messages' }, async payload => {
+      if (currentTicketId && payload.new.ticket_id === currentTicketId) {
+        await loadTicketMessages(currentTicketId);
+      }
+      if (canModerate() && adminTab === 'tickets') renderAdminTickets();
+    })
     .subscribe();
 }
 async function initAuth(){
@@ -3296,6 +3654,11 @@ if(!saved){
     renderTournaments(); renderShop(); await renderLeaderboard(); await renderActivity();
   }
 })();
+
+// Appeal ban button
+document.getElementById('appeal-ban-btn')?.addEventListener('click', () => {
+  openTicketModal('appeal_ban');
+});
 </script>
 </body>
 </html>
