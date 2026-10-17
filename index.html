@@ -1498,7 +1498,9 @@ let isChatLoaded = false;
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
-function isAdmin(){ return user && user.email && user.email.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase(); }
+function isAdmin(){ 
+  return user && user.email && user.email.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase(); 
+}
 function canModerate(){ return isAdmin() || isModeratorFlag; }
 function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
 function saveLang(l){ try{ localStorage.setItem('gdcc-lang', l); }catch(_){} }
