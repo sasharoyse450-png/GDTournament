@@ -399,8 +399,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .t-stage-row .info b{display:block;font-weight:600;color:var(--text)}
 .t-stage-row .info span{color:var(--muted);font-size:12px}
 .t-stage-row .actions{display:flex;gap:6px;flex-wrap:wrap}
-.modal-back{position:fixed;inset:0;z-index:10000;background:rgba(5,10,23,.88);backdrop-filter:blur(8px);display:grid;place-items:center;padding:20px;overflow-y:auto}
-.modal{width:min(760px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,rgba(14,26,58,.98),rgba(9,18,42,.98));border:1px solid var(--line);border-radius:20px;padding:26px 28px 28px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-back{position:fixed;inset:0;z-index:10000;background:rgba(5,10,23,.88);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px;overflow-y:auto}
+.modal{width:min(760px,100%);margin:auto;background:linear-gradient(180deg,rgba(14,26,58,.98),rgba(9,18,42,.98));border:1px solid var(--line);border-radius:20px;padding:26px 28px 28px;box-shadow:0 30px 80px rgba(0,0,0,.6);position:relative}
 .modal.modal-sm{width:min(520px,100%)}
 .modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--line-soft)}
 .modal-head h2{font-size:22px;font-weight:800;margin:0}
@@ -594,6 +594,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 </header>
 
 <main>
+<!-- HOME PAGE -->
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -633,6 +634,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- RULES PAGE -->
 <section class="page" id="page-rules">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></div><h1 data-i18n="rules.title">Правила турнира</h1><p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
@@ -649,6 +651,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- TOURNAMENTS PAGE -->
 <section class="page" id="page-tournaments">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="nav.tournaments">Турниры</span></div><h1 data-i18n="tournaments.title">Турниры</h1><p data-i18n="tournaments.lead">Подай заявку на участие в турнире. После одобрения администратором откроются этапы.</p></div>
@@ -656,6 +659,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- SHOP PAGE -->
 <section class="page" id="page-shop">
   <div class="wrap">
     <div class="page-head">
@@ -676,6 +680,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- TOURNAMENT PAGE -->
 <section class="page" id="page-tournament">
   <div class="wrap">
     <div class="page-head">
@@ -690,6 +695,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- APPLY PAGE -->
 <section class="page" id="page-apply">
   <div class="wrap">
     <div class="page-head">
@@ -742,6 +748,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- LEADERBOARD PAGE -->
 <section class="page" id="page-leaderboard">
   <div class="wrap">
     <div class="page-head">
@@ -770,6 +777,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- CHAT PAGE -->
 <section class="page" id="page-chat">
   <div class="wrap">
     <div class="page-head">
@@ -789,6 +797,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- SUPPORT PAGE -->
 <section class="page" id="page-support">
   <div class="wrap">
     <div class="page-head">
@@ -803,6 +812,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- CABINET PAGE -->
 <section class="page" id="page-cabinet">
   <div class="wrap">
     <div id="cabinet-auth">
@@ -863,6 +873,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- DOCS PAGE -->
 <section class="page" id="page-docs">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div><h1 data-i18n="docs.title">Необходимые документы</h1><p data-i18n="docs.lead">Что нужно подготовить.</p></div>
@@ -875,6 +886,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
+<!-- ADMIN PAGE -->
 <section class="page" id="page-admin">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span></div><h1 data-i18n="admin.title">Панель администратора</h1><p data-i18n="admin.lead">Управление турнирами, этапами, заявками и юзерами.</p></div>
@@ -1031,20 +1043,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div style="font-weight:600;color:var(--text)">© International Geometry Dash Championship</div>
     <div class="footer-links">
-      <!-- Кнопки каналов -->
       <a href="https://t.me/GDChampionship" target="_blank" rel="noopener" class="social-link tg-link">
         <svg class="i"><use href="#i-send"/></svg> Telegram
       </a>
       <a href="https://max.ru/channel_GDChampionship" target="_blank" rel="noopener" class="social-link max-link">
         <svg class="i"><use href="#i-chat"/></svg> MAX
       </a>
-      
-      <!-- Юридическая информация и поддержка -->
       <a href="https://telegra.ph/POLITIKA-KONFIDENCIALNOSTI-08-12-99" target="_blank" rel="noopener" data-i18n="footer.privacy">Политика конфиденциальности</a>
       <a href="https://telegra.ph/PUBLICHNAYA-OFERTA-08-12-15" target="_blank" rel="noopener" data-i18n="footer.terms">Пользовательское соглашение</a>
       <a href="https://t.me/GDManage" target="_blank" rel="noopener" data-i18n="footer.support">Поддержка: @GDManage</a>
-      
-      <!-- Донат (если включен) -->
       <a href="https://dalink.to/theteacher" id="footer-donate-link" class="donate" target="_blank" rel="noopener">
         <svg class="i" style="vertical-align:-2px;margin-right:4px"><use href="#i-heart"/></svg>
         <span data-i18n="footer.donate">Поддержать проект</span>
@@ -1053,7 +1060,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </footer>
 
-<!-- Плавающая кнопка доната -->
 <a href="https://dalink.to/theteacher" id="floating-donate-btn" class="floating-donate" target="_blank" rel="noopener">
   <svg class="i"><use href="#i-heart"/></svg>
   <span data-i18n="footer.donate">Поддержать проект</span>
@@ -1071,7 +1077,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: создание обращения -->
+<!-- MODALS -->
 <div class="modal-back hidden" id="ticket-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1110,7 +1116,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: чат тикета -->
 <div class="modal-back hidden" id="ticket-chat-modal">
   <div class="modal">
     <div class="modal-head">
@@ -1130,7 +1135,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: заявка на турнир -->
 <div class="modal-back hidden" id="reg-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1168,7 +1172,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: настройка этапа -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="modal-title" data-i18n="stage.modal.title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -1181,7 +1184,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: профиль игрока -->
 <div class="modal-back hidden" id="user-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="um-title">Профиль игрока</h2><p id="um-subtitle">—</p></div><button class="modal-close" id="um-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -1190,7 +1192,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: вручение кубка -->
 <div class="modal-back hidden" id="cup-modal">
   <div class="modal modal-sm">
     <div class="modal-head"><div><h2 id="cm-title">Вручить кубок</h2><p id="cm-subtitle">—</p></div><button class="modal-close" id="cm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -1203,7 +1204,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: комментарии к этапу -->
 <div class="modal-back hidden" id="comments-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1502,6 +1502,35 @@ function isAdmin(){
   return user && user.email && user.email.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase(); 
 }
 function canModerate(){ return isAdmin() || isModeratorFlag; }
+
+window.updateHeaderUI = () => {
+  const loginBtn = document.getElementById('login-btn');
+  const loginBtnNav = document.getElementById('login-btn-nav');
+  const adminBtn = document.getElementById('nav-admin');
+  
+  if (user) {
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (loginBtnNav) loginBtnNav.style.display = 'none';
+  } else {
+    if (loginBtn) loginBtn.style.display = '';
+    if (loginBtnNav) loginBtnNav.style.display = '';
+  }
+  
+  if (adminBtn) {
+    if (canModerate()) adminBtn.classList.remove('hidden');
+    else adminBtn.classList.add('hidden');
+  }
+};
+
+window.updatePassesUI = n => {
+  $$('[data-user-passes]').forEach(el => el.textContent = (n == null ? '0' : n));
+  const hb = $('#header-balance');
+  if (hb) {
+    if (!user) hb.classList.add('hidden');
+    else hb.classList.remove('hidden');
+  }
+};
+
 function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
 function saveLang(l){ try{ localStorage.setItem('gdcc-lang', l); }catch(_){} }
 function setShellInert(on){ shell.forEach(el => { if(el) el.inert = on; }); }
@@ -1680,6 +1709,7 @@ function show(id){
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
   if(id === 'admin') renderAdmin();
+  window.updateHeaderUI();
   nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
 }
 function go(id){
@@ -1704,11 +1734,6 @@ $('#login-btn').addEventListener('click', () => go('cabinet'));
 $('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
 $('#tournament-back').addEventListener('click', () => go('tournaments'));
 window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
-window.updatePassesUI = n => {
-  $$('[data-user-passes]').forEach(el => el.textContent = (n == null ? '0' : n));
-  const hb = $('#header-balance');
-  if (hb) hb.classList.toggle('hidden', !user);
-};
 
 document.getElementById('hero-apply-btn').addEventListener('click', e => {
   e.preventDefault();
@@ -3724,8 +3749,9 @@ $('#login-form').addEventListener('submit', async e => {
   if(!sb){ toast('Supabase?', true); return; }
   const btn = e.target.querySelector('button[type="submit"]');
   const prev = btn.textContent; btn.disabled = true; btn.textContent = LANG==='ru'?'Отправляем…':'Sending…';
+  
   try{
-    const { error } = await sb.auth.signInWithPassword({ email, password });
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if(error){
       const msg = (error.message||'').toLowerCase();
       if(/confirm|not confirmed/i.test(msg)) setAuthError('login', LANG==='ru'?'Email не подтверждён.':'Email not confirmed.');
@@ -3734,8 +3760,17 @@ $('#login-form').addEventListener('submit', async e => {
       return;
     }
     toast(LANG==='ru'?'Добро пожаловать!':'Welcome!');
-    await afterLogin(); e.target.reset();
-  }finally{ btn.disabled = false; btn.textContent = prev; }
+    e.target.reset();
+    
+    if (user === null && data.session) {
+      user = data.session.user;
+      await afterLogin();
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    btn.disabled = false; btn.textContent = prev;
+  }
 });
 $('#register-form').addEventListener('submit', async e => {
   e.preventDefault();
@@ -3798,28 +3833,45 @@ $('#logout-btn').addEventListener('click', async () => {
   toast(LANG==='ru'?'Вы вышли':'Logged out');
   user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
   applyBanState();
+  window.updateHeaderUI();
   renderCabinet(); renderAdmin(); renderTournaments(); window.updatePassesUI(0);
   go('home');
 });
 
 async function afterLogin(){
-  await checkModerator();
-  await loadProfile();
-  if(user && user.id) await trackDevice(user.id);
-  if(userProfile && userProfile.banned) return;
-  if(document.documentElement.hasAttribute('data-banned')) return;
-  await loadTournaments(); await loadStages(); await loadShopItems();
-  await loadSettings();
-  await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
-  if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
-  await renderCabinet();
-  renderAdmin();
-  updateAdminStats();
-  if(current === 'tournaments') renderTournaments();
-  if(current === 'shop') renderShop();
-  if(current === 'support') renderSupport();
-  if(current === 'chat') renderChat();
-  setupRealtime();
+  window.updateHeaderUI();
+  
+  const logged = !!user;
+  $('#cabinet-auth').classList.toggle('hidden', logged);
+  $('#cabinet-dashboard').classList.toggle('hidden', !logged);
+  if(!logged) return;
+
+  try {
+    await checkModerator();
+    await loadProfile();
+    if(user && user.id) await trackDevice(user.id);
+    if(userProfile && userProfile.banned) return;
+    if(document.documentElement.hasAttribute('data-banned')) return;
+    
+    await loadTournaments(); await loadStages(); await loadShopItems();
+    await loadSettings();
+    await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
+    if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
+    
+    await renderCabinet();
+    renderAdmin();
+    updateAdminStats();
+    
+    if(current === 'tournaments') renderTournaments();
+    if(current === 'shop') renderShop();
+    if(current === 'support') renderSupport();
+    if(current === 'chat') renderChat();
+    
+    window.updateHeaderUI();
+    setupRealtime();
+  } catch (e) {
+    console.error("Ошибка при загрузке данных:", e);
+  }
 }
 
 function setupRealtime(){
@@ -3892,12 +3944,19 @@ async function initAuth(){
   if(deviceBanned){ document.documentElement.setAttribute('data-device-banned','true'); return; }
   const { data } = await sb.auth.getSession();
   user = data.session ? data.session.user : null;
-  sb.auth.onAuthStateChange((_ev, s) => {
+  
+  window.updateHeaderUI();
+  
+  sb.auth.onAuthStateChange(async (_ev, s) => {
     const wasUser = user;
     user = s ? s.user : null;
+    window.updateHeaderUI();
+    
     if(document.documentElement.hasAttribute('data-banned') || document.documentElement.hasAttribute('data-device-banned')) return;
-    if(user && (!wasUser || wasUser.id !== user.id)) afterLogin().catch(e => console.error(e));
-    else if(!user){
+    
+    if(user && (!wasUser || wasUser.id !== user.id)) {
+      await afterLogin();
+    } else if(!user){
       userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
       applyBanState();
       renderCabinet(); renderAdmin();
@@ -3927,12 +3986,10 @@ if(!saved){
   }
 })();
 
-// Appeal ban button
 document.getElementById('appeal-ban-btn')?.addEventListener('click', () => {
   openTicketModal('appeal_ban');
 });
 
-// New ticket button
 document.getElementById('new-ticket-btn')?.addEventListener('click', () => {
   openTicketModal('other');
 });
