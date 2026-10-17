@@ -275,6 +275,72 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .footer-links a:hover{color:var(--blue-2)}
 .footer-links a.donate { color: var(--gold); font-weight: 600; }
 .footer-links a.donate:hover { color: #ffd166; }
+
+/* Стили для кнопок соцсетей в футере */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all .2s;
+}
+.social-link.tg-link {
+  background: rgba(56, 182, 255, 0.1);
+  color: var(--blue-2);
+  border: 1px solid rgba(56, 182, 255, 0.3);
+}
+.social-link.tg-link:hover {
+  background: rgba(56, 182, 255, 0.2);
+  border-color: var(--blue-2);
+}
+.social-link.max-link {
+  background: rgba(179, 107, 255, 0.1);
+  color: var(--purple);
+  border: 1px solid rgba(179, 107, 255, 0.3);
+}
+.social-link.max-link:hover {
+  background: rgba(179, 107, 255, 0.2);
+  border-color: var(--purple);
+}
+
+/* Плавающая кнопка доната */
+.floating-donate {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  font: 700 15px 'Inter', sans-serif;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(255, 75, 43, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  animation: floatDonate 2s ease-in-out infinite;
+}
+.floating-donate:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 40px rgba(255, 75, 43, 0.6);
+}
+.floating-donate .i {
+  font-size: 20px;
+  fill: currentColor;
+  stroke: none;
+}
+@keyframes floatDonate {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:100;background:#0f1d42;border:1px solid var(--blue);color:var(--text);padding:12px 20px;border-radius:12px;font-size:14px;transition:.3s;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 .toast.error{border-color:var(--red);background:#2a0f1a}
@@ -422,6 +488,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .table th,.table td{padding:10px 12px;font-size:13px}
   .footer .wrap{flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
+  .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px}
 }
 </style>
 </head>
@@ -935,13 +1002,33 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div style="font-weight:600;color:var(--text)">© International Geometry Dash Championship</div>
     <div class="footer-links">
+      <!-- Кнопки каналов -->
+      <a href="https://t.me/GDChampionship" target="_blank" rel="noopener" class="social-link tg-link">
+        <svg class="i"><use href="#i-send"/></svg> Telegram
+      </a>
+      <a href="https://max.ru/channel_GDChampionship" target="_blank" rel="noopener" class="social-link max-link">
+        <svg class="i"><use href="#i-chat"/></svg> MAX
+      </a>
+      
+      <!-- Юридическая информация и поддержка -->
       <a href="https://telegra.ph/POLITIKA-KONFIDENCIALNOSTI-08-12-99" target="_blank" rel="noopener" data-i18n="footer.privacy">Политика конфиденциальности</a>
       <a href="https://telegra.ph/PUBLICHNAYA-OFERTA-08-12-15" target="_blank" rel="noopener" data-i18n="footer.terms">Пользовательское соглашение</a>
       <a href="https://t.me/GDManage" target="_blank" rel="noopener" data-i18n="footer.support">Поддержка: @GDManage</a>
-      <a href="#" id="footer-donate-link" class="donate hidden" target="_blank" rel="noopener"><svg class="i" style="vertical-align:-2px;margin-right:4px"><use href="#i-heart"/></svg><span data-i18n="footer.donate">Поддержать проект</span></a>
+      
+      <!-- Донат (если включен) -->
+      <a href="https://dalink.to/theteacher" id="footer-donate-link" class="donate" target="_blank" rel="noopener">
+        <svg class="i" style="vertical-align:-2px;margin-right:4px"><use href="#i-heart"/></svg>
+        <span data-i18n="footer.donate">Поддержать проект</span>
+      </a>
     </div>
   </div>
 </footer>
+
+<!-- Плавающая кнопка доната -->
+<a href="https://dalink.to/theteacher" id="floating-donate-btn" class="floating-donate" target="_blank" rel="noopener">
+  <svg class="i"><use href="#i-heart"/></svg>
+  <span data-i18n="footer.donate">Поддержать проект</span>
+</a>
 
 <div class="lang-gate" id="lang-gate">
   <div class="gate-card">
@@ -1372,7 +1459,7 @@ let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
 let timerInterval = null;
 let shopEnabled = true;
-let donationUrl = '';
+let donationUrl = 'https://dalink.to/theteacher';
 let passesSearch = '';
 let ticketsList = [];
 let allTickets = [];
@@ -1502,7 +1589,7 @@ async function loadSettings(){
       if(!error && data){
         data.forEach(row => {
           if(row.key === 'shop_enabled') shopEnabled = row.value !== 'false';
-          if(row.key === 'donation_url') donationUrl = row.value || '';
+          if(row.key === 'donation_url') donationUrl = row.value || 'https://dalink.to/theteacher';
         });
       }
     }catch(_){}
@@ -1523,17 +1610,22 @@ async function setShopEnabled(enabled){
 
 function updateDonationUI(){
   const link = $('#footer-donate-link');
+  const floatBtn = $('#floating-donate-btn');
   const input = $('#donation-url-input');
+  
+  if (!donationUrl) donationUrl = 'https://dalink.to/theteacher';
+
   if(input) input.value = donationUrl;
   
-  if (donationUrl && link) {
+  if (link) {
     link.href = donationUrl;
     link.classList.remove('hidden');
-    try{ localStorage.setItem('gdcc-donation-url', donationUrl); }catch(_){}
-  } else if (link) {
-    link.classList.add('hidden');
-    try{ localStorage.removeItem('gdcc-donation-url'); }catch(_){}
   }
+  if (floatBtn) {
+    floatBtn.href = donationUrl;
+    floatBtn.style.display = 'inline-flex';
+  }
+  try{ localStorage.setItem('gdcc-donation-url', donationUrl); }catch(_){}
 }
 
 function show(id){
