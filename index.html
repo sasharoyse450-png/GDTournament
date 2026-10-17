@@ -14,14 +14,14 @@
 <style>
 :root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;--purple:#b36bff;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 html[data-banned] body{overflow:hidden!important}
 html[data-banned] .header,html[data-banned] main,html[data-banned] footer,html[data-banned] .lang-gate{display:none!important}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg) radial-gradient(1200px 520px at 50% -120px,rgba(31,139,255,.20),transparent 70%) no-repeat;color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 h1,h2,h3{font-family:'Exo 2',sans-serif;line-height:1.15}
 .i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px;width:100%}
 .hidden{display:none!important}
 .lang-gate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:20px;background:radial-gradient(900px 520px at 50% 28%,rgba(31,139,255,.24),transparent 70%),rgba(5,10,23,.97);backdrop-filter:blur(8px)}
 html[data-lang-chosen] .lang-gate{display:none}
@@ -66,7 +66,7 @@ html:not([data-lang-chosen]) body{overflow:hidden}
 .btn-danger:hover{background:rgba(255,93,115,.1)}
 .btn-success{background:linear-gradient(180deg,#3ee89a,#1fa866)}
 .btn-gold{background:linear-gradient(180deg,#f6c344,#d69b1a)}
-main{flex:1}
+main{flex:1;min-width:0}
 .page{display:none}
 .page.active{display:block;animation:fade .3s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -80,7 +80,7 @@ main{flex:1}
 .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse at 55% 40%,#000 0%,transparent 72%);opacity:.8}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(500px 300px at 12% 45%,rgba(31,139,255,.28),transparent 70%)}
 .spikes{position:absolute;left:0;right:0;bottom:0;width:100%;height:24px;z-index:1;opacity:.8}
-.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:280px 1fr 260px;align-items:center;gap:28px;padding:56px 24px 68px}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:280px 1fr 260px;align-items:center;gap:28px;padding:56px 24px 68px;max-width:1280px;margin:0 auto}
 .hero-art{width:100%;max-width:280px;height:auto;animation:float 6s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .hero-title{font-style:italic;font-weight:900;text-transform:uppercase;line-height:.95}
@@ -220,8 +220,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .app-comment{margin-top:10px;padding:10px 14px;border-radius:10px;background:rgba(31,139,255,.06);border-left:3px solid var(--blue-2);font-size:13px;color:#b9c8e6}
 .app-comment b{color:var(--blue-2);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
 .table-card{padding:0;overflow:hidden}
-.table-wrap{overflow-x:auto}
-.table{width:100%;border-collapse:collapse;font-size:14px}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table{width:100%;border-collapse:collapse;font-size:14px;min-width:480px}
 .table th{text-align:left;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:14px 18px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
 .table th:hover{color:var(--text)}
 .table th .sort-arrow{opacity:.4;margin-left:4px;font-size:10px}
@@ -248,7 +248,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .empty-state h2{font-size:22px;margin-bottom:8px}
 .empty-state p{color:var(--muted);max-width:440px;margin:0 auto 18px}
 .admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content;flex-wrap:wrap}
-.admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s}
+.admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
 .admin-tabs button.active{background:var(--blue);color:#fff}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
 .admin-stat{padding:16px;border-radius:12px;border:1px solid var(--line);background:rgba(10,20,45,.6);text-align:center}
@@ -339,10 +339,41 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .user-stat-pill.gold{background:rgba(246,183,60,.15);color:var(--gold)}
 .user-stat-pill.red{background:rgba(255,93,115,.15);color:var(--red)}
 .user-stat-pill.purple{background:rgba(179,107,255,.15);color:var(--purple)}
-@media(max-width:760px){.modal{padding:20px;border-radius:16px}.modal-grid,.modal-grid-3{grid-template-columns:1fr}.user-card{flex-direction:column;align-items:stretch}.user-stats{justify-content:flex-start}}
 @media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
 @media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.hero-in{grid-template-columns:1fr;padding:40px 20px 52px}.hero-art-wrap{display:none}.steps,.field-row,.lb-podium{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap,.header-in{padding:0 16px}.hero-quote{display:none}.header-actions #login-btn{display:none}.nav-login{display:flex}.input,textarea.input,select.input{font-size:16px}}
+/* ФИКСЫ ДЛЯ МОБИЛЬНЫХ (760px и меньше) */
+@media(max-width:760px){
+  .hero-in{grid-template-columns:1fr;padding:40px 20px 52px;text-align:center}
+  .hero-art-wrap{display:none}
+  .hero-cta{flex-direction:column;align-items:stretch;width:100%}
+  .hero-quote{display:none}
+  .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr}
+  .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}
+  .wrap,.header-in{padding:0 16px}
+  .header-actions #login-btn{display:none}
+  .nav-login{display:flex}
+  .input,textarea.input,select.input{font-size:16px}
+  .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
+  .cab-head{align-items:flex-start}
+  .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+  .admin-tabs button{flex-shrink:0}
+  .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh}
+  .modal-grid,.modal-grid-3{grid-template-columns:1fr}
+  .modal-actions{flex-direction:column}
+  .modal-actions .btn{width:100%}
+  .admin-actions{flex-direction:column;width:100%}
+  .admin-actions .btn{width:100%;justify-content:center}
+  .t-stage-row{grid-template-columns:1fr;text-align:center}
+  .t-stage-row .stage-num-mini{margin-bottom:8px}
+  .t-stage-row .actions{justify-content:center}
+  .user-card{flex-direction:column;align-items:stretch;text-align:center}
+  .user-stats{justify-content:center}
+  .cab-level-card{flex-direction:column;text-align:center}
+  .app-item-actions{width:100%;justify-content:stretch;margin-top:10px}
+  .app-item-actions .btn{flex:1;justify-content:center}
+  .table th,.table td{padding:10px 12px;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -459,7 +490,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></div><h1 data-i18n="rules.title">Правила турнира</h1><p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
     <div class="page-body">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px" class="rules-grid">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3 data-i18n="rules.r1.t">Общие положения</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3 data-i18n="rules.r2.t">Формат турнира</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r2.p">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3 data-i18n="rules.r3.t">Запрещено</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r3.p">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация и бан устройства.</p></div></article>
@@ -583,7 +614,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div id="cabinet-auth">
       <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div><h1 data-i18n="cab.title">Личный кабинет</h1><p data-i18n="cab.lead">Войдите или зарегистрируйтесь.</p></div>
       <div class="page-body">
-        <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start" class="apply-grid">
           <div class="card">
             <div class="auth-tabs"><button type="button" data-auth-tab="login" class="active" data-i18n="auth.login">Вход</button><button type="button" data-auth-tab="register" data-i18n="auth.register">Регистрация</button></div>
             <form id="login-form" novalidate>
@@ -615,7 +646,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="page-body">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-palette"/></svg> <span data-i18n="cab.customize">Настройка профиля</span></h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="field-row">
             <div class="field" style="margin:0"><label for="cab-nick"><span data-i18n="cab.nick">Ник в GD</span></label><input class="input" id="cab-nick" type="text" maxlength="32"></div>
             <div class="field" style="margin:0"><label data-i18n="cab.color">Цвет ника</label>
               <div class="color-picker" id="color-picker"></div>
@@ -623,7 +654,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           </div>
           <button type="button" class="btn btn-primary btn-sm" id="save-profile-btn" style="margin-top:14px" data-i18n="cab.saveProfile">Сохранить профиль</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px" class="field-row">
           <div class="cab-level-card" style="margin:0"><div class="cab-level-badge" data-user-level>0</div><div class="cab-level-info"><h2 data-i18n="cab.level">Уровень</h2><p data-i18n="cab.level.desc">Число одобренных этапов</p></div></div>
           <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)"><div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div><div class="cab-level-info"><h2 style="color:var(--gold)" data-i18n="cab.points">Очки</h2><p data-i18n="cab.points.desc">Сумма очков за этапы</p></div></div>
         </div>
@@ -642,7 +673,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div><h1 data-i18n="docs.title">Необходимые документы</h1><p data-i18n="docs.lead">Что нужно подготовить.</p></div>
     <div class="page-body">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px" class="field-row">
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d1.t">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d1.p">Скриншот или видео с чит индикатором.</p></div></article>
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d2.t">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d2.p">Видео с камерой, показывающее руки.</p></div></article>
       </div>
@@ -698,7 +729,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> <span data-i18n="admin.newTournament">Новый турнир</span></h3>
-          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:14px" class="field-row">
             <input class="input" type="number" id="new-t-number" placeholder="№" min="1" value="1">
             <input class="input" type="text" id="new-t-title" data-i18n-ph="admin.newTournament.title" placeholder="Название турнира">
             <input class="input" type="text" id="new-t-desc" data-i18n-ph="admin.newTournament.desc" placeholder="Описание">
@@ -776,7 +807,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка: заявка на участие в турнире (ИСПРАВЛЕНО: добавлены data-i18n) -->
 <div class="modal-back hidden" id="reg-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -814,7 +844,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- Модалка этапа (ИСПРАВЛЕНО: добавлены data-i18n) -->
 <div class="modal-back hidden" id="stage-modal">
   <div class="modal">
     <div class="modal-head"><div><h2 id="modal-title" data-i18n="stage.modal.title">Настройка этапа</h2><p id="modal-subtitle">—</p></div><button class="modal-close" id="modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -1111,7 +1140,6 @@ function timeLeft(deadline){
   return m + 'm ' + s + 's';
 }
 
-// ИСПРАВЛЕНО (баг #7, #8): обновление кнопки submit с учётом edit-mode + перерисовка ошибки reg-modal
 function applyLang(l){
   LANG = (l === 'en') ? 'en' : 'ru';
   document.documentElement.lang = LANG;
@@ -1127,12 +1155,10 @@ function applyLang(l){
   try{ if(user) renderCabinet(); }catch(_){}
   try{ if(canModerate()) renderAdmin(); }catch(_){}
   try{ if(current === 'apply') refreshApplyView(); }catch(_){}
-  // Кнопка отправки формы — учитываем edit-mode
   if(submitBtn){
     const span = submitBtn.querySelector('span');
     if(span && !submitBtn.disabled) span.textContent = editingId ? t('btn.save') : t('form.submit');
   }
-  // Перерисовка ошибки reg-modal
   const rme = $('#reg-modal-error');
   if(rme && rme.dataset.errKey) rme.textContent = t(rme.dataset.errKey);
 }
@@ -1191,7 +1217,6 @@ function applyBanState(){
   else if(!document.documentElement.hasAttribute('data-device-banned')){ document.documentElement.removeAttribute('data-banned'); const ov=$('#ban-overlay'); if(ov) ov.classList.add('hidden'); }
 }
 
-// ИСПРАВЛЕНО (баг #5): сброс editingId при уходе со страницы apply
 function show(id){
   if(!PAGE_IDS.includes(id)) id = 'home';
   if(id === 'admin' && !canModerate()) id = 'home';
@@ -1286,7 +1311,6 @@ function canAccessStage(stage){
 }
 function stageStatusLabel(s){ return t('status.'+s) || s; }
 
-// ИСПРАВЛЕНО (баг #4): карточка кликабельна для любого статуса
 function renderTournaments(){
   const grid = $('#tournaments-grid'); if(!grid) return;
   grid.replaceChildren();
@@ -1333,7 +1357,6 @@ function renderTournaments(){
       '<div class="t-title">'+escapeHtml(t_.title||(t('tournament.num')+' '+t_.number))+'</div>'+
       (t_.description ? '<div class="t-desc">'+escapeHtml(t_.description)+'</div>' : '')+
       '<div class="t-stages-count">📋 '+tStages.length+' '+(LANG==='ru'?'этапов':'stages')+' · 🏆 '+tp+' '+t('stage.points')+'</div>'+ph+seats+joinBlock;
-    // Клик по карточке — работает всегда, кроме кликов по кнопкам внутри
     card.addEventListener('click', (ev) => {
       if(ev.target.closest('button')) return;
       currentTournamentId = t_.id; go('tournament');
@@ -1346,7 +1369,6 @@ function renderTournaments(){
   });
 }
 
-// ИСПРАВЛЕНО (баг #3): слоты этапа показываем только модераторам
 function renderTournamentPage(){
   const t_ = tournaments.find(x => x.id === currentTournamentId);
   if(!t_){ go('tournaments'); return; }
@@ -1429,7 +1451,6 @@ function renderTournamentPage(){
       if(expired) html += '<div class="stage-timer urgent">⏰ '+t('stage.deadline.expired')+'</div>';
       else html += '<div class="stage-timer" data-deadline="'+s.deadline+'">⏰ '+t('stage.deadline')+' <b data-timer>'+dl+'</b></div>';
     }
-    // Показываем блок слотов только модераторам
     if(s.max_participants && canModerate()){
       html += '<div class="stage-slots'+(isFull?' full':'')+'">👥 '+t('stage.slots')+' <b>'+slotCount+' / '+s.max_participants+'</b>'+(isFull?' · '+t('stage.slots.full'):'')+'</div>';
     }
@@ -1492,7 +1513,6 @@ function openApply(stageId){
   currentStageId = stageId; editingId = null; go('apply');
 }
 
-// ИСПРАВЛЕНО (баг #8): ошибка хранится как ключ, переводится при смене языка
 function setRegErr(key){
   const el = $('#reg-modal-error');
   el.dataset.errKey = key || '';
@@ -1505,7 +1525,6 @@ function openRegModal(tid){
   const t_ = tournaments.find(x => x.id === tid);
   if(!t_) return;
   regModalTid = tid;
-  // title и subtitle подтянутся через data-i18n, но нам нужно подставить номер турнира в subtitle
   $('#reg-modal-title').textContent = t('reg.title');
   $('#reg-modal-subtitle').textContent = (t('tournament.num')+' #'+t_.number)+' · '+(t_.title||'');
   $('#reg-nick').value = userProfile ? (userProfile.nick || '') : '';
@@ -1577,7 +1596,6 @@ $('#reg-modal-submit').addEventListener('click', async () => {
   finally{ btn.disabled = false; span.textContent = t('reg.submit'); }
 });
 
-// ИСПРАВЛЕНО (баги #1, #6): сбрасываем success / форму / edit-banner при каждом заходе
 function refreshApplyView(){
   const gate=$('#apply-gate'), bl=$('#apply-blocked'), nf=$('#apply-notfound'), wr=$('#apply-wrap'), info=$('#apply-info-block');
   gate.classList.add('hidden'); bl.classList.add('hidden'); nf.classList.add('hidden'); wr.classList.add('hidden'); info.classList.add('hidden');
@@ -1666,7 +1684,6 @@ form.addEventListener('submit', async e => {
   }catch(err){ console.error(err); toast(err.message || 'Error', true); }
   finally{
     submitBtn.disabled = false;
-    // ИСПРАВЛЕНО (баг #5): сбрасываем editingId и обновляем подпись кнопки
     submitBtn.querySelector('span').textContent = editingId ? t('btn.save') : t('form.submit');
     if(wasEdit) editingId = null;
   }
@@ -1931,7 +1948,7 @@ async function openUserModal(userId){
     const lvl = profile.level || 0;
     $('#um-title').textContent = profile.nick || '—';
     $('#um-subtitle').textContent = t('lb.th.level')+' '+lvl+' · '+pts+' '+t('stage.points')+' · '+cups.length+' '+(LANG==='ru'?'кубков':'cups')+(profile.banned?' · '+(LANG==='ru'?'ЗАБАНЕН':'BANNED'):'');
-    let html = '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25)">';
+    let html = '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25);flex-wrap:wrap">';
     html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">'+initials(profile.nick)+'</div>';
     html += '<div style="flex:1;min-width:0"><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px;color:'+(profile.nick_color||'inherit')+'">'+escapeHtml(profile.nick||'—')+'</div>';
     html += '<div style="color:var(--muted);font-size:12.5px">'+(LANG==='ru'?'С нами с ':'Since ')+new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+'</div></div>';
@@ -1952,7 +1969,7 @@ async function openUserModal(userId){
       apps.slice(0,20).forEach(a => {
         const s = stages.find(x => x.id === a.stage_id);
         const tr = tournaments.find(x => x.id === a.tournament_id);
-        html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.4);margin-bottom:6px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="color:var(--muted)">'+(tr?'#'+tr.number+'·':'')+(s?'#'+s.number+' '+escapeHtml(s.title||''):'—')+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span></div>';
+        html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.4);margin-bottom:6px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><span style="color:var(--muted)">'+(tr?'#'+tr.number+'·':'')+(s?'#'+s.number+' '+escapeHtml(s.title||''):'—')+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span></div>';
       });
       html += '</div>';
     } else html += '<p style="color:var(--muted);font-size:13.5px">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>';
@@ -2638,7 +2655,6 @@ async function afterLogin(){
   setupRealtime();
 }
 
-// ИСПРАВЛЕНО (баг #10): фильтр realtime для tournament_registrations
 function setupRealtime(){
   if(!sb) return;
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
@@ -2661,7 +2677,6 @@ function setupRealtime(){
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
       const rec = payload.new || payload.old;
-      // Обычным юзерам — только свои события
       if(!canModerate()){
         if(!rec || rec.user_id !== user.id) return;
       }
@@ -2692,7 +2707,6 @@ async function initAuth(){
   if(deviceBanned){ document.documentElement.setAttribute('data-device-banned','true'); return; }
   const { data } = await sb.auth.getSession();
   user = data.session ? data.session.user : null;
-  // ИСПРАВЛЕНО (баг #11): catch на afterLogin, чтобы не было unhandled rejection
   sb.auth.onAuthStateChange((_ev, s) => {
     const wasUser = user;
     user = s ? s.user : null;
