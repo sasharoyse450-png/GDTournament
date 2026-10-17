@@ -339,29 +339,68 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .user-stat-pill.gold{background:rgba(246,183,60,.15);color:var(--gold)}
 .user-stat-pill.red{background:rgba(255,93,115,.15);color:var(--red)}
 .user-stat-pill.purple{background:rgba(179,107,255,.15);color:var(--purple)}
-@media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
-@media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}}
-/* ФИКСЫ ДЛЯ МОБИЛЬНЫХ (760px и меньше) */
+
+/* Классы для правильной сетки вместо инлайн-стилей */
+.apply-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start}
+.rules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+
+/* ========== МОБИЛЬНАЯ АДАПТАЦИЯ (ГЛОБАЛЬНЫЙ ФИКС) ========== */
+@media(max-width:1200px){
+  .burger{display:grid}
+  .header-in{gap:12px}
+  .header-actions{margin-left:auto}
+  .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}
+  .nav.open{display:flex}
+  .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}
+  .nav a.active{background:rgba(31,139,255,.1)}
+  .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}
+}
+@media(max-width:1100px){
+  .hero-in{grid-template-columns:1fr 240px}
+  .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}
+  .features{grid-template-columns:repeat(2,1fr)}
+  .feature:nth-child(3){border-left:0}
+  .feature:nth-child(n+3){border-top:1px solid var(--line-soft)}
+  .admin-stats{grid-template-columns:repeat(2,1fr)}
+  .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr}
+}
 @media(max-width:760px){
-  .hero-in{grid-template-columns:1fr;padding:40px 20px 52px;text-align:center}
+  /* Шапка */
+  .logo-text{font-size:11px} /* Уменьшаем лого, чтобы влезало */
+  .header-in{padding:0 16px}
+  .header-actions #login-btn{display:none} /* Прячем кнопку "Войти", она есть в бургере */
+  .nav-login{display:flex}
+
+  /* Главная */
+  .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center}
   .hero-art-wrap{display:none}
   .hero-cta{flex-direction:column;align-items:stretch;width:100%}
   .hero-quote{display:none}
   .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr}
   .features{grid-template-columns:1fr}
   .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}
-  .wrap,.header-in{padding:0 16px}
-  .header-actions #login-btn{display:none}
-  .nav-login{display:flex}
-  .input,textarea.input,select.input{font-size:16px}
-  .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
-  .cab-head{align-items:flex-start}
-  .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px}
-  .admin-tabs button{flex-shrink:0}
+  .wrap{padding:0 16px}
+
+  /* Формы (Регистрация, Подача видео, Модалки) */
+  .field-row{grid-template-columns:1fr;gap:0} /* Все поля в один столбец */
+  .input,textarea.input,select.input{font-size:16px} /* Отключает зум на iOS */
   .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh}
   .modal-grid,.modal-grid-3{grid-template-columns:1fr}
-  .modal-actions{flex-direction:column}
+  .modal-actions{flex-direction:column;gap:8px}
   .modal-actions .btn{width:100%}
+
+  /* Кабинет */
+  .cab-head{align-items:flex-start;flex-direction:column}
+  .cab-level-card{flex-direction:column;text-align:center;padding:16px}
+  .app-item-actions{width:100%;justify-content:stretch;margin-top:10px}
+  .app-item-actions .btn{flex:1;justify-content:center}
+  .cab-dl{grid-template-columns:1fr}
+  .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
+
+  /* Админка */
+  .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start}
+  .admin-tabs button{flex-shrink:0}
   .admin-actions{flex-direction:column;width:100%}
   .admin-actions .btn{width:100%;justify-content:center}
   .t-stage-row{grid-template-columns:1fr;text-align:center}
@@ -369,9 +408,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   .t-stage-row .actions{justify-content:center}
   .user-card{flex-direction:column;align-items:stretch;text-align:center}
   .user-stats{justify-content:center}
-  .cab-level-card{flex-direction:column;text-align:center}
-  .app-item-actions{width:100%;justify-content:stretch;margin-top:10px}
-  .app-item-actions .btn{flex:1;justify-content:center}
+  
+  /* Таблицы */
   .table th,.table td{padding:10px 12px;font-size:13px}
 }
 </style>
@@ -490,7 +528,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-rules"/></svg><span data-i18n="nav.rules">Правила</span></div><h1 data-i18n="rules.title">Правила турнира</h1><p data-i18n="rules.lead">Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.</p></div>
     <div class="page-body">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px" class="rules-grid">
+      <!-- ИСПРАВЛЕНО: убран инлайн-стиль -->
+      <div class="rules-grid">
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">1</div><div><h3 data-i18n="rules.r1.t">Общие положения</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r1.p">Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px">2</div><div><h3 data-i18n="rules.r2.t">Формат турнира</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r2.p">Каждый турнир содержит несколько этапов. Этапы открываются поочерёдно.</p></div></article>
         <article class="card" style="display:flex;gap:16px"><div class="num" style="width:36px;height:36px;background:var(--red)">3</div><div><h3 data-i18n="rules.r3.t">Запрещено</h3><p style="color:#b9c8e6;font-size:14px" data-i18n="rules.r3.p">Читы, баги, стороннее ПО, моды, макросы и любые нечестные методы. Нарушение — дисквалификация и бан устройства.</p></div></article>
@@ -538,7 +577,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div id="apply-gate" class="card hidden"><div class="empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2 data-i18n="apply.gate.t">Нужен аккаунт</h2><p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку.</p><a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.btn">Войти / Регистрация</span></a></div></div>
       <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2 id="apply-blocked-title" data-i18n="apply.blocked.t">Этап заблокирован</h2><p id="apply-blocked-reason" data-i18n="apply.blocked.p">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       <div id="apply-notfound" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div><h2 data-i18n="apply.notfound.t">Этап не выбран</h2><p data-i18n="apply.notfound.p">Выбери турнир и этап на странице «Турниры».</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
-      <div id="apply-wrap" style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start">
+      
+      <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки -->
+      <div id="apply-wrap" class="apply-grid">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
             <div id="apply-edit-banner" class="hidden" style="margin-bottom:18px;padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.35);color:var(--gold);font-size:13px" data-i18n="apply.edit.banner">Режим редактирования заявки</div>
@@ -614,7 +655,9 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div id="cabinet-auth">
       <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div><h1 data-i18n="cab.title">Личный кабинет</h1><p data-i18n="cab.lead">Войдите или зарегистрируйтесь.</p></div>
       <div class="page-body">
-        <div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:22px;align-items:start" class="apply-grid">
+        
+        <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки, теперь форма регистрации не ломается на телефоне -->
+        <div class="apply-grid">
           <div class="card">
             <div class="auth-tabs"><button type="button" data-auth-tab="login" class="active" data-i18n="auth.login">Вход</button><button type="button" data-auth-tab="register" data-i18n="auth.register">Регистрация</button></div>
             <form id="login-form" novalidate>
@@ -646,7 +689,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="page-body">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-palette"/></svg> <span data-i18n="cab.customize">Настройка профиля</span></h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="field-row">
+          <div class="field-row">
             <div class="field" style="margin:0"><label for="cab-nick"><span data-i18n="cab.nick">Ник в GD</span></label><input class="input" id="cab-nick" type="text" maxlength="32"></div>
             <div class="field" style="margin:0"><label data-i18n="cab.color">Цвет ника</label>
               <div class="color-picker" id="color-picker"></div>
@@ -654,7 +697,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           </div>
           <button type="button" class="btn btn-primary btn-sm" id="save-profile-btn" style="margin-top:14px" data-i18n="cab.saveProfile">Сохранить профиль</button>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px" class="field-row">
+        <div class="field-row" style="margin-bottom:22px">
           <div class="cab-level-card" style="margin:0"><div class="cab-level-badge" data-user-level>0</div><div class="cab-level-info"><h2 data-i18n="cab.level">Уровень</h2><p data-i18n="cab.level.desc">Число одобренных этапов</p></div></div>
           <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)"><div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div><div class="cab-level-info"><h2 style="color:var(--gold)" data-i18n="cab.points">Очки</h2><p data-i18n="cab.points.desc">Сумма очков за этапы</p></div></div>
         </div>
@@ -673,7 +716,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   <div class="wrap">
     <div class="page-head"><div class="eyebrow"><svg class="i"><use href="#i-file"/></svg><span data-i18n="nav.docs">Документы</span></div><h1 data-i18n="docs.title">Необходимые документы</h1><p data-i18n="docs.lead">Что нужно подготовить.</p></div>
     <div class="page-body">
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px" class="field-row">
+      <!-- ИСПРАВЛЕНО: убран инлайн-стиль сетки -->
+      <div class="docs-grid">
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--blue-2);background:rgba(31,139,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-monitor"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d1.t">Античит (чит индикатор)</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d1.p">Скриншот или видео с чит индикатором.</p></div></article>
         <article class="card" style="display:flex;align-items:center;gap:16px"><div style="display:grid;place-items:center;width:56px;height:56px;border-radius:14px;font-size:26px;flex:none;color:var(--purple);background:rgba(179,107,255,.12);border:1px solid var(--line-soft)"><svg class="i"><use href="#i-camera"/></svg></div><div><h3 style="font-size:16px" data-i18n="docs.d2.t">Хенд кам</h3><p style="color:var(--muted);font-size:13.5px" data-i18n="docs.d2.p">Видео с камерой, показывающее руки.</p></div></article>
       </div>
@@ -729,7 +773,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div id="admin-tournaments" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-plus"/></svg> <span data-i18n="admin.newTournament">Новый турнир</span></h3>
-          <div style="display:grid;grid-template-columns:80px 1fr 1fr;gap:10px;margin-bottom:14px" class="field-row">
+          <div class="field-row" style="margin-bottom:14px">
             <input class="input" type="number" id="new-t-number" placeholder="№" min="1" value="1">
             <input class="input" type="text" id="new-t-title" data-i18n-ph="admin.newTournament.title" placeholder="Название турнира">
             <input class="input" type="text" id="new-t-desc" data-i18n-ph="admin.newTournament.desc" placeholder="Описание">
