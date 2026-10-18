@@ -1,9 +1,3 @@
-<!-- 
-ВНИМАНИЕ! Перед запуском выполни этот SQL в Supabase:
-alter table public.profiles add column if not exists nick_font text default 'default';
-alter table public.profiles add column if not exists nick_style text default 'solid';
-alter table public.profiles add column if not exists badge_text text;
--->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,7 +9,7 @@ alter table public.profiles add column if not exists badge_text text;
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2040%2040'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%234cc3ff'/%3E%3Cstop%20offset='1'%20stop-color='%231257ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x='3'%20y='3'%20width='34'%20height='34'%20rx='7'%20fill='url(%23g)'/%3E%3Crect%20x='10'%20y='10'%20width='20'%20height='20'%20rx='3'%20fill='%23061230'/%3E%3Cpath%20d='M14%2026l6-12%206%2012z'%20fill='%234cc3ff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Orbitron:wght@700&family=Cinzel:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,800;1,600;1,800;1,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Orbitron:wght@700&family=Cinzel:wght@700&family=Caveat:wght@700&family=Press+Start+2P&family=Rubik+Mono+One&family=Lobster&display=swap" rel="stylesheet">
 <script>try{var l=localStorage.getItem('gdcc-lang');if(l==='ru'||l==='en')document.documentElement.setAttribute('data-lang-chosen',l);}catch(e){}</script>
 <style>
 :root{--bg:#050a17;--card:#0b1530;--line:rgba(70,120,210,.30);--line-soft:rgba(70,120,210,.16);--blue:#1f8bff;--blue-2:#38b6ff;--text:#eaf1ff;--muted:#8fa4cb;--gold:#f6b73c;--green:#2fd48a;--red:#ff5d73;--purple:#b36bff;color-scheme:dark}
@@ -397,100 +391,62 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .shop-price{font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--gold)}
 .balance-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:16px}
 
-/* ===== КАСТОМНЫЕ НИКИ ===== */
+/* ===== КАСТОМНЫЕ НИКИ И ШРИФТЫ ===== */
 .font-cyber { font-family: 'Orbitron', sans-serif !important; letter-spacing: 1px; font-weight: 700; }
 .font-gothic { font-family: 'Cinzel', serif !important; font-weight: 700; }
 .font-handwritten { font-family: 'Caveat', cursive !important; font-size: 1.3em; line-height: 1; }
+.font-pixel { font-family: 'Press Start 2P', monospace !important; font-size: 0.8em; line-height: 1.2; }
+.font-retro { font-family: 'Lobster', cursive !important; font-size: 1.15em; }
+.font-heavy { font-family: 'Rubik Mono One', sans-serif !important; font-size: 0.9em; }
+
 .nick-rainbow {
   background: linear-gradient(90deg, #ff5d73, #f6b73c, #2fd48a, #38b6ff, #b36bff, #ff5d73);
-  background-size: 300% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: rainbow-scroll 3s linear infinite;
-  font-weight: 800;
+  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: rainbow-scroll 3s linear infinite; font-weight: 800;
 }
-@keyframes rainbow-scroll {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
+@keyframes rainbow-scroll { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+
+.nick-gold {
+  background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+  background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: gold-shine 3s linear infinite; font-weight: 800;
 }
-.nick-badge {
-  display: inline-block;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--blue);
-  color: #fff;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-left: 6px;
-  vertical-align: middle;
-  letter-spacing: 0.5px;
-  box-shadow: 0 0 8px rgba(56, 182, 255, 0.4);
+@keyframes gold-shine { to { background-position: 200% center; } }
+
+.nick-fire {
+  background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #ff7300, #ff0000);
+  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: rainbow-scroll 2s linear infinite; font-weight: 800;
 }
 
-@media(hover:none){
-  .chat-msg-del{opacity:1!important;top:-10px;right:-10px}
+.nick-ice {
+  background: linear-gradient(90deg, #00f2fe, #4facfe, #ffffff, #4facfe, #00f2fe);
+  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: rainbow-scroll 3s linear infinite; font-weight: 800;
 }
-@media(max-width:1200px){
-  .burger{display:grid}
-  .header-in{gap:12px}
-  .header-actions{margin-left:auto}
-  .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}
-  .nav.open{display:flex}
-  .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}
-  .nav a.active{background:rgba(31,139,255,.1)}
-  .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}
+
+.nick-neon {
+  color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff;
+  animation: neon-pulse 1.5s infinite alternate; font-weight: 800;
 }
-@media(max-width:1100px){
-  .hero-in{grid-template-columns:1fr 240px}
-  .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}
-  .features{grid-template-columns:repeat(2,1fr)}
-  .feature:nth-child(3){border-left:0}
-  .feature:nth-child(n+3){border-top:1px solid var(--line-soft)}
-  .admin-stats{grid-template-columns:repeat(2,1fr)}
-  .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr}
+@keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff; } to { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #b36bff, 0 0 20px #b36bff; } }
+
+/* ===== ПЛАШКИ ===== */
+.nick-badge {
+  display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px;
+  color: #fff; font-weight: 800; text-transform: uppercase; margin-left: 6px;
+  vertical-align: middle; letter-spacing: 0.5px; box-shadow: 0 0 8px rgba(0,0,0,0.3);
 }
-@media(max-width:760px){
-  .logo-text{font-size:11px}
-  .header-in{padding:0 16px}
-  .header-actions #login-btn{display:none}
-  .nav-login{display:flex}
-  .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center}
-  .hero-art-wrap{display:none}
-  .hero-cta{flex-direction:column;align-items:stretch;width:100%}
-  .hero-quote{display:none}
-  .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr}
-  .features{grid-template-columns:1fr}
-  .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}
-  .wrap{padding:0 16px}
-  .field-row{grid-template-columns:1fr;gap:0}
-  .input,textarea.input,select.input{font-size:16px}
-  .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh}
-  .modal-grid,.modal-grid-3{grid-template-columns:1fr}
-  .modal-actions{flex-direction:column;gap:8px}
-  .modal-actions .btn{width:100%}
-  .cab-head{align-items:flex-start;flex-direction:column}
-  .cab-level-card{flex-direction:column;text-align:center;padding:16px}
-  .app-item-actions{width:100%;justify-content:stretch;margin-top:10px}
-  .app-item-actions .btn{flex:1;justify-content:center}
-  .cab-dl{grid-template-columns:1fr}
-  .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}
-  .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start}
-  .admin-tabs button{flex-shrink:0}
-  .admin-actions{flex-direction:column;width:100%}
-  .admin-actions .btn{width:100%;justify-content:center}
-  .t-stage-row{grid-template-columns:1fr;text-align:center}
-  .t-stage-row .stage-num-mini{margin-bottom:8px}
-  .t-stage-row .actions{justify-content:center}
-  .user-card{flex-direction:column;align-items:stretch;text-align:center}
-  .user-stats{justify-content:center}
-  .table th,.table td{padding:10px 12px;font-size:13px}
-  .footer .wrap{flex-direction:column;text-align:center}
-  .footer-links{justify-content:center}
-  .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px}
-  .chat-container{height:calc(100vh - 250px);min-height:400px}
-  .chat-msg-body{max-width:90%}
-}
+.badge-sponsor { background: linear-gradient(45deg, #f6b73c, #ffdf00, #f6b73c); background-size: 200% auto; color: #000; animation: gold-shine 2s linear infinite; }
+.badge-vip { background: linear-gradient(45deg, #b36bff, #d4aaff, #b36bff); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
+.badge-legend { background: linear-gradient(45deg, #ff5d73, #ff8fa3, #ff5d73); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
+.badge-dev { background: #fff; color: #000; border: 1px solid #000; }
+.badge-pro { background: #2fd48a; color: #fff; }
+
+@media(hover:none){ .chat-msg-del{opacity:1!important;top:-10px;right:-10px} }
+@media(max-width:1200px){ .burger{display:grid} .header-in{gap:12px} .header-actions{margin-left:auto} .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none} .nav.open{display:flex} .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px} .nav a.active{background:rgba(31,139,255,.1)} .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto} }
+@media(max-width:1100px){ .hero-in{grid-template-columns:1fr 240px} .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none} .features{grid-template-columns:repeat(2,1fr)} .feature:nth-child(3){border-left:0} .feature:nth-child(n+3){border-top:1px solid var(--line-soft)} .admin-stats{grid-template-columns:repeat(2,1fr)} .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr} }
+@media(max-width:760px){ .logo-text{font-size:11px} .header-in{padding:0 16px} .header-actions #login-btn{display:none} .nav-login{display:flex} .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center} .hero-art-wrap{display:none} .hero-cta{flex-direction:column;align-items:stretch;width:100%} .hero-quote{display:none} .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr} .features{grid-template-columns:1fr} .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)} .wrap{padding:0 16px} .field-row{grid-template-columns:1fr;gap:0} .input,textarea.input,select.input{font-size:16px} .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh} .modal-grid,.modal-grid-3{grid-template-columns:1fr} .modal-actions{flex-direction:column;gap:8px} .modal-actions .btn{width:100%} .cab-head{align-items:flex-start;flex-direction:column} .cab-level-card{flex-direction:column;text-align:center;padding:16px} .app-item-actions{width:100%;justify-content:stretch;margin-top:10px} .app-item-actions .btn{flex:1;justify-content:center} .cab-dl{grid-template-columns:1fr} .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0} .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start} .admin-tabs button{flex-shrink:0} .admin-actions{flex-direction:column;width:100%} .admin-actions .btn{width:100%;justify-content:center} .t-stage-row{grid-template-columns:1fr;text-align:center} .t-stage-row .stage-num-mini{margin-bottom:8px} .t-stage-row .actions{justify-content:center} .user-card{flex-direction:column;align-items:stretch;text-align:center} .user-stats{justify-content:center} .table th,.table td{padding:10px 12px;font-size:13px} .footer .wrap{flex-direction:column;text-align:center} .footer-links{justify-content:center} .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px} .chat-container{height:calc(100vh - 250px);min-height:400px} .chat-msg-body{max-width:90%} }
 </style>
 </head>
 <body>
@@ -823,17 +779,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="field-row">
             <div class="field" style="margin:0"><label for="cab-nick"><span data-i18n="cab.nick">Ник в GD</span></label><input class="input" id="cab-nick" type="text" maxlength="32"></div>
             <div class="field" style="margin:0"><label data-i18n="cab.color">Цвет ника</label>
-              <div class="color-picker" id="color-picker" style="margin-bottom:10px"></div>
-              <select class="input" id="cab-style-select" style="height:36px;font-size:13px;margin-bottom:10px">
-                <option value="solid">Обычный цвет</option>
-                <option value="rainbow">🌈 Радужный</option>
-              </select>
-              <select class="input" id="cab-font-select" style="height:36px;font-size:13px">
-                <option value="default">Стандартный шрифт</option>
-                <option value="cyber">Киберпанк</option>
-                <option value="gothic">Готический</option>
-                <option value="handwritten">Рукописный</option>
-              </select>
+              <div class="color-picker" id="color-picker"></div>
             </div>
           </div>
           <button type="button" class="btn btn-primary btn-sm" id="save-profile-btn" style="margin-top:14px" data-i18n="cab.saveProfile">Сохранить профиль</button>
@@ -1199,6 +1145,59 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<!-- МОДАЛКА СТИЛЯ АДМИНА -->
+<div class="modal-back hidden" id="admin-style-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2>Стиль и Плашка</h2>
+        <p id="asm-nick">—</p>
+      </div>
+      <button class="modal-close" id="asm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label>Шрифт</label>
+        <select class="input" id="asm-font">
+          <option value="default">Стандартный</option>
+          <option value="cyber">Киберпанк (Orbitron)</option>
+          <option value="gothic">Готический (Cinzel)</option>
+          <option value="handwritten">Рукописный (Caveat)</option>
+          <option value="pixel">Пиксельный (Press Start)</option>
+          <option value="retro">Ретро (Lobster)</option>
+          <option value="heavy">Жирный (Rubik)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Эффект ника</label>
+        <select class="input" id="asm-style">
+          <option value="solid">Обычный цвет</option>
+          <option value="rainbow">🌈 Радуга</option>
+          <option value="gold">✨ Золото</option>
+          <option value="fire">🔥 Огонь</option>
+          <option value="ice">❄️ Лед</option>
+          <option value="neon">💜 Неон</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Плашка</label>
+        <select class="input" id="asm-badge">
+          <option value="">Нет</option>
+          <option value="SPONSOR">SPONSOR (Золотая)</option>
+          <option value="VIP">VIP (Фиолетовая)</option>
+          <option value="LEGEND">LEGEND (Красная)</option>
+          <option value="DEV">DEV (Белая)</option>
+          <option value="PRO">PRO (Зеленая)</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="asm-cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="asm-save">Сохранить</button>
+    </div>
+  </div>
+</div>
+
 <div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
   <div style="max-width:520px;width:100%">
     <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)"><svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg></div>
@@ -1441,7 +1440,7 @@ const form = $('#apply-form'), successEl = $('#apply-success'), submitBtn = $('#
 const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
 const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
 const stageModal = $('#stage-modal'), userModal = $('#user-modal'), cupModal = $('#cup-modal');
-const regModal = $('#reg-modal'), commentsModal = $('#comments-modal');
+const regModal = $('#reg-modal'), commentsModal = $('#comments-modal'), adminStyleModal = $('#admin-style-modal');
 
 let toastTimer, current = null;
 let user = null, userProfile = null, myApplications = [], myRegs = [], profilePoints = { points: 0 };
@@ -1458,7 +1457,7 @@ let usersSearch = '', usersFilter = 'all';
 let isModeratorFlag = false;
 let realtimeChannel = null;
 let modalStageId = null, modalTournamentId = null, modalIsNew = false;
-let currentUserId = null, cupTargetUserId = null;
+let currentUserId = null, cupTargetUserId = null, styleTargetUserId = null;
 let regModalTid = null, currentCommentsStageId = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
@@ -1497,17 +1496,27 @@ function formatNick(profile) {
   if (profile.nick_font === 'cyber') classes.push('font-cyber');
   if (profile.nick_font === 'gothic') classes.push('font-gothic');
   if (profile.nick_font === 'handwritten') classes.push('font-handwritten');
+  if (profile.nick_font === 'pixel') classes.push('font-pixel');
+  if (profile.nick_font === 'retro') classes.push('font-retro');
+  if (profile.nick_font === 'heavy') classes.push('font-heavy');
   
-  if (profile.nick_style === 'rainbow') {
-    classes.push('nick-rainbow');
-  } else {
-    style = `color:${safeColor(profile.nick_color)}`;
-  }
+  if (profile.nick_style === 'rainbow') classes.push('nick-rainbow');
+  else if (profile.nick_style === 'gold') classes.push('nick-gold');
+  else if (profile.nick_style === 'fire') classes.push('nick-fire');
+  else if (profile.nick_style === 'ice') classes.push('nick-ice');
+  else if (profile.nick_style === 'neon') classes.push('nick-neon');
+  else style = `color:${safeColor(profile.nick_color)}`;
   
   let html = `<span class="${classes.join(' ')}" style="${style}">${escapeHtml(profile.nick)}</span>`;
   
   if (profile.badge_text) {
-    html += `<span class="nick-badge" style="background:var(--gold);color:#000;box-shadow:0 0 8px rgba(246,183,60,0.5)">${escapeHtml(profile.badge_text)}</span>`;
+    let bClass = 'nick-badge';
+    if (profile.badge_text === 'SPONSOR') bClass += ' badge-sponsor';
+    else if (profile.badge_text === 'VIP') bClass += ' badge-vip';
+    else if (profile.badge_text === 'LEGEND') bClass += ' badge-legend';
+    else if (profile.badge_text === 'DEV') bClass += ' badge-dev';
+    else if (profile.badge_text === 'PRO') bClass += ' badge-pro';
+    html += `<span class="${bClass}">${escapeHtml(profile.badge_text)}</span>`;
   }
   
   return html;
@@ -1624,7 +1633,7 @@ async function checkBannedDevice(){
 function showBanOverlay(reason){
   document.documentElement.setAttribute('data-banned','true');
   const ov = $('#ban-overlay'); if(!ov) return; ov.classList.remove('hidden');
-  ['#user-modal','#cup-modal','#stage-modal','#reg-modal','.lang-gate'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
+  ['#user-modal','#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
 }
@@ -2557,8 +2566,6 @@ async function renderCabinet(){
       colorPicker.appendChild(btn);
     });
     $('#cab-nick').value = userProfile ? (userProfile.nick || '') : '';
-    $('#cab-style-select').value = userProfile ? (userProfile.nick_style || 'solid') : 'solid';
-    $('#cab-font-select').value = userProfile ? (userProfile.nick_font || 'default') : 'default';
   }
   const cupsWrap = $('#cabinet-cups'); cupsWrap.replaceChildren();
   const myCups = await loadMyCups();
@@ -2664,15 +2671,15 @@ $('#save-profile-btn').addEventListener('click', async () => {
   const newNick = $('#cab-nick').value.trim();
   const active = document.querySelector('#color-picker .color-swatch.active');
   const newColor = active ? active.dataset.color : (userProfile.nick_color || '#eaf1ff');
-  const newStyle = $('#cab-style-select').value;
-  const newFont = $('#cab-font-select').value;
+  
   if(newNick.length < 2){ toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true); return; }
   if(newNick.length > 32){ toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true); return; }
+  
   try{
     const { error } = await sb.from('profiles').update({ 
-      nick: newNick, gd_nick: newNick, nick_color: newColor, 
-      nick_style: newStyle, nick_font: newFont 
+      nick: newNick, gd_nick: newNick, nick_color: newColor
     }).eq('id', user.id);
+    
     if(error){
       const m = error.message || '';
       if(/banned word/i.test(m)) toast(LANG==='ru'?'Ник содержит запрещённое слово':'Nickname contains banned word', true);
@@ -2682,7 +2689,6 @@ $('#save-profile-btn').addEventListener('click', async () => {
       return;
     }
     userProfile.nick = newNick; userProfile.gd_nick = newNick; userProfile.nick_color = newColor;
-    userProfile.nick_style = newStyle; userProfile.nick_font = newFont;
     toast(t('cab.saved'));
     await renderLeaderboard();
     if(current === 'cabinet') renderCabinet();
@@ -2754,15 +2760,7 @@ async function openUserModal(userId){
         add('i-fire', LANG==='ru'?'Изм. уровень':'Edit level', 'ghost', () => changeUserLevel(userId, lvl));
         add('i-ticket', LANG==='ru'?'Изм. пропуска':'Edit passes', 'ghost', () => changeUserPasses(userId, passes));
         add('i-edit', LANG==='ru'?'Ник':'Nick', 'ghost', () => changeUserNick(userId, profile.nick));
-        add('i-tag', LANG==='ru'?'Плашка':'Badge', 'ghost', async () => {
-          const currentBadge = profile.badge_text || '';
-          const newBadge = prompt(LANG==='ru'?'Введите текст плашки (VIP, LEGEND, SPONSOR) или оставьте пустым для удаления:':'Enter badge text (VIP, LEGEND, SPONSOR) or leave empty to remove:', currentBadge);
-          if(newBadge === null) return;
-          const { error } = await sb.from('profiles').update({ badge_text: newBadge.trim().toUpperCase() || null }).eq('id', userId);
-          if(error){ toast('Error', true); return; }
-          toast(LANG==='ru'?'Плашка обновлена!':'Badge updated!');
-          await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
-        });
+        add('i-star', LANG==='ru'?'Стиль и Плашка':'Style & Badge', 'gold', () => openStyleModal(userId, profile));
       }
       add('i-trophy', LANG==='ru'?'Вручить кубок':'Award cup', 'gold', () => openCupModal(userId, profile.nick));
       if(isAdmin()){
@@ -2783,6 +2781,7 @@ async function openUserModal(userId){
     close.addEventListener('click', closeUserModal); actions.appendChild(close);
   }catch(err){ console.error(err); wrap.innerHTML = '<p style="color:var(--red)">Error</p>'; }
 }
+
 function closeUserModal(){ 
   userModal.classList.add('hidden'); 
   currentUserId = null; 
@@ -2791,7 +2790,49 @@ function closeUserModal(){
 }
 $('#um-close').addEventListener('click', closeUserModal);
 userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape'){ if(!userModal.classList.contains('hidden')) closeUserModal(); if(!cupModal.classList.contains('hidden')) closeCupModal(); if(!stageModal.classList.contains('hidden')) closeStageModal(); if(!regModal.classList.contains('hidden')) closeRegModal(); if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); if(!$('#ticket-modal').classList.contains('hidden')) closeTicketModal(); if(!$('#ticket-chat-modal').classList.contains('hidden')) closeTicketChat(); } });
+document.addEventListener('keydown', e => { 
+  if(e.key === 'Escape'){ 
+    if(!userModal.classList.contains('hidden')) closeUserModal(); 
+    if(!cupModal.classList.contains('hidden')) closeCupModal(); 
+    if(!stageModal.classList.contains('hidden')) closeStageModal(); 
+    if(!regModal.classList.contains('hidden')) closeRegModal(); 
+    if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); 
+    if(!$('#ticket-modal').classList.contains('hidden')) closeTicketModal(); 
+    if(!$('#ticket-chat-modal').classList.contains('hidden')) closeTicketChat(); 
+    if(!adminStyleModal.classList.contains('hidden')) closeStyleModal();
+  } 
+});
+
+/* МОДАЛКА СТИЛЯ */
+function openStyleModal(userId, profile) {
+  styleTargetUserId = userId;
+  $('#asm-nick').innerHTML = formatNick(profile);
+  $('#asm-font').value = profile.nick_font || 'default';
+  $('#asm-style').value = profile.nick_style || 'solid';
+  $('#asm-badge').value = profile.badge_text || '';
+  adminStyleModal.classList.remove('hidden');
+}
+function closeStyleModal(){ adminStyleModal.classList.add('hidden'); styleTargetUserId = null; }
+$('#asm-close').addEventListener('click', closeStyleModal);
+$('#asm-cancel').addEventListener('click', closeStyleModal);
+adminStyleModal.addEventListener('click', e => { if(e.target === adminStyleModal) closeStyleModal(); });
+$('#asm-save').addEventListener('click', async () => {
+  if(!styleTargetUserId || !isAdmin()) return;
+  const btn = $('#asm-save'); btn.disabled = true;
+  const font = $('#asm-font').value;
+  const style = $('#asm-style').value;
+  const badge = $('#asm-badge').value;
+  try {
+    const { error } = await sb.from('profiles').update({ 
+      nick_font: font, nick_style: style, badge_text: badge || null 
+    }).eq('id', styleTargetUserId);
+    if(error) throw error;
+    toast('Стиль обновлён!');
+    closeStyleModal();
+    await loadAllUsers(); await renderLeaderboard();
+    if(currentUserId === styleTargetUserId) await openUserModal(styleTargetUserId);
+  } catch(e) { toast('Error: ' + e.message, true); } finally { btn.disabled = false; }
+});
 
 async function changeUserPoints(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество очков:':'New points:', current);
@@ -3802,7 +3843,6 @@ if(!saved){
 document.getElementById('appeal-ban-btn')?.addEventListener('click', () => { openTicketModal('appeal_ban'); });
 document.getElementById('new-ticket-btn')?.addEventListener('click', () => { openTicketModal('other'); });
 
-/* ===== Ticket modal handlers ===== */
 (function initTicketHandlers(){
   const tm = document.getElementById('ticket-modal');
   const tc = document.getElementById('ticket-chat-modal');
