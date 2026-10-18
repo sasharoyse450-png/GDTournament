@@ -398,55 +398,37 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .font-pixel { font-family: 'Press Start 2P', monospace !important; font-size: 0.8em; line-height: 1.2; }
 .font-retro { font-family: 'Lobster', cursive !important; font-size: 1.15em; }
 .font-heavy { font-family: 'Rubik Mono One', sans-serif !important; font-size: 0.9em; }
-
-.nick-rainbow {
-  background: linear-gradient(90deg, #ff5d73, #f6b73c, #2fd48a, #38b6ff, #b36bff, #ff5d73);
-  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  animation: rainbow-scroll 3s linear infinite; font-weight: 800;
-}
+.nick-rainbow { background: linear-gradient(90deg, #ff5d73, #f6b73c, #2fd48a, #38b6ff, #b36bff, #ff5d73); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 3s linear infinite; font-weight: 800; }
 @keyframes rainbow-scroll { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-
-.nick-gold {
-  background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
-  background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  animation: gold-shine 3s linear infinite; font-weight: 800;
-}
+.nick-gold { background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gold-shine 3s linear infinite; font-weight: 800; }
 @keyframes gold-shine { to { background-position: 200% center; } }
-
-.nick-fire {
-  background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #ff7300, #ff0000);
-  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  animation: rainbow-scroll 2s linear infinite; font-weight: 800;
-}
-
-.nick-ice {
-  background: linear-gradient(90deg, #00f2fe, #4facfe, #ffffff, #4facfe, #00f2fe);
-  background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  animation: rainbow-scroll 3s linear infinite; font-weight: 800;
-}
-
-.nick-neon {
-  color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff;
-  animation: neon-pulse 1.5s infinite alternate; font-weight: 800;
-}
+.nick-fire { background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #ff7300, #ff0000); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 2s linear infinite; font-weight: 800; }
+.nick-ice { background: linear-gradient(90deg, #00f2fe, #4facfe, #ffffff, #4facfe, #00f2fe); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 3s linear infinite; font-weight: 800; }
+.nick-neon { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff; animation: neon-pulse 1.5s infinite alternate; font-weight: 800; }
 @keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff; } to { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #b36bff, 0 0 20px #b36bff; } }
-
-/* ===== ПЛАШКИ ===== */
-.nick-badge {
-  display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px;
-  color: #fff; font-weight: 800; text-transform: uppercase; margin-left: 6px;
-  vertical-align: middle; letter-spacing: 0.5px; box-shadow: 0 0 8px rgba(0,0,0,0.3);
-}
+.nick-badge { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; color: #fff; font-weight: 800; text-transform: uppercase; margin-left: 6px; vertical-align: middle; letter-spacing: 0.5px; box-shadow: 0 0 8px rgba(0,0,0,0.3); }
 .badge-sponsor { background: linear-gradient(45deg, #f6b73c, #ffdf00, #f6b73c); background-size: 200% auto; color: #000; animation: gold-shine 2s linear infinite; }
 .badge-vip { background: linear-gradient(45deg, #b36bff, #d4aaff, #b36bff); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
 .badge-legend { background: linear-gradient(45deg, #ff5d73, #ff8fa3, #ff5d73); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
 .badge-dev { background: #fff; color: #000; border: 1px solid #000; }
 .badge-pro { background: #2fd48a; color: #fff; }
 
+/* ===== ПРОФИЛЬ (ОТДЕЛЬНАЯ СТРАНИЦА) ===== */
+.profile-banner { height: 160px; background: linear-gradient(135deg, rgba(31,139,255,.4), rgba(179,107,255,.2)), url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>'); border-radius: 16px 16px 0 0; position: relative; }
+.profile-header-card { border: 1px solid var(--line); border-radius: 16px; background: var(--card); margin-bottom: 22px; overflow: hidden; }
+.profile-main-info { padding: 0 24px 24px; position: relative; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: -40px; }
+.profile-avatar-lg { width: 100px; height: 100px; border-radius: 20px; background: linear-gradient(135deg, #2a98ff, #1169e8); display: grid; place-items: center; font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 40px; color: #fff; border: 4px solid var(--card); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.profile-nick { font-family: 'Exo 2', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 4px; line-height: 1.1; }
+.profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 22px; align-items: start; }
+.profile-stats-list { display: grid; gap: 12px; }
+.profile-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: rgba(10,20,45,.5); border: 1px solid var(--line-soft); font-size: 14px; }
+.profile-stat-item b { font-family: 'Exo 2', sans-serif; font-size: 18px; color: var(--gold); }
+.profile-admin-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
+
 @media(hover:none){ .chat-msg-del{opacity:1!important;top:-10px;right:-10px} }
 @media(max-width:1200px){ .burger{display:grid} .header-in{gap:12px} .header-actions{margin-left:auto} .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none} .nav.open{display:flex} .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px} .nav a.active{background:rgba(31,139,255,.1)} .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto} }
-@media(max-width:1100px){ .hero-in{grid-template-columns:1fr 240px} .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none} .features{grid-template-columns:repeat(2,1fr)} .feature:nth-child(3){border-left:0} .feature:nth-child(n+3){border-top:1px solid var(--line-soft)} .admin-stats{grid-template-columns:repeat(2,1fr)} .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr} }
-@media(max-width:760px){ .logo-text{font-size:11px} .header-in{padding:0 16px} .header-actions #login-btn{display:none} .nav-login{display:flex} .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center} .hero-art-wrap{display:none} .hero-cta{flex-direction:column;align-items:stretch;width:100%} .hero-quote{display:none} .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr} .features{grid-template-columns:1fr} .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)} .wrap{padding:0 16px} .field-row{grid-template-columns:1fr;gap:0} .input,textarea.input,select.input{font-size:16px} .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh} .modal-grid,.modal-grid-3{grid-template-columns:1fr} .modal-actions{flex-direction:column;gap:8px} .modal-actions .btn{width:100%} .cab-head{align-items:flex-start;flex-direction:column} .cab-level-card{flex-direction:column;text-align:center;padding:16px} .app-item-actions{width:100%;justify-content:stretch;margin-top:10px} .app-item-actions .btn{flex:1;justify-content:center} .cab-dl{grid-template-columns:1fr} .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0} .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start} .admin-tabs button{flex-shrink:0} .admin-actions{flex-direction:column;width:100%} .admin-actions .btn{width:100%;justify-content:center} .t-stage-row{grid-template-columns:1fr;text-align:center} .t-stage-row .stage-num-mini{margin-bottom:8px} .t-stage-row .actions{justify-content:center} .user-card{flex-direction:column;align-items:stretch;text-align:center} .user-stats{justify-content:center} .table th,.table td{padding:10px 12px;font-size:13px} .footer .wrap{flex-direction:column;text-align:center} .footer-links{justify-content:center} .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px} .chat-container{height:calc(100vh - 250px);min-height:400px} .chat-msg-body{max-width:90%} }
+@media(max-width:1100px){ .hero-in{grid-template-columns:1fr 240px} .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none} .features{grid-template-columns:repeat(2,1fr)} .feature:nth-child(3){border-left:0} .feature:nth-child(n+3){border-top:1px solid var(--line-soft)} .admin-stats{grid-template-columns:repeat(2,1fr)} .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr} .profile-grid{grid-template-columns:1fr} }
+@media(max-width:760px){ .logo-text{font-size:11px} .header-in{padding:0 16px} .header-actions #login-btn{display:none} .nav-login{display:flex} .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center} .hero-art-wrap{display:none} .hero-cta{flex-direction:column;align-items:stretch;width:100%} .hero-quote{display:none} .steps,.field-row,.lb-podium,.dash-grid{grid-template-columns:1fr} .features{grid-template-columns:1fr} .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)} .wrap{padding:0 16px} .field-row{grid-template-columns:1fr;gap:0} .input,textarea.input,select.input{font-size:16px} .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh} .modal-grid,.modal-grid-3{grid-template-columns:1fr} .modal-actions{flex-direction:column;gap:8px} .modal-actions .btn{width:100%} .cab-head{align-items:flex-start;flex-direction:column} .cab-level-card{flex-direction:column;text-align:center;padding:16px} .app-item-actions{width:100%;justify-content:stretch;margin-top:10px} .app-item-actions .btn{flex:1;justify-content:center} .cab-dl{grid-template-columns:1fr} .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0} .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start} .admin-tabs button{flex-shrink:0} .admin-actions{flex-direction:column;width:100%} .admin-actions .btn{width:100%;justify-content:center} .t-stage-row{grid-template-columns:1fr;text-align:center} .t-stage-row .stage-num-mini{margin-bottom:8px} .t-stage-row .actions{justify-content:center} .user-card{flex-direction:column;align-items:stretch;text-align:center} .user-stats{justify-content:center} .table th,.table td{padding:10px 12px;font-size:13px} .footer .wrap{flex-direction:column;text-align:center} .footer-links{justify-content:center} .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px} .chat-container{height:calc(100vh - 250px);min-height:400px} .chat-msg-body{max-width:90%} .profile-main-info { flex-direction: column; align-items: flex-start; } .profile-avatar-lg { width: 80px; height: 80px; font-size: 32px; margin-top: -20px; } }
 </style>
 </head>
 <body>
@@ -597,7 +579,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
-      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
+      <p data-i18n="shop.lead">Покупайте пропуска для участия в платных турнирах.</p>
       <div style="margin-top:16px" id="shop-balance">
         <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
       </div>
@@ -794,6 +776,51 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <div class="app-list" id="cabinet-regs" style="margin-bottom:26px"></div>
         <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.apps">Заявки на этапы</h2>
         <div class="app-list" id="cabinet-apps"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТДЕЛЬНАЯ СТРАНИЦА ПРОФИЛЯ -->
+<section class="page" id="page-profile">
+  <div class="wrap" style="padding-top: 24px; padding-bottom: 64px;">
+    <button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="go('leaderboard')"><svg class="i"><use href="#i-back"/></svg><span>Назад</span></button>
+    <div class="profile-header-card">
+      <div class="profile-banner"></div>
+      <div class="profile-main-info">
+        <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+          <div class="profile-avatar-lg" id="prof-avatar">?</div>
+          <div>
+            <div class="profile-nick" id="prof-nick">—</div>
+            <div style="color:var(--muted);font-size:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+              <span id="prof-joined">—</span>
+              <span id="prof-badges"></span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;" id="prof-admin-actions"></div>
+      </div>
+    </div>
+
+    <div class="profile-grid">
+      <!-- Левая колонка (Статистика) -->
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
+        <div class="profile-stats-list" style="margin-bottom:22px;">
+          <div class="profile-stat-item"><span>🏆 Очки</span> <b id="prof-points">0</b></div>
+          <div class="profile-stat-item"><span>🔥 Этапов пройдено</span> <b id="prof-level">0</b></div>
+          <div class="profile-stat-item"><span>🥇 Кубков</span> <b id="prof-cups-count">0</b></div>
+          <div class="profile-stat-item"><span>🎟 Пропусков</span> <b id="prof-passes">0</b></div>
+        </div>
+      </div>
+
+      <!-- Правая колонка (Кубки и Заявки) -->
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
+        <div id="prof-cups-list" style="margin-bottom:26px;"></div>
+        
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-activity"/></svg> Последние заявки</h3>
+        <div id="prof-apps-list" class="app-list"></div>
       </div>
     </div>
   </div>
@@ -1103,14 +1130,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.reward">🏆 Награда и лимиты</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-reward-points" data-i18n="stage.modal.points">Очки</label><input class="input" type="number" id="m-reward-points" min="1" value="1"></div><div class="field" style="margin:0"><label for="m-max" data-i18n="stage.modal.max">Лимит мест</label><input class="input" type="number" id="m-max" min="1"></div><div class="field" style="margin:0"><label for="m-deadline" data-i18n="stage.modal.deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward" data-i18n="stage.modal.rewardText">Текст награды</label><input class="input" type="text" id="m-reward"></div></div>
     <div class="modal-actions"><button type="button" class="btn btn-ghost" id="modal-cancel" data-i18n="btn.cancel">Отмена</button><button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span data-i18n="btn.save">Сохранить</span></button></div>
-  </div>
-</div>
-
-<div class="modal-back hidden" id="user-modal">
-  <div class="modal">
-    <div class="modal-head"><div><h2 id="um-title">Профиль игрока</h2><p id="um-subtitle">—</p></div><button class="modal-close" id="um-close" type="button"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <div id="um-body"></div>
-    <div class="modal-actions" id="um-actions"></div>
   </div>
 </div>
 
@@ -1430,7 +1449,7 @@ const I18N = {
   }
 };
 
-const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin'];
+const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 
 const $ = s => document.querySelector(s);
@@ -1439,7 +1458,7 @@ const nav = $('#nav'), burger = $('#burger'), toastEl = $('#toast');
 const form = $('#apply-form'), successEl = $('#apply-success'), submitBtn = $('#submit-btn');
 const shell = [document.querySelector('header.header'), document.querySelector('main'), document.querySelector('footer.footer')];
 const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
-const stageModal = $('#stage-modal'), userModal = $('#user-modal'), cupModal = $('#cup-modal');
+const stageModal = $('#stage-modal'), cupModal = $('#cup-modal');
 const regModal = $('#reg-modal'), commentsModal = $('#comments-modal'), adminStyleModal = $('#admin-style-modal');
 
 let toastTimer, current = null;
@@ -1457,7 +1476,7 @@ let usersSearch = '', usersFilter = 'all';
 let isModeratorFlag = false;
 let realtimeChannel = null;
 let modalStageId = null, modalTournamentId = null, modalIsNew = false;
-let currentUserId = null, cupTargetUserId = null, styleTargetUserId = null;
+let currentProfileId = null, cupTargetUserId = null, styleTargetUserId = null;
 let regModalTid = null, currentCommentsStageId = null;
 let currentFingerprint = null, currentIP = null;
 let LANG = 'ru';
@@ -1589,6 +1608,7 @@ function applyLang(l){
   try{ if(user) renderCabinet(); }catch(_){}
   try{ if(canModerate()) renderAdmin(); }catch(_){}
   try{ if(current === 'apply') refreshApplyView(); }catch(_){}
+  try{ if(current === 'profile') renderProfilePage(); }catch(_){}
   if(submitBtn){
     const span = submitBtn.querySelector('span');
     if(span && !submitBtn.disabled) span.textContent = editingId ? t('btn.save') : t('form.submit');
@@ -1633,7 +1653,7 @@ async function checkBannedDevice(){
 function showBanOverlay(reason){
   document.documentElement.setAttribute('data-banned','true');
   const ov = $('#ban-overlay'); if(!ov) return; ov.classList.remove('hidden');
-  ['#user-modal','#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
+  ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
 }
@@ -1691,7 +1711,11 @@ function updateDonationUI(){
 }
 
 function show(id){
-  if(id && id.startsWith('user=')) { openUserModal(id.split('=')[1]); return; }
+  if(id && id.startsWith('user=')) { go('profile=' + id.split('=')[1]); return; }
+  if(id && id.startsWith('profile=')) {
+    currentProfileId = id.split('=')[1];
+    id = 'profile';
+  }
   if(!PAGE_IDS.includes(id)) id = 'home';
   if(id === 'admin' && !canModerate()) id = 'home';
   if(userProfile && userProfile.banned) return;
@@ -1712,11 +1736,12 @@ function show(id){
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
   if(id === 'admin') renderAdmin();
+  if(id === 'profile') renderProfilePage();
   window.updateHeaderUI();
   nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
 }
 function go(id){
-  if(!PAGE_IDS.includes(id) && !id.startsWith('user=')) id = 'home';
+  if(!PAGE_IDS.includes(id) && !id.startsWith('profile=')) id = 'home';
   if(id === 'admin' && !canModerate()) return;
   if(userProfile && userProfile.banned) return;
   if(document.documentElement.hasAttribute('data-banned')) return;
@@ -1728,7 +1753,7 @@ document.addEventListener('click', e => {
   const a = e.target.closest && e.target.closest('a[href^="#"]');
   if(!a) return;
   const id = a.getAttribute('href').slice(1);
-  if(!PAGE_IDS.includes(id) && !id.startsWith('user=')) return;
+  if(!PAGE_IDS.includes(id) && !id.startsWith('profile=')) return;
   e.preventDefault(); go(id);
 });
 window.addEventListener('popstate', () => show(readHash()));
@@ -2262,7 +2287,7 @@ async function renderLeaderboard(){
         c.className = 'podium-card '+['first','second','third'][i];
         const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
         c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+u.stages+'</div><div class="podium-level-label">'+(LANG==='ru'?'этапов':'stages')+'</div><div style="color:var(--gold);font-size:14px;font-weight:700;margin-top:4px">'+u.points+' '+t('stage.points')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:4px">⚡ '+speedStr+'</div>';
-        c.addEventListener('click', () => openUserModal(u.id));
+        c.addEventListener('click', () => go('profile=' + u.id));
         p.appendChild(c);
       });
       while(p.children.length < 3){
@@ -2281,7 +2306,7 @@ async function renderLeaderboard(){
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
       const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
       const tr = document.createElement('tr'); tr.style.cursor='pointer';
-      tr.addEventListener('click', () => openUserModal(u.id));
+      tr.addEventListener('click', () => go('profile=' + u.id));
       tr.innerHTML = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>'+
         '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>'+
         '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>'+
@@ -2351,7 +2376,7 @@ async function renderChat(msgsData) {
           <div class="chat-msg-head"><span class="chat-msg-nick" data-uid="${m.user_id}">${formatNick(p)}</span><span class="chat-msg-date">${timeAgo(m.created_at)}</span></div>
           <div class="chat-msg-text">${escapeHtml(m.content)}</div>
         </div>`;
-      el.querySelector('.chat-msg-nick').addEventListener('click', () => openUserModal(m.user_id));
+      el.querySelector('.chat-msg-nick').addEventListener('click', () => go('profile=' + m.user_id));
       const delBtn = el.querySelector('.chat-msg-del');
       if (delBtn) delBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
@@ -2524,7 +2549,7 @@ async function openAdminTicketChat(tk){
 }
 
 /* ============================================================
-   PROFILE / CABINET / USER MODAL
+   PROFILE / CABINET
    ============================================================ */
 async function loadProfile(){
   if(!sb || !user){ userProfile=null; applyBanState(); return; }
@@ -2695,115 +2720,119 @@ $('#save-profile-btn').addEventListener('click', async () => {
   }catch(err){ console.error(err); toast('Error', true); }
 });
 
-async function openUserModal(userId){
-  if (!location.hash.startsWith('#user=')) {
-    history.pushState(null, '', '#user=' + userId);
-  }
-  currentUserId = userId; userModal.classList.remove('hidden');
-  const wrap = $('#um-body'), actions = $('#um-actions');
-  wrap.innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">'+(LANG==='ru'?'Загрузка…':'Loading…')+'</p>';
-  actions.replaceChildren();
-  try{
+/* ============================================================
+   PROFILE PAGE
+   ============================================================ */
+async function renderProfilePage() {
+  if(!currentProfileId || !sb) { go('home'); return; }
+  const container = $('#page-profile');
+  const wrap = container.querySelector('.wrap');
+  
+  try {
     const [pR,ptR,cR,aR] = await Promise.all([
-      sb.from('profiles').select('*').eq('id',userId).maybeSingle(),
-      sb.from('profile_points').select('*').eq('id',userId).maybeSingle(),
-      sb.from('cups').select('*').eq('user_id',userId).order('awarded_at',{ascending:false}),
-      sb.from('applications').select('*').eq('user_id',userId).order('created_at',{ascending:false})
+      sb.from('profiles').select('*').eq('id',currentProfileId).maybeSingle(),
+      sb.from('profile_points').select('*').eq('id',currentProfileId).maybeSingle(),
+      sb.from('cups').select('*').eq('user_id',currentProfileId).order('awarded_at',{ascending:false}),
+      sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false})
     ]);
+    
     const profile = pR.data;
-    if(!profile){ wrap.innerHTML = '<p style="color:var(--red)">'+(LANG==='ru'?'Профиль не найден':'Profile not found')+'</p>'; return; }
+    if(!profile) { toast('Профиль не найден', true); go('leaderboard'); return; }
+    
     const pts = (ptR.data && ptR.data.points) || 0;
     const cups = cR.data || [], apps = aR.data || [];
     const lvl = profile.level || 0;
     const passes = profile.passes || 0;
-    $('#um-title').textContent = profile.nick || '—';
-    $('#um-subtitle').textContent = t('lb.th.level')+' '+lvl+' · '+pts+' '+t('stage.points')+' · '+passes+' 🎟 · '+cups.length+' '+(LANG==='ru'?'кубков':'cups')+(profile.banned?' · '+(LANG==='ru'?'ЗАБАНЕН':'BANNED'):'');
     
-    document.title = (profile.nick || '—') + ' - Профиль';
+    $('#prof-avatar').textContent = initials(profile.nick);
+    $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
     
-    let html = '<div style="display:flex;gap:16px;align-items:center;margin-bottom:22px;padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(31,139,255,.1),rgba(179,107,255,.05));border:1px solid rgba(31,139,255,.25);flex-wrap:wrap">';
-    html += '<div class="user-avatar" style="width:64px;height:64px;font-size:24px;border-radius:16px">'+initials(profile.nick)+'</div>';
-    html += '<div style="flex:1;min-width:0"><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+formatNick(profile)+'</div>';
-    html += '<div style="color:var(--muted);font-size:12.5px">'+(LANG==='ru'?'С нами с ':'Since ')+new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+'</div></div>';
-    html += '<div style="display:flex;gap:8px;flex-wrap:wrap"><span class="user-stat-pill">🔥 '+lvl+'</span><span class="user-stat-pill gold">🏆 '+pts+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+passes+'</span>';
-    if(cups.length) html += '<span class="user-stat-pill gold">🥇 '+cups.length+'</span>';
-    if(profile.banned) html += '<span class="user-stat-pill red">🚫</span>';
-    html += '</div></div>';
-    html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">🏆 '+(LANG==='ru'?'Кубки':'Cups')+' ('+cups.length+')</h3>';
-    if(cups.length){
+    $('#prof-nick').innerHTML = formatNick(profile);
+    $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US');
+    
+    $('#prof-points').textContent = pts;
+    $('#prof-level').textContent = lvl;
+    $('#prof-cups-count').textContent = cups.length;
+    $('#prof-passes').textContent = passes;
+    
+    // Кубки
+    const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
+    if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
+    else {
       cups.forEach(c => {
         const tr = tournaments.find(x => x.id === c.tournament_id);
-        html += '<div class="cup-card"><div class="cup-icon"><svg class="i" style="font-size:22px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>'+escapeHtml(c.title)+'</h4>'+(c.description?'<p>'+escapeHtml(c.description)+'</p>':'')+'<small>'+new Date(c.awarded_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+(tr?' · '+t('tournament.num')+' #'+tr.number:'')+'</small></div></div>';
+        const card = document.createElement('div'); card.className='cup-card';
+        card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>'+escapeHtml(c.title)+'</h4>'+(c.description?'<p>'+escapeHtml(c.description)+'</p>':'')+'<small>'+new Date(c.awarded_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+(tr?' · '+t('tournament.num')+' #'+tr.number:'')+'</small></div>';
+        cupsList.appendChild(card);
       });
-    } else html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:20px">'+(LANG==='ru'?'Нет кубков':'No cups')+'</p>';
-    html += '<h3 style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px">📋 '+(LANG==='ru'?'Заявки':'Applications')+' ('+apps.length+')</h3>';
-    if(apps.length){
-      html += '<div style="max-height:220px;overflow-y:auto">';
-      apps.slice(0,20).forEach(a => {
+    }
+    
+    // Заявки
+    const appsList = $('#prof-apps-list'); appsList.replaceChildren();
+    if(!apps.length) { appsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>'; }
+    else {
+      apps.slice(0,10).forEach(a => {
         const s = stages.find(x => x.id === a.stage_id);
         const tr = tournaments.find(x => x.id === a.tournament_id);
-        html += '<div style="padding:10px 12px;border-radius:10px;background:rgba(10,20,45,.4);margin-bottom:6px;font-size:12.5px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><span style="color:var(--muted)">'+(tr?'#'+tr.number+'·':'')+(s?'#'+s.number+' '+escapeHtml(s.title||''):'—')+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span></div>';
+        const label = (tr?'#'+tr.number+' · ':'')+(s?(s.title||(t('stage.num')+' '+s.number)):'—');
+        const item = document.createElement('div'); item.className='app-item';
+        item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">'+escapeHtml(label)+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span><span class="app-item-date">'+timeAgo(a.created_at)+'</span></div></div>';
+        appsList.appendChild(item);
       });
-      html += '</div>';
-    } else html += '<p style="color:var(--muted);font-size:13.5px">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>';
-    if(profile.banned) html += '<div style="margin-top:16px;padding:12px 16px;border-radius:10px;background:rgba(255,93,115,.1);border:1px solid rgba(255,93,115,.35);color:var(--red);font-size:13px"><b>'+(LANG==='ru'?'Забанен.':'Banned.')+'</b> '+escapeHtml(profile.banned_reason||(LANG==='ru'?'Причина не указана':'No reason'))+'</div>';
-    wrap.innerHTML = html;
+    }
     
+    // Кнопки админа
+    const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
     if(canModerate()){
       const add = (icon, text, cls, fn) => {
         const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
         b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
-        b.addEventListener('click', fn); actions.appendChild(b);
+        b.addEventListener('click', fn); adminTools.appendChild(b);
       };
       if(isAdmin()){
-        add('i-coins', LANG==='ru'?'Изм. очки':'Edit points', 'ghost', () => changeUserPoints(userId, pts));
-        add('i-fire', LANG==='ru'?'Изм. уровень':'Edit level', 'ghost', () => changeUserLevel(userId, lvl));
-        add('i-ticket', LANG==='ru'?'Изм. пропуска':'Edit passes', 'ghost', () => changeUserPasses(userId, passes));
-        add('i-edit', LANG==='ru'?'Ник':'Nick', 'ghost', () => changeUserNick(userId, profile.nick));
-        add('i-star', LANG==='ru'?'Стиль и Плашка':'Style & Badge', 'gold', () => openStyleModal(userId, profile));
+        add('i-coins', LANG==='ru'?'Очки':'Points', 'ghost', () => changeUserPoints(currentProfileId, pts));
+        add('i-fire', LANG==='ru'?'Уровень':'Level', 'ghost', () => changeUserLevel(currentProfileId, lvl));
+        add('i-ticket', LANG==='ru'?'Пропуска':'Passes', 'ghost', () => changeUserPasses(currentProfileId, passes));
+        add('i-edit', LANG==='ru'?'Ник':'Nick', 'ghost', () => changeUserNick(currentProfileId, profile.nick));
+        add('i-star', LANG==='ru'?'Стиль и Плашка':'Style & Badge', 'gold', () => openStyleModal(currentProfileId, profile));
       }
-      add('i-trophy', LANG==='ru'?'Вручить кубок':'Award cup', 'gold', () => openCupModal(userId, profile.nick));
+      add('i-trophy', LANG==='ru'?'Вручить кубок':'Award cup', 'gold', () => openCupModal(currentProfileId, profile.nick));
       if(isAdmin()){
-        if(profile.banned) add('i-check', LANG==='ru'?'Разбанить':'Unban', 'success', () => unbanUser(userId));
-        else add('i-ban', LANG==='ru'?'Забанить':'Ban', 'danger', () => banUser(userId));
+        if(profile.banned) add('i-check', LANG==='ru'?'Разбанить':'Unban', 'success', () => unbanUser(currentProfileId));
+        else add('i-ban', LANG==='ru'?'Забанить':'Ban', 'danger', () => banUser(currentProfileId));
       }
+      
+      // Кнопка копирования ссылки
+      const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
+      copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>Ссылка</span>';
+      copyBtn.addEventListener('click', () => {
+        const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
+        navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
+      });
+      adminTools.appendChild(copyBtn);
+    } else {
+      // Кнопка копирования ссылки для обычных юзеров
+      const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
+      copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>Поделиться профилем</span>';
+      copyBtn.addEventListener('click', () => {
+        const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
+        navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
+      });
+      adminTools.appendChild(copyBtn);
     }
     
-    const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
-    copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>'+t('btn.copyLink')+'</span>';
-    copyBtn.addEventListener('click', () => {
-      const url = window.location.origin + window.location.pathname + '#user=' + userId;
-      navigator.clipboard.writeText(url).then(() => { toast(t('toast.copied')); }).catch(() => { toast('Error', true); });
-    });
-    actions.appendChild(copyBtn);
-    
-    const close = document.createElement('button'); close.type='button'; close.className='btn btn-ghost'; close.textContent = LANG==='ru'?'Закрыть':'Close';
-    close.addEventListener('click', closeUserModal); actions.appendChild(close);
-  }catch(err){ console.error(err); wrap.innerHTML = '<p style="color:var(--red)">Error</p>'; }
+  } catch(err) {
+    console.error(err);
+    toast('Ошибка загрузки профиля', true);
+    go('leaderboard');
+  }
 }
 
-function closeUserModal(){ 
-  userModal.classList.add('hidden'); 
-  currentUserId = null; 
-  document.title = 'International Geometry Dash Championship';
-  if (location.hash.startsWith('#user=')) { go('home'); }
-}
-$('#um-close').addEventListener('click', closeUserModal);
-userModal.addEventListener('click', e => { if(e.target === userModal) closeUserModal(); });
-document.addEventListener('keydown', e => { 
-  if(e.key === 'Escape'){ 
-    if(!userModal.classList.contains('hidden')) closeUserModal(); 
-    if(!cupModal.classList.contains('hidden')) closeCupModal(); 
-    if(!stageModal.classList.contains('hidden')) closeStageModal(); 
-    if(!regModal.classList.contains('hidden')) closeRegModal(); 
-    if(!commentsModal.classList.contains('hidden')) closeCommentsModal(); 
-    if(!$('#ticket-modal').classList.contains('hidden')) closeTicketModal(); 
-    if(!$('#ticket-chat-modal').classList.contains('hidden')) closeTicketChat(); 
-    if(!adminStyleModal.classList.contains('hidden')) closeStyleModal();
-  } 
-});
+function closeStyleModal(){ adminStyleModal.classList.add('hidden'); styleTargetUserId = null; }
+$('#asm-close').addEventListener('click', closeStyleModal);
+$('#asm-cancel').addEventListener('click', closeStyleModal);
+adminStyleModal.addEventListener('click', e => { if(e.target === adminStyleModal) closeStyleModal(); });
 
-/* МОДАЛКА СТИЛЯ */
 function openStyleModal(userId, profile) {
   styleTargetUserId = userId;
   $('#asm-nick').innerHTML = formatNick(profile);
@@ -2812,10 +2841,6 @@ function openStyleModal(userId, profile) {
   $('#asm-badge').value = profile.badge_text || '';
   adminStyleModal.classList.remove('hidden');
 }
-function closeStyleModal(){ adminStyleModal.classList.add('hidden'); styleTargetUserId = null; }
-$('#asm-close').addEventListener('click', closeStyleModal);
-$('#asm-cancel').addEventListener('click', closeStyleModal);
-adminStyleModal.addEventListener('click', e => { if(e.target === adminStyleModal) closeStyleModal(); });
 $('#asm-save').addEventListener('click', async () => {
   if(!styleTargetUserId || !isAdmin()) return;
   const btn = $('#asm-save'); btn.disabled = true;
@@ -2830,7 +2855,7 @@ $('#asm-save').addEventListener('click', async () => {
     toast('Стиль обновлён!');
     closeStyleModal();
     await loadAllUsers(); await renderLeaderboard();
-    if(currentUserId === styleTargetUserId) await openUserModal(styleTargetUserId);
+    if(current === 'profile' && currentProfileId === styleTargetUserId) renderProfilePage();
   } catch(e) { toast('Error: ' + e.message, true); } finally { btn.disabled = false; }
 });
 
@@ -2841,7 +2866,7 @@ async function changeUserPoints(userId, current){
   const { error } = await sb.from('point_adjustments').upsert({ user_id:userId, points:num, updated_at:new Date().toISOString() });
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Очки обновлены':'Points updated');
-  await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 async function changeUserLevel(userId, current){
   const v = prompt(LANG==='ru'?'Новый уровень:':'New level:', current);
@@ -2850,14 +2875,14 @@ async function changeUserLevel(userId, current){
   const { error } = await sb.from('profiles').update({ level:num }).eq('id',userId);
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
-  await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 async function changeUserPasses(userId, current){
   const v = prompt(LANG==='ru'?'Новое количество пропусков:':'New passes:', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
   await adminSetPasses(userId, num);
-  await openUserModal(userId);
+  if(current === 'profile') renderProfilePage();
 }
 async function changeUserNick(userId, current){
   const v = prompt(LANG==='ru'?'Новый ник:':'New nickname:', current || '');
@@ -2866,28 +2891,21 @@ async function changeUserNick(userId, current){
   const { error } = await sb.from('profiles').update({ nick:v.trim(), gd_nick:v.trim() }).eq('id',userId);
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
-  await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 async function banUser(userId){
   const reason = prompt(LANG==='ru'?'Причина бана:':'Ban reason:', '');
   if(reason === null) return;
-  const { error } = await sb.rpc('admin_toggle_ban', { 
-    target_id: userId, 
-    ban_status: true, 
-    reason: reason.trim() || 'Banned' 
-  });
+  const { error } = await sb.rpc('admin_toggle_ban', { target_id: userId, ban_status: true, reason: reason.trim() || 'Banned' });
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'🚫 Забанен':'🚫 Banned');
-  await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 async function unbanUser(userId){
-  const { error } = await sb.rpc('admin_toggle_ban', { 
-    target_id: userId, 
-    ban_status: false 
-  });
+  const { error } = await sb.rpc('admin_toggle_ban', { target_id: userId, ban_status: false });
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Разбанен':'Unbanned');
-  await loadAllUsers(); await renderLeaderboard(); await openUserModal(userId);
+  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 
 async function adminSetPasses(userId, val){
@@ -2904,9 +2922,6 @@ async function adminSetPasses(userId, val){
   }
   toast(t('admin.settings.updated'));
   if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
-  if(currentUserId === userId){
-    await openUserModal(userId);
-  }
 }
 
 async function renderAdminSettings(){
@@ -3030,7 +3045,7 @@ $('#cm-save').addEventListener('click', async () => {
   try{ await sb.from('activity_feed').insert([{ user_id:cupTargetUserId, action:'cup', details:{ title:name } }]); }catch(_){}
   toast(LANG==='ru'?'🏆 Кубок вручён!':'🏆 Cup awarded!');
   closeCupModal(); await loadAllCups(); await renderLeaderboard();
-  if(currentUserId) await openUserModal(currentUserId);
+  if(current === 'profile' && currentProfileId === cupTargetUserId) renderProfilePage();
   if(current === 'admin') renderAdmin();
 });
 
@@ -3219,7 +3234,7 @@ function renderRegsTable(){
     const tdA = document.createElement('td'); tdA.appendChild(buildRegActions(r)); tr.appendChild(tdA);
     tb.appendChild(tr);
   });
-  tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) openUserModal(u); };
+  tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) go('profile=' + u); };
 }
 function buildRegActions(r){
   const w = document.createElement('div'); w.className='admin-actions';
@@ -3308,7 +3323,7 @@ async function renderAdminUsers(){
   list.forEach(u => {
     const card = document.createElement('div'); card.className='user-card';
     card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b>'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.passes||0)+'</span></div>';
-    card.addEventListener('click', () => openUserModal(u.id));
+    card.addEventListener('click', () => go('profile=' + u.id));
     wrap.appendChild(card);
   });
 }
@@ -3538,7 +3553,7 @@ function renderAdminTable(){
     const tdA = document.createElement('td'); tdA.appendChild(buildActions(a)); tr.appendChild(tdA);
     tb.appendChild(tr);
   });
-  tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) openUserModal(u); };
+  tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) go('profile=' + u); };
 }
 function buildActions(a){
   const w = document.createElement('div'); w.className='admin-actions';
@@ -3718,6 +3733,7 @@ async function afterLogin(){
     if(current === 'shop') renderShop();
     if(current === 'support') renderSupport();
     if(current === 'chat') renderChat();
+    if(current === 'profile') renderProfilePage();
     
     window.updateHeaderUI();
     setupRealtime();
@@ -3741,6 +3757,7 @@ function setupRealtime(){
         if(current === 'cabinet') renderCabinet();
       }
       if(current === 'leaderboard') await renderLeaderboard();
+      if(current === 'profile' && currentProfileId === payload.new.id) await renderProfilePage();
       if(canModerate() && current === 'admin'){
         if(adminTab === 'users') renderAdminUsers();
         if(adminTab === 'settings') renderAdminSettings();
@@ -3758,6 +3775,7 @@ function setupRealtime(){
         if(current === 'cabinet') renderCabinet();
         if(current === 'leaderboard') await renderLeaderboard();
         if(current === 'tournament') renderTournamentPage();
+        if(current === 'profile' && currentProfileId === payload.new.user_id) renderProfilePage();
       }
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament_registrations' }, async payload => {
@@ -3773,11 +3791,13 @@ function setupRealtime(){
       if(current === 'cabinet') renderCabinet();
       if(current === 'tournaments') renderTournaments();
       if(current === 'tournament') renderTournamentPage();
+      if(current === 'profile' && currentProfileId === rec.user_id) renderProfilePage();
     })
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cups' }, async () => {
       if(canModerate()) await loadAllCups();
       if(current === 'leaderboard') await renderLeaderboard();
       if(user && current === 'cabinet') { await loadMyCups(); renderCabinet(); }
+      if(current === 'profile') renderProfilePage();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, async () => {
       if (current === 'support') { await loadTickets(); renderSupport(); }
