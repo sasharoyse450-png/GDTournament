@@ -423,7 +423,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .profile-stats-list { display: grid; gap: 12px; }
 .profile-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: rgba(10,20,45,.5); border: 1px solid var(--line-soft); font-size: 14px; }
 .profile-stat-item b { font-family: 'Exo 2', sans-serif; font-size: 18px; color: var(--gold); }
-.profile-admin-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line-soft); }
 
 @media(hover:none){ .chat-msg-del{opacity:1!important;top:-10px;right:-10px} }
 @media(max-width:1200px){ .burger{display:grid} .header-in{gap:12px} .header-actions{margin-left:auto} .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none} .nav.open{display:flex} .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px} .nav a.active{background:rgba(31,139,255,.1)} .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto} }
@@ -750,34 +749,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
     </div>
-    <div id="cabinet-dashboard" class="hidden">
-      <div class="cab-head">
-        <div><div class="eyebrow"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Личный кабинет</span></div><h1 style="font-size:32px" data-i18n="cab.title">Личный кабинет</h1><p class="cab-user"><span data-i18n="cab.signedAs">Вы вошли как</span> <b data-user-nick style="font-family:'Exo 2',sans-serif;font-size:18px">—</b></p></div>
-        <button class="btn btn-ghost btn-sm" id="logout-btn" type="button"><svg class="i"><use href="#i-logout"/></svg><span data-i18n="cab.logout">Выйти</span></button>
-      </div>
-      <div class="page-body">
-        <div class="card" style="margin-bottom:22px;padding:20px">
-          <h3 style="font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-palette"/></svg> <span data-i18n="cab.customize">Настройка профиля</span></h3>
-          <div class="field-row">
-            <div class="field" style="margin:0"><label for="cab-nick"><span data-i18n="cab.nick">Ник в GD</span></label><input class="input" id="cab-nick" type="text" maxlength="32"></div>
-            <div class="field" style="margin:0"><label data-i18n="cab.color">Цвет ника</label>
-              <div class="color-picker" id="color-picker"></div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary btn-sm" id="save-profile-btn" style="margin-top:14px" data-i18n="cab.saveProfile">Сохранить профиль</button>
-        </div>
-        <div class="field-row" style="margin-bottom:22px">
-          <div class="cab-level-card" style="margin:0"><div class="cab-level-badge" data-user-level>0</div><div class="cab-level-info"><h2 data-i18n="cab.level">Уровень</h2><p data-i18n="cab.level.desc">Число одобренных этапов</p></div></div>
-          <div class="cab-level-card" style="margin:0;background:linear-gradient(135deg,rgba(246,183,60,.15),rgba(255,140,0,.08));border-color:rgba(246,183,60,.35)"><div class="cab-level-badge" style="background:linear-gradient(180deg,#f6c344,#d69b1a);box-shadow:0 8px 28px rgba(246,183,60,.4)" data-user-points>0</div><div class="cab-level-info"><h2 style="color:var(--gold)" data-i18n="cab.points">Очки</h2><p data-i18n="cab.points.desc">Сумма очков за этапы</p></div></div>
-        </div>
-        <h2 style="font-size:20px;margin-bottom:16px;display:flex;align-items:center;gap:10px"><svg class="i" style="color:var(--gold)"><use href="#i-trophy"/></svg> <span data-i18n="cab.cups">Мои кубки</span></h2>
-        <div id="cabinet-cups" style="margin-bottom:26px"></div>
-        <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.regs">Мои заявки на турниры</h2>
-        <div class="app-list" id="cabinet-regs" style="margin-bottom:26px"></div>
-        <h2 style="font-size:20px;margin-bottom:16px" data-i18n="cab.apps">Заявки на этапы</h2>
-        <div class="app-list" id="cabinet-apps"></div>
-      </div>
-    </div>
+    <!-- Дашборд удален, так как мы используем страницу профиля -->
   </div>
 </section>
 
@@ -1024,6 +996,32 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="gate-btns">
       <button type="button" class="gate-btn" data-gate-lang="ru">RUS<small>Русский</small></button>
       <button type="button" class="gate-btn" data-gate-lang="en">ENG<small>English</small></button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-back hidden" id="edit-profile-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 data-i18n="cab.customize">Настройка профиля</h2>
+        <p>Измените свой ник и цвет</p>
+      </div>
+      <button class="modal-close" id="edit-profile-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label for="edit-nick" data-i18n="cab.nick">Ник в GD</label>
+        <input class="input" type="text" id="edit-nick" maxlength="32">
+      </div>
+      <div class="field">
+        <label data-i18n="cab.color">Цвет ника</label>
+        <div class="color-picker" id="edit-color-picker"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="edit-profile-cancel" data-i18n="btn.cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="edit-profile-save" data-i18n="btn.save">Сохранить</button>
     </div>
   </div>
 </div>
@@ -1460,6 +1458,7 @@ const shell = [document.querySelector('header.header'), document.querySelector('
 const navAdmin = $('#nav-admin'), navAdminBadge = $('#nav-admin-badge');
 const stageModal = $('#stage-modal'), cupModal = $('#cup-modal');
 const regModal = $('#reg-modal'), commentsModal = $('#comments-modal'), adminStyleModal = $('#admin-style-modal');
+const editProfileModal = $('#edit-profile-modal');
 
 let toastTimer, current = null;
 let user = null, userProfile = null, myApplications = [], myRegs = [], profilePoints = { points: 0 };
@@ -1605,10 +1604,9 @@ function applyLang(l){
   try{ renderLeaderboard(); }catch(_){}
   try{ renderChat(); }catch(_){}
   try{ if(current === 'support') renderSupport(); }catch(_){}
-  try{ if(user) renderCabinet(); }catch(_){}
+  try{ if(current === 'profile') renderProfilePage(); }catch(_){}
   try{ if(canModerate()) renderAdmin(); }catch(_){}
   try{ if(current === 'apply') refreshApplyView(); }catch(_){}
-  try{ if(current === 'profile') renderProfilePage(); }catch(_){}
   if(submitBtn){
     const span = submitBtn.querySelector('span');
     if(span && !submitBtn.disabled) span.textContent = editingId ? t('btn.save') : t('form.submit');
@@ -1711,7 +1709,9 @@ function updateDonationUI(){
 }
 
 function show(id){
-  if(id && id.startsWith('user=')) { go('profile=' + id.split('=')[1]); return; }
+  if(id === 'cabinet') {
+    if (user) { go('profile=' + user.id); return; }
+  }
   if(id && id.startsWith('profile=')) {
     currentProfileId = id.split('=')[1];
     id = 'profile';
@@ -1726,7 +1726,6 @@ function show(id){
   current = id;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
   $$('[data-nav]').forEach(a => { const on = a.dataset.nav === id; a.classList.toggle('active', on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  if(id === 'cabinet') renderCabinet();
   if(id === 'leaderboard') renderLeaderboard();
   if(id === 'chat') { chatLastIds = ''; isChatLoaded = false; renderChat(); startChatPolling(); }
   else { stopChatPolling(); }
@@ -1974,11 +1973,11 @@ function renderTournamentPage(){
         d.innerHTML = '<svg class="i"><use href="#i-check"/></svg><span>'+t('stage.approved.btn')+'</span>';
         btnRow.appendChild(d);
       } else if(myApp && status === 'pending'){
-        const b = document.createElement('a'); b.className='btn btn-ghost'; b.style.flex='1'; b.href='#cabinet';
+        const b = document.createElement('a'); b.className='btn btn-ghost'; b.style.flex='1'; b.href='#profile=' + user.id;
         b.innerHTML = '<svg class="i"><use href="#i-clock"/></svg><span>'+t('stage.myApp')+'</span>';
         btnRow.appendChild(b);
       } else if(myApp && status === 'rejected'){
-        const b = document.createElement('a'); b.className='btn btn-danger'; b.style.flex='1'; b.href='#cabinet';
+        const b = document.createElement('a'); b.className='btn btn-danger'; b.style.flex='1'; b.href='#profile=' + user.id;
         b.innerHTML = '<svg class="i"><use href="#i-x"/></svg><span>'+t('stage.rejected.btn')+'</span>';
         btnRow.appendChild(b);
       } else if(!myApp && s.status === 'open' && !isFull && !expired){
@@ -2103,7 +2102,7 @@ $('#reg-modal-submit').addEventListener('click', async () => {
     if(canModerate()) await loadAllRegs();
     renderTournaments();
     if(currentTournamentId === regModalTid) renderTournamentPage();
-    if(current === 'cabinet') renderCabinet();
+    if(current === 'profile') renderProfilePage();
     if(current === 'admin') renderAdmin();
   }catch(e){ console.error(e); toast(e.message || 'Error', true); }
   finally{ btn.disabled = false; span.textContent = t('reg.submit'); }
@@ -2189,7 +2188,7 @@ form.addEventListener('submit', async e => {
       toast(LANG==='ru'?'Обновлено':'Updated');
       await loadMyApplications();
       editingId = null;
-      go('cabinet');
+      go('profile=' + user.id);
     } else {
       const { error } = await sb.from('applications').insert([{ ...data, status:'pending' }]);
       if(error){
@@ -2572,153 +2571,6 @@ async function checkModerator(){
   if(!user || isAdmin()){ isModeratorFlag=false; return; }
   try{ const {data}=await sb.from('moderators').select('email').eq('email',user.email).maybeSingle(); isModeratorFlag=!!data; }catch(_){ isModeratorFlag=false; }
 }
-async function renderCabinet(){
-  const logged = !!user;
-  $('#cabinet-auth').classList.toggle('hidden', logged);
-  $('#cabinet-dashboard').classList.toggle('hidden', !logged);
-  if(!logged) return;
-  document.querySelector('[data-user-nick]').innerHTML = userProfile ? formatNick(userProfile) : '—';
-  document.querySelector('[data-user-level]').textContent = userProfile ? (userProfile.level || 0) : 0;
-  document.querySelector('[data-user-points]').textContent = profilePoints ? (profilePoints.points || 0) : 0;
-  const colorPicker = $('#color-picker');
-  if(colorPicker){
-    colorPicker.replaceChildren();
-    const cur = (userProfile && userProfile.nick_color) || '#eaf1ff';
-    COLORS.forEach(c => {
-      const btn = document.createElement('button');
-      btn.type = 'button'; btn.className = 'color-swatch' + (c.toLowerCase()===cur.toLowerCase() ? ' active' : ''); btn.style.background = c; btn.dataset.color = c;
-      btn.addEventListener('click', () => { colorPicker.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active')); btn.classList.add('active'); });
-      colorPicker.appendChild(btn);
-    });
-    $('#cab-nick').value = userProfile ? (userProfile.nick || '') : '';
-  }
-  const cupsWrap = $('#cabinet-cups'); cupsWrap.replaceChildren();
-  const myCups = await loadMyCups();
-  if(!myCups.length){ cupsWrap.innerHTML = '<div class="card" style="text-align:center;color:var(--muted);padding:24px"><svg class="i" style="font-size:32px;color:var(--muted);opacity:.5"><use href="#i-trophy"/></svg><p style="margin-top:8px;font-size:13.5px">'+t('cab.noCups')+'</p></div>'; }
-  else {
-    myCups.forEach(c => {
-      const card = document.createElement('div'); card.className='cup-card';
-      card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:26px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>'+escapeHtml(c.title)+'</h4>'+(c.description?'<p>'+escapeHtml(c.description)+'</p>':'')+'<small>'+(LANG==='ru'?'Получен: ':'Received: ')+new Date(c.awarded_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+'</small></div>';
-      cupsWrap.appendChild(card);
-    });
-  }
-  const regWrap = $('#cabinet-regs'); regWrap.replaceChildren();
-  if(!myRegs.length){ regWrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>'+t('cab.noRegs.t')+'</h2><p>'+t('cab.noRegs.p')+'</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>'+t('cab.noRegs.btn')+'</span></a></div>'; }
-  else {
-    myRegs.forEach(r => {
-      const t_ = tournaments.find(x => x.id === r.tournament_id);
-      const label = t_ ? ('#'+t_.number+' · '+(t_.title||(t('tournament.num')+' '+t_.number))) : '—';
-      const item = document.createElement('div'); item.className='app-item';
-      item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">🏆 '+escapeHtml(label)+'</span><span class="status-badge '+r.status+'">'+t('status.'+r.status)+'</span><span class="app-item-date">'+timeAgo(r.created_at)+'</span></div><div style="color:var(--muted);font-size:13px">'+(LANG==='ru'?'Ник: ':'Nick: ')+'<b style="color:var(--text)">'+escapeHtml(r.nick||'—')+'</b>'+(r.telegram?' · TG: '+escapeHtml(r.telegram):'')+(r.platform?' · '+escapeHtml(r.platform):'')+'</div>'+(r.admin_comment?'<div class="app-comment"><b>'+(LANG==='ru'?'Комментарий':'Comment')+'</b>'+escapeHtml(r.admin_comment)+'</div>':'')+'</div>';
-      const actions = document.createElement('div'); actions.className='app-item-actions';
-      if(r.status !== 'approved'){
-        const rep = document.createElement('button'); rep.type='button'; rep.className='btn btn-primary btn-sm';
-        rep.innerHTML = '<svg class="i"><use href="#i-refresh"/></svg><span>'+(r.status==='rejected'?(LANG==='ru'?'Переподать':'Reapply'):(LANG==='ru'?'Изменить':'Edit'))+'</span>';
-        rep.addEventListener('click', () => openRegModal(r.tournament_id)); actions.appendChild(rep);
-        const del = document.createElement('button'); del.type='button'; del.className='btn btn-danger btn-sm'; del.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
-        del.addEventListener('click', async () => {
-          if(!confirm(LANG==='ru'?'Удалить заявку?':'Delete application?')) return;
-          const { error } = await sb.from('tournament_registrations').delete().eq('id', r.id).eq('user_id', user.id);
-          if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалено':'Deleted');
-          await loadMyRegs(); renderCabinet();
-        });
-        actions.appendChild(del);
-      }
-      if(r.status === 'rejected'){
-        const ap = document.createElement('button'); ap.type='button'; ap.className='btn btn-ghost btn-sm';
-        ap.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>Оспорить</span>';
-        ap.addEventListener('click', () => openTicketModal('appeal_rejection', r.id));
-        actions.appendChild(ap);
-      }
-      item.appendChild(actions); regWrap.appendChild(item);
-    });
-  }
-  const list = $('#cabinet-apps'); list.replaceChildren();
-  if(!myApplications.length){
-    list.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-form"/></svg></div><h2>'+t('cab.noApps.t')+'</h2><p>'+t('cab.noApps.p')+'</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span>'+t('cab.noApps.btn')+'</span></a></div>';
-    return;
-  }
-  myApplications.forEach(a => {
-    const stage = stages.find(s => s.id === a.stage_id);
-    const tr = tournaments.find(x => x.id === a.tournament_id);
-    const label = (tr?'#'+tr.number+' · ':'')+(stage?(stage.title||(t('stage.num')+' '+stage.number)):'—');
-    const pts = stage ? (stage.reward_points||1) : 0;
-    const item = document.createElement('div'); item.className='app-item';
-    const main = document.createElement('div'); main.className='app-item-main';
-    main.innerHTML = '<div class="app-item-head"><span class="app-item-stage">'+escapeHtml(label)+' 🎥</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span><span class="app-item-date">'+timeAgo(a.created_at)+'</span></div><div style="color:var(--muted);font-size:13px">'+(LANG==='ru'?'Ник: ':'Nick: ')+'<b style="color:var(--text)">'+escapeHtml(a.nick||'—')+'</b>'+(a.telegram?' · TG: '+escapeHtml(a.telegram):'')+(a.discord?' · DC: '+escapeHtml(a.discord):'')+(a.status==='approved'&&pts?' · <b style="color:var(--gold)">+'+pts+' 🏆</b>':'')+'</div>'+(a.admin_comment?'<div class="app-comment"><b>'+(LANG==='ru'?'Комментарий':'Comment')+'</b>'+escapeHtml(a.admin_comment)+'</div>':'');
-    item.appendChild(main);
-    const actions = document.createElement('div'); actions.className='app-item-actions';
-    if(a.video){
-      const vid = document.createElement('a'); vid.className='btn btn-ghost btn-sm'; vid.href=a.video; vid.target='_blank'; vid.rel='noopener';
-      vid.innerHTML = '<svg class="i"><use href="#i-video"/></svg><span>'+(LANG==='ru'?'Видео':'Video')+'</span>';
-      actions.appendChild(vid);
-    }
-    if(a.status === 'pending'){
-      const ed = document.createElement('button'); ed.type='button'; ed.className='btn btn-primary btn-sm';
-      ed.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>'+(LANG==='ru'?'Ред.':'Edit')+'</span>';
-      ed.addEventListener('click', () => {
-        editingId = a.id; currentStageId = a.stage_id; go('apply');
-        setTimeout(() => {
-          form.elements.telegram.value = a.telegram || '';
-          form.elements.discord.value = a.discord || '';
-          form.elements.video.value = a.video || '';
-          form.elements.platform.value = a.platform || 'PC';
-          form.elements.motivation.value = a.motivation || '';
-          form.elements.about.value = a.about || '';
-          form.elements.agree.checked = true;
-          $('#apply-edit-banner').classList.remove('hidden');
-          submitBtn.querySelector('span').textContent = t('btn.save');
-        }, 60);
-      });
-      actions.appendChild(ed);
-      const del = document.createElement('button'); del.type='button'; del.className='btn btn-danger btn-sm';
-      del.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
-      del.addEventListener('click', async () => {
-        if(!confirm(LANG==='ru'?'Удалить заявку?':'Delete application?')) return;
-        const { error } = await sb.from('applications').delete().eq('id', a.id).eq('user_id', user.id);
-        if(error){ toast('Error', true); return; }
-        toast(LANG==='ru'?'Удалено':'Deleted');
-        await loadMyApplications(); renderCabinet();
-      });
-      actions.appendChild(del);
-    }
-    if(a.status === 'rejected'){
-      const ap = document.createElement('button'); ap.type='button'; ap.className='btn btn-ghost btn-sm';
-      ap.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>Оспорить</span>';
-      ap.addEventListener('click', () => openTicketModal('appeal_rejection', a.id));
-      actions.appendChild(ap);
-    }
-    item.appendChild(actions); list.appendChild(item);
-  });
-}
-$('#save-profile-btn').addEventListener('click', async () => {
-  if(!user || !userProfile) return;
-  const newNick = $('#cab-nick').value.trim();
-  const active = document.querySelector('#color-picker .color-swatch.active');
-  const newColor = active ? active.dataset.color : (userProfile.nick_color || '#eaf1ff');
-  
-  if(newNick.length < 2){ toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true); return; }
-  if(newNick.length > 32){ toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true); return; }
-  
-  try{
-    const { error } = await sb.from('profiles').update({ 
-      nick: newNick, gd_nick: newNick, nick_color: newColor
-    }).eq('id', user.id);
-    
-    if(error){
-      const m = error.message || '';
-      if(/banned word/i.test(m)) toast(LANG==='ru'?'Ник содержит запрещённое слово':'Nickname contains banned word', true);
-      else if(/too short/i.test(m)) toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true);
-      else if(/too long/i.test(m)) toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true);
-      else toast('Error: ' + m, true);
-      return;
-    }
-    userProfile.nick = newNick; userProfile.gd_nick = newNick; userProfile.nick_color = newColor;
-    toast(t('cab.saved'));
-    await renderLeaderboard();
-    if(current === 'cabinet') renderCabinet();
-  }catch(err){ console.error(err); toast('Error', true); }
-});
 
 /* ============================================================
    PROFILE PAGE
@@ -2781,45 +2633,40 @@ async function renderProfilePage() {
       });
     }
     
-    // Кнопки админа
+    // Кнопки
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
-    if(canModerate()){
-      const add = (icon, text, cls, fn) => {
-        const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
-        b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
-        b.addEventListener('click', fn); adminTools.appendChild(b);
-      };
-      if(isAdmin()){
-        add('i-coins', LANG==='ru'?'Очки':'Points', 'ghost', () => changeUserPoints(currentProfileId, pts));
-        add('i-fire', LANG==='ru'?'Уровень':'Level', 'ghost', () => changeUserLevel(currentProfileId, lvl));
-        add('i-ticket', LANG==='ru'?'Пропуска':'Passes', 'ghost', () => changeUserPasses(currentProfileId, passes));
-        add('i-edit', LANG==='ru'?'Ник':'Nick', 'ghost', () => changeUserNick(currentProfileId, profile.nick));
-        add('i-star', LANG==='ru'?'Стиль и Плашка':'Style & Badge', 'gold', () => openStyleModal(currentProfileId, profile));
-      }
-      add('i-trophy', LANG==='ru'?'Вручить кубок':'Award cup', 'gold', () => openCupModal(currentProfileId, profile.nick));
-      if(isAdmin()){
-        if(profile.banned) add('i-check', LANG==='ru'?'Разбанить':'Unban', 'success', () => unbanUser(currentProfileId));
-        else add('i-ban', LANG==='ru'?'Забанить':'Ban', 'danger', () => banUser(currentProfileId));
-      }
-      
-      // Кнопка копирования ссылки
-      const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
-      copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>Ссылка</span>';
-      copyBtn.addEventListener('click', () => {
-        const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
-        navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
-      });
-      adminTools.appendChild(copyBtn);
-    } else {
-      // Кнопка копирования ссылки для обычных юзеров
-      const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='btn btn-ghost';
-      copyBtn.innerHTML = '<svg class="i"><use href="#i-link"/></svg><span>Поделиться профилем</span>';
-      copyBtn.addEventListener('click', () => {
-        const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
-        navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
-      });
-      adminTools.appendChild(copyBtn);
+    const isMe = user && user.id === currentProfileId;
+    
+    const add = (icon, text, cls, fn) => {
+      const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
+      b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
+      b.addEventListener('click', fn); adminTools.appendChild(b);
+    };
+
+    if(isMe) {
+      add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile));
+      add('i-logout', 'Выйти', 'danger', doLogout);
     }
+
+    if(canModerate()){
+      if(isAdmin()){
+        add('i-coins', 'Очки', 'ghost', () => changeUserPoints(currentProfileId, pts));
+        add('i-fire', 'Уровень', 'ghost', () => changeUserLevel(currentProfileId, lvl));
+        add('i-ticket', 'Пропуска', 'ghost', () => changeUserPasses(currentProfileId, passes));
+        add('i-star', 'Стиль и Плашка', 'gold', () => openStyleModal(currentProfileId, profile));
+      }
+      add('i-trophy', 'Вручить кубок', 'gold', () => openCupModal(currentProfileId, profile.nick));
+      if(isAdmin()){
+        if(profile.banned) add('i-check', 'Разбанить', 'success', () => unbanUser(currentProfileId));
+        else add('i-ban', 'Забанить', 'danger', () => banUser(currentProfileId));
+      }
+    }
+    
+    // Кнопка копирования ссылки
+    add('i-link', 'Ссылка', 'ghost', () => {
+      const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
+      navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
+    });
     
   } catch(err) {
     console.error(err);
@@ -2828,6 +2675,56 @@ async function renderProfilePage() {
   }
 }
 
+/* РЕДАКТИРОВАНИЕ ПРОФИЛЯ */
+function openEditProfileModal(profile) {
+  $('#edit-nick').value = profile.nick || '';
+  const colorPicker = $('#edit-color-picker');
+  colorPicker.replaceChildren();
+  const cur = profile.nick_color || '#eaf1ff';
+  COLORS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'color-swatch' + (c.toLowerCase()===cur.toLowerCase() ? ' active' : ''); btn.style.background = c; btn.dataset.color = c;
+    btn.addEventListener('click', () => { colorPicker.querySelectorAll('.color-swatch').forEach(x => x.classList.remove('active')); btn.classList.add('active'); });
+    colorPicker.appendChild(btn);
+  });
+  editProfileModal.classList.remove('hidden');
+}
+function closeEditProfileModal() { editProfileModal.classList.add('hidden'); }
+$('#edit-profile-close').addEventListener('click', closeEditProfileModal);
+$('#edit-profile-cancel').addEventListener('click', closeEditProfileModal);
+editProfileModal.addEventListener('click', e => { if(e.target === editProfileModal) closeEditProfileModal(); });
+$('#edit-profile-save').addEventListener('click', async () => {
+  if(!user || !userProfile) return;
+  const newNick = $('#edit-nick').value.trim();
+  const active = document.querySelector('#edit-color-picker .color-swatch.active');
+  const newColor = active ? active.dataset.color : (userProfile.nick_color || '#eaf1ff');
+  
+  if(newNick.length < 2){ toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true); return; }
+  if(newNick.length > 32){ toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true); return; }
+  
+  const btn = $('#edit-profile-save'); btn.disabled = true;
+  try{
+    const { error } = await sb.from('profiles').update({ 
+      nick: newNick, gd_nick: newNick, nick_color: newColor
+    }).eq('id', user.id);
+    
+    if(error){
+      const m = error.message || '';
+      if(/banned word/i.test(m)) toast(LANG==='ru'?'Ник содержит запрещённое слово':'Nickname contains banned word', true);
+      else if(/too short/i.test(m)) toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true);
+      else if(/too long/i.test(m)) toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true);
+      else toast('Error: ' + m, true);
+      return;
+    }
+    userProfile.nick = newNick; userProfile.gd_nick = newNick; userProfile.nick_color = newColor;
+    toast(t('cab.saved'));
+    closeEditProfileModal();
+    await renderLeaderboard();
+    if(current === 'profile') renderProfilePage();
+  }catch(err){ console.error(err); toast('Error', true); } finally { btn.disabled = false; }
+});
+
+/* АДМИНСКИЕ ФУНКЦИИ ПРОФИЛЯ */
 function closeStyleModal(){ adminStyleModal.classList.add('hidden'); styleTargetUserId = null; }
 $('#asm-close').addEventListener('click', closeStyleModal);
 $('#asm-cancel').addEventListener('click', closeStyleModal);
@@ -2922,6 +2819,20 @@ async function adminSetPasses(userId, val){
   }
   toast(t('admin.settings.updated'));
   if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
+}
+
+function doLogout(){
+  if(!sb) return;
+  stopChatPolling();
+  if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
+  sb.auth.signOut().then(() => {
+    toast(LANG==='ru'?'Вы вышли':'Logged out');
+    user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
+    applyBanState();
+    window.updateHeaderUI();
+    renderAdmin(); renderTournaments(); window.updatePassesUI(0);
+    go('home');
+  });
 }
 
 async function renderAdminSettings(){
@@ -3694,24 +3605,11 @@ $('#register-form').addEventListener('submit', async e => {
   }catch(err){ console.error(err); setAuthError('register', 'Error'); }
   finally{ btn.disabled = false; btn.textContent = prev; }
 });
-$('#logout-btn').addEventListener('click', async () => {
-  if(!sb) return;
-  stopChatPolling();
-  if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
-  await sb.auth.signOut();
-  toast(LANG==='ru'?'Вы вышли':'Logged out');
-  user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
-  applyBanState();
-  window.updateHeaderUI();
-  renderCabinet(); renderAdmin(); renderTournaments(); window.updatePassesUI(0);
-  go('home');
-});
 
 async function afterLogin(){
   window.updateHeaderUI();
   const logged = !!user;
   $('#cabinet-auth').classList.toggle('hidden', logged);
-  $('#cabinet-dashboard').classList.toggle('hidden', !logged);
   if(!logged) return;
   try {
     await checkModerator();
@@ -3725,7 +3623,6 @@ async function afterLogin(){
     await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
     if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
     
-    await renderCabinet();
     renderAdmin();
     updateAdminStats();
     
@@ -3754,7 +3651,6 @@ function setupRealtime(){
         window.updatePassesUI(userProfile.passes || 0);
         window.updateHeaderUI();
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
-        if(current === 'cabinet') renderCabinet();
       }
       if(current === 'leaderboard') await renderLeaderboard();
       if(current === 'profile' && currentProfileId === payload.new.id) await renderProfilePage();
@@ -3772,7 +3668,6 @@ function setupRealtime(){
       }
       if(user) {
         await loadProfilePoints(); await loadMyApplications();
-        if(current === 'cabinet') renderCabinet();
         if(current === 'leaderboard') await renderLeaderboard();
         if(current === 'tournament') renderTournamentPage();
         if(current === 'profile' && currentProfileId === payload.new.user_id) renderProfilePage();
@@ -3788,7 +3683,6 @@ function setupRealtime(){
         if(adminTab === 'dashboard') renderDashboard();
         if(payload.eventType === 'INSERT') toast(LANG==='ru'?'📨 Новая заявка на турнир!':'📨 New tournament application!');
       }
-      if(current === 'cabinet') renderCabinet();
       if(current === 'tournaments') renderTournaments();
       if(current === 'tournament') renderTournamentPage();
       if(current === 'profile' && currentProfileId === rec.user_id) renderProfilePage();
@@ -3796,7 +3690,6 @@ function setupRealtime(){
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'cups' }, async () => {
       if(canModerate()) await loadAllCups();
       if(current === 'leaderboard') await renderLeaderboard();
-      if(user && current === 'cabinet') { await loadMyCups(); renderCabinet(); }
       if(current === 'profile') renderProfilePage();
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, async () => {
@@ -3832,12 +3725,15 @@ async function initAuth(){
     lastAuthHandledId = newUserId;
     if(user){
       await afterLogin();
+      if(current === 'cabinet') go('profile=' + user.id);
     } else {
       userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
       applyBanState();
-      renderCabinet(); renderAdmin();
+      renderAdmin();
       if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
       window.updatePassesUI(0);
+      if(current === 'profile') go('home');
+      if(current === 'cabinet') show('cabinet');
     }
   });
 }
