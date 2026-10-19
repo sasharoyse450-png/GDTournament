@@ -578,7 +578,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
-      <p data-i18n="shop.lead">Покупайте пропуска для участия в платных турнирах.</p>
+      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
       <div style="margin-top:16px" id="shop-balance">
         <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
       </div>
@@ -678,7 +678,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="card table-card">
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.stages">Этапов</th><th data-i18n="lb.th.points">🏆 Очки</th><th data-i18n="lb.th.speed">⚡ Скорость</th><th data-i18n="lb.th.cups">Кубки</th></tr></thead>
+            <thead><tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.time">⏱ Общее время</th><th data-i18n="lb.th.finish">🏁 Финиш</th></tr></thead>
             <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
@@ -749,7 +749,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
     </div>
-    <!-- Дашборд удален, так как мы используем страницу профиля -->
   </div>
 </section>
 
@@ -1290,6 +1289,7 @@ const I18N = {
     'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила турнира</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео в облако и открыл(а) доступ',
     'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
     'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.level':'Уровень','lb.th.stages':'Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
+    'lb.th.time':'⏱ Общее время','lb.th.finish':'🏁 Финиш',
     'chat.title':'Общий чат','chat.lead':'Общайтесь с другими участниками сообщества в реальном времени.','chat.placeholder':'Написать сообщение...','chat.send':'Отправить','chat.empty':'Пока нет сообщений. Будь первым!',
     'support.title':'Поддержка','support.lead':'Свяжитесь с администрацией или подайте апелляцию.','support.new':'Создать обращение','support.empty':'Нет обращений','support.empty.lead':'Если у вас есть вопрос или проблема, создайте обращение.','support.open':'Открыть',
     'ticket.create.title':'Новое обращение','ticket.create.lead':'Опишите вашу проблему.','ticket.subject':'Тема','ticket.type':'Тип','ticket.type.other':'Другое','ticket.type.ban':'Апелляция на бан','ticket.type.rejection':'Оспорить отклонение','ticket.related':'Связанный объект (необязательно)','ticket.message':'Сообщение','ticket.submit':'Отправить','ticket.success':'Обращение создано!','ticket.err.subject':'Укажите тему','ticket.err.message':'Введите сообщение','ticket.noMessages':'Нет сообщений','ticket.chat.send':'Отправить','ticket.appeal':'Подать апелляцию',
@@ -1390,6 +1390,7 @@ const I18N = {
     'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">tournament rules</a>','aside.2':'Prepared a recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded the video to the cloud and made it public',
     'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
     'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.level':'Level','lb.th.stages':'Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
+    'lb.th.time':'⏱ Total Time','lb.th.finish':'🏁 Finish',
     'chat.title':'Global Chat','chat.lead':'Chat with other community members in real time.','chat.placeholder':'Write a message...','chat.send':'Send','chat.empty':'No messages yet. Be the first!',
     'support.title':'Support','support.lead':'Contact the administration or file an appeal.','support.new':'Create ticket','support.empty':'No tickets','support.empty.lead':'If you have a question or a problem, create a ticket.','support.open':'Open',
     'ticket.create.title':'New ticket','ticket.create.lead':'Describe your problem.','ticket.subject':'Subject','ticket.type':'Type','ticket.type.other':'Other','ticket.type.ban':'Ban appeal','ticket.type.rejection':'Appeal rejection','ticket.related':'Related object (optional)','ticket.message':'Message','ticket.submit':'Send','ticket.success':'Ticket created!','ticket.err.subject':'Enter subject','ticket.err.message':'Enter message','ticket.noMessages':'No messages','ticket.chat.send':'Send','ticket.appeal':'File an appeal',
@@ -2241,38 +2242,51 @@ async function renderLeaderboard(){
     if(regsErr) console.warn('Leaderboard regs error:', regsErr);
 
     const byUser = {};
-    (profRes.data||[]).forEach(p => { byUser[p.id] = { id: p.id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; });
+    (profRes.data||[]).forEach(p => { 
+      byUser[p.id] = { id: p.id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; 
+    });
 
     (apps||[]).forEach(a => {
-      if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
-      byUser[a.user_id].points += (a.reward_points || 1);
-      byUser[a.user_id].stages += 1;
-      const openTime = a.opened_at || a.stage_created_at;
-      if(openTime && a.created_at){
-        const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
-        byUser[a.user_id].total_hours += hours;
-        byUser[a.user_id].stage_count_with_time += 1;
-      }
-      if(a.approved_at && (!byUser[a.user_id].last_approved_at || new Date(a.approved_at) > new Date(byUser[a.user_id].last_approved_at))) {
-        byUser[a.user_id].last_approved_at = a.approved_at;
+      if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
+      
+      if(a.status === 'approved') {
+        const openTime = a.opened_at || a.stage_created_at;
+        if(openTime && a.created_at){
+          const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
+          byUser[a.user_id].total_hours += hours; // Суммарное время
+          byUser[a.user_id].stage_count_with_time += 1;
+        }
+        if(a.approved_at && (!byUser[a.user_id].last_approved_at || new Date(a.approved_at) > new Date(byUser[a.user_id].last_approved_at))) {
+          byUser[a.user_id].last_approved_at = a.approved_at;
+        }
       }
     });
 
     (regs||[]).forEach(r => {
-      if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
+      if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
     });
 
     const list = Object.values(byUser).map(u => {
       const p = profileMap[u.id] || {};
-      const avg_hours = u.stage_count_with_time > 0 ? (u.total_hours / u.stage_count_with_time) : null;
-      return { id: u.id, nick: p.nick || '—', nick_color: p.nick_color, nick_font: p.nick_font, nick_style: p.nick_style, badge_text: p.badge_text, banned: p.banned, points: u.points, stages: u.stages, cups: cupsCount[u.id]||0, avg_hours: avg_hours, last_approved_at: u.last_approved_at };
+      const total_hours = u.stage_count_with_time > 0 ? u.total_hours : null;
+      return { 
+        id: u.id, nick: p.nick || '—', nick_color: p.nick_color, nick_font: p.nick_font, nick_style: p.nick_style, badge_text: p.badge_text, banned: p.banned, 
+        cups: cupsCount[u.id]||0, 
+        total_hours: total_hours, last_approved_at: u.last_approved_at
+      };
     }).sort((a,b) => {
-      if(b.stages !== a.stages) return b.stages - a.stages;
-      if(b.points !== a.points) return b.points - a.points;
-      if(a.avg_hours !== null && b.avg_hours !== null && a.avg_hours !== b.avg_hours) return a.avg_hours - b.avg_hours;
-      if(a.avg_hours !== null) return -1;
-      if(b.avg_hours !== null) return 1;
+      // 1. Общее время
+      if(a.total_hours !== null && b.total_hours !== null && a.total_hours !== b.total_hours) return a.total_hours - b.total_hours;
+      if(a.total_hours !== null) return -1;
+      if(b.total_hours !== null) return 1;
+      
+      // 2. Время последней сдачи (от самых ранних к поздним)
       if(a.last_approved_at && b.last_approved_at) return new Date(a.last_approved_at) - new Date(b.last_approved_at);
+      
+      // 3. Кто зарегался раньше
+      const pA = profileMap[a.id] || {};
+      const pB = profileMap[b.id] || {};
+      if(pA.created_at && pB.created_at) return new Date(pA.created_at) - new Date(pB.created_at);
       return 0;
     });
 
@@ -2284,14 +2298,14 @@ async function renderLeaderboard(){
       list.slice(0,3).forEach((u,i) => {
         const c = document.createElement('div');
         c.className = 'podium-card '+['first','second','third'][i];
-        const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
-        c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+u.stages+'</div><div class="podium-level-label">'+(LANG==='ru'?'этапов':'stages')+'</div><div style="color:var(--gold);font-size:14px;font-weight:700;margin-top:4px">'+u.points+' '+t('stage.points')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:4px">⚡ '+speedStr+'</div>';
+        const timeStr = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
+        c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+timeStr+'</div><div class="podium-level-label">'+(LANG==='ru'?'ОБЩЕЕ ВРЕМЯ':'TOTAL TIME')+'</div>';
         c.addEventListener('click', () => go('profile=' + u.id));
         p.appendChild(c);
       });
       while(p.children.length < 3){
         const s = document.createElement('div'); s.className='podium-card';
-        s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">0</div><div class="podium-level-label">'+(LANG==='ru'?'этапов':'stages')+'</div>';
+        s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">—</div><div class="podium-level-label">'+(LANG==='ru'?'ВРЕМЯ':'TIME')+'</div>';
         p.appendChild(s);
       }
     }
@@ -2299,19 +2313,21 @@ async function renderLeaderboard(){
     const tb = $('#leaderboard-body'); 
     if(!tb) return;
     tb.replaceChildren();
-    if(!list.length){ tb.innerHTML = '<tr><td colspan="6" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
+    if(!list.length){ tb.innerHTML = '<tr><td colspan="4" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
+    
     list.forEach((u,i) => {
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
-      const speedStr = u.avg_hours !== null ? (u.avg_hours < 1 ? Math.round(u.avg_hours*60)+'м' : u.avg_hours.toFixed(1)+'ч') : '—';
-      const tr = document.createElement('tr'); tr.style.cursor='pointer';
+      const timeStr = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
+      const finishStr = u.last_approved_at ? new Date(u.last_approved_at).toLocaleString(LANG==='ru'?'ru-RU':'en-US', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '—';
+
+      const tr = document.createElement('tr'); 
+      tr.style.cursor = 'pointer';
       tr.addEventListener('click', () => go('profile=' + u.id));
       tr.innerHTML = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>'+
         '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>'+
-        '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>'+
-        '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td>'+
-        '<td style="font-size:13px;color:var(--muted)">⚡ '+speedStr+'</td>'+
-        '<td>'+(u.cups?'<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-trophy"/></svg>'+u.cups+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>';
+        '<td style="font-size:15px;font-weight:700;color:var(--blue-2)">⏱ '+timeStr+'</td>'+
+        '<td style="font-size:13px;color:var(--muted)">🏁 '+finishStr+'</td>';
       tb.appendChild(tr);
     });
   }catch(err){ console.error('Leaderboard fatal error:', err); }
