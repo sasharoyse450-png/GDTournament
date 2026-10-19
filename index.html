@@ -587,8 +587,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
       <p data-i18n="shop.lead">Покупайте эксклюзивные шрифты и эффекты для ника (на 7 дней).</p>
-      <div style="margin-top:16px" id="shop-balance">
+      <div style="margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap" id="shop-balance">
         <div class="balance-badge"><svg class="i"><use href="#i-coins"/></svg> <span data-i18n="shop.your_balance">Баланс:</span> <span data-user-balance>0</span> ₽</div>
+        <a href="https://dalink.to/theteacher" id="topup-balance-btn" class="btn btn-gold" target="_blank" rel="noopener">
+          <svg class="i"><use href="#i-plus"/></svg>
+          <span data-i18n="shop.topup">Пополнить баланс</span>
+        </a>
+      </div>
+      <div class="card" id="shop-donate-warning" style="margin-top:16px;padding:16px 20px;border-color:rgba(246,183,60,.45);background:linear-gradient(135deg,rgba(246,183,60,.12),rgba(246,183,60,.04));color:var(--gold);font-size:14px;display:flex;gap:12px;align-items:flex-start;line-height:1.5">
+        <svg class="i" style="font-size:22px;flex:none;margin-top:1px;color:var(--gold)"><use href="#i-heart"/></svg>
+        <span data-i18n-html="shop.donate.warning"><b>Важно!</b> При пополнении баланса обязательно укажите <b>вашу почту (email), указанную при регистрации</b> в комментарии к донату. Без этого платёж не будет зачислен.</span>
       </div>
     </div>
     <div class="page-body">
@@ -833,6 +841,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="settings" id="tab-settings" data-i18n="admin.tab.settings">Настройки</button>
         <button type="button" data-admin-tab="tickets" id="tab-tickets" data-i18n="admin.tab.tickets">Обращения</button>
         <button type="button" data-admin-tab="cups" id="tab-cups" data-i18n="admin.tab.cups">Кубки</button>
+        <button type="button" data-admin-tab="shop" id="tab-shop" data-i18n="admin.tab.shop">Магазин</button>
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
         <button type="button" data-admin-tab="log" id="tab-log" data-i18n="admin.tab.log">Лог</button>
       </div>
@@ -954,6 +963,16 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <button type="button" class="btn btn-primary" onclick="document.querySelector('[data-admin-tab=users]').click()"><svg class="i"><use href="#i-users"/></svg><span data-i18n="admin.cups.goUsers">К юзерам</span></button>
         </div>
         <div id="admin-cups-list"></div>
+      </div>
+      <div id="admin-shop" class="hidden">
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px">
+            <h3 style="font-size:16px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-shop"/></svg> <span data-i18n="admin.shop.title">Товары магазина</span></h3>
+            <button type="button" class="btn btn-primary btn-sm" id="add-shop-item-btn"><svg class="i"><use href="#i-plus"/></svg> <span data-i18n="admin.shop.add">Добавить товар</span></button>
+          </div>
+          <p class="hint" style="margin-bottom:14px" data-i18n="admin.shop.hint">Управляйте ценой, сроком действия и видимостью товаров.</p>
+          <div id="admin-shop-list" class="app-list"></div>
+        </div>
       </div>
       <div id="admin-words" class="hidden">
         <div class="card" style="margin-bottom:22px;padding:20px">
@@ -1224,6 +1243,65 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<div class="modal-back hidden" id="shop-item-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 id="shop-item-modal-title" data-i18n="admin.shop.edit">Редактировать товар</h2>
+        <p id="shop-item-modal-subtitle">—</p>
+      </div>
+      <button class="modal-close" id="shop-item-modal-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label for="si-name" data-i18n="admin.shop.name">Название</label>
+        <input class="input" type="text" id="si-name" maxlength="60">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="si-type" data-i18n="admin.shop.type">Тип</label>
+          <select class="input" id="si-type">
+            <option value="font" data-i18n="admin.shop.type.font">Шрифт</option>
+            <option value="style" data-i18n="admin.shop.type.style">Эффект</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="si-price" data-i18n="admin.shop.price">Цена (₽)</label>
+          <input class="input" type="number" id="si-price" min="0" value="100">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="si-duration" data-i18n="admin.shop.duration">Срок (дней)</label>
+          <input class="input" type="number" id="si-duration" min="1" value="7">
+        </div>
+        <div class="field">
+          <label for="si-css" data-i18n="admin.shop.css">CSS класс</label>
+          <select class="input" id="si-css"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="check" style="font-size:14px">
+          <input type="checkbox" id="si-enabled" checked>
+          <span data-i18n="admin.shop.enabled">Товар доступен для покупки</span>
+        </label>
+      </div>
+      <div class="field">
+        <label data-i18n="admin.shop.preview">Предпросмотр</label>
+        <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px">
+          <span id="si-preview">Player123</span>
+        </div>
+      </div>
+      <div class="error" id="shop-item-error"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-ghost" id="shop-item-cancel" data-i18n="btn.cancel">Отмена</button>
+      <button type="button" class="btn btn-danger" id="shop-item-delete" data-i18n="admin.shop.delete">Удалить</button>
+      <button type="button" class="btn btn-primary" id="shop-item-save" data-i18n="btn.save">Сохранить</button>
+    </div>
+  </div>
+</div>
+
 <div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
   <div style="max-width:520px;width:100%">
     <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)"><svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg></div>
@@ -1320,7 +1398,7 @@ const I18N = {
     'footer.tag':'Турнир сообщества', 'footer.privacy':'Политика конфиденциальности', 'footer.terms':'Пользовательское соглашение', 'footer.support':'Поддержка: @GDManage', 'footer.donate':'Поддержать проект',
     'ban.title':'ВЫ ЗАБАНЕНЫ','ban.desc':'Ваш аккаунт и устройство заблокированы.','ban.contact':'Для связи пишите',
     'admin.title':'Панель администратора','admin.lead':'Управление турнирами, этапами, заявками и юзерами.',
-    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.settings':'Настройки','admin.tab.tickets':'Обращения','admin.tab.cups':'Кубки','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
+    'admin.tab.dashboard':'Дашборд','admin.tab.regs':'Заявки на турниры','admin.tab.tournaments':'Турниры','admin.tab.apps':'Заявки на этапы','admin.tab.users':'Юзеры','admin.tab.settings':'Настройки','admin.tab.tickets':'Обращения','admin.tab.cups':'Кубки','admin.tab.shop':'Магазин','admin.tab.words':'Стоп-слова','admin.tab.log':'Лог',
     'admin.stat.total':'Всего заявок','admin.stat.pending':'На проверке','admin.stat.approved':'Одобрено','admin.stat.rejected':'Отклонено',
     'admin.chart.title':'Заявок за 7 дней','admin.recent.title':'Последние действия',
     'admin.newTournament':'Новый турнир','admin.newTournament.title':'Название турнира','admin.newTournament.desc':'Описание','admin.newTournament.btn':'Создать турнир', 'admin.newTournament.paid':'Платный турнир (требуется пропуск)',
@@ -1334,6 +1412,7 @@ const I18N = {
     'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
     'admin.settings.shop':'Магазин и продажа','admin.settings.shopEnabled':'Разрешить продажу в магазине','admin.settings.shopHint':'Выключите, чтобы пользователи не могли купить товар.','admin.settings.passes':'Управление балансом пользователей','admin.settings.search':'Поиск по нику или email...','admin.settings.setPrompt':'Введите новое значение:','admin.settings.updated':'Данные обновлены','admin.settings.empty':'Нет пользователей','admin.settings.toggle.on':'Продажа включена','admin.settings.toggle.off':'Продажа выключена','admin.settings.onlyAdmin':'Доступно только главному админу','admin.settings.donate':'Донат на развитие','admin.settings.donateHint':'Ссылка на DonationAlerts для пополнения баланса.','admin.settings.donateUrl':'Ссылка на донат','admin.settings.donateSaved':'Ссылка сохранена',
     'admin.tickets.empty':'Нет обращений',
+    'admin.shop.title':'Товары магазина','admin.shop.add':'Добавить товар','admin.shop.hint':'Управляйте ценой, сроком действия и видимостью товаров.','admin.shop.edit':'Редактировать товар','admin.shop.new':'Новый товар','admin.shop.name':'Название','admin.shop.type':'Тип','admin.shop.type.font':'Шрифт','admin.shop.type.style':'Эффект','admin.shop.price':'Цена (₽)','admin.shop.duration':'Срок (дней)','admin.shop.css':'CSS класс','admin.shop.enabled':'Товар доступен для покупки','admin.shop.preview':'Предпросмотр','admin.shop.delete':'Удалить','admin.shop.empty':'Товаров нет. Добавьте первый!','admin.shop.saved':'Сохранено','admin.shop.deleted':'Удалено','admin.shop.status.on':'Включён','admin.shop.status.off':'Выключен','admin.shop.days':'дн.','admin.shop.confirmDelete':'Удалить товар?','admin.shop.migrateHint':'⚠️ Если колонки duration_days/enabled отсутствуют в БД, выполните SQL: ALTER TABLE shop_items ADD COLUMN IF NOT EXISTS duration_days INTEGER DEFAULT 7; ALTER TABLE shop_items ADD COLUMN IF NOT EXISTS enabled BOOLEAN DEFAULT true;','admin.shop.migrateError':'Ошибка: возможно, колонки duration_days/enabled отсутствуют в БД. См. подсказку ниже.','admin.shop.err.name':'Укажите название','admin.shop.err.price':'Цена должна быть ≥ 0','admin.shop.err.duration':'Срок должен быть ≥ 1','admin.shop.err.css':'Выберите CSS класс',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
     'status.pending':'На проверке','status.approved':'Одобрено','status.rejected':'Отклонено',
@@ -1351,6 +1430,10 @@ const I18N = {
     'shop.unavailable':'Оплата временно недоступна — платёжная система на стадии подключения.',
     'shop.disabled':'Продажа приостановлена',
     'shop.disabled.banner':'Продажа временно приостановлена администратором.',
+    'shop.topup':'Пополнить баланс',
+    'shop.donate.warning':'<b>Важно!</b> При пополнении баланса обязательно укажите <b>вашу почту (email), указанную при регистрации</b> в комментарии к донату. Без этого платёж не будет зачислен.',
+    'shop.donate.warning.short':'Укажите вашу почту в комментарии к донату',
+    'shop.days_suffix':'дней',
     'toast.copied':'Ссылка скопирована!',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире',
     'loading':'Загрузка...',
@@ -1359,6 +1442,7 @@ const I18N = {
     'inv.equip':'Надеть',
     'inv.equipped':'Надето',
     'inv.expires':'Истекает:',
+    'inv.days':'дн.',
     'buy.success':'Успешно куплено!',
     'buy.nofunds':'Недостаточно средств на балансе',
     'buy.already':'Этот предмет уже активен'
@@ -1429,7 +1513,7 @@ const I18N = {
     'footer.tag':'Community tournament', 'footer.privacy':'Privacy Policy', 'footer.terms':'Terms of Service', 'footer.support':'Support: @GDManage', 'footer.donate':'Support project',
     'ban.title':'YOU ARE BANNED','ban.desc':'Your account and device are blocked.','ban.contact':'Contact us at',
     'admin.title':'Admin panel','admin.lead':'Manage tournaments, stages, applications and users.',
-    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.settings':'Settings','admin.tab.tickets':'Tickets','admin.tab.cups':'Cups','admin.tab.words':'Stop words','admin.tab.log':'Log',
+    'admin.tab.dashboard':'Dashboard','admin.tab.regs':'Tournament applications','admin.tab.tournaments':'Tournaments','admin.tab.apps':'Stage applications','admin.tab.users':'Users','admin.tab.settings':'Settings','admin.tab.tickets':'Tickets','admin.tab.cups':'Cups','admin.tab.shop':'Shop','admin.tab.words':'Stop words','admin.tab.log':'Log',
     'admin.stat.total':'Total applications','admin.stat.pending':'Pending','admin.stat.approved':'Approved','admin.stat.rejected':'Rejected',
     'admin.chart.title':'Applications in last 7 days','admin.recent.title':'Recent actions',
     'admin.newTournament':'New tournament','admin.newTournament.title':'Tournament name','admin.newTournament.desc':'Description','admin.newTournament.btn':'Create tournament', 'admin.newTournament.paid':'Paid tournament (requires pass)',
@@ -1443,6 +1527,7 @@ const I18N = {
     'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
     'admin.settings.shop':'Shop & Sales','admin.settings.shopEnabled':'Allow sales in the shop','admin.settings.shopHint':'Disable to prevent users from buying items.','admin.settings.passes':'Manage user balance','admin.settings.search':'Search by nick or email...','admin.settings.setPrompt':'Enter new value:','admin.settings.updated':'Data updated','admin.settings.empty':'No users','admin.settings.toggle.on':'Sales enabled','admin.settings.toggle.off':'Sales disabled','admin.settings.onlyAdmin':'Available to super admin only','admin.settings.donate':'Donation','admin.settings.donateHint':'DonationAlerts link to top up balance.','admin.settings.donateUrl':'Donation URL','admin.settings.donateSaved':'Link saved',
     'admin.tickets.empty':'No tickets',
+    'admin.shop.title':'Shop items','admin.shop.add':'Add item','admin.shop.hint':'Manage price, duration and visibility of items.','admin.shop.edit':'Edit item','admin.shop.new':'New item','admin.shop.name':'Name','admin.shop.type':'Type','admin.shop.type.font':'Font','admin.shop.type.style':'Effect','admin.shop.price':'Price (₽)','admin.shop.duration':'Duration (days)','admin.shop.css':'CSS class','admin.shop.enabled':'Item is available for purchase','admin.shop.preview':'Preview','admin.shop.delete':'Delete','admin.shop.empty':'No items. Add the first one!','admin.shop.saved':'Saved','admin.shop.deleted':'Deleted','admin.shop.status.on':'Enabled','admin.shop.status.off':'Disabled','admin.shop.days':'d.','admin.shop.confirmDelete':'Delete item?','admin.shop.migrateHint':'⚠️ If duration_days/enabled columns are missing, run: ALTER TABLE shop_items ADD COLUMN IF NOT EXISTS duration_days INTEGER DEFAULT 7; ALTER TABLE shop_items ADD COLUMN IF NOT EXISTS enabled BOOLEAN DEFAULT true;','admin.shop.migrateError':'Error: columns duration_days/enabled may not exist. See hint below.','admin.shop.err.name':'Enter name','admin.shop.err.price':'Price must be ≥ 0','admin.shop.err.duration':'Duration must be ≥ 1','admin.shop.err.css':'Choose CSS class',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
     'status.pending':'Pending','status.approved':'Approved','status.rejected':'Rejected',
@@ -1460,6 +1545,10 @@ const I18N = {
     'shop.unavailable':'Payment is currently unavailable — payment system is being connected.',
     'shop.disabled':'Sales suspended',
     'shop.disabled.banner':'Sales are temporarily suspended by the administrator.',
+    'shop.topup':'Top up balance',
+    'shop.donate.warning':'<b>Important!</b> When topping up your balance, be sure to include <b>your email (the one used at registration)</b> in the donation comment. Without this, the payment will not be credited.',
+    'shop.donate.warning.short':'Include your email in the donation comment',
+    'shop.days_suffix':'days',
     'toast.copied':'Link copied!',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament',
     'loading':'Loading...',
@@ -1468,6 +1557,7 @@ const I18N = {
     'inv.equip':'Equip',
     'inv.equipped':'Equipped',
     'inv.expires':'Expires:',
+    'inv.days':'d.',
     'buy.success':'Successfully purchased!',
     'buy.nofunds':'Insufficient balance',
     'buy.already':'Item is already active'
@@ -1476,6 +1566,8 @@ const I18N = {
 
 const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
+const SHOP_FONTS = ['font-cyber','font-gothic','font-handwritten','font-pixel','font-retro','font-heavy'];
+const SHOP_STYLES = ['nick-rainbow','nick-gold','nick-fire','nick-ice','nick-neon'];
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -1516,6 +1608,7 @@ let currentTicketId = null;
 let chatPollInterval = null;
 let chatLastIds = '';
 let isChatLoaded = false;
+let editingShopItemId = null;
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
@@ -1619,6 +1712,7 @@ function applyLang(l){
   $$('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
   $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
   $$('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+  try{ updateDonationUI(); }catch(_){}
   $$('.lang [data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === LANG)));
   try{ renderTournaments(); }catch(_){}
   try{ renderShop(); }catch(_){}
@@ -1673,7 +1767,7 @@ async function checkBannedDevice(){
 function showBanOverlay(reason){
   document.documentElement.setAttribute('data-banned','true');
   const ov = $('#ban-overlay'); if(!ov) return; ov.classList.remove('hidden');
-  ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
+  ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal','#shop-item-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
 }
@@ -1722,11 +1816,13 @@ async function setShopEnabled(enabled){
 function updateDonationUI(){
   const link = $('#footer-donate-link');
   const floatBtn = $('#floating-donate-btn');
+  const topupBtn = $('#topup-balance-btn');
   const input = $('#donation-url-input');
   if (!donationUrl) donationUrl = 'https://dalink.to/theteacher';
   if(input) input.value = donationUrl;
-  if (link) { link.href = donationUrl; link.classList.remove('hidden'); }
-  if (floatBtn) { floatBtn.href = donationUrl; floatBtn.style.display = 'inline-flex'; }
+  if (link) { link.href = donationUrl; link.classList.remove('hidden'); link.title = t('shop.donate.warning.short'); }
+  if (floatBtn) { floatBtn.href = donationUrl; floatBtn.style.display = 'inline-flex'; floatBtn.title = t('shop.donate.warning.short'); }
+  if (topupBtn) { topupBtn.href = donationUrl; topupBtn.title = t('shop.donate.warning.short'); }
   try{ localStorage.setItem('gdcc-donation-url', donationUrl); }catch(_){}
 }
 
@@ -1881,22 +1977,22 @@ function renderShop() {
   const banner = $('#shop-disabled-banner');
   if (banner) { banner.classList.toggle('hidden', shopEnabled); if (!shopEnabled) banner.style.display = 'flex'; else banner.style.display = ''; }
   
-  if (!shopItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
+  const visibleItems = shopItems.filter(item => item.enabled !== false);
   
-  shopItems.forEach(item => {
+  if (!visibleItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
+  
+  visibleItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'shop-card';
     const disabled = !shopEnabled;
-    
-    // Определяем класс для превью
-    let previewClass = item.css_class;
+    const days = item.duration_days || 7;
     
     card.innerHTML = `
       <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
-        <span class="${previewClass}">Player123</span>
+        <span class="${item.css_class}">Player123</span>
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
-      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (7 дней)</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price">${item.price} ₽</div>
         <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>
@@ -1913,6 +2009,7 @@ function renderShop() {
 async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
+  if (item.enabled === false) { toast(t('shop.disabled'), true); return; }
   
   const balance = userProfile ? (userProfile.balance || 0) : 0;
   if (balance < item.price) {
@@ -1921,28 +2018,23 @@ async function buyItem(item) {
   }
   
   try {
-    // Проверяем, есть ли уже этот предмет в инвентаре
     const existing = myInventory.find(i => i.item_id === item.id);
-    
-    // Списываем баланс
     const newBalance = balance - item.price;
     
-    // Обновляем профиль
     const { error: pErr } = await sb.from('profiles').update({ balance: newBalance }).eq('id', user.id);
     if(pErr) throw pErr;
     
     userProfile.balance = newBalance;
     window.updateBalanceUI(newBalance);
     
-    // Добавляем в инвентарь (продлеваем или создаем)
+    const durationDays = item.duration_days || 7;
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    expiresAt.setDate(expiresAt.getDate() + durationDays);
     
     if (existing) {
-      // Если уже есть, продлеваем от текущей даты истечения или от сейчас (что больше)
       const currentExp = new Date(existing.expires_at);
       const baseDate = currentExp > new Date() ? currentExp : new Date();
-      baseDate.setDate(baseDate.getDate() + 7);
+      baseDate.setDate(baseDate.getDate() + durationDays);
       await sb.from('inventory').update({ expires_at: baseDate.toISOString() }).eq('id', existing.id);
     } else {
       await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt.toISOString() }]);
@@ -2737,7 +2829,6 @@ async function renderProfilePage() {
     $('#prof-cups-count').textContent = cups.length;
     $('#prof-balance').textContent = balance + ' ₽';
     
-    // Инвентарь
     const invGrid = $('#prof-inventory'); invGrid.replaceChildren();
     if(!inv.length) {
       invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
@@ -2759,7 +2850,7 @@ async function renderProfilePage() {
         card.innerHTML = `
           <div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>
           <div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div>
-          <div class="inv-time">${t('inv.expires')} ${daysLeft} дн.</div>
+          <div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>
           ${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${shopItem.css_class}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}
         `;
         invGrid.appendChild(card);
@@ -2789,7 +2880,6 @@ async function renderProfilePage() {
       });
     }
 
-    // Кубки
     const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
     if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
     else {
@@ -2801,7 +2891,6 @@ async function renderProfilePage() {
       });
     }
     
-    // Заявки
     const appsList = $('#prof-apps-list'); appsList.replaceChildren();
     if(!apps.length) { appsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>'; }
     else {
@@ -2815,7 +2904,6 @@ async function renderProfilePage() {
       });
     }
     
-    // Кнопки
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
     const isMe = user && user.id === currentProfileId;
     
@@ -2843,7 +2931,6 @@ async function renderProfilePage() {
       }
     }
     
-    // Кнопка копирования ссылки
     add('i-link', 'Ссылка', 'ghost', () => {
       const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
       navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
@@ -3109,6 +3196,210 @@ $('#cm-save').addEventListener('click', async () => {
   if(current === 'admin') renderAdmin();
 });
 
+/* ============================================================
+   ADMIN SHOP MANAGEMENT
+   ============================================================ */
+async function renderAdminShop(){
+  await loadShopItems();
+  const wrap = $('#admin-shop-list'); if(!wrap) return;
+  wrap.replaceChildren();
+  
+  const hint = document.createElement('div');
+  hint.style.cssText = 'padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-size:12px;margin-bottom:12px;line-height:1.5;word-break:break-word';
+  hint.textContent = t('admin.shop.migrateHint');
+  wrap.appendChild(hint);
+  
+  if(!shopItems.length){
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.style.padding = '20px';
+    empty.innerHTML = '<p style="color:var(--muted)">'+t('admin.shop.empty')+'</p>';
+    wrap.appendChild(empty);
+    return;
+  }
+  
+  shopItems.forEach(item => {
+    const enabled = item.enabled !== false;
+    const duration = item.duration_days || 7;
+    const card = document.createElement('div');
+    card.className = 'app-item';
+    if(!enabled) card.style.opacity = '0.6';
+    
+    card.innerHTML = `
+      <div class="app-item-main">
+        <div class="app-item-head">
+          <span class="app-item-stage">${escapeHtml(item.name)}</span>
+          <span class="status-badge ${enabled ? 'approved' : 'rejected'}">${enabled ? t('admin.shop.status.on') : t('admin.shop.status.off')}</span>
+          <span class="status-badge" style="background:rgba(31,139,255,.15);color:var(--blue-2)">${item.type === 'font' ? t('admin.shop.type.font') : t('admin.shop.type.style')}</span>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px">
+          <span>💰 <b style="color:var(--gold);font-family:'Exo 2',sans-serif;font-size:15px">${item.price} ₽</b></span>
+          <span>⏱ <b style="color:var(--text)">${duration}</b> ${t('admin.shop.days')}</span>
+          <span>🎨 <code style="background:rgba(31,139,255,.12);color:var(--blue-2);padding:1px 6px;border-radius:4px;font-size:11px">${escapeHtml(item.css_class)}</code></span>
+        </div>
+        <div class="inv-preview" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px">
+          <span class="${item.css_class}">Player123</span>
+        </div>
+      </div>
+    `;
+    
+    const actions = document.createElement('div');
+    actions.className = 'app-item-actions';
+    
+    const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'btn btn-primary btn-sm';
+    editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>'+t('admin.shop.edit')+'</span>';
+    editBtn.addEventListener('click', () => openShopItemModal(item));
+    actions.appendChild(editBtn);
+    
+    const toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'btn btn-sm ' + (enabled ? 'btn-ghost' : 'btn-success');
+    toggleBtn.textContent = enabled ? '⏸' : '▶';
+    toggleBtn.title = enabled ? t('admin.shop.status.off') : t('admin.shop.status.on');
+    toggleBtn.addEventListener('click', async () => {
+      const { error } = await sb.from('shop_items').update({ enabled: !enabled }).eq('id', item.id);
+      if(error){ toast(t('admin.shop.migrateError'), true); return; }
+      await renderAdminShop(); renderShop();
+    });
+    actions.appendChild(toggleBtn);
+    
+    card.appendChild(actions);
+    wrap.appendChild(card);
+  });
+}
+
+function updateShopItemPreview(){
+  const css = $('#si-css').value || '';
+  const prev = $('#si-preview');
+  prev.className = css;
+  prev.textContent = 'Player123';
+}
+
+function populateCssDropdown(type, currentClass){
+  const cssSel = $('#si-css');
+  cssSel.innerHTML = '';
+  const list = type === 'font' ? SHOP_FONTS : SHOP_STYLES;
+  list.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c;
+    o.textContent = c;
+    if(c === currentClass) o.selected = true;
+    cssSel.appendChild(o);
+  });
+  if(currentClass && !list.includes(currentClass)){
+    const o = document.createElement('option');
+    o.value = currentClass;
+    o.textContent = currentClass;
+    o.selected = true;
+    cssSel.insertBefore(o, cssSel.firstChild);
+  }
+}
+
+function openShopItemModal(item){
+  editingShopItemId = item ? item.id : null;
+  const m = $('#shop-item-modal');
+  $('#shop-item-modal-title').textContent = item ? t('admin.shop.edit') : t('admin.shop.new');
+  $('#shop-item-modal-subtitle').textContent = item ? item.name : '';
+  $('#si-name').value = item ? item.name : '';
+  $('#si-type').value = item ? item.type : 'font';
+  $('#si-price').value = item ? item.price : 100;
+  $('#si-duration').value = item ? (item.duration_days || 7) : 7;
+  $('#si-enabled').checked = item ? (item.enabled !== false) : true;
+  populateCssDropdown($('#si-type').value, item ? item.css_class : '');
+  updateShopItemPreview();
+  $('#shop-item-error').textContent = '';
+  $('#shop-item-error').classList.remove('show');
+  $('#shop-item-delete').classList.toggle('hidden', !item);
+  m.classList.remove('hidden');
+  setTimeout(() => $('#si-name').focus(), 100);
+}
+
+function closeShopItemModal(){
+  $('#shop-item-modal').classList.add('hidden');
+  editingShopItemId = null;
+}
+
+async function saveShopItem(){
+  const name = $('#si-name').value.trim();
+  const type = $('#si-type').value;
+  const price = parseInt($('#si-price').value, 10);
+  const duration = parseInt($('#si-duration').value, 10);
+  const css = $('#si-css').value;
+  const enabled = $('#si-enabled').checked;
+  
+  const err = $('#shop-item-error');
+  let msg = '';
+  if(!name) msg = t('admin.shop.err.name');
+  else if(isNaN(price) || price < 0) msg = t('admin.shop.err.price');
+  else if(isNaN(duration) || duration < 1) msg = t('admin.shop.err.duration');
+  else if(!css) msg = t('admin.shop.err.css');
+  
+  if(msg){ err.textContent = msg; err.classList.add('show'); return; }
+  err.classList.remove('show');
+  
+  const payload = {
+    name, type, price,
+    css_class: css,
+    duration_days: duration,
+    enabled
+  };
+  
+  const btn = $('#shop-item-save'); btn.disabled = true;
+  try{
+    if(editingShopItemId){
+      const { error } = await sb.from('shop_items').update(payload).eq('id', editingShopItemId);
+      if(error) throw error;
+    } else {
+      const { error } = await sb.from('shop_items').insert([payload]);
+      if(error) throw error;
+    }
+    toast(t('admin.shop.saved'));
+    closeShopItemModal();
+    await loadShopItems();
+    await renderAdminShop();
+    renderShop();
+  }catch(e){
+    console.error(e);
+    const m = e.message || '';
+    if(/column|does not exist|schema/i.test(m)){
+      toast(t('admin.shop.migrateError'), true);
+    } else {
+      toast('Error: ' + m, true);
+    }
+  }finally{ btn.disabled = false; }
+}
+
+async function deleteShopItem(){
+  if(!editingShopItemId) return;
+  if(!confirm(t('admin.shop.confirmDelete'))) return;
+  const btn = $('#shop-item-delete'); btn.disabled = true;
+  try{
+    const { error } = await sb.from('shop_items').delete().eq('id', editingShopItemId);
+    if(error) throw error;
+    toast(t('admin.shop.deleted'));
+    closeShopItemModal();
+    await loadShopItems();
+    await renderAdminShop();
+    renderShop();
+  }catch(e){ toast('Error: ' + (e.message || e), true); }
+  finally{ btn.disabled = false; }
+}
+
+$('#add-shop-item-btn')?.addEventListener('click', () => openShopItemModal(null));
+$('#shop-item-modal-close')?.addEventListener('click', closeShopItemModal);
+$('#shop-item-cancel')?.addEventListener('click', closeShopItemModal);
+$('#shop-item-save')?.addEventListener('click', saveShopItem);
+$('#shop-item-delete')?.addEventListener('click', deleteShopItem);
+$('#si-css')?.addEventListener('change', updateShopItemPreview);
+$('#si-type')?.addEventListener('change', () => {
+  const type = $('#si-type').value;
+  populateCssDropdown(type, '');
+  updateShopItemPreview();
+});
+$('#shop-item-modal')?.addEventListener('click', e => { if(e.target === $('#shop-item-modal')) closeShopItemModal(); });
+
 async function openCommentsModal(stageId) {
   if (!user) { go('cabinet'); return; }
   currentCommentsStageId = stageId;
@@ -3175,7 +3466,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -3189,8 +3480,9 @@ function renderAdmin(){
   $('#tab-settings').classList.toggle('hidden', !isAdmin());
   $('#tab-tickets').classList.toggle('hidden', !isAdmin());
   $('#tab-cups').classList.toggle('hidden', !isAdmin());
+  $('#tab-shop').classList.toggle('hidden', !isAdmin());
   $('#tab-words').classList.toggle('hidden', !isAdmin());
-  if(!isAdmin() && ['tournaments','users','settings','tickets','cups','words'].includes(adminTab)) adminTab = 'dashboard';
+  if(!isAdmin() && ['tournaments','users','settings','tickets','cups','shop','words'].includes(adminTab)) adminTab = 'dashboard';
   if(adminTab === 'dashboard') renderDashboard();
   else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
@@ -3199,6 +3491,7 @@ function renderAdmin(){
   else if(adminTab === 'settings') renderAdminSettings();
   else if(adminTab === 'tickets') renderAdminTickets();
   else if(adminTab === 'cups') renderAdminCups();
+  else if(adminTab === 'shop') renderAdminShop();
   else if(adminTab === 'words') renderAdminWords();
   else if(adminTab === 'log') renderAdminLog();
 }
@@ -3852,6 +4145,12 @@ function setupRealtime(){
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_messages' }, async () => {
       if (current === 'chat') { chatLastIds = ''; await refreshChatLight(); }
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'shop_items' }, async () => {
+      await loadShopItems();
+      if (current === 'shop') renderShop();
+      if (current === 'admin' && adminTab === 'shop') renderAdminShop();
+      if (current === 'profile') renderProfilePage();
     })
     .subscribe();
 }
