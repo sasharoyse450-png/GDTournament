@@ -424,6 +424,13 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .profile-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: rgba(10,20,45,.5); border: 1px solid var(--line-soft); font-size: 14px; }
 .profile-stat-item b { font-family: 'Exo 2', sans-serif; font-size: 18px; color: var(--gold); }
 
+/* ===== ИНВЕНТАРЬ ===== */
+.inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+.inv-card { background: rgba(10,20,45,.6); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+.inv-preview { height: 60px; display: grid; place-items: center; background: rgba(0,0,0,.2); border-radius: 8px; margin-bottom: 6px; font-size: 18px; }
+.inv-time { font-size: 11px; color: var(--muted); }
+.inv-equip { margin-top: 6px; width: 100%; }
+
 @media(hover:none){ .chat-msg-del{opacity:1!important;top:-10px;right:-10px} }
 @media(max-width:1200px){ .burger{display:grid} .header-in{gap:12px} .header-actions{margin-left:auto} .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none} .nav.open{display:flex} .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px} .nav a.active{background:rgba(31,139,255,.1)} .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto} }
 @media(max-width:1100px){ .hero-in{grid-template-columns:1fr 240px} .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none} .features{grid-template-columns:repeat(2,1fr)} .feature:nth-child(3){border-left:0} .feature:nth-child(n+3){border-top:1px solid var(--line-soft)} .admin-stats{grid-template-columns:repeat(2,1fr)} .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr} .profile-grid{grid-template-columns:1fr} }
@@ -476,6 +483,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+<symbol id="i-backpack" viewBox="0 0 24 24"><path d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/><path d="M4 9h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9z"/><path d="M9 13h6"/></symbol>
 </defs>
 </svg>
 
@@ -497,8 +505,8 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
     </nav>
     <div class="header-actions">
-      <div id="header-balance" class="balance-badge hidden" title="Ваши пропуска">
-        <svg class="i"><use href="#i-ticket"/></svg> <span data-user-passes>0</span>
+      <div id="header-balance" class="balance-badge hidden" title="Ваш баланс">
+        <svg class="i"><use href="#i-coins"/></svg> <span data-user-balance>0</span> ₽
       </div>
       <div class="lang" role="group">
         <button type="button" data-lang="ru" aria-pressed="true">RU</button>
@@ -524,7 +532,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <p class="hero-desc" data-i18n="hero.desc">Турниры по Geometry Dash среди участников нашего сообщества.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="cta.tournaments">К турнирам</span></a>
-          <a class="btn btn-ghost" href="#tournaments" id="hero-apply-btn"><svg class="i"><use href="#i-video"/></svg><span data-i18n="cta.apply">Заявка на участие</span></a>
+          <a class="btn btn-ghost" href="#shop"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="cta.shop">В магазин</span></a>
           <div class="hero-quote">No cheats.<br>No excuses.<br>Just skill.</div>
         </div>
       </div>
@@ -544,7 +552,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="features">
       <div class="feature"><svg class="i"><use href="#i-shield"/></svg><div><b data-i18n="feat.1.t">Честная игра</b><span data-i18n="feat.1.d">Строгая проверка записей.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-cup"/></svg><div><b data-i18n="feat.2.t">Этапы в турнире</b><span data-i18n="feat.2.d">Пройди все — стань чемпионом.</span></div></div>
-      <div class="feature"><svg class="i"><use href="#i-coins"/></svg><div><b data-i18n="feat.3.t">Очки за этапы</b><span data-i18n="feat.3.d">У каждого этапа своя награда.</span></div></div>
+      <div class="feature"><svg class="i"><use href="#i-shop"/></svg><div><b data-i18n="feat.3.t">Магазин стиля</b><span data-i18n="feat.3.d">Уникальные шрифты и эффекты.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat.4.t">Кубки</b><span data-i18n="feat.4.d">Награды в профиле за победы.</span></div></div>
     </div>
   </div>
@@ -578,15 +586,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     <div class="page-head">
       <div class="eyebrow"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></div>
       <h1 data-i18n="shop.title">Магазин</h1>
-      <p data-i18n="shop.lead">Покупайте пропуски для участия в платных турнирах.</p>
+      <p data-i18n="shop.lead">Покупайте эксклюзивные шрифты и эффекты для ника (на 7 дней).</p>
       <div style="margin-top:16px" id="shop-balance">
-        <div class="balance-badge"><svg class="i"><use href="#i-ticket"/></svg> <span data-i18n="shop.your_passes">Ваши пропуска:</span> <span data-user-passes>0</span></div>
+        <div class="balance-badge"><svg class="i"><use href="#i-coins"/></svg> <span data-i18n="shop.your_balance">Баланс:</span> <span data-user-balance>0</span> ₽</div>
       </div>
     </div>
     <div class="page-body">
       <div id="shop-disabled-banner" class="card hidden" style="margin-bottom:20px;padding:16px 20px;border-color:rgba(255,93,115,.35);background:rgba(255,93,115,.08);color:var(--red);font-size:14px;align-items:center;gap:10px">
         <svg class="i" style="font-size:20px;flex:none"><use href="#i-ban"/></svg>
-        <span data-i18n="shop.disabled.banner">Продажа пропусков временно приостановлена администратором.</span>
+        <span data-i18n="shop.disabled.banner">Продажа временно приостановлена.</span>
       </div>
       <div class="shop-grid" id="shop-grid"></div>
     </div>
@@ -678,7 +686,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="card table-card">
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.time">⏱ Общее время</th><th data-i18n="lb.th.finish">🏁 Финиш</th></tr></thead>
+            <thead id="lb-thead"></thead>
             <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
@@ -781,12 +789,15 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="profile-stat-item"><span>🏆 Очки</span> <b id="prof-points">0</b></div>
           <div class="profile-stat-item"><span>🔥 Этапов пройдено</span> <b id="prof-level">0</b></div>
           <div class="profile-stat-item"><span>🥇 Кубков</span> <b id="prof-cups-count">0</b></div>
-          <div class="profile-stat-item"><span>🎟 Пропусков</span> <b id="prof-passes">0</b></div>
+          <div class="profile-stat-item"><span>💰 Баланс</span> <b id="prof-balance">0 ₽</b></div>
         </div>
       </div>
 
       <!-- Правая колонка (Кубки и Заявки) -->
       <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
+        <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
+
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
         <div id="prof-cups-list" style="margin-bottom:26px;"></div>
         
@@ -906,20 +917,20 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.settings.shop">Магазин и продажа</span></h3>
           <label class="check" style="font-size:14px;margin-bottom:14px">
             <input type="checkbox" id="shop-enabled-toggle">
-            <span data-i18n="admin.settings.shopEnabled">Разрешить продажу пропусков в магазине</span>
+            <span data-i18n="admin.settings.shopEnabled">Разрешить продажу в магазине</span>
           </label>
-          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.shopHint">Выключите, чтобы пользователи не могли купить пропуск.</p>
+          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.shopHint">Выключите, чтобы пользователи не могли купить товар.</p>
         </div>
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--red)"><use href="#i-heart"/></svg> <span data-i18n="admin.settings.donate">Донат на развитие</span></h3>
-          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.donateHint">Ссылка (например, на Boosty или DonationAlerts), которая появится в подвале сайта.</p>
+          <p class="hint" style="margin-bottom:14px" data-i18n="admin.settings.donateHint">Ссылка на DonationAlerts для пополнения баланса.</p>
           <div class="field-row">
-            <div class="field" style="margin:0"><label for="donation-url-input" data-i18n="admin.settings.donateUrl">Ссылка на донат</label><input class="input" type="url" id="donation-url-input" placeholder="https://boosty.to/username"></div>
+            <div class="field" style="margin:0"><label for="donation-url-input" data-i18n="admin.settings.donateUrl">Ссылка на донат</label><input class="input" type="url" id="donation-url-input" placeholder="https://www.donationalerts.com/r/username"></div>
             <div class="field" style="margin:0;justify-content:flex-end"><button type="button" class="btn btn-primary" id="save-donation-btn" data-i18n="btn.save">Сохранить</button></div>
           </div>
         </div>
         <div class="card" style="padding:20px">
-          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-coins"/></svg> <span data-i18n="admin.settings.passes">Управление пропусками пользователей</span></h3>
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--blue-2)"><use href="#i-coins"/></svg> <span data-i18n="admin.settings.passes">Управление балансом пользователей</span></h3>
           <div class="admin-filters" style="margin-bottom:16px">
             <input type="search" id="passes-search" data-i18n-ph="admin.settings.search" placeholder="Поиск по нику или email...">
           </div>
@@ -1161,7 +1172,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
-<!-- МОДАЛКА СТИЛЯ АДМИНА -->
 <div class="modal-back hidden" id="admin-style-modal">
   <div class="modal modal-sm">
     <div class="modal-head">
@@ -1175,24 +1185,24 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
       <div class="field">
         <label>Шрифт</label>
         <select class="input" id="asm-font">
-          <option value="default">Стандартный</option>
-          <option value="cyber">Киберпанк (Orbitron)</option>
-          <option value="gothic">Готический (Cinzel)</option>
-          <option value="handwritten">Рукописный (Caveat)</option>
-          <option value="pixel">Пиксельный (Press Start)</option>
-          <option value="retro">Ретро (Lobster)</option>
-          <option value="heavy">Жирный (Rubik)</option>
+          <option value="">Нет</option>
+          <option value="font-cyber">Киберпанк (Orbitron)</option>
+          <option value="font-gothic">Готический (Cinzel)</option>
+          <option value="font-handwritten">Рукописный (Caveat)</option>
+          <option value="font-pixel">Пиксельный (Press Start)</option>
+          <option value="font-retro">Ретро (Lobster)</option>
+          <option value="font-heavy">Жирный (Rubik)</option>
         </select>
       </div>
       <div class="field">
         <label>Эффект ника</label>
         <select class="input" id="asm-style">
-          <option value="solid">Обычный цвет</option>
-          <option value="rainbow">🌈 Радуга</option>
-          <option value="gold">✨ Золото</option>
-          <option value="fire">🔥 Огонь</option>
-          <option value="ice">❄️ Лед</option>
-          <option value="neon">💜 Неон</option>
+          <option value="">Нет</option>
+          <option value="nick-rainbow">🌈 Радуга</option>
+          <option value="nick-gold">✨ Золото</option>
+          <option value="nick-fire">🔥 Огонь</option>
+          <option value="nick-ice">❄️ Лед</option>
+          <option value="nick-neon">💜 Неон</option>
         </select>
       </div>
       <div class="field">
@@ -1248,14 +1258,14 @@ const I18N = {
     'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам','btn.copyLink':'Поделиться профилем',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
-    'cta.tournaments':'К турнирам','cta.apply':'Заявка на участие','stat.participants':'Участников',
+    'cta.tournaments':'К турнирам','cta.shop':'В магазин','stat.participants':'Участников',
     'home.how':'Как принять участие',
     'home.s1.t':'Изучи правила','home.s1.p':'Формат турнира, запреты и условия участия.','home.s1.go':'К правилам',
     'home.s2.t':'Выбери турнир и подай заявку','home.s2.p':'Заполни анкету — админ рассмотрит и примет решение.','home.s2.go':'К турнирам',
     'home.s3.t':'Подготовь видео','home.s3.p':'После одобрения подаёшь видео на этапы.','home.s3.go':'К документам',
     'feat.1.t':'Честная игра','feat.1.d':'Строгая проверка записей.',
     'feat.2.t':'Этапы в турнире','feat.2.d':'Пройди все — стань чемпионом.',
-    'feat.3.t':'Очки за этапы','feat.3.d':'У каждого этапа своя награда.',
+    'feat.3.t':'Магазин стиля','feat.3.d':'Уникальные шрифты и эффекты.',
     'feat.4.t':'Кубки','feat.4.d':'Награды в профиле за победы.',
     'rules.title':'Правила турнира','rules.lead':'Прочитай внимательно — подавая заявку, ты соглашаешься с этими условиями.',
     'rules.r1.t':'Общие положения','rules.r1.p':'Турнир проводится среди участников нашего сообщества. Участие доступно только по подаче заявки и подтверждению.',
@@ -1267,11 +1277,11 @@ const I18N = {
     'tournaments.title':'Турниры','tournaments.lead':'Подай заявку на участие в турнире. После одобрения администратором откроются этапы.',
     'tournament.join.btn':'Принять участие','tournament.join.btnAgain':'Заявка отклонена — переподать','tournament.join.pending':'⏳ Заявка на проверке','tournament.join.approved':'✓ Вы приняты','tournament.join.rejected':'✕ Заявка отклонена',
     'tournament.seats':'Принято:','tournament.seats.full':'Мест нет','tournament.open.stages':'Открыть этапы',
-    'tournament.paid':'Платный (Пропуск)', 'tournament.free': 'Бесплатный',
+    'tournament.paid':'Платный (100 ₽)', 'tournament.free': 'Бесплатный',
     'reg.title':'Заявка на участие','reg.subtitle':'Заполни анкету. Админ рассмотрит и примет решение.',
     'reg.nick':'Ваш ник в Geometry Dash','reg.nick.hint':'Ник берётся из профиля. Меняется в кабинете.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Устройство','reg.motivation':'Почему хотите участвовать?','reg.motivation.ph':'1–3 предложения','reg.motivation.hint':'Минимум 20 символов.','reg.submit':'Отправить заявку','reg.sending':'Отправляем…',
     'reg.err.tg':'Укажи Telegram (@username, 5+ символов)','reg.err.motiv':'Расскажи, почему хочешь участвовать (минимум 20 символов)','reg.success':'Заявка отправлена! Жди решения админа.','reg.already':'Заявка уже отправлена',
-    'reg.no_pass':'У вас нет пропусков для этого платного турнира. Купите пропуск в магазине.',
+    'reg.no_pass':'У вас недостаточно средств на балансе. Пополните баланс в магазине.',
     'apply.eyebrow':'Подача видео','apply.title':'Форма подачи заявки','apply.lead':'Заполни все поля внимательно.',
     'apply.tournament':'Турнир','apply.stage':'Этап',
     'apply.gate.t':'Нужен аккаунт','apply.gate.p':'Войдите или зарегистрируйтесь, чтобы подать заявку.','apply.gate.btn':'Войти / Регистрация',
@@ -1288,7 +1298,7 @@ const I18N = {
     'success.cabinet':'В личный кабинет','success.tournaments':'К турнирам',
     'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила турнира</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео в облако и открыл(а) доступ',
     'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
-    'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.level':'Уровень','lb.th.stages':'Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
+    'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.stages':'🔥 Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'🥇 Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
     'lb.th.time':'⏱ Общее время','lb.th.finish':'🏁 Финиш',
     'chat.title':'Общий чат','chat.lead':'Общайтесь с другими участниками сообщества в реальном времени.','chat.placeholder':'Написать сообщение...','chat.send':'Отправить','chat.empty':'Пока нет сообщений. Будь первым!',
     'support.title':'Поддержка','support.lead':'Свяжитесь с администрацией или подайте апелляцию.','support.new':'Создать обращение','support.empty':'Нет обращений','support.empty.lead':'Если у вас есть вопрос или проблема, создайте обращение.','support.open':'Открыть',
@@ -1322,7 +1332,7 @@ const I18N = {
     'admin.words.title':'Добавить стоп-слово','admin.words.hint':'Ники, содержащие это слово, будут блокироваться при регистрации.','admin.words.addBtn':'Добавить','admin.words.word':'Слово','admin.words.added':'Добавлено',
     'admin.log.when':'Когда','admin.log.who':'Кто','admin.log.what':'Что',
     'admin.regs.empty':'Заявок на турниры нет','admin.regs.full':'Лимит турнира достигнут',
-    'admin.settings.shop':'Магазин и продажа','admin.settings.shopEnabled':'Разрешить продажу пропусков в магазине','admin.settings.shopHint':'Выключите, чтобы пользователи не могли купить пропуск.','admin.settings.passes':'Управление пропусками пользователей','admin.settings.search':'Поиск по нику или email...','admin.settings.setPrompt':'Введите количество пропусков:','admin.settings.updated':'Пропуска обновлены','admin.settings.empty':'Нет пользователей','admin.settings.toggle.on':'Продажа включена','admin.settings.toggle.off':'Продажа выключена','admin.settings.onlyAdmin':'Доступно только главному админу','admin.settings.donate':'Донат на развитие','admin.settings.donateHint':'Ссылка (например, на Boosty или DonationAlerts), которая появится в подвале сайта.','admin.settings.donateUrl':'Ссылка на донат','admin.settings.donateSaved':'Ссылка сохранена',
+    'admin.settings.shop':'Магазин и продажа','admin.settings.shopEnabled':'Разрешить продажу в магазине','admin.settings.shopHint':'Выключите, чтобы пользователи не могли купить товар.','admin.settings.passes':'Управление балансом пользователей','admin.settings.search':'Поиск по нику или email...','admin.settings.setPrompt':'Введите новое значение:','admin.settings.updated':'Данные обновлены','admin.settings.empty':'Нет пользователей','admin.settings.toggle.on':'Продажа включена','admin.settings.toggle.off':'Продажа выключена','admin.settings.onlyAdmin':'Доступно только главному админу','admin.settings.donate':'Донат на развитие','admin.settings.donateHint':'Ссылка на DonationAlerts для пополнения баланса.','admin.settings.donateUrl':'Ссылка на донат','admin.settings.donateSaved':'Ссылка сохранена',
     'admin.tickets.empty':'Нет обращений',
     'tournament.num':'Турнир','stage.num':'Этап',
     'status.open':'Открыт','status.closed':'Закрыт','status.draft':'Черновик',
@@ -1336,27 +1346,35 @@ const I18N = {
     'stage.modal.level.name':'Название','stage.modal.level.id':'ID','stage.modal.difficulty':'Сложность','stage.modal.level.url':'Ссылка на видео',
     'stage.modal.points':'Очки','stage.modal.max':'Лимит мест','stage.modal.deadline':'Дедлайн','stage.modal.rewardText':'Текст награды',
     'comments.title':'Обсуждение этапа','comments.submit':'Отправить','comments.empty':'Пока нет комментариев. Будь первым!','comments.placeholder':'Написать комментарий...',
-    'shop.title':'Магазин', 'shop.lead':'Покупайте пропуски для участия в платных турнирах.',
-    'shop.buy':'Купить', 'shop.your_passes':'Ваши пропуска:', 'shop.price':'Цена', 'shop.rub':'руб.',
+    'shop.title':'Магазин', 'shop.lead':'Покупайте эксклюзивные шрифты и эффекты для ника (на 7 дней).',
+    'shop.buy':'Купить', 'shop.your_balance':'Баланс:', 'shop.price':'Цена', 'shop.rub':'₽',
     'shop.unavailable':'Оплата временно недоступна — платёжная система на стадии подключения.',
     'shop.disabled':'Продажа приостановлена',
-    'shop.disabled.banner':'Продажа пропусков временно приостановлена администратором.',
+    'shop.disabled.banner':'Продажа временно приостановлена администратором.',
     'toast.copied':'Ссылка скопирована!',
     'act.register':'зарегистрировался','act.apply':'подал видео','act.approve':'получил одобрение','act.reject':'заявка отклонена','act.cup':'получил кубок','act.ban':'заблокирован','act.reg':'подал заявку на турнир','act.reg_approve':'принят в турнир','act.reg_reject':'отклонён в турнире',
-    'loading':'Загрузка...'
+    'loading':'Загрузка...',
+    'inv.empty':'Инвентарь пуст. Купите что-нибудь в магазине!',
+    'inv.active':'Активно',
+    'inv.equip':'Надеть',
+    'inv.equipped':'Надето',
+    'inv.expires':'Истекает:',
+    'buy.success':'Успешно куплено!',
+    'buy.nofunds':'Недостаточно средств на балансе',
+    'buy.already':'Этот предмет уже активен'
   },
   en: {
     'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments','btn.copyLink':'Share profile',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
-    'cta.tournaments':'To tournaments','cta.apply':'Apply to participate','stat.participants':'Participants',
+    'cta.tournaments':'To tournaments','cta.shop':'To shop','stat.participants':'Participants',
     'home.how':'How to take part',
     'home.s1.t':'Read the rules','home.s1.p':'Tournament format, restrictions and conditions.','home.s1.go':'To the rules',
     'home.s2.t':'Pick a tournament and apply','home.s2.p':'Fill the form — the admin will review your application.','home.s2.go':'To tournaments',
     'home.s3.t':'Prepare the video','home.s3.p':'After approval you submit videos for stages.','home.s3.go':'To documents',
     'feat.1.t':'Fair play','feat.1.d':'Strict recording checks.',
     'feat.2.t':'Stages in a tournament','feat.2.d':'Clear them all — become a champion.',
-    'feat.3.t':'Points for stages','feat.3.d':'Each stage has its own reward.',
+    'feat.3.t':'Style shop','feat.3.d':'Unique fonts and effects.',
     'feat.4.t':'Cups','feat.4.d':'Profile rewards for victories.',
     'rules.title':'Tournament rules','rules.lead':'Read carefully — by applying you agree to these conditions.',
     'rules.r1.t':'General provisions','rules.r1.p':'The tournament is held among members of our community. Participation is available only after applying and being approved.',
@@ -1368,11 +1386,11 @@ const I18N = {
     'tournaments.title':'Tournaments','tournaments.lead':'Apply to join a tournament. After admin approval stages become available.',
     'tournament.join.btn':'Join tournament','tournament.join.btnAgain':'Rejected — apply again','tournament.join.pending':'⏳ Application under review','tournament.join.approved':'✓ You are in','tournament.join.rejected':'✕ Rejected',
     'tournament.seats':'Approved:','tournament.seats.full':'No seats left','tournament.open.stages':'Open stages',
-    'tournament.paid':'Paid (Pass)', 'tournament.free': 'Free',
+    'tournament.paid':'Paid (100 ₽)', 'tournament.free': 'Free',
     'reg.title':'Join application','reg.subtitle':'Fill the form. Admin will review your application.',
     'reg.nick':'Your Geometry Dash nickname','reg.nick.hint':'Nickname comes from your profile. Change it in the cabinet.','reg.tg':'Telegram','reg.dc':'Discord','reg.platform':'Platform','reg.motivation':'Why do you want to join?','reg.motivation.ph':'1–3 sentences','reg.motivation.hint':'Minimum 20 characters.','reg.submit':'Send application','reg.sending':'Sending…',
     'reg.err.tg':'Enter Telegram (@username, 5+ chars)','reg.err.motiv':'Tell us why (min 20 chars)','reg.success':'Application sent! Wait for admin decision.','reg.already':'Application already sent',
-    'reg.no_pass':'You have no passes for this paid tournament. Buy one in the shop.',
+    'reg.no_pass':'Insufficient funds. Top up your balance in the shop.',
     'apply.eyebrow':'Video submission','apply.title':'Application form','apply.lead':'Fill all fields carefully.',
     'apply.tournament':'Tournament','apply.stage':'Stage',
     'apply.gate.t':'Account required','apply.gate.p':'Log in or register to apply.','apply.gate.btn':'Log in / Register',
@@ -1389,7 +1407,7 @@ const I18N = {
     'success.cabinet':'To cabinet','success.tournaments':'To tournaments',
     'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">tournament rules</a>','aside.2':'Prepared a recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded the video to the cloud and made it public',
     'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
-    'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.level':'Level','lb.th.stages':'Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
+    'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.stages':'🔥 Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'🥇 Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
     'lb.th.time':'⏱ Total Time','lb.th.finish':'🏁 Finish',
     'chat.title':'Global Chat','chat.lead':'Chat with other community members in real time.','chat.placeholder':'Write a message...','chat.send':'Send','chat.empty':'No messages yet. Be the first!',
     'support.title':'Support','support.lead':'Contact the administration or file an appeal.','support.new':'Create ticket','support.empty':'No tickets','support.empty.lead':'If you have a question or a problem, create a ticket.','support.open':'Open',
@@ -1423,7 +1441,7 @@ const I18N = {
     'admin.words.title':'Add stop word','admin.words.hint':'Nicknames containing this word will be blocked on registration.','admin.words.addBtn':'Add','admin.words.word':'Word','admin.words.added':'Added',
     'admin.log.when':'When','admin.log.who':'Who','admin.log.what':'What',
     'admin.regs.empty':'No tournament applications','admin.regs.full':'Tournament limit reached',
-    'admin.settings.shop':'Shop & Sales','admin.settings.shopEnabled':'Allow selling passes in the shop','admin.settings.shopHint':'Disable to prevent users from buying a pass.','admin.settings.passes':'Manage user passes','admin.settings.search':'Search by nick or email...','admin.settings.setPrompt':'Enter pass count:','admin.settings.updated':'Passes updated','admin.settings.empty':'No users','admin.settings.toggle.on':'Sales enabled','admin.settings.toggle.off':'Sales disabled','admin.settings.onlyAdmin':'Available to super admin only','admin.settings.donate':'Donation','admin.settings.donateHint':'Link (e.g., Boosty) that will appear in the footer.','admin.settings.donateUrl':'Donation URL','admin.settings.donateSaved':'Link saved',
+    'admin.settings.shop':'Shop & Sales','admin.settings.shopEnabled':'Allow sales in the shop','admin.settings.shopHint':'Disable to prevent users from buying items.','admin.settings.passes':'Manage user balance','admin.settings.search':'Search by nick or email...','admin.settings.setPrompt':'Enter new value:','admin.settings.updated':'Data updated','admin.settings.empty':'No users','admin.settings.toggle.on':'Sales enabled','admin.settings.toggle.off':'Sales disabled','admin.settings.onlyAdmin':'Available to super admin only','admin.settings.donate':'Donation','admin.settings.donateHint':'DonationAlerts link to top up balance.','admin.settings.donateUrl':'Donation URL','admin.settings.donateSaved':'Link saved',
     'admin.tickets.empty':'No tickets',
     'tournament.num':'Tournament','stage.num':'Stage',
     'status.open':'Open','status.closed':'Closed','status.draft':'Draft',
@@ -1437,14 +1455,22 @@ const I18N = {
     'stage.modal.level.name':'Name','stage.modal.level.id':'ID','stage.modal.difficulty':'Difficulty','stage.modal.level.url':'Video link',
     'stage.modal.points':'Points','stage.modal.max':'Slot limit','stage.modal.deadline':'Deadline','stage.modal.rewardText':'Reward text',
     'comments.title':'Stage discussion','comments.submit':'Send','comments.empty':'No comments yet. Be the first!','comments.placeholder':'Write a comment...',
-    'shop.title':'Shop', 'shop.lead':'Buy passes to participate in paid tournaments.',
-    'shop.buy':'Buy', 'shop.your_passes':'Your passes:', 'shop.price':'Price', 'shop.rub':'RUB',
+    'shop.title':'Shop', 'shop.lead':'Buy exclusive fonts and name effects (for 7 days).',
+    'shop.buy':'Buy', 'shop.your_balance':'Balance:', 'shop.price':'Price', 'shop.rub':'₽',
     'shop.unavailable':'Payment is currently unavailable — payment system is being connected.',
     'shop.disabled':'Sales suspended',
-    'shop.disabled.banner':'Pass sales are temporarily suspended by the administrator.',
+    'shop.disabled.banner':'Sales are temporarily suspended by the administrator.',
     'toast.copied':'Link copied!',
     'act.register':'registered','act.apply':'submitted video','act.approve':'got approval','act.reject':'application rejected','act.cup':'got a cup','act.ban':'was banned','act.reg':'applied to tournament','act.reg_approve':'joined the tournament','act.reg_reject':'was rejected in tournament',
-    'loading':'Loading...'
+    'loading':'Loading...',
+    'inv.empty':'Inventory is empty. Buy something in the shop!',
+    'inv.active':'Active',
+    'inv.equip':'Equip',
+    'inv.equipped':'Equipped',
+    'inv.expires':'Expires:',
+    'buy.success':'Successfully purchased!',
+    'buy.nofunds':'Insufficient balance',
+    'buy.already':'Item is already active'
   }
 };
 
@@ -1463,7 +1489,7 @@ const editProfileModal = $('#edit-profile-modal');
 
 let toastTimer, current = null;
 let user = null, userProfile = null, myApplications = [], myRegs = [], profilePoints = { points: 0 };
-let tournaments = [], stages = [], allUsers = [], allCups = [], bannedWords = [], activityList = [], shopItems = [];
+let tournaments = [], stages = [], allUsers = [], allCups = [], bannedWords = [], activityList = [], shopItems = [], myInventory = [];
 let allRegs = [];
 let currentTournamentId = null;
 let editingId = null, currentStageId = null;
@@ -1512,19 +1538,14 @@ function formatNick(profile) {
   let classes = [];
   let style = '';
   
-  if (profile.nick_font === 'cyber') classes.push('font-cyber');
-  if (profile.nick_font === 'gothic') classes.push('font-gothic');
-  if (profile.nick_font === 'handwritten') classes.push('font-handwritten');
-  if (profile.nick_font === 'pixel') classes.push('font-pixel');
-  if (profile.nick_font === 'retro') classes.push('font-retro');
-  if (profile.nick_font === 'heavy') classes.push('font-heavy');
+  if (profile.nick_font) classes.push(profile.nick_font);
+  if (profile.nick_style) classes.push(profile.nick_style);
   
-  if (profile.nick_style === 'rainbow') classes.push('nick-rainbow');
-  else if (profile.nick_style === 'gold') classes.push('nick-gold');
-  else if (profile.nick_style === 'fire') classes.push('nick-fire');
-  else if (profile.nick_style === 'ice') classes.push('nick-ice');
-  else if (profile.nick_style === 'neon') classes.push('nick-neon');
-  else style = `color:${safeColor(profile.nick_color)}`;
+  if (profile.nick_font || profile.nick_style) {
+    // Если есть шрифт или эффект, они уже содержат нужные классы
+  } else {
+    style = `color:${safeColor(profile.nick_color)}`;
+  }
   
   let html = `<span class="${classes.join(' ')}" style="${style}">${escapeHtml(profile.nick)}</span>`;
   
@@ -1577,8 +1598,8 @@ window.updateHeaderUI = () => {
   }
 };
 
-window.updatePassesUI = n => {
-  $$('[data-user-passes]').forEach(el => el.textContent = (n == null ? '0' : n));
+window.updateBalanceUI = n => {
+  $$('[data-user-balance]').forEach(el => el.textContent = (n == null ? '0' : n));
   const hb = $('#header-balance');
   if (hb) {
     if (!user) hb.classList.add('hidden');
@@ -1769,7 +1790,8 @@ window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el 
 
 async function loadTournaments(){ if(!sb){ tournaments=[]; return; } try{ const {data,error}=await sb.from('tournaments').select('*').order('number',{ascending:true}); if(error) throw error; tournaments=data||[]; }catch(_){ tournaments=[]; } }
 async function loadStages(){ if(!sb){ stages=[]; return; } try{ const {data,error}=await sb.from('stages').select('*').order('number',{ascending:true}); if(error) throw error; stages=data||[]; }catch(_){ stages=[]; } }
-async function loadShopItems(){ if(!sb){ shopItems=[]; return; } try{ const {data,error}=await sb.from('shop_items').select('*').order('price',{ascending:true}); if(error) throw error; shopItems=data||[]; }catch(_){ shopItems=[]; } }
+async function loadShopItems(){ if(!sb){ shopItems=[]; return; } try{ const {data,error}=await sb.from('shop_items').select('*'); if(error) throw error; shopItems=data||[]; }catch(_){ shopItems=[]; } }
+async function loadMyInventory(){ if(!sb||!user) return []; try{ const {data,error}=await sb.from('inventory').select('*').eq('user_id',user.id).gte('expires_at', new Date().toISOString()); if(error) throw error; return data||[]; }catch(_){ return []; } }
 async function loadProfilePoints(){ if(!sb||!user){ profilePoints={points:0}; return; } try{ const {data,error}=await sb.from('profile_points').select('*').eq('id',user.id).maybeSingle(); if(error) throw error; profilePoints=data||{points:0}; }catch(_){ profilePoints={points:0}; } }
 async function loadMyCups(){ if(!sb||!user) return []; try{ const {data,error}=await sb.from('cups').select('*').eq('user_id',user.id).order('awarded_at',{ascending:false}); if(error) throw error; return data||[]; }catch(_){ return []; } }
 async function loadMyRegs(){ if(!sb || !user){ myRegs = []; return; } try{ const {data,error}=await sb.from('tournament_registrations').select('*').eq('user_id',user.id).order('created_at',{ascending:false}); if(error) throw error; myRegs = data||[]; }catch(_){ myRegs = []; } }
@@ -1858,13 +1880,32 @@ function renderShop() {
   grid.replaceChildren();
   const banner = $('#shop-disabled-banner');
   if (banner) { banner.classList.toggle('hidden', shopEnabled); if (!shopEnabled) banner.style.display = 'flex'; else banner.style.display = ''; }
+  
   if (!shopItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
+  
   shopItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'shop-card';
     const disabled = !shopEnabled;
-    card.innerHTML = `<div class="shop-icon"><svg class="i"><use href="#i-ticket"/></svg></div><div class="shop-title">${escapeHtml(item.name)}</div><div class="shop-desc">${escapeHtml(item.description || '')}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px"><div class="shop-price">${item.price} <span style="font-size:16px;color:var(--muted)">${t('shop.rub')}</span></div><button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button></div>`;
-    if (!disabled) { card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item)); }
+    
+    // Определяем класс для превью
+    let previewClass = item.css_class;
+    
+    card.innerHTML = `
+      <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
+        <span class="${previewClass}">Player123</span>
+      </div>
+      <div class="shop-title">${escapeHtml(item.name)}</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (7 дней)</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
+        <div class="shop-price">${item.price} ₽</div>
+        <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>
+      </div>
+    `;
+    
+    if (!disabled) {
+      card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
+    }
     grid.appendChild(card);
   });
 }
@@ -1872,7 +1913,50 @@ function renderShop() {
 async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
-  toast(t('shop.unavailable'), true);
+  
+  const balance = userProfile ? (userProfile.balance || 0) : 0;
+  if (balance < item.price) {
+    toast(t('buy.nofunds'), true);
+    return;
+  }
+  
+  try {
+    // Проверяем, есть ли уже этот предмет в инвентаре
+    const existing = myInventory.find(i => i.item_id === item.id);
+    
+    // Списываем баланс
+    const newBalance = balance - item.price;
+    
+    // Обновляем профиль
+    const { error: pErr } = await sb.from('profiles').update({ balance: newBalance }).eq('id', user.id);
+    if(pErr) throw pErr;
+    
+    userProfile.balance = newBalance;
+    window.updateBalanceUI(newBalance);
+    
+    // Добавляем в инвентарь (продлеваем или создаем)
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+    
+    if (existing) {
+      // Если уже есть, продлеваем от текущей даты истечения или от сейчас (что больше)
+      const currentExp = new Date(existing.expires_at);
+      const baseDate = currentExp > new Date() ? currentExp : new Date();
+      baseDate.setDate(baseDate.getDate() + 7);
+      await sb.from('inventory').update({ expires_at: baseDate.toISOString() }).eq('id', existing.id);
+    } else {
+      await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt.toISOString() }]);
+    }
+    
+    toast(t('buy.success'));
+    await loadMyInventory();
+    if(current === 'shop') renderShop();
+    if(current === 'profile') renderProfilePage();
+    
+  } catch (e) {
+    console.error(e);
+    toast('Error: ' + e.message, true);
+  }
 }
 
 function renderTournamentPage(){
@@ -2030,8 +2114,8 @@ function openRegModal(tid){
   const t_ = tournaments.find(x => x.id === tid);
   if(!t_) return;
   if (t_.is_paid) {
-    const passes = userProfile ? (userProfile.passes || 0) : 0;
-    if (passes < 1) { toast(t('reg.no_pass'), true); go('shop'); return; }
+    const balance = userProfile ? (userProfile.balance || 0) : 0;
+    if (balance < 100) { toast(t('reg.no_pass'), true); go('shop'); return; }
   }
   regModalTid = tid;
   $('#reg-modal-title').textContent = t('reg.title');
@@ -2065,8 +2149,8 @@ $('#reg-modal-submit').addEventListener('click', async () => {
   const existing = getMyReg(regModalTid);
   const isNewApplication = !existing || existing.status === 'rejected';
   if (t_.is_paid && isNewApplication) {
-    const passes = userProfile ? (userProfile.passes || 0) : 0;
-    if (passes < 1) { toast(t('reg.no_pass'), true); closeRegModal(); go('shop'); return; }
+    const balance = userProfile ? (userProfile.balance || 0) : 0;
+    if (balance < 100) { toast(t('reg.no_pass'), true); closeRegModal(); go('shop'); return; }
   }
   const btn = $('#reg-modal-submit'); btn.disabled = true;
   const span = btn.querySelector('span');
@@ -2091,10 +2175,10 @@ $('#reg-modal-submit').addEventListener('click', async () => {
       }
     }
     if (t_.is_paid && isNewApplication) {
-      const newPasses = Math.max(0, (userProfile.passes || 0) - 1);
-      await sb.rpc('consume_pass');
-      userProfile.passes = newPasses;
-      window.updatePassesUI(newPasses);
+      const newBalance = Math.max(0, (userProfile.balance || 0) - 100);
+      await sb.rpc('consume_balance', { amount: 100 });
+      userProfile.balance = newBalance;
+      window.updateBalanceUI(newBalance);
     }
     try{ await sb.from('activity_feed').insert([{ user_id:user.id, user_nick:payload.nick, action:'reg', details:{ tournament_id: regModalTid, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
     toast(t('reg.success'));
@@ -2218,6 +2302,7 @@ async function renderLeaderboard(){
     if(cur && (cur === 'all' || tournaments.some(t_ => t_.id === cur))) sel.value = cur;
   }
   const filterTid = sel && sel.value !== 'all' ? sel.value : null;
+  const isGlobal = !filterTid;
 
   try{
     let q = sb.from('applications').select('*');
@@ -2243,17 +2328,19 @@ async function renderLeaderboard(){
 
     const byUser = {};
     (profRes.data||[]).forEach(p => { 
-      byUser[p.id] = { id: p.id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; 
+      byUser[p.id] = { id: p.id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; 
     });
 
     (apps||[]).forEach(a => {
-      if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
+      if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
       
       if(a.status === 'approved') {
+        byUser[a.user_id].points += (a.reward_points || 1);
+        byUser[a.user_id].stages += 1;
         const openTime = a.opened_at || a.stage_created_at;
         if(openTime && a.created_at){
           const hours = Math.max(0, (new Date(a.created_at) - new Date(openTime)) / 3600000);
-          byUser[a.user_id].total_hours += hours; // Суммарное время
+          byUser[a.user_id].total_hours += hours;
           byUser[a.user_id].stage_count_with_time += 1;
         }
         if(a.approved_at && (!byUser[a.user_id].last_approved_at || new Date(a.approved_at) > new Date(byUser[a.user_id].last_approved_at))) {
@@ -2263,7 +2350,7 @@ async function renderLeaderboard(){
     });
 
     (regs||[]).forEach(r => {
-      if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
+      if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
     });
 
     const list = Object.values(byUser).map(u => {
@@ -2271,26 +2358,34 @@ async function renderLeaderboard(){
       const total_hours = u.stage_count_with_time > 0 ? u.total_hours : null;
       return { 
         id: u.id, nick: p.nick || '—', nick_color: p.nick_color, nick_font: p.nick_font, nick_style: p.nick_style, badge_text: p.badge_text, banned: p.banned, 
-        cups: cupsCount[u.id]||0, 
-        total_hours: total_hours, last_approved_at: u.last_approved_at
+        points: u.points, stages: u.stages, cups: cupsCount[u.id]||0, 
+        total_hours: total_hours, last_approved_at: u.last_approved_at 
       };
     }).sort((a,b) => {
-      // 1. Общее время
-      if(a.total_hours !== null && b.total_hours !== null && a.total_hours !== b.total_hours) return a.total_hours - b.total_hours;
-      if(a.total_hours !== null) return -1;
-      if(b.total_hours !== null) return 1;
-      
-      // 2. Время последней сдачи (от самых ранних к поздним)
-      if(a.last_approved_at && b.last_approved_at) return new Date(a.last_approved_at) - new Date(b.last_approved_at);
-      
-      // 3. Кто зарегался раньше
-      const pA = profileMap[a.id] || {};
-      const pB = profileMap[b.id] || {};
-      if(pA.created_at && pB.created_at) return new Date(pA.created_at) - new Date(pB.created_at);
+      if (isGlobal) {
+        if(b.points !== a.points) return b.points - a.points;
+        if(b.stages !== a.stages) return b.stages - a.stages;
+        if(a.total_hours !== null && b.total_hours !== null && a.total_hours !== b.total_hours) return a.total_hours - b.total_hours;
+        if(a.last_approved_at && b.last_approved_at) return new Date(a.last_approved_at) - new Date(b.last_approved_at);
+      } else {
+        if(a.total_hours !== null && b.total_hours === null) return -1;
+        if(a.total_hours === null && b.total_hours !== null) return 1;
+        if(a.total_hours !== null && b.total_hours !== null && a.total_hours !== b.total_hours) return a.total_hours - b.total_hours;
+        if(a.last_approved_at && b.last_approved_at) return new Date(a.last_approved_at) - new Date(b.last_approved_at);
+      }
       return 0;
     });
 
     window.setParticipantsCount(list.length);
+
+    const thead = $('#lb-thead');
+    if(thead) {
+      if (isGlobal) {
+        thead.innerHTML = '<tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.points">🏆 Очки</th><th data-i18n="lb.th.stages">🔥 Этапов</th><th data-i18n="lb.th.cups">🥇 Кубки</th></tr>';
+      } else {
+        thead.innerHTML = '<tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.time">⏱ Общее время</th><th data-i18n="lb.th.finish">🏁 Финиш</th></tr>';
+      }
+    }
 
     const p = $('#lb-podium'); 
     if(p) {
@@ -2298,14 +2393,23 @@ async function renderLeaderboard(){
       list.slice(0,3).forEach((u,i) => {
         const c = document.createElement('div');
         c.className = 'podium-card '+['first','second','third'][i];
-        const timeStr = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
-        c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+timeStr+'</div><div class="podium-level-label">'+(LANG==='ru'?'ОБЩЕЕ ВРЕМЯ':'TOTAL TIME')+'</div>';
+        
+        let mainVal, mainLabel;
+        if (isGlobal) {
+          mainVal = u.points;
+          mainLabel = (LANG==='ru'?'ОЧКОВ':'POINTS');
+        } else {
+          mainVal = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
+          mainLabel = (LANG==='ru'?'ВРЕМЯ':'TIME');
+        }
+
+        c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+mainVal+'</div><div class="podium-level-label">'+mainLabel+'</div>';
         c.addEventListener('click', () => go('profile=' + u.id));
         p.appendChild(c);
       });
       while(p.children.length < 3){
         const s = document.createElement('div'); s.className='podium-card';
-        s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">—</div><div class="podium-level-label">'+(LANG==='ru'?'ВРЕМЯ':'TIME')+'</div>';
+        s.innerHTML = '<div class="podium-rank" style="color:var(--muted)">—</div><div class="podium-nick" style="color:var(--muted)">'+(LANG==='ru'?'пусто':'empty')+'</div><div class="podium-level" style="color:var(--muted)">0</div><div class="podium-level-label">—</div>';
         p.appendChild(s);
       }
     }
@@ -2313,21 +2417,30 @@ async function renderLeaderboard(){
     const tb = $('#leaderboard-body'); 
     if(!tb) return;
     tb.replaceChildren();
-    if(!list.length){ tb.innerHTML = '<tr><td colspan="4" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
+    if(!list.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
     
     list.forEach((u,i) => {
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
-      const timeStr = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
-      const finishStr = u.last_approved_at ? new Date(u.last_approved_at).toLocaleString(LANG==='ru'?'ru-RU':'en-US', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '—';
+      
+      let rowHtml = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>';
+      rowHtml += '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>';
+
+      if (isGlobal) {
+        rowHtml += '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td>';
+        rowHtml += '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>';
+        rowHtml += '<td>'+(u.cups?'<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-trophy"/></svg>'+u.cups+'</span>':'<span style="color:var(--muted)">—</span>')+'</td>';
+      } else {
+        const timeStr = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
+        const finishStr = u.last_approved_at ? new Date(u.last_approved_at).toLocaleString(LANG==='ru'?'ru-RU':'en-US', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit' }) : '—';
+        rowHtml += '<td style="font-size:15px;font-weight:700;color:var(--blue-2)">⏱ '+timeStr+'</td>';
+        rowHtml += '<td style="font-size:13px;color:var(--muted)">🏁 '+finishStr+'</td>';
+      }
 
       const tr = document.createElement('tr'); 
       tr.style.cursor = 'pointer';
       tr.addEventListener('click', () => go('profile=' + u.id));
-      tr.innerHTML = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>'+
-        '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>'+
-        '<td style="font-size:15px;font-weight:700;color:var(--blue-2)">⏱ '+timeStr+'</td>'+
-        '<td style="font-size:13px;color:var(--muted)">🏁 '+finishStr+'</td>';
+      tr.innerHTML = rowHtml;
       tb.appendChild(tr);
     });
   }catch(err){ console.error('Leaderboard fatal error:', err); }
@@ -2572,12 +2685,12 @@ async function loadProfile(){
     const { data, error } = await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
     if(error) throw error;
     if(!data){
-      await sb.from('profiles').insert([{ id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0 }]);
-      userProfile = { id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, banned:false, nick_color:'#eaf1ff', passes: 0, nick_font: 'default', nick_style: 'solid', badge_text: null };
+      await sb.from('profiles').insert([{ id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, balance:0 }]);
+      userProfile = { id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, banned:false, nick_color:'#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null };
     } else userProfile = data;
   }catch(_){ userProfile = null; }
   applyBanState();
-  window.updatePassesUI(userProfile ? userProfile.passes : 0);
+  window.updateBalanceUI(userProfile ? userProfile.balance : 0);
 }
 async function loadMyApplications(){
   if(!sb || !user){ myApplications=[]; return; }
@@ -2597,20 +2710,21 @@ async function renderProfilePage() {
   const wrap = container.querySelector('.wrap');
   
   try {
-    const [pR,ptR,cR,aR] = await Promise.all([
+    const [pR,ptR,cR,aR, invR] = await Promise.all([
       sb.from('profiles').select('*').eq('id',currentProfileId).maybeSingle(),
       sb.from('profile_points').select('*').eq('id',currentProfileId).maybeSingle(),
       sb.from('cups').select('*').eq('user_id',currentProfileId).order('awarded_at',{ascending:false}),
-      sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false})
+      sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false}),
+      sb.from('inventory').select('*').eq('user_id',currentProfileId).gte('expires_at', new Date().toISOString())
     ]);
     
     const profile = pR.data;
     if(!profile) { toast('Профиль не найден', true); go('leaderboard'); return; }
     
     const pts = (ptR.data && ptR.data.points) || 0;
-    const cups = cR.data || [], apps = aR.data || [];
+    const cups = cR.data || [], apps = aR.data || [], inv = invR.data || [];
     const lvl = profile.level || 0;
-    const passes = profile.passes || 0;
+    const balance = profile.balance || 0;
     
     $('#prof-avatar').textContent = initials(profile.nick);
     $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
@@ -2621,8 +2735,60 @@ async function renderProfilePage() {
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
     $('#prof-cups-count').textContent = cups.length;
-    $('#prof-passes').textContent = passes;
+    $('#prof-balance').textContent = balance + ' ₽';
     
+    // Инвентарь
+    const invGrid = $('#prof-inventory'); invGrid.replaceChildren();
+    if(!inv.length) {
+      invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
+    } else {
+      const isMe = user && user.id === currentProfileId;
+      inv.forEach(item => {
+        const shopItem = shopItems.find(s => s.id === item.item_id);
+        if(!shopItem) return;
+        
+        const isEquipped = (shopItem.type === 'font' && profile.nick_font === shopItem.css_class) ||
+                           (shopItem.type === 'style' && profile.nick_style === shopItem.css_class);
+                           
+        const date = new Date(item.expires_at);
+        const now = new Date();
+        const daysLeft = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
+        
+        const card = document.createElement('div');
+        card.className = 'inv-card';
+        card.innerHTML = `
+          <div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>
+          <div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div>
+          <div class="inv-time">${t('inv.expires')} ${daysLeft} дн.</div>
+          ${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${shopItem.css_class}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}
+        `;
+        invGrid.appendChild(card);
+      });
+      
+      invGrid.querySelectorAll('.inv-equip').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          const itemId = btn.dataset.item;
+          const type = btn.dataset.type;
+          const cssClass = btn.dataset.class;
+          
+          const updatePayload = {};
+          if (type === 'font') updatePayload.nick_font = cssClass;
+          if (type === 'style') updatePayload.nick_style = cssClass;
+          
+          const { error } = await sb.from('profiles').update(updatePayload).eq('id', user.id);
+          if(error){ toast('Error', true); return; }
+          
+          if(type === 'font') userProfile.nick_font = cssClass;
+          if(type === 'style') userProfile.nick_style = cssClass;
+          
+          toast('Успешно надето!');
+          renderProfilePage();
+          await renderLeaderboard();
+          await renderChat();
+        });
+      });
+    }
+
     // Кубки
     const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
     if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
@@ -2666,9 +2832,8 @@ async function renderProfilePage() {
 
     if(canModerate()){
       if(isAdmin()){
-        add('i-coins', 'Очки', 'ghost', () => changeUserPoints(currentProfileId, pts));
+        add('i-coins', 'Баланс', 'ghost', () => changeUserBalance(currentProfileId, balance));
         add('i-fire', 'Уровень', 'ghost', () => changeUserLevel(currentProfileId, lvl));
-        add('i-ticket', 'Пропуска', 'ghost', () => changeUserPasses(currentProfileId, passes));
         add('i-star', 'Стиль и Плашка', 'gold', () => openStyleModal(currentProfileId, profile));
       }
       add('i-trophy', 'Вручить кубок', 'gold', () => openCupModal(currentProfileId, profile.nick));
@@ -2749,8 +2914,8 @@ adminStyleModal.addEventListener('click', e => { if(e.target === adminStyleModal
 function openStyleModal(userId, profile) {
   styleTargetUserId = userId;
   $('#asm-nick').innerHTML = formatNick(profile);
-  $('#asm-font').value = profile.nick_font || 'default';
-  $('#asm-style').value = profile.nick_style || 'solid';
+  $('#asm-font').value = profile.nick_font || '';
+  $('#asm-style').value = profile.nick_style || '';
   $('#asm-badge').value = profile.badge_text || '';
   adminStyleModal.classList.remove('hidden');
 }
@@ -2772,36 +2937,20 @@ $('#asm-save').addEventListener('click', async () => {
   } catch(e) { toast('Error: ' + e.message, true); } finally { btn.disabled = false; }
 });
 
-async function changeUserPoints(userId, current){
-  const v = prompt(LANG==='ru'?'Новое количество очков:':'New points:', current);
+async function changeUserBalance(userId, current){
+  const v = prompt(LANG==='ru'?'Новый баланс (в рублях):':'New balance (RUB):', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  const { error } = await sb.from('point_adjustments').upsert({ user_id:userId, points:num, updated_at:new Date().toISOString() });
+  const { error } = await sb.from('profiles').update({ balance:num }).eq('id',userId);
   if(error){ toast('Error: '+error.message, true); return; }
-  toast(LANG==='ru'?'Очки обновлены':'Points updated');
-  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
+  toast(LANG==='ru'?'Баланс обновлён':'Balance updated');
+  await loadAllUsers(); if(current === 'profile') renderProfilePage();
 }
 async function changeUserLevel(userId, current){
   const v = prompt(LANG==='ru'?'Новый уровень:':'New level:', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
   const { error } = await sb.from('profiles').update({ level:num }).eq('id',userId);
-  if(error){ toast('Error: '+error.message, true); return; }
-  toast(LANG==='ru'?'Обновлено':'Updated');
-  await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
-}
-async function changeUserPasses(userId, current){
-  const v = prompt(LANG==='ru'?'Новое количество пропусков:':'New passes:', current);
-  if(v === null) return;
-  const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  await adminSetPasses(userId, num);
-  if(current === 'profile') renderProfilePage();
-}
-async function changeUserNick(userId, current){
-  const v = prompt(LANG==='ru'?'Новый ник:':'New nickname:', current || '');
-  if(v === null) return;
-  if(!v.trim()){ toast('Empty', true); return; }
-  const { error } = await sb.from('profiles').update({ nick:v.trim(), gd_nick:v.trim() }).eq('id',userId);
   if(error){ toast('Error: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
   await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
@@ -2821,22 +2970,6 @@ async function unbanUser(userId){
   await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
 
-async function adminSetPasses(userId, val){
-  if(!sb) return;
-  if(!isAdmin()){ toast(t('admin.settings.onlyAdmin'), true); return; }
-  const num = Math.max(0, parseInt(val,10) || 0);
-  const { error } = await sb.rpc('admin_set_passes', { target: userId, amount: num });
-  if(error){ toast('Error: '+error.message, true); return; }
-  const u = allUsers.find(x => x.id === userId);
-  if(u) u.passes = num;
-  if(user && user.id === userId && userProfile){
-    userProfile.passes = num;
-    window.updatePassesUI(num);
-  }
-  toast(t('admin.settings.updated'));
-  if(current === 'admin' && adminTab === 'settings') renderAdminSettings();
-}
-
 function doLogout(){
   if(!sb) return;
   stopChatPolling();
@@ -2846,7 +2979,7 @@ function doLogout(){
     user = null; userProfile = null; myApplications = []; myRegs = []; isModeratorFlag = false; profilePoints = { points:0 };
     applyBanState();
     window.updateHeaderUI();
-    renderAdmin(); renderTournaments(); window.updatePassesUI(0);
+    renderAdmin(); renderTournaments(); window.updateBalanceUI(0);
     go('home');
   });
 }
@@ -2884,7 +3017,7 @@ async function renderAdminSettings(){
     const card = document.createElement('div');
     card.className = 'user-card';
     card.style.cursor = 'default';
-    const passes = u.passes || 0;
+    const balance = u.balance || 0;
     card.innerHTML = `
       <div class="user-avatar">${initials(u.nick)}</div>
       <div class="user-info">
@@ -2892,9 +3025,9 @@ async function renderAdminSettings(){
         <small>${escapeHtml(u.email||'—')}</small>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
-        <button type="button" class="btn btn-danger btn-sm" data-pass-action="minus" data-uid="${u.id}" title="-1">−1</button>
-        <span style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:20px;color:var(--gold);min-width:44px;text-align:center">${passes}</span>
-        <button type="button" class="btn btn-success btn-sm" data-pass-action="plus" data-uid="${u.id}" title="+1">+1</button>
+        <button type="button" class="btn btn-danger btn-sm" data-pass-action="minus" data-uid="${u.id}" title="-100">−100</button>
+        <span style="font-family:'Exo 2',sans-serif;font-weight:800;font-size:20px;color:var(--gold);min-width:44px;text-align:center">${balance}</span>
+        <button type="button" class="btn btn-success btn-sm" data-pass-action="plus" data-uid="${u.id}" title="+100">+100</button>
         <button type="button" class="btn btn-ghost btn-sm" data-pass-action="set" data-uid="${u.id}" title="set">✎</button>
       </div>
     `;
@@ -2908,9 +3041,9 @@ async function renderAdminSettings(){
     const uid = btn.dataset.uid;
     const u = allUsers.find(x => x.id === uid);
     if(!u) return;
-    let newVal = u.passes || 0;
-    if(action === 'plus') newVal++;
-    else if(action === 'minus') newVal = Math.max(0, newVal - 1);
+    let newVal = u.balance || 0;
+    if(action === 'plus') newVal += 100;
+    else if(action === 'minus') newVal = Math.max(0, newVal - 100);
     else if(action === 'set'){
       const v = prompt(t('admin.settings.setPrompt'), String(newVal));
       if(v === null) return;
@@ -2918,7 +3051,7 @@ async function renderAdminSettings(){
       if(isNaN(n) || n < 0){ toast('Invalid', true); return; }
       newVal = n;
     }
-    await adminSetPasses(uid, newVal);
+    await changeUserBalance(uid, newVal);
   };
 }
 
@@ -3249,7 +3382,7 @@ async function renderAdminUsers(){
   }
   list.forEach(u => {
     const card = document.createElement('div'); card.className='user-card';
-    card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b>'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.passes||0)+'</span></div>';
+    card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b>'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.balance||0)+'</span></div>';
     card.addEventListener('click', () => go('profile=' + u.id));
     wrap.appendChild(card);
   });
@@ -3637,6 +3770,7 @@ async function afterLogin(){
     await loadTournaments(); await loadStages(); await loadShopItems();
     await loadSettings();
     await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
+    myInventory = await loadMyInventory();
     if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
     
     renderAdmin();
@@ -3664,7 +3798,7 @@ function setupRealtime(){
       if(user && payload.new.id === user.id){
         userProfile = payload.new;
         applyBanState();
-        window.updatePassesUI(userProfile.passes || 0);
+        window.updateBalanceUI(userProfile.balance || 0);
         window.updateHeaderUI();
         if(userProfile.banned){ $$('.page').forEach(p => p.classList.remove('active')); return; }
       }
@@ -3747,7 +3881,7 @@ async function initAuth(){
       applyBanState();
       renderAdmin();
       if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} realtimeChannel = null; }
-      window.updatePassesUI(0);
+      window.updateBalanceUI(0);
       if(current === 'profile') go('home');
       if(current === 'cabinet') show('cabinet');
     }
