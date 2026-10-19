@@ -1,4 +1,24 @@
-window.GDCC_CONFIG = {
-  SUPABASE_URL:      'https://eckbekxqipwdbrvqzjlv.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVja2Jla3hxaXB3ZGJydnF6amx2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA2OTAyOTEsImV4cCI6MjEwNjI2NjI5MX0._85Yy-KUTpGMD-cAldTEc5qzwmV_lJ6DOvd06aSIJ5o'
-};
+// server.js (для Render.com / Railway)
+const { Client } = require('@donationalerts/api');
+const { createClient } = require('@supabase/supabase-js');
+
+const supabase = createClient('ТВОЙ_SUPABASE_URL', 'ТВОЙ_SERVICE_ROLE_KEY');
+const da = new Client('ТВОЙ_DA_APP_ID', 'ТВОЙ_DA_SECRET', 'ТВОЙ_DA_REDIRECT_URL');
+
+da.on('donation', async (data) => {
+  const email = data.message.trim(); // Юзер пишет почту в сообщении
+  const amount = data.amount; // Сумма в рублях
+  
+  console.log(`Донат от ${email} на ${amount} руб.`);
+  
+  // Ищем юзера по email и пополняем баланс
+  const { data: profile } = await supabase.from('profiles').select('id').eq('email', email).single();
+  if (profile) {
+    const { data: current } = await supabase.from('profiles').select('balance').eq('id', profile.id).single();
+    const newBalance = (current.balance || 0) + amount;
+    await supabase.from('profiles').update({ balance: newBalance }).eq('id', profile.id);
+    console.log(`Баланс ${email} пополнен до ${newBalance}`);
+  }
+});
+
+da.connect();
