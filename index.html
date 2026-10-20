@@ -4132,7 +4132,11 @@ async function afterLogin(){
   const logged = !!user;
   $('#cabinet-auth').classList.toggle('hidden', logged);
   if(!logged) return;
+  
   try {
+    // ДОБАВИТЬ ВОТ ЭТУ СТРОКУ:
+    await sb.rpc('claim_pending_donations'); 
+    
     await checkModerator();
     await loadProfile();
     if(user && user.id) await trackDevice(user.id);
