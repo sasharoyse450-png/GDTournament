@@ -391,7 +391,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .shop-price{font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--gold)}
 .balance-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:16px}
 
-/* ===== КАСТОМНЫЕ НИКИ И ШРИФТЫ ===== */
 .font-cyber { font-family: 'Orbitron', sans-serif !important; letter-spacing: 1px; font-weight: 700; }
 .font-gothic { font-family: 'Cinzel', serif !important; font-weight: 700; }
 .font-handwritten { font-family: 'Caveat', cursive !important; font-size: 1.3em; line-height: 1; }
@@ -413,7 +412,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .badge-dev { background: #fff; color: #000; border: 1px solid #000; }
 .badge-pro { background: #2fd48a; color: #fff; }
 
-/* ===== ПРОФИЛЬ (ОТДЕЛЬНАЯ СТРАНИЦА) ===== */
 .profile-banner { height: 160px; background: linear-gradient(135deg, rgba(31,139,255,.4), rgba(179,107,255,.2)), url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>'); border-radius: 16px 16px 0 0; position: relative; }
 .profile-header-card { border: 1px solid var(--line); border-radius: 16px; background: var(--card); margin-bottom: 22px; overflow: hidden; }
 .profile-main-info { padding: 0 24px 24px; position: relative; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: -40px; }
@@ -424,7 +422,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .profile-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: rgba(10,20,45,.5); border: 1px solid var(--line-soft); font-size: 14px; }
 .profile-stat-item b { font-family: 'Exo 2', sans-serif; font-size: 18px; color: var(--gold); }
 
-/* ===== ИНВЕНТАРЬ ===== */
 .inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
 .inv-card { background: rgba(10,20,45,.6); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; position: relative; }
 .inv-preview { height: 60px; display: grid; place-items: center; background: rgba(0,0,0,.2); border-radius: 8px; margin-bottom: 6px; font-size: 18px; }
@@ -749,6 +746,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
               <div class="field"><label for="login-password" data-i18n="auth.password">Пароль</label><input class="input" id="login-password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required></div>
               <div class="error" id="login-error"></div>
               <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.login.btn">Войти</button>
+              <p class="auth-note" style="margin-top: 10px;"><a href="#" id="forgot-password-btn" data-i18n="auth.forgot">Забыли пароль?</a></p>
               <p class="auth-note" data-i18n="auth.login.note">Нет аккаунта? Переключись на «Регистрация».</p>
             </form>
             <form id="register-form" class="hidden" novalidate>
@@ -768,7 +766,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </section>
 
-<!-- ОТДЕЛЬНАЯ СТРАНИЦА ПРОФИЛЯ -->
 <section class="page" id="page-profile">
   <div class="wrap" style="padding-top: 24px; padding-bottom: 64px;">
     <button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="go('leaderboard')"><svg class="i"><use href="#i-back"/></svg><span>Назад</span></button>
@@ -779,6 +776,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
           <div class="profile-avatar-lg" id="prof-avatar">?</div>
           <div>
             <div class="profile-nick" id="prof-nick">—</div>
+            <div id="prof-email" style="display:none; color:var(--muted); font-size:13px; margin-bottom:6px;"></div>
             <div style="color:var(--muted);font-size:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
               <span id="prof-joined">—</span>
               <span id="prof-badges"></span>
@@ -790,7 +788,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
     </div>
 
     <div class="profile-grid">
-      <!-- Левая колонка (Статистика) -->
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
         <div class="profile-stats-list" style="margin-bottom:22px;">
@@ -801,7 +798,6 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         </div>
       </div>
 
-      <!-- Правая колонка (Кубки и Заявки) -->
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
         <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
@@ -1302,6 +1298,25 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
   </div>
 </div>
 
+<div class="modal-back hidden" id="permissions-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div><h2>Права модератора</h2><p id="perm-email">—</p></div>
+      <button class="modal-close" id="perm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-regs"> <span>Заявки на турниры (Принятие/Отклонение)</span></label>
+      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-apps"> <span>Заявки на этапы (Проверка видео)</span></label>
+      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-tickets"> <span>Обращения в поддержку (Тикеты)</span></label>
+      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-cups"> <span>Вручение кубков</span></label>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-danger" id="perm-revoke">Снять админку</button>
+      <button type="button" class="btn btn-primary" id="perm-save">Сохранить права</button>
+    </div>
+  </div>
+</div>
+
 <div id="ban-overlay" class="hidden" style="position:fixed;inset:0;z-index:9999;background:radial-gradient(900px 520px at 50% 28%,rgba(255,93,115,.25),transparent 70%),rgba(5,10,23,.98);backdrop-filter:blur(12px);display:grid;place-items:center;padding:24px;text-align:center">
   <div style="max-width:520px;width:100%">
     <div style="width:96px;height:96px;margin:0 auto 26px;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,rgba(255,93,115,.2),rgba(255,93,115,.05));border:2px solid rgba(255,93,115,.5);box-shadow:0 0 60px rgba(255,93,115,.4)"><svg class="i" style="font-size:52px;color:var(--red);stroke-width:1.5"><use href="#i-ban"/></svg></div>
@@ -1390,7 +1405,7 @@ const I18N = {
     'cab.why.t':'Зачем аккаунт?','cab.why.1':'Подать заявку на участие в турнире','cab.why.2':'Получать кубки и очки','cab.why.3':'Отслеживать статус заявок',
     'auth.login':'Вход','auth.register':'Регистрация','auth.email':'Email','auth.emailOrNick':'Email или Ник','auth.password':'Пароль','auth.password2':'Повторите пароль',
     'auth.password.ph':'Минимум 6 символов','auth.gdNick':'Ваш ник в Geometry Dash','auth.gdNick.hint':'Этот ник будет отображаться везде в турнире.',
-    'auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись на «Регистрация».',
+    'auth.login.btn':'Войти','auth.login.note':'Нет аккаунта? Переключись на «Регистрация».','auth.forgot':'Забыли пароль?',
     'auth.register.btn':'Зарегистрироваться','auth.register.note':'Регистрируясь, вы соглашаетесь с <a href="#rules">правилами</a>.',
     'docs.title':'Необходимые документы','docs.lead':'Что нужно подготовить.',
     'docs.d1.t':'Античит (чит индикатор)','docs.d1.p':'Скриншот или видео с чит индикатором.',
@@ -1505,7 +1520,7 @@ const I18N = {
     'cab.why.t':'Why an account?','cab.why.1':'Apply for tournaments','cab.why.2':'Earn cups and points','cab.why.3':'Track application status',
     'auth.login':'Log in','auth.register':'Register','auth.email':'Email','auth.emailOrNick':'Email or Nickname','auth.password':'Password','auth.password2':'Repeat password',
     'auth.password.ph':'At least 6 characters','auth.gdNick':'Your Geometry Dash nickname','auth.gdNick.hint':'This nickname will be shown everywhere.',
-    'auth.login.btn':'Log in','auth.login.note':'No account? Switch to "Register".',
+    'auth.login.btn':'Log in','auth.login.note':'No account? Switch to "Register".','auth.forgot':'Forgot password?',
     'auth.register.btn':'Register','auth.register.note':'By registering you agree to the <a href="#rules">rules</a>.',
     'docs.title':'Required documents','docs.lead':'What to prepare.',
     'docs.d1.t':'Anti-cheat (cheat indicator)','docs.d1.p':'Screenshot or video with the cheat indicator on.',
@@ -1614,6 +1629,14 @@ function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[k
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
 function isAdmin(){ return user && user.email && user.email.trim().toLowerCase() === ADMIN_EMAIL.trim().toLowerCase(); }
 function canModerate(){ return isAdmin() || isModeratorFlag; }
+function hasPermission(perm) {
+  if (isAdmin()) return true;
+  if (!isModeratorFlag) return false;
+  if (!window.moderatorPermissions || window.moderatorPermissions.length === 0) {
+    return ['regs', 'apps', 'tickets', 'cups'].includes(perm); 
+  }
+  return window.moderatorPermissions.includes(perm);
+}
 
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function safeColor(c){
@@ -1767,7 +1790,7 @@ async function checkBannedDevice(){
 function showBanOverlay(reason){
   document.documentElement.setAttribute('data-banned','true');
   const ov = $('#ban-overlay'); if(!ov) return; ov.classList.remove('hidden');
-  ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal','#shop-item-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
+  ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal','#shop-item-modal','#permissions-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
 }
@@ -2018,36 +2041,21 @@ async function buyItem(item) {
   }
   
   try {
-    const existing = myInventory.find(i => i.item_id === item.id);
-    const newBalance = balance - item.price;
+    // Вызываем безопасную функцию на сервере
+    const { error } = await sb.rpc("buy_shop_item", { p_item_id: item.id });
+    if(error) throw error;
     
-    const { error: pErr } = await sb.from('profiles').update({ balance: newBalance }).eq('id', user.id);
-    if(pErr) throw pErr;
-    
-    userProfile.balance = newBalance;
-    window.updateBalanceUI(newBalance);
-    
-    const durationDays = item.duration_days || 7;
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + durationDays);
-    
-    if (existing) {
-      const currentExp = new Date(existing.expires_at);
-      const baseDate = currentExp > new Date() ? currentExp : new Date();
-      baseDate.setDate(baseDate.getDate() + durationDays);
-      await sb.from('inventory').update({ expires_at: baseDate.toISOString() }).eq('id', existing.id);
-    } else {
-      await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt.toISOString() }]);
-    }
+    // Обновляем локальные данные
+    userProfile.balance -= item.price;
+    window.updateBalanceUI(userProfile.balance);
     
     toast(t('buy.success'));
     await loadMyInventory();
     if(current === 'shop') renderShop();
     if(current === 'profile') renderProfilePage();
-    
   } catch (e) {
     console.error(e);
-    toast('Error: ' + e.message, true);
+    toast(e.message || 'Error', true);
   }
 }
 
@@ -2539,9 +2547,6 @@ async function renderLeaderboard(){
 }
 if($('#lb-tournament-select')) $('#lb-tournament-select').addEventListener('change', () => renderLeaderboard());
 
-/* ============================================================
-   CHAT SYSTEM
-   ============================================================ */
 function startChatPolling() { stopChatPolling(); chatPollInterval = setInterval(refreshChatLight, 5000); }
 function stopChatPolling() { if (chatPollInterval) { clearInterval(chatPollInterval); chatPollInterval = null; } }
 
@@ -2631,9 +2636,6 @@ document.addEventListener('visibilitychange', () => {
   else if (current === 'chat') startChatPolling();
 });
 
-/* ============================================================
-   TICKETS / SUPPORT / ACTIVITY
-   ============================================================ */
 async function loadActivity(){
   if(!sb){ activityList = []; return; }
   try{
@@ -2768,9 +2770,6 @@ async function openAdminTicketChat(tk){
   await loadTicketMessages(tk.id);
 }
 
-/* ============================================================
-   PROFILE / CABINET
-   ============================================================ */
 async function loadProfile(){
   if(!sb || !user){ userProfile=null; applyBanState(); return; }
   try{
@@ -2790,12 +2789,13 @@ async function loadMyApplications(){
 }
 async function checkModerator(){
   if(!user || isAdmin()){ isModeratorFlag=false; return; }
-  try{ const {data}=await sb.from('moderators').select('email').eq('email',user.email).maybeSingle(); isModeratorFlag=!!data; }catch(_){ isModeratorFlag=false; }
+  try{ 
+    const {data}=await sb.from('moderators').select('email, permissions').eq('email',user.email).maybeSingle(); 
+    isModeratorFlag = !!data; 
+    window.moderatorPermissions = data ? (data.permissions || []) : [];
+  }catch(_){ isModeratorFlag=false; }
 }
 
-/* ============================================================
-   PROFILE PAGE
-   ============================================================ */
 async function renderProfilePage() {
   if(!currentProfileId || !sb) { go('home'); return; }
   const container = $('#page-profile');
@@ -2822,6 +2822,15 @@ async function renderProfilePage() {
     $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
     
     $('#prof-nick').innerHTML = formatNick(profile);
+    
+    const isMe = user && user.id === currentProfileId;
+    if (isMe || canModerate()) {
+      $('#prof-email').style.display = 'block';
+      $('#prof-email').textContent = profile.email || 'Почта не указана';
+    } else {
+      $('#prof-email').style.display = 'none';
+    }
+    
     $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US');
     
     $('#prof-points').textContent = pts;
@@ -2833,7 +2842,6 @@ async function renderProfilePage() {
     if(!inv.length) {
       invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
     } else {
-      const isMe = user && user.id === currentProfileId;
       inv.forEach(item => {
         const shopItem = shopItems.find(s => s.id === item.item_id);
         if(!shopItem) return;
@@ -2905,7 +2913,6 @@ async function renderProfilePage() {
     }
     
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
-    const isMe = user && user.id === currentProfileId;
     
     const add = (icon, text, cls, fn) => {
       const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
@@ -2919,6 +2926,9 @@ async function renderProfilePage() {
     }
 
     if(canModerate()){
+      if(isAdmin() && !isMe){
+        add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
+      }
       if(isAdmin()){
         add('i-coins', 'Баланс', 'ghost', () => changeUserBalance(currentProfileId, balance));
         add('i-fire', 'Уровень', 'ghost', () => changeUserLevel(currentProfileId, lvl));
@@ -2943,7 +2953,6 @@ async function renderProfilePage() {
   }
 }
 
-/* РЕДАКТИРОВАНИЕ ПРОФИЛЯ */
 function openEditProfileModal(profile) {
   $('#edit-nick').value = profile.nick || '';
   const colorPicker = $('#edit-color-picker');
@@ -2992,7 +3001,6 @@ $('#edit-profile-save').addEventListener('click', async () => {
   }catch(err){ console.error(err); toast('Error', true); } finally { btn.disabled = false; }
 });
 
-/* АДМИНСКИЕ ФУНКЦИИ ПРОФИЛЯ */
 function closeStyleModal(){ adminStyleModal.classList.add('hidden'); styleTargetUserId = null; }
 $('#asm-close').addEventListener('click', closeStyleModal);
 $('#asm-cancel').addEventListener('click', closeStyleModal);
@@ -3056,6 +3064,56 @@ async function unbanUser(userId){
   toast(LANG==='ru'?'Разбанен':'Unbanned');
   await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
+
+let permTargetEmail = null;
+
+window.openPermissionsModal = async (userId, email) => {
+  if (!isAdmin()) return;
+  permTargetEmail = email;
+  $('#perm-email').textContent = email;
+  
+  const { data } = await sb.from('moderators').select('permissions').eq('email', email).maybeSingle();
+  const perms = data ? (data.permissions || []) : [];
+  
+  $('#perm-regs').checked = perms.includes('regs');
+  $('#perm-apps').checked = perms.includes('apps');
+  $('#perm-tickets').checked = perms.includes('tickets');
+  $('#perm-cups').checked = perms.includes('cups');
+  
+  $('#permissions-modal').classList.remove('hidden');
+};
+
+$('#perm-close').addEventListener('click', () => $('#permissions-modal').classList.add('hidden'));
+$('#permissions-modal').addEventListener('click', e => { if(e.target === $('#permissions-modal')) $('#permissions-modal').classList.add('hidden'); });
+
+$('#perm-save').addEventListener('click', async () => {
+  const perms = [];
+  if ($('#perm-regs').checked) perms.push('regs');
+  if ($('#perm-apps').checked) perms.push('apps');
+  if ($('#perm-tickets').checked) perms.push('tickets');
+  if ($('#perm-cups').checked) perms.push('cups');
+
+  const { error } = await sb.from('moderators').upsert({ 
+    email: permTargetEmail, 
+    permissions: perms 
+  }, { onConflict: 'email' });
+
+  if (error) { toast('Ошибка: ' + error.message, true); return; }
+  toast('Права обновлены!');
+  $('#permissions-modal').classList.add('hidden');
+  await checkModerator(); 
+  renderAdmin();
+});
+
+$('#perm-revoke').addEventListener('click', async () => {
+  if (!confirm('Снять все права с этого пользователя?')) return;
+  const { error } = await sb.from('moderators').delete().eq('email', permTargetEmail);
+  if (error) { toast('Ошибка: ' + error.message, true); return; }
+  toast('Пользователь больше не админ');
+  $('#permissions-modal').classList.add('hidden');
+  await checkModerator(); 
+  renderAdmin();
+});
 
 function doLogout(){
   if(!sb) return;
@@ -3187,8 +3245,25 @@ cupModal.addEventListener('click', e => { if(e.target === cupModal) closeCupModa
 $('#cm-save').addEventListener('click', async () => {
   const name = $('#cm-name').value.trim();
   if(!name){ toast(LANG==='ru'?'Укажи название':'Enter name', true); return; }
-  const { error } = await sb.from('cups').insert([{ user_id:cupTargetUserId, title:name, description:$('#cm-desc').value.trim()||null, tournament_id:$('#cm-tournament').value||null, awarded_by:user.email }]);
-  if(error){ toast('Error', true); return; }
+  
+  if (!cupTargetUserId) { toast('Ошибка: не выбран игрок', true); return; }
+
+  const tournVal = $('#cm-tournament').value;
+  const payload = {
+    user_id: cupTargetUserId,
+    title: name,
+    description: $('#cm-desc').value.trim() || null,
+    tournament_id: tournVal ? tournVal : null,
+    awarded_by: user.email
+  };
+
+  const { error } = await sb.from('cups').insert([payload]);
+  if(error){ 
+    console.error(error);
+    toast('Ошибка БД: ' + (error.message || 'Неизвестная ошибка'), true); 
+    return; 
+  }
+  
   try{ await sb.from('activity_feed').insert([{ user_id:cupTargetUserId, action:'cup', details:{ title:name } }]); }catch(_){}
   toast(LANG==='ru'?'🏆 Кубок вручён!':'🏆 Cup awarded!');
   closeCupModal(); await loadAllCups(); await renderLeaderboard();
@@ -3196,9 +3271,6 @@ $('#cm-save').addEventListener('click', async () => {
   if(current === 'admin') renderAdmin();
 });
 
-/* ============================================================
-   ADMIN SHOP MANAGEMENT
-   ============================================================ */
 async function renderAdminShop(){
   await loadShopItems();
   const wrap = $('#admin-shop-list'); if(!wrap) return;
@@ -3475,14 +3547,21 @@ $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
 function renderAdmin(){
   if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
   navAdmin.classList.remove('hidden');
+  
   $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
   $('#tab-users').classList.toggle('hidden', !isAdmin());
   $('#tab-settings').classList.toggle('hidden', !isAdmin());
-  $('#tab-tickets').classList.toggle('hidden', !isAdmin());
-  $('#tab-cups').classList.toggle('hidden', !isAdmin());
   $('#tab-shop').classList.toggle('hidden', !isAdmin());
   $('#tab-words').classList.toggle('hidden', !isAdmin());
-  if(!isAdmin() && ['tournaments','users','settings','tickets','cups','shop','words'].includes(adminTab)) adminTab = 'dashboard';
+  $('#tab-log').classList.toggle('hidden', !isAdmin());
+
+  $('#tab-regs').classList.toggle('hidden', !hasPermission('regs'));
+  $('#tab-apps').classList.toggle('hidden', !hasPermission('apps'));
+  $('#tab-tickets').classList.toggle('hidden', !hasPermission('tickets'));
+  $('#tab-cups').classList.toggle('hidden', !hasPermission('cups'));
+
+  if(!isAdmin() && !hasPermission(adminTab) && adminTab !== 'dashboard') adminTab = 'dashboard';
+
   if(adminTab === 'dashboard') renderDashboard();
   else if(adminTab === 'regs') renderAdminRegs();
   else if(adminTab === 'tournaments') renderAdminTournaments();
@@ -4186,6 +4265,28 @@ async function initAuth(){
     }
   });
 }
+
+document.getElementById('forgot-password-btn')?.addEventListener('click', async (e) => {
+  e.preventDefault();
+  if (!sb) return;
+  const email = prompt(LANG === 'ru' ? 'Введите вашу почту (email), указанную при регистрации:' : 'Enter your registered email:');
+  if (!email) return;
+  const btn = e.target;
+  const oldText = btn.textContent;
+  btn.textContent = LANG === 'ru' ? 'Отправка...' : 'Sending...';
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: window.location.origin + window.location.pathname
+    });
+    if (error) throw error;
+    toast(LANG === 'ru' ? '✅ Ссылка для сброса пароля отправлена на почту!' : '✅ Password reset link sent to email!', false);
+  } catch (err) {
+    console.error(err);
+    toast('Ошибка: ' + (err.message || err), true);
+  } finally {
+    btn.textContent = oldText;
+  }
+});
 
 const saved = storedLang();
 const guess = /^ru\b/i.test(navigator.language||'') ? 'ru' : 'en';
