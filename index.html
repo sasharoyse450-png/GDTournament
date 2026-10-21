@@ -845,7 +845,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
         <button type="button" data-admin-tab="dashboard" class="active" data-i18n="admin.tab.dashboard">Дашборд</button>
         <button type="button" data-admin-tab="regs" id="tab-regs" data-i18n="admin.tab.regs">Заявки на турниры</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
-        <button type="button" data-admin-tab="apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
+        <button type="button" data-admin-tab="apps" id="tab-apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
         <button type="button" data-admin-tab="users" id="tab-users" data-i18n="admin.tab.users">Юзеры</button>
         <button type="button" data-admin-tab="settings" id="tab-settings" data-i18n="admin.tab.settings">Настройки</button>
         <button type="button" data-admin-tab="tickets" id="tab-tickets" data-i18n="admin.tab.tickets">Обращения</button>
@@ -3571,31 +3571,46 @@ function renderAdmin(){
   if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
   navAdmin.classList.remove('hidden');
   
-  $('#tab-tournaments').classList.toggle('hidden', !isAdmin());
-  $('#tab-users').classList.toggle('hidden', !isAdmin());
-  $('#tab-settings').classList.toggle('hidden', !isAdmin());
-  $('#tab-shop').classList.toggle('hidden', !isAdmin());
-  $('#tab-words').classList.toggle('hidden', !isAdmin());
-  $('#tab-log').classList.toggle('hidden', !isAdmin());
+  const adminTabsConfig = {
+    'tournaments': isAdmin(),
+    'users': isAdmin(),
+    'settings': isAdmin(),
+    'shop': isAdmin(),
+    'words': isAdmin(),
+    'log': isAdmin(),
+    'regs': hasPermission('regs'),
+    'apps': hasPermission('apps'),
+    'tickets': hasPermission('tickets'),
+    'cups': hasPermission('cups'),
+    'dashboard': true
+  };
 
-  $('#tab-regs').classList.toggle('hidden', !hasPermission('regs'));
-  $('#tab-apps').classList.toggle('hidden', !hasPermission('apps'));
-  $('#tab-tickets').classList.toggle('hidden', !hasPermission('tickets'));
-  $('#tab-cups').classList.toggle('hidden', !hasPermission('cups'));
+  document.querySelectorAll('[data-admin-tab]').forEach(btn => {
+    const tabName = btn.dataset.adminTab;
+    if (adminTabsConfig[tabName] === false) {
+      btn.classList.add('hidden');
+    } else {
+      btn.classList.remove('hidden');
+    }
+  });
 
   if(!isAdmin() && !hasPermission(adminTab) && adminTab !== 'dashboard') adminTab = 'dashboard';
 
-  if(adminTab === 'dashboard') renderDashboard();
-  else if(adminTab === 'regs') renderAdminRegs();
-  else if(adminTab === 'tournaments') renderAdminTournaments();
-  else if(adminTab === 'apps') renderAdminApps();
-  else if(adminTab === 'users') renderAdminUsers();
-  else if(adminTab === 'settings') renderAdminSettings();
-  else if(adminTab === 'tickets') renderAdminTickets();
-  else if(adminTab === 'cups') renderAdminCups();
-  else if(adminTab === 'shop') renderAdminShop();
-  else if(adminTab === 'words') renderAdminWords();
-  else if(adminTab === 'log') renderAdminLog();
+  try {
+    if(adminTab === 'dashboard') renderDashboard();
+    else if(adminTab === 'regs') renderAdminRegs();
+    else if(adminTab === 'tournaments') renderAdminTournaments();
+    else if(adminTab === 'apps') renderAdminApps();
+    else if(adminTab === 'users') renderAdminUsers();
+    else if(adminTab === 'settings') renderAdminSettings();
+    else if(adminTab === 'tickets') renderAdminTickets();
+    else if(adminTab === 'cups') renderAdminCups();
+    else if(adminTab === 'shop') renderAdminShop();
+    else if(adminTab === 'words') renderAdminWords();
+    else if(adminTab === 'log') renderAdminLog();
+  } catch(e) {
+    console.error("Ошибка при отрисовке вкладки", adminTab, e);
+  }
 }
 
 async function renderDashboard(){
