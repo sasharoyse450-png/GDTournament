@@ -554,6 +554,26 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 </style>
+<style id="champ-gate-styles">
+/* Championship countdown gate */
+#champ-gate-launcher{display:none;position:fixed;left:18px;bottom:18px;z-index:9000;box-shadow:0 8px 28px #0008}
+#champ-countdown-gate{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(5,7,13,.96);backdrop-filter:blur(18px);color:#f4f5f8;font-family:Inter,system-ui,sans-serif}
+#champ-countdown-gate.is-visible{display:flex}
+#champ-countdown-gate .gate-panel{width:min(680px,100%);padding:clamp(24px,5vw,54px);text-align:center;border:1px solid #303443;border-radius:24px;background:linear-gradient(145deg,#141720,#0b0d13);box-shadow:0 30px 100px #0009}
+#champ-countdown-gate .gate-kicker{font-size:12px;font-weight:750;letter-spacing:.17em;text-transform:uppercase;color:#a5a9ff}
+#champ-countdown-gate h2{margin:14px 0 10px;font-size:clamp(28px,5vw,46px);line-height:1.08;letter-spacing:-.045em}
+#champ-countdown-gate .gate-description{max-width:470px;margin:0 auto;color:#a4a8b5;line-height:1.65}
+#champ-countdown-gate .gate-units{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:30px 0 26px}
+#champ-countdown-gate .gate-unit{padding:17px 8px;border:1px solid #292d3a;border-radius:14px;background:#10121a}
+#champ-countdown-gate .gate-number{font-size:clamp(28px,6vw,44px);font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.04em}
+#champ-countdown-gate .gate-unit-label{margin-top:8px;font-size:12px;color:#9ca1b1}
+#champ-countdown-gate .gate-date{color:#d6d8e2;font-size:14px}
+#champ-countdown-gate .gate-admin{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:28px}
+#champ-countdown-gate .gate-admin button{max-width:100%}
+#champ-countdown-gate .gate-note{max-width:460px;font-size:12px;line-height:1.5;color:#818797}
+#champ-gate-status{font-size:12px;color:#a5a9ff;min-height:18px}
+@media(max-width:480px){#champ-countdown-gate{padding:12px}#champ-countdown-gate .gate-panel{padding:25px 15px;border-radius:18px}#champ-countdown-gate .gate-units{gap:6px;margin:24px 0 20px}#champ-countdown-gate .gate-unit{padding:13px 4px}#champ-countdown-gate .gate-unit-label{font-size:10px}}
+</style>
 </head>
 <body>
 
@@ -1453,6 +1473,28 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
     </div>
   </div>
 </div>
+
+
+<div id="champ-countdown-gate" role="dialog" aria-modal="true" aria-labelledby="champ-gate-title" aria-describedby="champ-gate-desc">
+  <div class="gate-panel">
+    <div class="gate-kicker">International Geometry Dash Championship</div>
+    <h2 id="champ-gate-title">Скоро начнём</h2>
+    <p class="gate-description" id="champ-gate-desc">Сайт временно закрыт до окончания обратного отсчёта. Возвращайся к старту чемпионата.</p>
+    <div class="gate-units" aria-live="off">
+      <div class="gate-unit"><div class="gate-number" id="gate-days">0</div><div class="gate-unit-label">дней</div></div>
+      <div class="gate-unit"><div class="gate-number" id="gate-hours">00</div><div class="gate-unit-label">часов</div></div>
+      <div class="gate-unit"><div class="gate-number" id="gate-minutes">00</div><div class="gate-unit-label">минут</div></div>
+      <div class="gate-unit"><div class="gate-number" id="gate-seconds">00</div><div class="gate-unit-label">секунд</div></div>
+    </div>
+    <div class="gate-date">Окончание: 25.10.2026 в 21:00 (UTC+03:00)</div>
+    <div class="gate-admin">
+      <button type="button" class="btn btn-primary" id="gate-admin-bypass">Войти без таймера (админ)</button>
+      <div id="champ-gate-status" role="status"></div>
+      <div class="gate-note">Доступ без таймера доступен только после входа под аккаунтом администратора.</div>
+    </div>
+  </div>
+</div>
+<button type="button" class="btn btn-primary" id="champ-gate-launcher">Запустить таймер</button>
 
 <div class="toast" id="toast"></div>
 
@@ -4486,5 +4528,112 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
   });
 })();
 </script>
+
+<script>
+/* Countdown gate. Shared state is stored in Supabase; see the accompanying SQL setup file. */
+(() => {
+  'use strict';
+  const END_AT = new Date('2026-10-25T21:00:00+03:00').getTime();
+  const gate = document.getElementById('champ-countdown-gate');
+  const launcher = document.getElementById('champ-gate-launcher');
+  const bypass = document.getElementById('gate-admin-bypass');
+  const status = document.getElementById('champ-gate-status');
+  const fields = {
+    days: document.getElementById('gate-days'),
+    hours: document.getElementById('gate-hours'),
+    minutes: document.getElementById('gate-minutes'),
+    seconds: document.getElementById('gate-seconds')
+  };
+  let gateActive = false;
+  let loaded = false;
+  let bypassForSession = false;
+  let tickHandle = null;
+  let pollHandle = null;
+  const pad = n => String(n).padStart(2, '0');
+  const adminNow = () => typeof isAdmin === 'function' && isAdmin();
+
+  function renderCountdown() {
+    const left = Math.max(0, END_AT - Date.now());
+    const total = Math.floor(left / 1000);
+    fields.days.textContent = String(Math.floor(total / 86400));
+    fields.hours.textContent = pad(Math.floor((total % 86400) / 3600));
+    fields.minutes.textContent = pad(Math.floor((total % 3600) / 60));
+    fields.seconds.textContent = pad(total % 60);
+    if (left <= 0) {
+      gate.classList.remove('is-visible');
+      document.body.style.overflow = '';
+    }
+  }
+  function updateUI() {
+    const shouldShow = gateActive && Date.now() < END_AT && !bypassForSession;
+    gate.classList.toggle('is-visible', shouldShow);
+    document.body.style.overflow = shouldShow ? 'hidden' : '';
+    launcher.style.display = adminNow() && !gateActive ? 'inline-flex' : 'none';
+    bypass.style.display = 'inline-flex';
+    if (!adminNow()) status.textContent = '';
+  }
+  async function readGateState() {
+    if (!sb) { loaded = true; status.textContent = 'Не удалось подключиться к серверу.'; updateUI(); return; }
+    try {
+      const { data, error } = await sb.from('site_gate_settings').select('active, started_at').eq('id', 1).maybeSingle();
+      if (error) throw error;
+      gateActive = !!(data && data.active);
+      loaded = true;
+      updateUI();
+    } catch (e) {
+      loaded = true;
+      // Fail open if the optional table is not configured; don't lock the site accidentally.
+      gateActive = false;
+      updateUI();
+      if (adminNow()) status.textContent = 'Настрой таблицу таймера в Supabase (SQL-файл).'
+      console.warn('[Countdown gate] State unavailable:', e && e.message ? e.message : e);
+    }
+  }
+  async function startGate() {
+    if (!adminNow()) { status.textContent = 'Сначала войди в аккаунт администратора.'; return; }
+    if (!sb) { status.textContent = 'Supabase не подключён.'; return; }
+    launcher.disabled = true;
+    try {
+      const { error } = await sb.from('site_gate_settings').upsert({ id: 1, active: true, started_at: new Date().toISOString() }, { onConflict: 'id' });
+      if (error) throw error;
+      gateActive = true;
+      bypassForSession = false;
+      status.textContent = '';
+      updateUI();
+      await readGateState();
+    } catch (e) {
+      status.textContent = 'Не удалось запустить: проверь SQL и права доступа Supabase.';
+      if (typeof toast === 'function') toast('Не удалось запустить таймер. Проверь SQL и права Supabase.', true);
+      console.error('[Countdown gate] Start failed:', e);
+    } finally {
+      launcher.disabled = false;
+    }
+  }
+  bypass.addEventListener('click', () => {
+    if (adminNow()) {
+      bypassForSession = true;
+      status.textContent = '';
+      updateUI();
+      return;
+    }
+    status.textContent = 'Войди под аккаунтом администратора через кнопку «Войти».';
+    if (typeof go === 'function') go('cabinet');
+    else document.getElementById('login-btn')?.click();
+  });
+  launcher.addEventListener('click', startGate);
+
+  // Keep the gate in sync after login/logout and across visitors.
+  if (sb && sb.auth && sb.auth.onAuthStateChange) {
+    sb.auth.onAuthStateChange(() => { bypassForSession = false; updateUI(); readGateState(); });
+  }
+  renderCountdown();
+  tickHandle = window.setInterval(renderCountdown, 1000);
+  readGateState();
+  pollHandle = window.setInterval(readGateState, 5000);
+  window.addEventListener('storage', e => { if (e.key === 'gdcc-gate-refresh') readGateState(); });
+  window.addEventListener('beforeunload', () => { if (tickHandle) clearInterval(tickHandle); if (pollHandle) clearInterval(pollHandle); });
+})();
+</script>
+
 </body>
 </html>
