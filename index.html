@@ -1825,11 +1825,13 @@ function formatNick(profile) {
   let classes = [];
   let style = '';
   
-  if (profile.nick_font) classes.push(profile.nick_font);
-  if (profile.nick_style) classes.push(profile.nick_style);
+  // These fields can be changed through the public profile API; keep them to safe CSS tokens.
+  const safeClassTokens = value => String(value || '').split(/\s+/).filter(token => /^[a-zA-Z0-9_-]+$/.test(token));
+  if (profile.nick_font) classes.push(...safeClassTokens(profile.nick_font));
+  if (profile.nick_style) classes.push(...safeClassTokens(profile.nick_style));
   
-  if (profile.nick_font || profile.nick_style) {
-    // Если есть шрифт или эффект, они уже содержат нужные классы
+  if (classes.length) {
+    // Safe class tokens were selected above.
   } else {
     style = `color:${safeColor(profile.nick_color)}`;
   }
@@ -2151,7 +2153,7 @@ function renderTournaments(){
     }
     let joinBlock = '';
     if(user && reg){
-      const cls = reg.status;
+      const cls = ['pending', 'approved', 'rejected'].includes(reg.status) ? reg.status : 'pending';
       const statusLabel = reg.status === 'approved' ? t('tournament.join.approved') : reg.status === 'rejected' ? t('tournament.join.rejected') : t('tournament.join.pending');
       joinBlock = '<div class="t-join '+cls+'"><span style="font-weight:700">'+statusLabel+'</span>';
       if(reg.status === 'approved'){ joinBlock += '<button type="button" class="btn btn-primary btn-sm" data-open-tid="'+t_.id+'"><svg class="i"><use href="#i-cup"/></svg><span>'+t('tournament.open.stages')+'</span></button>'; }
@@ -2163,7 +2165,7 @@ function renderTournaments(){
     }
     let seats = '';
     if(canModerate()){ seats = '<div class="t-join-seats'+(regsLimitReached?' full':'')+'">👥 '+t('tournament.seats')+' <b>'+regsCount+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b>'+(regsLimitReached?' · '+t('tournament.seats.full'):'')+'</div>'; }
-    card.innerHTML = '<div class="t-head"><div class="t-number">'+t('tournament.num')+' #'+t_.number+'</div><span class="t-status '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>'+
+    card.innerHTML = '<div class="t-head"><div class="t-number">'+t('tournament.num')+' #'+t_.number+'</div><span class="t-status '+escapeHtml(t_.status || '')+'">'+escapeHtml(stageStatusLabel(t_.status))+'</span></div>'+
       '<div class="t-title">'+escapeHtml(t_.title||(t('tournament.num')+' '+t_.number))+'</div>'+
       (t_.description ? '<div class="t-desc">'+escapeHtml(t_.description)+'</div>' : '')+
       '<div class="t-stages-count">📋 '+tStages.length+' '+(LANG==='ru'?'этапов':'stages')+' · 🏆 '+tp+' '+t('stage.points')+'</div>'+ph+seats+joinBlock;
@@ -2192,7 +2194,7 @@ function renderShop() {
     
     card.innerHTML = `
       <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
-        <span class="${item.css_class}">Player123</span>
+        <span class="${escapeHtml(item.css_class || '')}">Player123</span>
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
       <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (${days} ${t('shop.days_suffix')})</div>
@@ -2261,9 +2263,9 @@ function renderTournamentPage(){
       rw.innerHTML = '<button type="button" class="btn btn-primary" id="t-page-join-btn"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+priceStr+'</span></button>';
       $('#t-page-join-btn').addEventListener('click', () => openRegModal(t_.id));
     } else if(reg && reg.status !== 'approved'){
-      const cls = reg.status;
+      const cls = ['pending', 'approved', 'rejected'].includes(reg.status) ? reg.status : 'pending';
       const statusLabel = reg.status === 'rejected' ? t('tournament.join.rejected') : t('tournament.join.pending');
-      rw.innerHTML = '<div class="t-join '+cls+'" style="display:inline-flex">'+statusLabel+(reg.status==='rejected'?'<button type="button" class="btn btn-primary btn-sm" style="margin-left:12px" id="t-page-rejoin-btn"><svg class="i"><use href="#i-refresh"/></svg><span>'+t('tournament.join.btnAgain')+'</span></button>':'')+'</div>';
+      rw.innerHTML = '<div class="t-join '+escapeHtml(cls)+'" style="display:inline-flex">'+statusLabel+(reg.status==='rejected'?'<button type="button" class="btn btn-primary btn-sm" style="margin-left:12px" id="t-page-rejoin-btn"><svg class="i"><use href="#i-refresh"/></svg><span>'+t('tournament.join.btnAgain')+'</span></button>':'')+'</div>';
       const rb = $('#t-page-rejoin-btn'); if(rb) rb.addEventListener('click', () => openRegModal(t_.id));
     } else { rw.innerHTML = ''; }
   }
@@ -2301,7 +2303,7 @@ function renderTournamentPage(){
     else if(status === 'approved') html += '<span class="stage-status approved">'+t('status.approvedStage')+'</span>';
     else if(status === 'rejected') html += '<span class="stage-status rejected">'+t('status.rejectedStage')+'</span>';
     else if(locked) html += '<span class="stage-status locked">'+t('status.locked')+'</span>';
-    else html += '<span class="stage-status '+s.status+'">'+stageStatusLabel(s.status)+'</span>';
+    else html += '<span class="stage-status '+escapeHtml(s.status || '')+'">'+escapeHtml(stageStatusLabel(s.status))+'</span>';
     html += '</div>';
     html += '<div class="stage-title">'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</div>';
     if(s.description) html += '<div class="stage-desc">'+escapeHtml(s.description)+'</div>';
@@ -2315,7 +2317,7 @@ function renderTournamentPage(){
     }
     if(s.deadline){
       if(expired) html += '<div class="stage-timer urgent">⏰ '+t('stage.deadline.expired')+'</div>';
-      else html += '<div class="stage-timer" data-deadline="'+s.deadline+'">⏰ '+t('stage.deadline')+' <b data-timer>'+dl+'</b></div>';
+      else html += '<div class="stage-timer" data-deadline="'+escapeHtml(String(s.deadline))+'">⏰ '+t('stage.deadline')+' <b data-timer>'+dl+'</b></div>';
     }
     if(s.max_participants && canModerate()){ html += '<div class="stage-slots'+(isFull?' full':'')+'">👥 '+t('stage.slots')+' <b>'+slotCount+' / '+s.max_participants+'</b>'+(isFull?' · '+t('stage.slots.full'):'')+'</div>'; }
     html += '<div style="padding:8px 12px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);font-size:12.5px;color:var(--gold);display:flex;align-items:center;gap:8px"><svg class="i" style="font-size:16px"><use href="#i-coins"/></svg><b style="font-family:\'Exo 2\',sans-serif;font-size:15px">'+(s.reward_points||1)+'</b><span>'+t('stage.points')+'</span></div>';
@@ -2323,9 +2325,12 @@ function renderTournamentPage(){
     card.innerHTML = html;
     const btnRow = document.createElement('div'); btnRow.style.cssText='display:flex;gap:8px;flex-wrap:wrap;align-items:center';
     if(s.level_url){
-      const a = document.createElement('a'); a.className='btn btn-ghost btn-sm'; a.href=s.level_url; a.target='_blank'; a.rel='noopener';
+      const safeLevelUrl = normalizeUrl(s.level_url);
+      if (safeLevelUrl) {
+      const a = document.createElement('a'); a.className='btn btn-ghost btn-sm'; a.href=safeLevelUrl; a.target='_blank'; a.rel='noopener noreferrer';
       a.innerHTML = '<svg class="i"><use href="#i-play"/></svg><span>'+(LANG==='ru'?'Уровень':'Level')+'</span>';
       btnRow.appendChild(a);
+      }
     }
     const commentsBtn = document.createElement('button'); commentsBtn.className='btn btn-ghost btn-sm';
     commentsBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>'+t('comments.title')+'</span>';
@@ -2775,7 +2780,7 @@ async function renderChat(msgsData) {
       el.className = 'chat-msg' + (isMe ? ' me' : '');
       let deleteBtn = canDelete ? `<button class="chat-msg-del" data-del-id="${m.id}" title="Удалить"><svg class="i" style="font-size:14px"><use href="#i-trash"/></svg></button>` : '';
       el.innerHTML = `
-        <div class="user-avatar" style="background:${isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#b36bff,#7a3cff)'}">${initials(p.nick)}</div>
+        <div class="user-avatar" style="background:${isMe ? 'linear-gradient(135deg,#2a98ff,#1169e8)' : 'linear-gradient(135deg,#b36bff,#7a3cff)'}">${escapeHtml(initials(p.nick))}</div>
         <div class="chat-msg-body">
           ${deleteBtn}
           <div class="chat-msg-head"><span class="chat-msg-nick" data-uid="${m.user_id}">${formatNick(p)}</span><span class="chat-msg-date">${timeAgo(m.created_at)}</span></div>
@@ -2865,7 +2870,7 @@ function renderSupport(){
   const mapStatus = s => s === 'open' ? 'pending' : s === 'closed' ? 'closed' : 'pending';
   ticketsList.forEach(tk => {
     const item = document.createElement('div'); item.className = 'app-item';
-    item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">🎫 '+escapeHtml(tk.subject||'—')+'</span><span class="status-badge '+mapStatus(tk.status)+'">'+(tk.status||'open')+'</span><span class="app-item-date">'+timeAgo(tk.created_at)+'</span></div><div style="color:var(--muted);font-size:13px">'+escapeHtml(tk.type||'other')+(tk.related?' · #'+escapeHtml(String(tk.related).slice(0,12)):'')+'</div></div>';
+    item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">🎫 '+escapeHtml(tk.subject||'—')+'</span><span class="status-badge '+mapStatus(tk.status)+'">'+escapeHtml(tk.status || 'open')+'</span><span class="app-item-date">'+timeAgo(tk.created_at)+'</span></div><div style="color:var(--muted);font-size:13px">'+escapeHtml(tk.type||'other')+(tk.related?' · #'+escapeHtml(String(tk.related).slice(0,12)):'')+'</div></div>';
     const actions = document.createElement('div'); actions.className = 'app-item-actions';
     const openBtn = document.createElement('button'); openBtn.type = 'button'; openBtn.className = 'btn btn-primary btn-sm';
     openBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>'+t('support.open')+'</span>';
@@ -2927,7 +2932,7 @@ async function renderAdminTickets(){
   allTickets.forEach(tk => {
     const tr = document.createElement('tr');
     const prof = tk.profile || {};
-    tr.innerHTML = '<td style="font-family:\'JetBrains Mono\',monospace;font-size:11px">'+escapeHtml(String(tk.id||'').slice(0,8))+'</td><td style="font-weight:600">'+escapeHtml(prof.nick||'—')+'</td><td>'+escapeHtml(tk.subject||'—')+'</td><td style="font-size:12px">'+escapeHtml(tk.type||'other')+'</td><td><span class="status-badge '+mapStatus(tk.status)+'">'+(tk.status||'open')+'</span></td><td style="font-size:12px;color:var(--muted)">'+timeAgo(tk.created_at)+'</td>';
+    tr.innerHTML = '<td style="font-family:\'JetBrains Mono\',monospace;font-size:11px">'+escapeHtml(String(tk.id||'').slice(0,8))+'</td><td style="font-weight:600">'+escapeHtml(prof.nick||'—')+'</td><td>'+escapeHtml(tk.subject||'—')+'</td><td style="font-size:12px">'+escapeHtml(tk.type||'other')+'</td><td><span class="status-badge '+mapStatus(tk.status)+'">'+escapeHtml(tk.status || 'open')+'</span></td><td style="font-size:12px;color:var(--muted)">'+timeAgo(tk.created_at)+'</td>';
     const td = document.createElement('td');
     const openBtn = document.createElement('button'); openBtn.className = 'btn btn-primary btn-sm'; openBtn.textContent = t('support.open');
     openBtn.addEventListener('click', () => openAdminTicketChat(tk)); td.appendChild(openBtn);
@@ -3036,10 +3041,10 @@ async function renderProfilePage() {
         const card = document.createElement('div');
         card.className = 'inv-card';
         card.innerHTML = `
-          <div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>
+          <div class="inv-preview"><span class="${escapeHtml(shopItem.css_class || '')}">${escapeHtml(profile.nick)}</span></div>
           <div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div>
           <div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>
-          ${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${shopItem.css_class}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}
+          ${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class || '')}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}
         `;
         invGrid.appendChild(card);
       });
@@ -3087,7 +3092,7 @@ async function renderProfilePage() {
         const tr = tournaments.find(x => x.id === a.tournament_id);
         const label = (tr?'#'+tr.number+' · ':'')+(s?(s.title||(t('stage.num')+' '+s.number)):'—');
         const item = document.createElement('div'); item.className='app-item';
-        item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">'+escapeHtml(label)+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span><span class="app-item-date">'+timeAgo(a.created_at)+'</span></div></div>';
+        item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">'+escapeHtml(label)+'</span><span class="status-badge '+escapeHtml(a.status || 'pending')+'">'+escapeHtml(t('status.'+a.status))+'</span><span class="app-item-date">'+timeAgo(a.created_at)+'</span></div></div>';
         appsList.appendChild(item);
       });
     }
@@ -3344,7 +3349,7 @@ async function renderAdminSettings(){
     card.style.cursor = 'default';
     const balance = u.balance || 0;
     card.innerHTML = `
-      <div class="user-avatar">${initials(u.nick)}</div>
+      <div class="user-avatar">${escapeHtml(initials(u.nick))}</div>
       <div class="user-info">
         <b>${formatNick(u)}</b>
         <small>${escapeHtml(u.email||'—')}</small>
@@ -3490,7 +3495,7 @@ async function renderAdminShop(){
           <span>🎨 <code style="background:rgba(31,139,255,.12);color:var(--blue-2);padding:1px 6px;border-radius:4px;font-size:11px">${escapeHtml(item.css_class)}</code></span>
         </div>
         <div class="inv-preview" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px">
-          <span class="${item.css_class}">Player123</span>
+          <span class="${escapeHtml(item.css_class || '')}">Player123</span>
         </div>
       </div>
     `;
@@ -3684,7 +3689,7 @@ async function loadComments() {
       const el = document.createElement('div');
       el.className = 'comment-item';
       const prof = c.profile || { nick: 'Unknown', nick_color: '#eaf1ff' };
-      el.innerHTML = '<div class="comment-avatar">' + initials(prof.nick) + '</div>' + '<div class="comment-body">' + '<div class="comment-head">' + '<span class="comment-nick">' + formatNick(prof) + '</span>' + '<span class="comment-date">' + timeAgo(c.created_at) + '</span>' + '</div>' + '<div class="comment-text">' + escapeHtml(c.content) + '</div>' + '</div>';
+      el.innerHTML = '<div class="comment-avatar">' + escapeHtml(initials(prof.nick)) + '</div>' + '<div class="comment-body">' + '<div class="comment-head">' + '<span class="comment-nick">' + formatNick(prof) + '</span>' + '<span class="comment-date">' + timeAgo(c.created_at) + '</span>' + '</div>' + '<div class="comment-text">' + escapeHtml(c.content) + '</div>' + '</div>';
       list.appendChild(el);
     });
     list.scrollTop = list.scrollHeight;
@@ -3811,7 +3816,7 @@ function renderDashRecent(){
   const who = l => escapeHtml(l.user_nick || l.nick || '');
   recent.forEach(l => {
     const row = document.createElement('div'); row.className='dash-recent-row';
-    let what = l.action;
+    let what = escapeHtml(l.action || '');
     if(l.action === 'approve') what = '✓ '+(LANG==='ru'?'Одобрил':'Approved')+' '+who(l);
     else if(l.action === 'reject') what = '✕ '+(LANG==='ru'?'Отклонил':'Rejected')+' '+who(l);
     else if(l.action === 'reg') what = '📨 '+(LANG==='ru'?'Заявка на турнир':'Tournament application')+' '+who(l);
@@ -3949,7 +3954,7 @@ async function renderAdminUsers(){
   }
   list.forEach(u => {
     const card = document.createElement('div'); card.className='user-card';
-    card.innerHTML = '<div class="user-avatar">'+initials(u.nick)+'</div><div class="user-info"><b>'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.balance||0)+'</span></div>';
+    card.innerHTML = '<div class="user-avatar">'+escapeHtml(initials(u.nick))+'</div><div class="user-info"><b>'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</b><small>'+escapeHtml(u.email||'—')+'</small></div><div class="user-stats"><span class="user-stat-pill">🔥 '+(u.level||0)+'</span><span class="user-stat-pill gold">🏆 '+(u.points||0)+'</span><span class="user-stat-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:12px"><use href="#i-ticket"/></svg> '+(u.balance||0)+'</span></div>';
     card.addEventListener('click', () => go('profile=' + u.id));
     wrap.appendChild(card);
   });
@@ -4012,7 +4017,7 @@ async function renderAdminTournaments(){
     const limitReached = regsApproved >= MAX_PARTICIPANTS_PER_TOURNAMENT;
     let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap"><div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">'+t('tournament.num')+' #'+t_.number+'</div><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+escapeHtml(t_.title||'—')+' '+(t_.is_paid ? '<span class="status-badge" style="background:rgba(246,183,60,.15);color:var(--gold);font-size:12px;vertical-align:middle;margin-left:6px">PLUS</span>' : '')+'</div>';
     if(t_.description) html += '<div style="color:var(--muted);font-size:13.5px">'+escapeHtml(t_.description)+'</div>';
-    html += '</div><span class="status-badge '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>';
+    html += '</div><span class="status-badge '+escapeHtml(t_.status || '')+'">'+escapeHtml(stageStatusLabel(t_.status))+'</span></div>';
     html += '<div class="admin-actions" style="margin-bottom:16px">';
     if(t_.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="'+t_.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
     if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
@@ -4023,7 +4028,7 @@ async function renderAdminTournaments(){
     if(!tStages.length) html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">'+(LANG==='ru'?'Этапов нет.':'No stages.')+'</p>';
     else tStages.forEach(s => {
       const cnt = adminApps.filter(a => a.stage_id === s.id).length;
-      html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+s.status+'">'+stageStatusLabel(s.status)+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
+      html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+escapeHtml(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+escapeHtml(s.status || '')+'">'+escapeHtml(stageStatusLabel(s.status))+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
       if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="'+s.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
       if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="'+s.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
       html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button><button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="'+s.id+'">🗑</button></div></div>';
@@ -4212,7 +4217,7 @@ async function renderAdminLog(){
   adminLog.forEach(l => {
     const tr = document.createElement('tr');
     const a = l.action === 'approve' ? '✓' : l.action === 'reject' ? '✕' : l.action;
-    tr.innerHTML = '<td style="font-size:12px;color:var(--muted)">'+timeAgo(l.created_at)+'</td><td style="font-size:12.5px">'+escapeHtml(l.admin_email||'system')+'</td><td>'+a+'</td>';
+    tr.innerHTML = '<td style="font-size:12px;color:var(--muted)">'+timeAgo(l.created_at)+'</td><td style="font-size:12.5px">'+escapeHtml(l.admin_email||'system')+'</td><td>'+escapeHtml(a)+'</td>';
     tb.appendChild(tr);
   });
 }
@@ -4568,21 +4573,27 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     const d = new Date(ms - new Date(ms).getTimezoneOffset() * 60000);
     return d.toISOString().slice(0,16);
   };
+  // Do not combine dateStyle/timeStyle with component options such as timeZoneName.
   const formatEnd = ms => new Intl.DateTimeFormat('ru-RU', {
-    dateStyle:'medium', timeStyle:'short', timeZoneName:'short'
+    day:'2-digit', month:'short', year:'numeric',
+    hour:'2-digit', minute:'2-digit', timeZoneName:'short'
   }).format(new Date(ms));
 
   function renderCountdown() {
-    const left = Math.max(0, endAt - Date.now());
+    const now = Date.now();
+    const left = Math.max(0, endAt - now);
     const total = Math.floor(left / 1000);
     fields.days.textContent = String(Math.floor(total / 86400));
     fields.hours.textContent = pad(Math.floor((total % 86400) / 3600));
     fields.minutes.textContent = pad(Math.floor((total % 3600) / 60));
     fields.seconds.textContent = pad(total % 60);
-    if (left <= 0 && gateActive) {
-      gate.classList.remove('is-visible');
-      document.body.style.overflow = '';
-    }
+
+    // Recompute visibility on every tick. Keep the admin editor open after expiry.
+    const shouldShow = gateActive && now < endAt && !bypassForSession;
+    const adminEditorVisible = adminNow() && editorOpened;
+    const showGate = shouldShow || adminEditorVisible;
+    gate.classList.toggle('is-visible', showGate);
+    document.body.style.overflow = showGate ? 'hidden' : '';
   }
   function updateUI() {
     const isAdmin = adminNow();
@@ -4605,6 +4616,9 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
       if (data) {
         gateActive = !!data.active;
         if (data.end_at && Number.isFinite(Date.parse(data.end_at))) endAt = Date.parse(data.end_at);
+      } else {
+        // A missing singleton row should fail open, not reuse stale local state.
+        gateActive = false;
       }
       updateUI();
       renderCountdown();
@@ -4622,6 +4636,7 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     if (!endInput.value || !Number.isFinite(parsed)) { status.textContent = 'Укажи корректную дату и время.'; return; }
     saveEnd.disabled = true;
     try {
+      if (!sb) throw new Error('Supabase-клиент не инициализирован');
       const { error } = await sb.from('site_gate_settings').upsert({
         id: 1, active: gateActive, end_at: new Date(parsed).toISOString()
       }, { onConflict:'id' });
@@ -4647,13 +4662,13 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
         end_at: new Date(endAt).toISOString(),
         started_at: nextActive ? new Date().toISOString() : null
       };
-      // Prefer UPDATE for the expected singleton row. Fall back to INSERT only if id=1 is absent.
-      const updated = await sb.from('site_gate_settings').update(values).eq('id', 1).select('id').maybeSingle();
-      if (updated.error) throw updated.error;
-      if (!updated.data) {
-        const inserted = await sb.from('site_gate_settings').insert([{ id: 1, ...values }]);
-        if (inserted.error) throw inserted.error;
-      }
+      // Use one idempotent upsert for the singleton row. Avoid mutation .select().maybeSingle(),
+      // which can fail on some PostgREST/client combinations with an option parsing error.
+      const { error: saveError } = await sb.from('site_gate_settings').upsert(
+        { id: 1, ...values },
+        { onConflict: 'id' }
+      );
+      if (saveError) throw saveError;
       gateActive = nextActive;
       bypassForSession = false;
       status.textContent = nextActive ? 'Блокировка включена.' : 'Блокировка отключена.';
