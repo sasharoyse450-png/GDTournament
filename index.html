@@ -2125,6 +2125,7 @@ function renderTournaments(){
   });
 }
 
+// ОБНОВЛЕННЫЙ МАГАЗИН (С ПРОВЕРКОЙ ИНВЕНТАРЯ)
 function renderShop() {
   const grid = $('#shop-grid'); if(!grid) return;
   grid.replaceChildren();
@@ -2135,11 +2136,25 @@ function renderShop() {
   
   if (!visibleItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
   
+  const now = new Date();
+
   visibleItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'shop-card';
     const disabled = !shopEnabled;
     const days = item.duration_days || 7;
+    
+    // ПРОВЕРКА: есть ли уже этот товар в активном инвентаре?
+    const invItem = myInventory.find(inv => inv.item_id === item.id && new Date(inv.expires_at) > now);
+    const isOwned = !!invItem;
+
+    let btnHtml = '';
+    if (isOwned) {
+        const leftDays = Math.ceil((new Date(invItem.expires_at) - now) / (1000 * 60 * 60 * 24));
+        btnHtml = `<button type="button" class="btn btn-success" disabled>✓ Куплено (${leftDays} дн.)</button>`;
+    } else {
+        btnHtml = `<button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>`;
+    }
     
     card.innerHTML = `
       <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
@@ -2149,11 +2164,11 @@ function renderShop() {
       <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price">${item.price} ₽</div>
-        <button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>
+        ${btnHtml}
       </div>
     `;
     
-    if (!disabled) {
+    if (!disabled && !isOwned) {
       card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
     }
     grid.appendChild(card);
@@ -2181,7 +2196,7 @@ async function buyItem(item) {
     window.updateBalanceUI(userProfile.balance);
     
     toast(t('buy.success'));
-    await loadMyInventory();
+    myInventory = await loadMyInventory();
     if(current === 'shop') renderShop();
     if(current === 'profile') renderProfilePage();
   } catch (e) {
@@ -3848,6 +3863,7 @@ function buildRegActions(r){
   w.appendChild(dl);
   return w;
 }
+// ОБНОВЛЕННАЯ ФУНКЦИЯ: Теперь показывает текст ошибки БД
 async function updateRegStatus(r, newStatus){
   if(newStatus === 'approved' && r.status !== 'approved'){
     const approvedInT = allRegs.filter(x => x.tournament_id === r.tournament_id && x.status === 'approved').length;
@@ -3859,7 +3875,7 @@ async function updateRegStatus(r, newStatus){
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), r.admin_comment || '');
   if(ask === null) return;
   const { error } = await sb.rpc('admin_review_registration', { reg_id: r.id, new_status: newStatus, comment: ask.trim() || null });
-  if(error){ toast('Error', true); return; }
+  if(error){ toast('Ошибка БД: ' + error.message, true); console.error(error); return; }
   const t_ = tournaments.find(x => x.id === r.tournament_id);
   try{ await sb.from('activity_feed').insert([{ user_id:r.user_id, user_nick:r.nick, action: newStatus === 'approved' ? 'reg_approve' : 'reg_reject', details:{ tournament_id: r.tournament_id, tournament_number: t_ ? t_.number : null } }]); }catch(_){}
   toast(newStatus === 'approved' ? '✓' : '✕');
@@ -4142,11 +4158,12 @@ function buildActions(a){
   return w;
 }
 async function editComment(a){ const v = prompt('Comment:', a.admin_comment||''); if(v === null) return; const { error } = await sb.from('applications').update({ admin_comment:v.trim()||null }).eq('id',a.id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Сохранено':'Saved'); await loadAdminApps(); renderAdminTable(); }
+// ОБНОВЛЕННАЯ ФУНКЦИЯ: Теперь показывает текст ошибки БД
 async function updateAppStatus(a, newStatus){
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), a.admin_comment || '');
   if(ask === null) return;
   const { error } = await sb.rpc('admin_review_application', { app_id: a.id, new_status: newStatus, comment: ask.trim() || null });
-  if(error){ toast('Error', true); return; }
+  if(error){ toast('Ошибка БД: ' + error.message, true); console.error(error); return; }
   try{ await sb.from('activity_feed').insert([{ user_id:a.user_id, user_nick:a.nick, action:newStatus === 'approved' ? 'approve' : 'reject', details:{ stage_id:a.stage_id } }]); }catch(_){}
   toast(newStatus === 'approved' ? '✓' : '✕');
   await loadAdminApps(); updateAdminStats(); renderAdminTable(); await renderLeaderboard();
@@ -4454,6 +4471,13 @@ if(!saved){
     renderTournaments(); renderShop(); await renderLeaderboard(); await renderChat();
   }
 })();
+
+// Автообновление магазина каждую минуту (чтобы обновлялись таймеры)
+setInterval(() => {
+    if (current === 'shop' && user) {
+        renderShop();
+    }
+}, 60000);
 
 document.getElementById('appeal-ban-btn')?.addEventListener('click', () => { openTicketModal('appeal_ban'); });
 document.getElementById('new-ticket-btn')?.addEventListener('click', () => { openTicketModal('other'); });
