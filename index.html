@@ -569,7 +569,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 #champ-countdown-gate .gate-unit-label{margin-top:8px;font-size:12px;color:#9ca1b1}
 #champ-countdown-gate .gate-date{color:#d6d8e2;font-size:14px}
 #champ-countdown-gate .gate-admin{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:28px}
-#champ-countdown-gate .gate-admin button{max-width:100%}
+#champ-countdown-gate .gate-admin button{max-width:100%}#gate-admin-tools button{width:100%}
 #champ-countdown-gate .gate-note{max-width:460px;font-size:12px;line-height:1.5;color:#818797}
 #champ-gate-status{font-size:12px;color:#a5a9ff;min-height:18px}
 @media(max-width:480px){#champ-countdown-gate{padding:12px}#champ-countdown-gate .gate-panel{padding:25px 15px;border-radius:18px}#champ-countdown-gate .gate-units{gap:6px;margin:24px 0 20px}#champ-countdown-gate .gate-unit{padding:13px 4px}#champ-countdown-gate .gate-unit-label{font-size:10px}}
@@ -1486,7 +1486,14 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
       <div class="gate-unit"><div class="gate-number" id="gate-minutes">00</div><div class="gate-unit-label">минут</div></div>
       <div class="gate-unit"><div class="gate-number" id="gate-seconds">00</div><div class="gate-unit-label">секунд</div></div>
     </div>
-    <div class="gate-date">Окончание: 25.10.2026 в 21:00 (UTC+03:00)</div>
+    <div class="gate-date" id="gate-end-date-label">Окончание: 25.10.2026 в 21:00 (UTC+03:00)</div>
+    <div class="gate-admin-tools" id="gate-admin-tools" style="display:none;width:100%;max-width:420px;gap:10px;flex-direction:column;margin-top:18px;text-align:left">
+      <label for="gate-end-at-input" style="font-size:13px;color:#c9ccda">Дата и время окончания (ваше местное время)</label>
+      <input id="gate-end-at-input" type="datetime-local" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid #393e50;background:#0d1018;color:#fff;font:inherit">
+      <button type="button" class="btn btn-primary" id="gate-save-end">Сохранить окончание</button>
+      <button type="button" class="btn btn-ghost" id="gate-start-stop">Включить блокировку сайта</button>
+      <div class="gate-note">Изменения сохраняются в Supabase и применяются для всех посетителей. Для защиты данных нужны отдельные серверные ограничения RLS.</div>
+    </div>
     <div class="gate-admin">
       <button type="button" class="btn btn-primary" id="gate-admin-bypass">Войти без таймера (админ)</button>
       <div id="champ-gate-status" role="status"></div>
@@ -1494,7 +1501,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
     </div>
   </div>
 </div>
-<button type="button" class="btn btn-primary" id="champ-gate-launcher">Запустить таймер</button>
+<button type="button" class="btn btn-primary" id="champ-gate-launcher">Настроить таймер</button>
 
 <div class="toast" id="toast"></div>
 
@@ -4530,14 +4537,19 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
 </script>
 
 <script>
-/* Countdown gate. Shared state is stored in Supabase; see the accompanying SQL setup file. */
+/* Shared countdown gate. End time is stored server-side in Supabase. */
 (() => {
   'use strict';
-  const END_AT = new Date('2026-10-25T21:00:00+03:00').getTime();
+  const DEFAULT_END_AT = '2026-10-25T21:00:00+03:00';
   const gate = document.getElementById('champ-countdown-gate');
   const launcher = document.getElementById('champ-gate-launcher');
   const bypass = document.getElementById('gate-admin-bypass');
   const status = document.getElementById('champ-gate-status');
+  const adminTools = document.getElementById('gate-admin-tools');
+  const endInput = document.getElementById('gate-end-at-input');
+  const saveEnd = document.getElementById('gate-save-end');
+  const startStop = document.getElementById('gate-start-stop');
+  const endLabel = document.getElementById('gate-end-date-label');
   const fields = {
     days: document.getElementById('gate-days'),
     hours: document.getElementById('gate-hours'),
@@ -4545,73 +4557,109 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     seconds: document.getElementById('gate-seconds')
   };
   let gateActive = false;
-  let loaded = false;
+  let endAt = new Date(DEFAULT_END_AT).getTime();
   let bypassForSession = false;
   let tickHandle = null;
   let pollHandle = null;
+  let editorOpened = false;
   const pad = n => String(n).padStart(2, '0');
   const adminNow = () => typeof isAdmin === 'function' && isAdmin();
+  const localInputValue = ms => {
+    const d = new Date(ms - new Date(ms).getTimezoneOffset() * 60000);
+    return d.toISOString().slice(0,16);
+  };
+  const formatEnd = ms => new Intl.DateTimeFormat('ru-RU', {
+    dateStyle:'medium', timeStyle:'short', timeZoneName:'short'
+  }).format(new Date(ms));
 
   function renderCountdown() {
-    const left = Math.max(0, END_AT - Date.now());
+    const left = Math.max(0, endAt - Date.now());
     const total = Math.floor(left / 1000);
     fields.days.textContent = String(Math.floor(total / 86400));
     fields.hours.textContent = pad(Math.floor((total % 86400) / 3600));
     fields.minutes.textContent = pad(Math.floor((total % 3600) / 60));
     fields.seconds.textContent = pad(total % 60);
-    if (left <= 0) {
+    if (left <= 0 && gateActive) {
       gate.classList.remove('is-visible');
       document.body.style.overflow = '';
     }
   }
   function updateUI() {
-    const shouldShow = gateActive && Date.now() < END_AT && !bypassForSession;
-    gate.classList.toggle('is-visible', shouldShow);
-    document.body.style.overflow = shouldShow ? 'hidden' : '';
-    launcher.style.display = adminNow() && !gateActive ? 'inline-flex' : 'none';
-    bypass.style.display = 'inline-flex';
-    if (!adminNow()) status.textContent = '';
+    const isAdmin = adminNow();
+    const shouldShow = gateActive && Date.now() < endAt && !bypassForSession;
+    gate.classList.toggle('is-visible', shouldShow || (isAdmin && editorOpened));
+    document.body.style.overflow = (shouldShow || (isAdmin && editorOpened)) ? 'hidden' : '';
+    launcher.style.display = isAdmin ? 'inline-flex' : 'none';
+    adminTools.style.display = isAdmin ? 'flex' : 'none';
+    startStop.textContent = gateActive ? 'Отключить блокировку сайта' : 'Включить блокировку сайта';
+    endLabel.textContent = 'Окончание: ' + formatEnd(endAt);
+    if (isAdmin && (!endInput.value || !editorOpened)) endInput.value = localInputValue(endAt);
+    if (!isAdmin) status.textContent = '';
   }
   async function readGateState() {
-    if (!sb) { loaded = true; status.textContent = 'Не удалось подключиться к серверу.'; updateUI(); return; }
+    if (!sb) { status.textContent = 'Не удалось подключиться к Supabase.'; updateUI(); return; }
     try {
-      const { data, error } = await sb.from('site_gate_settings').select('active, started_at').eq('id', 1).maybeSingle();
+      const { data, error } = await sb.from('site_gate_settings')
+        .select('active, started_at, end_at').eq('id', 1).maybeSingle();
       if (error) throw error;
-      gateActive = !!(data && data.active);
-      loaded = true;
+      if (data) {
+        gateActive = !!data.active;
+        if (data.end_at && Number.isFinite(Date.parse(data.end_at))) endAt = Date.parse(data.end_at);
+      }
       updateUI();
+      renderCountdown();
     } catch (e) {
-      loaded = true;
-      // Fail open if the optional table is not configured; don't lock the site accidentally.
+      // Fail open: an unavailable optional gate must not accidentally lock visitors out.
       gateActive = false;
       updateUI();
-      if (adminNow()) status.textContent = 'Настрой таблицу таймера в Supabase (SQL-файл).'
+      if (adminNow()) status.textContent = 'Таблица таймера не настроена. Выполни SQL-файл исправлений.';
       console.warn('[Countdown gate] State unavailable:', e && e.message ? e.message : e);
     }
   }
-  async function startGate() {
-    if (!adminNow()) { status.textContent = 'Сначала войди в аккаунт администратора.'; return; }
-    if (!sb) { status.textContent = 'Supabase не подключён.'; return; }
-    launcher.disabled = true;
+  async function saveEndTime() {
+    if (!adminNow()) { status.textContent = 'Только администратор может менять таймер.'; return; }
+    const parsed = Date.parse(endInput.value);
+    if (!endInput.value || !Number.isFinite(parsed)) { status.textContent = 'Укажи корректную дату и время.'; return; }
+    saveEnd.disabled = true;
     try {
-      const { error } = await sb.from('site_gate_settings').upsert({ id: 1, active: true, started_at: new Date().toISOString() }, { onConflict: 'id' });
+      const { error } = await sb.from('site_gate_settings').upsert({
+        id: 1, active: gateActive, end_at: new Date(parsed).toISOString()
+      }, { onConflict:'id' });
       if (error) throw error;
-      gateActive = true;
+      endAt = parsed;
+      status.textContent = 'Дата окончания сохранена.';
+      updateUI(); renderCountdown();
+      if (typeof toast === 'function') toast('Дата окончания таймера сохранена.');
+    } catch (e) {
+      status.textContent = 'Не удалось сохранить. Проверь SQL и права Supabase.';
+      console.error('[Countdown gate] Save end failed:', e);
+    } finally { saveEnd.disabled = false; }
+  }
+  async function toggleGate() {
+    if (!adminNow()) { status.textContent = 'Только администратор может управлять таймером.'; return; }
+    startStop.disabled = true;
+    try {
+      const nextActive = !gateActive;
+      const { error } = await sb.from('site_gate_settings').upsert({
+        id: 1, active: nextActive, end_at: new Date(endAt).toISOString(),
+        started_at: nextActive ? new Date().toISOString() : null
+      }, { onConflict:'id' });
+      if (error) throw error;
+      gateActive = nextActive;
       bypassForSession = false;
-      status.textContent = '';
-      updateUI();
+      status.textContent = nextActive ? 'Блокировка включена.' : 'Блокировка отключена.';
+      updateUI(); renderCountdown();
       await readGateState();
     } catch (e) {
-      status.textContent = 'Не удалось запустить: проверь SQL и права доступа Supabase.';
-      if (typeof toast === 'function') toast('Не удалось запустить таймер. Проверь SQL и права Supabase.', true);
-      console.error('[Countdown gate] Start failed:', e);
-    } finally {
-      launcher.disabled = false;
-    }
+      status.textContent = 'Не удалось изменить состояние. Проверь SQL и права Supabase.';
+      console.error('[Countdown gate] Toggle failed:', e);
+    } finally { startStop.disabled = false; }
   }
+
   bypass.addEventListener('click', () => {
     if (adminNow()) {
       bypassForSession = true;
+      editorOpened = false;
       status.textContent = '';
       updateUI();
       return;
@@ -4620,18 +4668,27 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     if (typeof go === 'function') go('cabinet');
     else document.getElementById('login-btn')?.click();
   });
-  launcher.addEventListener('click', startGate);
+  launcher.addEventListener('click', () => {
+    if (!adminNow()) return;
+    editorOpened = true;
+    bypassForSession = false;
+    updateUI();
+  });
+  saveEnd.addEventListener('click', saveEndTime);
+  startStop.addEventListener('click', toggleGate);
 
-  // Keep the gate in sync after login/logout and across visitors.
   if (sb && sb.auth && sb.auth.onAuthStateChange) {
     sb.auth.onAuthStateChange(() => { bypassForSession = false; updateUI(); readGateState(); });
   }
   renderCountdown();
   tickHandle = window.setInterval(renderCountdown, 1000);
   readGateState();
-  pollHandle = window.setInterval(readGateState, 5000);
+  pollHandle = window.setInterval(readGateState, 10000);
   window.addEventListener('storage', e => { if (e.key === 'gdcc-gate-refresh') readGateState(); });
-  window.addEventListener('beforeunload', () => { if (tickHandle) clearInterval(tickHandle); if (pollHandle) clearInterval(pollHandle); });
+  window.addEventListener('beforeunload', () => {
+    if (tickHandle) clearInterval(tickHandle);
+    if (pollHandle) clearInterval(pollHandle);
+  });
 })();
 </script>
 
