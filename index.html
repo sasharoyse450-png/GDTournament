@@ -4631,7 +4631,8 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
       updateUI(); renderCountdown();
       if (typeof toast === 'function') toast('Дата окончания таймера сохранена.');
     } catch (e) {
-      status.textContent = 'Не удалось сохранить. Проверь SQL и права Supabase.';
+      const detail = e && (e.message || e.details || e.hint || e.code) ? [e.message, e.details, e.hint, e.code].filter(Boolean).join(' — ') : String(e);
+      status.textContent = 'Ошибка сохранения таймера: ' + detail;
       console.error('[Countdown gate] Save end failed:', e);
     } finally { saveEnd.disabled = false; }
   }
@@ -4640,18 +4641,27 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     startStop.disabled = true;
     try {
       const nextActive = !gateActive;
-      const { error } = await sb.from('site_gate_settings').upsert({
-        id: 1, active: nextActive, end_at: new Date(endAt).toISOString(),
+      if (!sb) throw new Error('Supabase-клиент не инициализирован');
+      const values = {
+        active: nextActive,
+        end_at: new Date(endAt).toISOString(),
         started_at: nextActive ? new Date().toISOString() : null
-      }, { onConflict:'id' });
-      if (error) throw error;
+      };
+      // Prefer UPDATE for the expected singleton row. Fall back to INSERT only if id=1 is absent.
+      const updated = await sb.from('site_gate_settings').update(values).eq('id', 1).select('id').maybeSingle();
+      if (updated.error) throw updated.error;
+      if (!updated.data) {
+        const inserted = await sb.from('site_gate_settings').insert([{ id: 1, ...values }]);
+        if (inserted.error) throw inserted.error;
+      }
       gateActive = nextActive;
       bypassForSession = false;
       status.textContent = nextActive ? 'Блокировка включена.' : 'Блокировка отключена.';
       updateUI(); renderCountdown();
       await readGateState();
     } catch (e) {
-      status.textContent = 'Не удалось изменить состояние. Проверь SQL и права Supabase.';
+      const detail = e && (e.message || e.details || e.hint || e.code) ? [e.message, e.details, e.hint, e.code].filter(Boolean).join(' — ') : String(e);
+      status.textContent = 'Ошибка переключения таймера: ' + detail;
       console.error('[Countdown gate] Toggle failed:', e);
     } finally { startStop.disabled = false; }
   }
