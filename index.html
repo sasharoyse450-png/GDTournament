@@ -1891,22 +1891,28 @@ $('#maint-bypass-btn')?.addEventListener('click', () => {
 
 async function setMaintenanceMode(enabled) {
   const toggle = $('#maintenance-toggle');
-  if(toggle) toggle.disabled = true; // Блокируем галочку, пока идет запрос
+  if(toggle) toggle.disabled = true; // Блокируем кнопку на время запроса
 
   if (sb) {
-    // Вызываем нашу новую безопасную функцию из базы
+    // Вызываем безопасную функцию из базы (ту, что мы создали в SQL)
     const { error } = await sb.rpc('admin_set_maintenance', { enabled: !!enabled });
     
     if (error) {
        toast('Ошибка БД: ' + error.message, true);
        console.error('Ошибка обновления режима ТО:', error);
        if(toggle) {
-          toggle.checked = !enabled; // Возвращаем галочку назад
+          toggle.checked = !enabled; // Возвращаем как было, если ошибка
           toggle.disabled = false;
        }
        return;
     }
   }
+  
+  // Если всё ок, обновляем локальные данные
+  maintenanceMode = !!enabled;
+  applyMaintenanceState();
+  if(toggle) toggle.disabled = false;
+}
   
   maintenanceMode = !!enabled;
   applyMaintenanceState();
@@ -3448,14 +3454,17 @@ async function renderAdminSettings(){
 }
 
 (function initSettingsTabListeners(){
+  // 1. Переключатель Технических работ
   const maintToggle = document.getElementById('maintenance-toggle');
   if(maintToggle){
     maintToggle.addEventListener('change', async e => {
-      await setMaintenanceMode(e.target.checked);
-      toast(e.target.checked ? 'Режим тех. работ ВКЛЮЧЕН' : 'Сайт открыт');
+      const isChecked = e.target.checked; // Запоминаем ДО запроса
+      await setMaintenanceMode(isChecked);
+      toast(isChecked ? '🛠️ Режим тех. работ ВКЛЮЧЕН' : '✅ Сайт открыт');
     });
   }
 
+  // 2. Переключатель Магазина
   const toggle = document.getElementById('shop-enabled-toggle');
   if(toggle){
     toggle.addEventListener('change', async e => {
@@ -3463,6 +3472,8 @@ async function renderAdminSettings(){
       toast(e.target.checked ? t('admin.settings.toggle.on') : t('admin.settings.toggle.off'));
     });
   }
+
+  // 3. Поиск по балансам пользователей
   const search = document.getElementById('passes-search');
   if(search){
     search.addEventListener('input', e => {
@@ -3470,6 +3481,8 @@ async function renderAdminSettings(){
       if(adminTab === 'settings') renderAdminSettings();
     });
   }
+
+  // 4. Кнопка сохранения ссылки на донат
   const saveDonationBtn = document.getElementById('save-donation-btn');
   if(saveDonationBtn){
     saveDonationBtn.addEventListener('click', async () => {
