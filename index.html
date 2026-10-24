@@ -553,9 +553,38 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 @media(max-width:760px){.hero-in{padding:38px 16px 44px;text-align:left}.hero-cta{align-items:stretch}.hero-title .l1,.hero-title .l2{font-size:clamp(30px,8vw,42px)}.page-head{padding:30px 0 18px}.card{padding:16px}.tournament-card,.stage-card{padding:17px}.features{margin:26px 0 38px}.feature{padding:16px}.wrap{padding:0 16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+/* Экран технических работ */
+.maintenance-gate {
+  position: fixed; inset: 0; z-index: 99999;
+  background: radial-gradient(900px 520px at 50% 28%, rgba(246,183,60,.15), transparent 70%), #08090a;
+  display: grid; place-items: center; padding: 20px;
+}
+.maintenance-card {
+  width: min(500px, 100%); background: #111214; border: 1px solid var(--line);
+  border-radius: 20px; padding: 40px 30px; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.maintenance-icon {
+  width: 80px; height: 80px; margin: 0 auto 20px;
+  display: grid; place-items: center; border-radius: 20px;
+  background: rgba(246,183,60,.1); color: var(--gold);
+  font-size: 40px; border: 2px solid rgba(246,183,60,.3);
+}
+.maintenance-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; color: var(--text); }
+.maintenance-sub { color: var(--muted); font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
 </style>
 </head>
 <body>
+
+<!-- Экран технических работ -->
+<div id="maintenance-screen" class="maintenance-gate hidden">
+  <div class="maintenance-card">
+    <div class="maintenance-icon"><svg class="i"><use href="#i-settings"/></svg></div>
+    <h1 class="maintenance-title">Технические работы</h1>
+    <p class="maintenance-sub">Сайт временно недоступен из-за обновления.<br>Мы скоро вернёмся!</p>
+    <button id="maint-bypass-btn" class="btn btn-primary hidden" style="width:100%">Войти как администратор</button>
+  </div>
+</div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
@@ -1039,6 +1068,16 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         <div id="admin-users-list"></div>
       </div>
       <div id="admin-settings" class="hidden">
+        <!-- НОВЫЙ БЛОК: Технические работы -->
+        <div class="card" style="margin-bottom:22px;padding:20px;border-color:rgba(255,93,115,.35);background:rgba(255,93,115,.02)">
+          <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--red)"><use href="#i-ban"/></svg> <span>Технические работы</span></h3>
+          <label class="check" style="font-size:14px;margin-bottom:14px">
+            <input type="checkbox" id="maintenance-toggle">
+            <span>Включить режим технических работ (сайт закрыт)</span>
+          </label>
+          <p class="hint" style="margin-bottom:14px">Если включено, все пользователи увидят экран "Технические работы". Администраторы могут обойти это через специальную кнопку на экране.</p>
+        </div>
+        
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.settings.shop">Магазин и продажа</span></h3>
           <label class="check" style="font-size:14px;margin-bottom:14px">
@@ -1745,6 +1784,7 @@ let chatPollInterval = null;
 let chatLastIds = '';
 let isChatLoaded = false;
 let editingShopItemId = null;
+let maintenanceMode = false; // Переменная для тех. работ
 
 function t(key){ if(!key) return ''; const d = I18N[LANG] || I18N.ru; return d[key] || I18N.ru[key] || key; }
 function toast(msg, isError){ toastEl.textContent = msg; toastEl.classList.toggle('error', !!isError); toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 3400); }
@@ -1817,6 +1857,46 @@ function timeLeft(deadline){
   if(d >= 1) return d + 'd ' + h + 'h ' + m + 'm';
   if(h >= 1) return h + 'h ' + m + 'm';
   return m + 'm ' + s + 's';
+}
+
+// ЛОГИКА ТЕХНИЧЕСКИХ РАБОТ
+function applyMaintenanceState() {
+  const gate = $('#maintenance-screen');
+  if (!gate) return;
+  
+  const bypassed = sessionStorage.getItem('gdcc-maint-bypass') === 'true';
+  
+  if (maintenanceMode && (bypassed && isAdmin())) {
+    gate.classList.add('hidden');
+    return;
+  }
+  
+  if (maintenanceMode) {
+    gate.classList.remove('hidden');
+    if (isAdmin()) {
+      $('#maint-bypass-btn').classList.remove('hidden');
+    } else {
+      $('#maint-bypass-btn').classList.add('hidden');
+    }
+  } else {
+    gate.classList.add('hidden');
+  }
+}
+
+$('#maint-bypass-btn')?.addEventListener('click', () => {
+  sessionStorage.setItem('gdcc-maint-bypass', 'true');
+  applyMaintenanceState();
+  toast('Режим тех. работ обойден для вас');
+});
+
+async function setMaintenanceMode(enabled) {
+  maintenanceMode = !!enabled;
+  if (sb) {
+    const { error } = await sb.from('settings').upsert({ key: 'maintenance_mode', value: String(maintenanceMode) });
+    if (error) console.error('Ошибка обновления режима ТО:', error);
+  }
+  applyMaintenanceState();
+  if (current === 'admin' && adminTab === 'settings') renderAdminSettings();
 }
 
 window.updateHeaderUI = () => {
@@ -1944,11 +2024,13 @@ async function loadSettings(){
         data.forEach(row => {
           if(row.key === 'shop_enabled') shopEnabled = row.value !== 'false';
           if(row.key === 'donation_url') donationUrl = row.value || 'https://dalink.to/theteacher';
+          if(row.key === 'maintenance_mode') maintenanceMode = row.value === 'true';
         });
       }
     }catch(_){}
   }
   updateDonationUI();
+  applyMaintenanceState();
 }
 async function setShopEnabled(enabled){
   shopEnabled = !!enabled;
@@ -3284,6 +3366,9 @@ async function renderAdminSettings(){
   await loadSettings();
   await loadAllUsers();
 
+  const toggleMaint = $('#maintenance-toggle');
+  if(toggleMaint) toggleMaint.checked = maintenanceMode;
+
   const toggle = $('#shop-enabled-toggle');
   if(toggle) toggle.checked = shopEnabled;
   
@@ -3347,6 +3432,14 @@ async function renderAdminSettings(){
 }
 
 (function initSettingsTabListeners(){
+  const maintToggle = document.getElementById('maintenance-toggle');
+  if(maintToggle){
+    maintToggle.addEventListener('change', async e => {
+      await setMaintenanceMode(e.target.checked);
+      toast(e.target.checked ? 'Режим тех. работ ВКЛЮЧЕН' : 'Сайт открыт');
+    });
+  }
+
   const toggle = document.getElementById('shop-enabled-toggle');
   if(toggle){
     toggle.addEventListener('change', async e => {
@@ -4396,6 +4489,9 @@ function setupRealtime(){
       if (current === 'shop') renderShop();
       if (current === 'admin' && adminTab === 'shop') renderAdminShop();
       if (current === 'profile') renderProfilePage();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'settings' }, async () => {
+      await loadSettings();
     })
     .subscribe();
 }
