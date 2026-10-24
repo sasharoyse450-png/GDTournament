@@ -1913,13 +1913,6 @@ async function setMaintenanceMode(enabled) {
   applyMaintenanceState();
   if(toggle) toggle.disabled = false;
 }
-  
-  maintenanceMode = !!enabled;
-  applyMaintenanceState();
-  
-  if (current === 'admin' && adminTab === 'settings') renderAdminSettings();
-  if(toggle) toggle.disabled = false;
-}
 
 window.updateHeaderUI = () => {
   const loginBtn = document.getElementById('login-btn');
