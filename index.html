@@ -1890,13 +1890,29 @@ $('#maint-bypass-btn')?.addEventListener('click', () => {
 });
 
 async function setMaintenanceMode(enabled) {
-  maintenanceMode = !!enabled;
+  const toggle = $('#maintenance-toggle');
+  if(toggle) toggle.disabled = true; // Блокируем галочку, пока идет запрос
+
   if (sb) {
-    const { error } = await sb.from('settings').upsert({ key: 'maintenance_mode', value: String(maintenanceMode) });
-    if (error) console.error('Ошибка обновления режима ТО:', error);
+    // Вызываем нашу новую безопасную функцию из базы
+    const { error } = await sb.rpc('admin_set_maintenance', { enabled: !!enabled });
+    
+    if (error) {
+       toast('Ошибка БД: ' + error.message, true);
+       console.error('Ошибка обновления режима ТО:', error);
+       if(toggle) {
+          toggle.checked = !enabled; // Возвращаем галочку назад
+          toggle.disabled = false;
+       }
+       return;
+    }
   }
+  
+  maintenanceMode = !!enabled;
   applyMaintenanceState();
+  
   if (current === 'admin' && adminTab === 'settings') renderAdminSettings();
+  if(toggle) toggle.disabled = false;
 }
 
 window.updateHeaderUI = () => {
