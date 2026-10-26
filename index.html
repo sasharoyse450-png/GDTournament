@@ -1902,14 +1902,18 @@ $('#maint-bypass-btn')?.addEventListener('click', () => {
 
 async function setMaintenanceMode(enabled) {
   const toggle = $('#maintenance-toggle');
-  if(toggle) toggle.disabled = true; 
+  if(toggle) toggle.disabled = true; // Блокируем кнопку на время запроса
 
   if (sb) {
     const { error } = await sb.rpc('admin_set_maintenance', { enabled: !!enabled });
+    
     if (error) {
        toast('Ошибка БД: ' + error.message, true);
        console.error('Ошибка обновления режима ТО:', error);
-       if(toggle) { toggle.checked = !enabled; toggle.disabled = false; }
+       if(toggle) {
+          toggle.checked = !enabled; // Возвращаем как было, если ошибка
+          toggle.disabled = false;
+       }
        return;
     }
   }
@@ -3308,8 +3312,11 @@ async function changeUserBalance(userId, current){
   const v = prompt(LANG==='ru'?'Новый баланс (в рублях):':'New balance (RUB):', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  const { error } = await sb.from('profiles').update({ balance:num }).eq('id',userId);
-  if(error){ toast('Error: '+error.message, true); return; }
+  
+  // МЕНЯЕМ ПРЯМОЙ ЗАПРОС НА БЕЗОПАСНЫЙ RPC
+  const { error } = await sb.rpc('admin_change_balance', { target_id: userId, new_balance: num });
+  
+  if(error){ toast('Ошибка БД: '+error.message, true); return; }
   toast(LANG==='ru'?'Баланс обновлён':'Balance updated');
   await loadAllUsers(); if(current === 'profile') renderProfilePage();
 }
@@ -3317,8 +3324,11 @@ async function changeUserLevel(userId, current){
   const v = prompt(LANG==='ru'?'Новый уровень:':'New level:', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  const { error } = await sb.from('profiles').update({ level:num }).eq('id',userId);
-  if(error){ toast('Error: '+error.message, true); return; }
+  
+  // МЕНЯЕМ ПРЯМОЙ ЗАПРОС НА БЕЗОПАСНЫЙ RPC
+  const { error } = await sb.rpc('admin_change_level', { target_id: userId, new_level: num });
+  
+  if(error){ toast('Ошибка БД: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
   await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
 }
@@ -4527,7 +4537,7 @@ $('#register-form').addEventListener('submit', async e => {
       if(/rate|too many/i.test(msg)){ setAuthError('register', LANG==='ru'?'Слишком много попыток.':'Too many attempts.'); return; }
       if(/signups.*not/i.test(msg)){ setAuthError('register', LANG==='ru'?'Регистрация отключена.':'Signups disabled.'); return; }
       if(/banned word/i.test(msg)){ setAuthError('register', LANG==='ru'?'Ник содержит запрещённое слово.':'Nickname contains banned word.'); return; }
-      if(/database error/i.test(msg)){ setAuthError('register', LANG==='ru'?'Ошибка БД. Проверь триггер.':'DB error.'); return; }
+      if(/database error|already registered/i.test(msg)){ setAuthError('register', LANG==='ru'?'Эта почта уже зарегистрирована или регистрация запрещена.':'Email already registered or blocked.'); return; }
       setAuthError('register', 'Error: '+(error.message||'').slice(0,120));
       return;
     }
