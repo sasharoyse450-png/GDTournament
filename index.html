@@ -2984,16 +2984,35 @@ async function loadProfile(){
     if(error) throw error;
     
     if(!data){
-      toast(LANG==='ru'?'Профиль не найден в базе. Войдите или зарегистрируйтесь заново.':'Profile not found. Please log in or register again.', true);
-      await sb.auth.signOut();
-      user = null; 
-      userProfile = null;
-      window.updateHeaderUI();
-      go('cabinet');
-      return;
+      // ПРОФИЛЯ НЕТ - СОЗДАЕМ ЕГО НА ЛЕТУ!
+      const baseNick = user.email ? user.email.split('@')[0] : 'Player';
+      // Генерируем уникальный ник, чтобы БД не выдала ошибку дубликата
+      const newNick = baseNick + '_' + Math.floor(Math.random() * 100000);
+      
+      const { data: inserted, error: insErr } = await sb.from('profiles').insert([{ 
+        id: user.id, 
+        email: user.email, 
+        nick: newNick, 
+        gd_nick: newNick, 
+        level: 0, 
+        balance: 0 
+      }]).select().maybeSingle();
+
+      if(insErr) {
+        console.error("Не удалось создать профиль:", insErr);
+        // Если БД выдает ошибку, создаем временный объект, чтобы сайт работал
+        userProfile = { 
+          id: user.id, email: user.email, nick: newNick, gd_nick: newNick, 
+          level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
+          nick_font: '', nick_style: '', badge_text: null 
+        };
+      } else {
+        // Профиль успешно создан в БД
+        userProfile = inserted;
+      }
+    } else {
+      userProfile = data;
     }
-    
-    userProfile = data;
   }catch(e){ 
     console.error("Ошибка loadProfile:", e);
     userProfile = null; 
