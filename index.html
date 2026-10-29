@@ -925,7 +925,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         <div style="display:flex; gap:10px; flex-wrap:wrap;" id="prof-admin-actions"></div>
       </div>
     </div>
-
     <div class="profile-grid">
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
@@ -936,14 +935,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           <div class="profile-stat-item"><span>💰 Баланс</span> <b id="prof-balance">0 ₽</b></div>
         </div>
       </div>
-
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
         <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
-
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
         <div id="prof-cups-list" style="margin-bottom:26px;"></div>
-        
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-activity"/></svg> Последние заявки</h3>
         <div id="prof-apps-list" class="app-list"></div>
       </div>
@@ -2633,25 +2629,32 @@ async function renderLeaderboard(){
     if(filterTid) q = q.eq('tournament_id', filterTid);
     const { data: apps, error: appsErr } = await q;
     if(appsErr) console.warn('Leaderboard apps error:', appsErr);
+    
+    // Запрашиваем только тех, у кого есть ник
     const [profRes, cupsRes] = await Promise.all([
-      sb.from('profiles').select('id, nick, nick_color, nick_font, nick_style, badge_text, banned, created_at'),
+      sb.from('profiles').select('id, nick, nick_color, nick_font, nick_style, badge_text, banned, created_at').not('nick', 'is', null).neq('nick', ''),
       sb.from('cups').select('user_id')
     ]);
     if(profRes.error) console.warn('Leaderboard profiles error:', profRes.error);
+    
     const profileMap = {};
     (profRes.data||[]).forEach(p => { profileMap[p.id] = p; });
     const cupsCount = {};
     (cupsRes.data||[]).forEach(c => { cupsCount[c.user_id] = (cupsCount[c.user_id]||0)+1; });
+    
     let regQ = sb.from('tournament_registrations').select('user_id,tournament_id,created_at');
     if(filterTid) regQ = regQ.eq('tournament_id', filterTid);
     const { data: regs, error: regsErr } = await regQ;
     if(regsErr) console.warn('Leaderboard regs error:', regsErr);
+    
     const byUser = {};
     (profRes.data||[]).forEach(p => { 
       byUser[p.id] = { id: p.id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; 
     });
+    
     (apps||[]).forEach(a => {
       if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
+      
       if(a.status === 'approved') {
         byUser[a.user_id].points += (a.reward_points || 1);
         byUser[a.user_id].stages += 1;
@@ -2666,9 +2669,11 @@ async function renderLeaderboard(){
         }
       }
     });
+    
     (regs||[]).forEach(r => {
       if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
     });
+    
     const list = Object.values(byUser).map(u => {
       const p = profileMap[u.id] || {};
       const total_hours = u.stage_count_with_time > 0 ? u.total_hours : null;
@@ -2677,7 +2682,10 @@ async function renderLeaderboard(){
         points: u.points, stages: u.stages, cups: cupsCount[u.id]||0, 
         total_hours: total_hours, last_approved_at: u.last_approved_at 
       };
-    }).sort((a,b) => {
+    })
+    // ТЕПЕРЬ ПОКАЗЫВАЕМ ВСЕХ, У КОГО ЕСТЬ НИК
+    .filter(u => u.nick !== '—' && u.nick !== '')
+    .sort((a,b) => {
       if (isGlobal) {
         if(b.points !== a.points) return b.points - a.points;
         if(b.stages !== a.stages) return b.stages - a.stages;
@@ -2691,6 +2699,7 @@ async function renderLeaderboard(){
       }
       return 0;
     });
+
     window.setParticipantsCount(list.length);
     const thead = $('#lb-thead');
     if(thead) {
@@ -2729,6 +2738,7 @@ async function renderLeaderboard(){
     if(!tb) return;
     tb.replaceChildren();
     if(!list.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
+    
     list.forEach((u,i) => {
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
@@ -2984,10 +2994,8 @@ async function loadProfile(){
     if(error) throw error;
     
     if(!data){
-      // Берем ник, который ввели при регистрации
-      const baseNick = user.user_metadata?.gd_nick || (user.email ? user.email.split('@')[0] : 'Player');
+      const baseNick = user.user_metadata?.gd_nick || (user.email ? user.email.split('@')[0] : 'Player_' + Math.floor(Math.random() * 10000));
       
-      // Пытаемся создать профиль
       const { data: inserted, error: insErr } = await sb.from('profiles').insert([{ 
         id: user.id, 
         email: user.email, 
@@ -2998,14 +3006,11 @@ async function loadProfile(){
       }]).select().maybeSingle();
 
       if(insErr) {
-        // ЕСЛИ ОШИБКА - ВЫВОДИМ ЕЕ В КОНСОЛЬ И НЕ ДОБАВЛЯЕМ ЦИФРЫ
-        console.error("ОШИБКА СОЗДАНИЯ ПРОФИЛЯ: ", insErr.message, insErr.details);
-        // Создаем временный профиль для работы сайта (без записи в БД)
+        console.error("Не удалось записать профиль в БД:", insErr.message);
         userProfile = { 
           id: user.id, email: user.email, nick: baseNick, gd_nick: baseNick, 
           level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
-          nick_font: '', nick_style: '', badge_text: null, 
-          created_at: new Date().toISOString() 
+          nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() 
         };
       } else {
         userProfile = inserted;
@@ -3014,13 +3019,8 @@ async function loadProfile(){
       userProfile = data;
     }
   }catch(e){ 
-    console.error("Системная ошибка loadProfile:", e);
-    const fallbackNick = user.user_metadata?.gd_nick || 'Player';
-    userProfile = { 
-      id: user.id, email: user.email, nick: fallbackNick, gd_nick: fallbackNick, 
-      level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
-      nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() 
-    }; 
+    console.error("Ошибка loadProfile:", e);
+    userProfile = { id: user.id, email: user.email, nick: 'Player', gd_nick: 'Player', level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() }; 
   }
   applyBanState();
   window.updateBalanceUI(userProfile ? userProfile.balance : 0);
@@ -3054,15 +3054,13 @@ async function renderProfilePage() {
 
     let profile = pR.data;
     
-    // Фолбэк: если профиля нет в БД, но это профиль текущего авторизованного юзера
     if(!profile && user && currentProfileId === user.id && userProfile) {
        profile = userProfile;
     }
 
-    // Если профиль так и не нашли (например, чужой удаленный аккаунт)
     if(!profile) { 
       toast(LANG==='ru'?'Профиль не найден!':'Profile not found!', true); 
-      go('home'); // Вместо выкидывания из аккаунта просто перекидываем на главную
+      go('home'); 
       return; 
     }
     
@@ -3084,7 +3082,6 @@ async function renderProfilePage() {
       $('#prof-email').style.display = 'none';
     }
     
-    // Безопасная дата регистрации (если её нет, пишем "Недавно")
     const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US') : 'Недавно';
     $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + createdDate;
     
@@ -4615,11 +4612,19 @@ async function initAuth(){
   if(!sb) return;
   const hash = location.hash || '';
   if(hash.includes('access_token=') || hash.includes('error_description=')){ try{ history.replaceState(null,'',location.pathname+location.search); }catch(_){} }
+  
   const deviceBanned = await checkBannedDevice();
   if(deviceBanned){ document.documentElement.setAttribute('data-device-banned','true'); return; }
+  
   const { data } = await sb.auth.getSession();
   user = data.session ? data.session.user : null;
   window.updateHeaderUI();
+  
+  // ВАЖНО: Если человек уже авторизован при загрузке страницы, принудительно грузим его профиль
+  if (user) {
+    await afterLogin();
+  }
+
   let lastAuthHandledId = undefined;
   sb.auth.onAuthStateChange(async (_ev, s) => {
     const newUserId = s?.user?.id || null;
