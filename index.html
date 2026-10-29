@@ -2984,11 +2984,10 @@ async function loadProfile(){
     if(error) throw error;
     
     if(!data){
-      // Берем тот ник, который человек ввел при регистрации!
-      // Если его нет, берем из почты.
-      let baseNick = user.user_metadata?.gd_nick || (user.email ? user.email.split('@')[0] : 'Player');
+      // Берем ник, который ввели при регистрации
+      const baseNick = user.user_metadata?.gd_nick || (user.email ? user.email.split('@')[0] : 'Player');
       
-      // Пытаемся создать профиль с этим ником
+      // Пытаемся создать профиль
       const { data: inserted, error: insErr } = await sb.from('profiles').insert([{ 
         id: user.id, 
         email: user.email, 
@@ -2999,19 +2998,15 @@ async function loadProfile(){
       }]).select().maybeSingle();
 
       if(insErr) {
-        console.error("Не удалось создать профиль, возможно ник занят:", insErr);
-        // Если ник реально занят кем-то другим, добавляем цифры
-        const fallbackNick = baseNick + '_' + Math.floor(Math.random() * 1000);
-        const { data: inserted2 } = await sb.from('profiles').insert([{ 
-          id: user.id, 
-          email: user.email, 
-          nick: fallbackNick, 
-          gd_nick: fallbackNick, 
-          level: 0, 
-          balance: 0 
-        }]).select().maybeSingle();
-        
-        userProfile = inserted2 || { id: user.id, email: user.email, nick: fallbackNick, gd_nick: fallbackNick, level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() };
+        // ЕСЛИ ОШИБКА - ВЫВОДИМ ЕЕ В КОНСОЛЬ И НЕ ДОБАВЛЯЕМ ЦИФРЫ
+        console.error("ОШИБКА СОЗДАНИЯ ПРОФИЛЯ: ", insErr.message, insErr.details);
+        // Создаем временный профиль для работы сайта (без записи в БД)
+        userProfile = { 
+          id: user.id, email: user.email, nick: baseNick, gd_nick: baseNick, 
+          level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
+          nick_font: '', nick_style: '', badge_text: null, 
+          created_at: new Date().toISOString() 
+        };
       } else {
         userProfile = inserted;
       }
@@ -3019,9 +3014,13 @@ async function loadProfile(){
       userProfile = data;
     }
   }catch(e){ 
-    console.error("Ошибка loadProfile:", e);
+    console.error("Системная ошибка loadProfile:", e);
     const fallbackNick = user.user_metadata?.gd_nick || 'Player';
-    userProfile = { id: user.id, email: user.email, nick: fallbackNick, gd_nick: fallbackNick, level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() }; 
+    userProfile = { 
+      id: user.id, email: user.email, nick: fallbackNick, gd_nick: fallbackNick, 
+      level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
+      nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() 
+    }; 
   }
   applyBanState();
   window.updateBalanceUI(userProfile ? userProfile.balance : 0);
