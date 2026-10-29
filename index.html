@@ -2982,11 +2982,22 @@ async function loadProfile(){
   try{
     const { data, error } = await sb.from('profiles').select('*').eq('id',user.id).maybeSingle();
     if(error) throw error;
+    
     if(!data){
-      await sb.from('profiles').insert([{ id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, balance:0 }]);
-      userProfile = { id:user.id, email:user.email, nick:user.email.split('@')[0], gd_nick:user.email.split('@')[0], level:0, banned:false, nick_color:'#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null };
-    } else userProfile = data;
-  }catch(_){ userProfile = null; }
+      toast(LANG==='ru'?'Профиль не найден в базе. Войдите или зарегистрируйтесь заново.':'Profile not found. Please log in or register again.', true);
+      await sb.auth.signOut();
+      user = null; 
+      userProfile = null;
+      window.updateHeaderUI();
+      go('cabinet');
+      return;
+    }
+    
+    userProfile = data;
+  }catch(e){ 
+    console.error("Ошибка loadProfile:", e);
+    userProfile = null; 
+  }
   applyBanState();
   window.updateBalanceUI(userProfile ? userProfile.balance : 0);
 }
@@ -3007,6 +3018,7 @@ async function renderProfilePage() {
   if(!currentProfileId || !sb) { go('home'); return; }
   const container = $('#page-profile');
   const wrap = container.querySelector('.wrap');
+  
   try {
     const [pR,ptR,cR,aR, invR] = await Promise.all([
       sb.from('profiles').select('*').eq('id',currentProfileId).maybeSingle(),
@@ -3015,15 +3027,29 @@ async function renderProfilePage() {
       sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false}),
       sb.from('inventory').select('*').eq('user_id',currentProfileId).gte('expires_at', new Date().toISOString())
     ]);
+
     const profile = pR.data;
-    if(!profile) { toast('Профиль не найден', true); go('leaderboard'); return; }
+    
+    if(!profile) { 
+      toast(LANG==='ru'?'Профиль не найден! Войдите заново.':'Profile not found! Please log in again.', true); 
+      if (user && currentProfileId === user.id) {
+        doLogout();
+      } else {
+        go('leaderboard');
+      }
+      return; 
+    }
+    
     const pts = (ptR.data && ptR.data.points) || 0;
     const cups = cR.data || [], apps = aR.data || [], inv = invR.data || [];
     const lvl = profile.level || 0;
     const balance = profile.balance || 0;
+    
     $('#prof-avatar').textContent = initials(profile.nick);
     $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
+    
     $('#prof-nick').innerHTML = formatNick(profile);
+    
     const isMe = user && user.id === currentProfileId;
     if (isMe || canModerate()) {
       $('#prof-email').style.display = 'block';
@@ -3031,11 +3057,14 @@ async function renderProfilePage() {
     } else {
       $('#prof-email').style.display = 'none';
     }
+    
     $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US');
+    
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
     $('#prof-cups-count').textContent = cups.length;
     $('#prof-balance').textContent = balance + ' ₽';
+    
     const invGrid = $('#prof-inventory'); invGrid.replaceChildren();
     if(!inv.length) {
       invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
@@ -3043,11 +3072,14 @@ async function renderProfilePage() {
       inv.forEach(item => {
         const shopItem = shopItems.find(s => s.id === item.item_id);
         if(!shopItem) return;
+        
         const isEquipped = (shopItem.type === 'font' && profile.nick_font === shopItem.css_class) ||
                            (shopItem.type === 'style' && profile.nick_style === shopItem.css_class);
+                           
         const date = new Date(item.expires_at);
         const now = new Date();
         const daysLeft = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
+        
         const card = document.createElement('div');
         card.className = 'inv-card';
         card.innerHTML = `
@@ -3058,15 +3090,19 @@ async function renderProfilePage() {
         `;
         invGrid.appendChild(card);
       });
+      
       invGrid.querySelectorAll('.inv-equip').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           const itemId = btn.dataset.item;
           const type = btn.dataset.type;
           const cssClass = btn.dataset.class;
+          
           const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
           if (error) { toast('Ошибка: ' + error.message, true); return; }
+          
           if(type === 'font') userProfile.nick_font = cssClass;
           if(type === 'style') userProfile.nick_style = cssClass;
+          
           toast('Успешно надето!');
           renderProfilePage();
           await renderLeaderboard();
@@ -3074,6 +3110,7 @@ async function renderProfilePage() {
         });
       });
     }
+
     const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
     if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
     else {
@@ -3084,6 +3121,7 @@ async function renderProfilePage() {
         cupsList.appendChild(card);
       });
     }
+    
     const appsList = $('#prof-apps-list'); appsList.replaceChildren();
     if(!apps.length) { appsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>'; }
     else {
@@ -3096,16 +3134,20 @@ async function renderProfilePage() {
         appsList.appendChild(item);
       });
     }
+    
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
+    
     const add = (icon, text, cls, fn) => {
       const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
       b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
       b.addEventListener('click', fn); adminTools.appendChild(b);
     };
+
     if(isMe) {
       add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile));
       add('i-logout', 'Выйти', 'danger', doLogout);
     }
+
     if(canModerate()){
       if(isAdmin() && !isMe){
         add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
@@ -3121,10 +3163,12 @@ async function renderProfilePage() {
         else add('i-ban', 'Забанить', 'danger', () => banUser(currentProfileId));
       }
     }
+    
     add('i-link', 'Ссылка', 'ghost', () => {
       const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
       navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
     });
+    
   } catch(err) {
     console.error(err);
     toast('Ошибка загрузки профиля', true);
@@ -3296,7 +3340,7 @@ function doLogout(){
     applyBanState();
     window.updateHeaderUI();
     renderAdmin(); renderTournaments(); window.updateBalanceUI(0);
-    go('home');
+    go('cabinet');
   });
 }
 
@@ -4432,25 +4476,34 @@ async function afterLogin(){
   const logged = !!user;
   $('#cabinet-auth').classList.toggle('hidden', logged);
   if(!logged) return;
+  
   try {
     await sb.rpc('claim_pending_donations'); 
+    
     await checkModerator();
     await loadProfile();
+    
+    if(!user || !userProfile) return; 
+
     if(user && user.id) await trackDevice(user.id);
     if(userProfile && userProfile.banned) return;
     if(document.documentElement.hasAttribute('data-banned')) return;
+    
     await loadTournaments(); await loadStages(); await loadShopItems();
     await loadSettings();
     await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
     myInventory = await loadMyInventory();
     if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
+    
     renderAdmin();
     updateAdminStats();
+    
     if(current === 'tournaments') renderTournaments();
     if(current === 'shop') renderShop();
     if(current === 'support') renderSupport();
     if(current === 'chat') renderChat();
     if(current === 'profile') renderProfilePage();
+    
     window.updateHeaderUI();
     applyMaintenanceState(); 
     setupRealtime();
