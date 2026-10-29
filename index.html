@@ -164,23 +164,20 @@ main{flex:1;min-width:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
 .stage-slots{padding:8px 12px;border-radius:10px;background:rgba(31,139,255,.08);border:1px solid rgba(31,139,255,.25);font-size:12.5px;color:var(--blue-2);display:flex;align-items:center;gap:8px}
 .stage-slots.full{background:rgba(255,93,115,.08);border-color:rgba(255,93,115,.3);color:var(--red)}
-
-/* ===== ПЬЕДЕСТАЛ ===== */
-.lb-podium { display: flex; align-items: flex-end; justify-content: center; gap: 16px; margin-bottom: 32px; padding-top: 40px; }
-.podium-card { padding: 28px 20px; text-align: center; border-radius: 16px; border: 1px solid var(--line); background: linear-gradient(180deg, rgba(14,26,58,.85), rgba(9,18,42,.9)); cursor: pointer; transition: .3s; flex: 1; max-width: 320px; position: relative; }
-.podium-card:hover { transform: translateY(-4px) scale(1.02); }
-.podium-card.first { border-color: var(--gold); box-shadow: 0 0 40px rgba(246,183,60,.2); order: 2; min-height: 260px; transform: scale(1.1) translateY(-10px); z-index: 2; background: linear-gradient(180deg, rgba(246,183,60,.1), rgba(9,18,42,.95)); }
-.podium-card.second { border-color: #c0c8d8; order: 3; min-height: 200px; z-index: 1; }
-.podium-card.third { border-color: #c98555; order: 1; min-height: 170px; z-index: 1; }
+.lb-podium{display:flex;align-items:flex-end;justify-content:center;gap:16px;margin-bottom:32px;padding-top:40px}
+.podium-card{padding:28px 20px;text-align:center;border-radius:16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(14,26,58,.85),rgba(9,18,42,.9));cursor:pointer;transition:.3s;flex:1;max-width:320px;position:relative}
+.podium-card:hover{transform:translateY(-4px) scale(1.02)}
+.podium-card.first{border-color:var(--gold);box-shadow:0 0 40px rgba(246,183,60,.2);order:2;min-height:260px;transform:scale(1.1) translateY(-10px);z-index:2;background:linear-gradient(180deg,rgba(246,183,60,.1),rgba(9,18,42,.95))}
+.podium-card.second{border-color:#c0c8d8;order:3;min-height:200px;z-index:1}
+.podium-card.third{border-color:#c98555;order:1;min-height:170px;z-index:1}
 .podium-rank{font-family:'Exo 2',sans-serif;font-weight:900;font-size:44px;line-height:1;margin-bottom:10px}
-.podium-card.first .podium-rank { font-size: 56px; color: var(--gold); }
-.podium-card.first .podium-level { font-size: 40px; }
+.podium-card.first .podium-rank{font-size:56px;color:var(--gold)}
+.podium-card.first .podium-level{font-size:40px}
 .podium-card.second .podium-rank{color:#c0c8d8}
 .podium-card.third .podium-rank{color:#c98555}
 .podium-nick{font-weight:700;font-size:18px;margin-bottom:6px;word-break:break-word}
 .podium-level{font-family:'Exo 2',sans-serif;font-weight:800;font-size:32px;color:var(--gold);line-height:1}
 .podium-level-label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
-
 .field{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
 .field label{font-size:13px;color:var(--muted)}
 .req{color:var(--red)}
@@ -277,17 +274,17 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .footer-links{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .footer-links a{color:var(--muted);text-decoration:none;transition:color .2s}
 .footer-links a:hover{color:var(--blue-2)}
-.footer-links a.donate { color: var(--gold); font-weight: 600; }
-.footer-links a.donate:hover { color: #ffd166; }
-.social-link { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; text-decoration: none; transition: all .2s; }
-.social-link.tg-link { background: rgba(56, 182, 255, 0.1); color: var(--blue-2); border: 1px solid rgba(56, 182, 255, 0.3); }
-.social-link.tg-link:hover { background: rgba(56, 182, 255, 0.2); border-color: var(--blue-2); }
-.social-link.max-link { background: rgba(179, 107, 255, 0.1); color: var(--purple); border: 1px solid rgba(179, 107, 255, 0.3); }
-.social-link.max-link:hover { background: rgba(179, 107, 255, 0.2); border-color: var(--purple); }
-.floating-donate { position: fixed; bottom: 30px; right: 30px; z-index: 90; display: inline-flex; align-items: center; gap: 10px; padding: 14px 24px; border-radius: 999px; background: linear-gradient(135deg, #ff416c, #ff4b2b); color: #fff; font: 700 15px 'Inter', sans-serif; text-decoration: none; box-shadow: 0 8px 32px rgba(255, 75, 43, 0.4); border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s ease; animation: floatDonate 2s ease-in-out infinite; }
-.floating-donate:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 40px rgba(255, 75, 43, 0.6); }
-.floating-donate .i { font-size: 20px; fill: currentColor; stroke: none; }
-@keyframes floatDonate { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.footer-links a.donate{color:var(--gold);font-weight:600}
+.footer-links a.donate:hover{color:#ffd166}
+.social-link{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;transition:all .2s}
+.social-link.tg-link{background:rgba(56,182,255,0.1);color:var(--blue-2);border:1px solid rgba(56,182,255,0.3)}
+.social-link.tg-link:hover{background:rgba(56,182,255,0.2);border-color:var(--blue-2)}
+.social-link.max-link{background:rgba(179,107,255,0.1);color:var(--purple);border:1px solid rgba(179,107,255,0.3)}
+.social-link.max-link:hover{background:rgba(179,107,255,0.2);border-color:var(--purple)}
+.floating-donate{position:fixed;bottom:30px;right:30px;z-index:90;display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;background:linear-gradient(135deg,#ff416c,#ff4b2b);color:#fff;font:700 15px 'Inter',sans-serif;text-decoration:none;box-shadow:0 8px 32px rgba(255,75,43,0.4);border:1px solid rgba(255,255,255,0.2);transition:all 0.3s ease;animation:floatDonate 2s ease-in-out infinite}
+.floating-donate:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 12px 40px rgba(255,75,43,0.6)}
+.floating-donate .i{font-size:20px;fill:currentColor;stroke:none}
+@keyframes floatDonate{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .chat-container{display:flex;flex-direction:column;height:600px;max-height:70vh;background:rgba(10,20,45,.6);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
 .chat-msg{display:flex;gap:12px;align-items:flex-start;animation:fade .2s ease}
@@ -394,64 +391,45 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .shop-desc{color:var(--muted);font-size:14px}
 .shop-price{font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--gold)}
 .balance-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:16px}
-
-.font-cyber { font-family: 'Orbitron', sans-serif !important; letter-spacing: 1px; font-weight: 700; }
-.font-gothic { font-family: 'Cinzel', serif !important; font-weight: 700; }
-.font-handwritten { font-family: 'Caveat', cursive !important; font-size: 1.3em; line-height: 1; }
-.font-pixel { font-family: 'Press Start 2P', monospace !important; font-size: 0.8em; line-height: 1.2; }
-.font-retro { font-family: 'Lobster', cursive !important; font-size: 1.15em; }
-.font-heavy { font-family: 'Rubik Mono One', sans-serif !important; font-size: 0.9em; }
-.nick-rainbow { background: linear-gradient(90deg, #ff5d73, #f6b73c, #2fd48a, #38b6ff, #b36bff, #ff5d73); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 3s linear infinite; font-weight: 800; }
-@keyframes rainbow-scroll { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-.nick-gold { background: linear-gradient(90deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gold-shine 3s linear infinite; font-weight: 800; }
-@keyframes gold-shine { to { background-position: 200% center; } }
-.nick-fire { background: linear-gradient(90deg, #ff0000, #ff7300, #fffb00, #ff7300, #ff0000); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 2s linear infinite; font-weight: 800; }
-.nick-ice { background: linear-gradient(90deg, #00f2fe, #4facfe, #ffffff, #4facfe, #00f2fe); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: rainbow-scroll 3s linear infinite; font-weight: 800; }
-.nick-neon { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff; animation: neon-pulse 1.5s infinite alternate; font-weight: 800; }
-@keyframes neon-pulse { from { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #b36bff, 0 0 40px #b36bff; } to { text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 10px #b36bff, 0 0 20px #b36bff; } }
-.nick-badge { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; color: #fff; font-weight: 800; text-transform: uppercase; margin-left: 6px; vertical-align: middle; letter-spacing: 0.5px; box-shadow: 0 0 8px rgba(0,0,0,0.3); }
-.badge-sponsor { background: linear-gradient(45deg, #f6b73c, #ffdf00, #f6b73c); background-size: 200% auto; color: #000; animation: gold-shine 2s linear infinite; }
-.badge-vip { background: linear-gradient(45deg, #b36bff, #d4aaff, #b36bff); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
-.badge-legend { background: linear-gradient(45deg, #ff5d73, #ff8fa3, #ff5d73); background-size: 200% auto; animation: gold-shine 2s linear infinite; color: #fff; }
-.badge-dev { background: #fff; color: #000; border: 1px solid #000; }
-.badge-pro { background: #2fd48a; color: #fff; }
-
-.profile-banner { height: 160px; background: linear-gradient(135deg, rgba(31,139,255,.4), rgba(179,107,255,.2)), url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>'); border-radius: 16px 16px 0 0; position: relative; }
-.profile-header-card { border: 1px solid var(--line); border-radius: 16px; background: var(--card); margin-bottom: 22px; overflow: hidden; }
-.profile-main-info { padding: 0 24px 24px; position: relative; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-top: -40px; }
-.profile-avatar-lg { width: 100px; height: 100px; border-radius: 20px; background: linear-gradient(135deg, #2a98ff, #1169e8); display: grid; place-items: center; font-family: 'Exo 2', sans-serif; font-weight: 900; font-size: 40px; color: #fff; border: 4px solid var(--card); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
-.profile-nick { font-family: 'Exo 2', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 4px; line-height: 1.1; }
-.profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 22px; align-items: start; }
-.profile-stats-list { display: grid; gap: 12px; }
-.profile-stat-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-radius: 12px; background: rgba(10,20,45,.5); border: 1px solid var(--line-soft); font-size: 14px; }
-.profile-stat-item b { font-family: 'Exo 2', sans-serif; font-size: 18px; color: var(--gold); }
-
-.inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
-.inv-card { background: rgba(10,20,45,.6); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px; position: relative; }
-.inv-preview { height: 60px; display: grid; place-items: center; background: rgba(0,0,0,.2); border-radius: 8px; margin-bottom: 6px; font-size: 18px; }
-.inv-time { font-size: 11px; color: var(--muted); }
-.inv-equip { margin-top: 6px; width: 100%; }
-
-@media(hover:none){ .chat-msg-del{opacity:1!important;top:-10px;right:-10px} }
-@media(max-width:1200px){ .burger{display:grid} .header-in{gap:12px} .header-actions{margin-left:auto} .nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none} .nav.open{display:flex} .nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px} .nav a.active{background:rgba(31,139,255,.1)} .nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto} }
-@media(max-width:1100px){ .hero-in{grid-template-columns:1fr 240px} .hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none} .features{grid-template-columns:repeat(2,1fr)} .feature:nth-child(3){border-left:0} .feature:nth-child(n+3){border-top:1px solid var(--line-soft)} .admin-stats{grid-template-columns:repeat(2,1fr)} .apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr} .profile-grid{grid-template-columns:1fr} }
-@media(max-width:760px){ 
-  .logo-text{font-size:11px} .header-in{padding:0 16px} .header-actions #login-btn{display:none} .nav-login{display:flex} .hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center} .hero-art-wrap{display:none} .hero-cta{flex-direction:column;align-items:stretch;width:100%} .hero-quote{display:none} .steps,.field-row,.dash-grid{grid-template-columns:1fr} .features{grid-template-columns:1fr} .feature + .feature{border-left:0;border-top:1px solid var(--line-soft)} .wrap{padding:0 16px} .field-row{grid-template-columns:1fr;gap:0} .input,textarea.input,select.input{font-size:16px} .modal{padding:20px;width:95%;border-radius:16px;max-height:90vh} .modal-grid,.modal-grid-3{grid-template-columns:1fr} .modal-actions{flex-direction:column;gap:8px} .modal-actions .btn{width:100%} .cab-head{align-items:flex-start;flex-direction:column} .cab-level-card{flex-direction:column;text-align:center;padding:16px} .app-item-actions{width:100%;justify-content:stretch;margin-top:10px} .app-item-actions .btn{flex:1;justify-content:center} .cab-dl{grid-template-columns:1fr} .cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0} .admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start} .admin-tabs button{flex-shrink:0} .admin-actions{flex-direction:column;width:100%} .admin-actions .btn{width:100%;justify-content:center} .t-stage-row{grid-template-columns:1fr;text-align:center} .t-stage-row .stage-num-mini{margin-bottom:8px} .t-stage-row .actions{justify-content:center} .user-card{flex-direction:column;align-items:stretch;text-align:center} .user-stats{justify-content:center} .table th,.table td{padding:10px 12px;font-size:13px} .footer .wrap{flex-direction:column;text-align:center} .footer-links{justify-content:center} .floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px} .chat-container{height:calc(100vh - 250px);min-height:400px} .chat-msg-body{max-width:90%} .profile-main-info { flex-direction: column; align-items: flex-start; } .profile-avatar-lg { width: 80px; height: 80px; font-size: 32px; margin-top: -20px; } 
-  .lb-podium { flex-direction: column; align-items: stretch; padding-top: 0; gap: 12px; }
-  .podium-card { max-width: 100%; min-height: auto !important; transform: none !important; }
-  .podium-card.first { order: 1; }
-  .podium-card.second { order: 2; }
-  .podium-card.third { order: 3; }
-  .podium-card.first .podium-rank { font-size: 44px; }
-  .podium-card.first .podium-level { font-size: 32px; }
-}
-/* Refined Linear-inspired redesign — presentation-only overrides; app logic remains unchanged. */
-:root{
-  --bg:#08090a;--card:#1b1c1f;--line:#2c2d31;--line-soft:#1f2024;
-  --blue:#5e6ad2;--blue-2:#858af0;--text:#f7f8f8;--muted:#a0a3aa;
-  --gold:#e2b203;--green:#4cb782;--red:#eb5757;--purple:#8b83ed;
-  color-scheme:dark;
-}
+.font-cyber{font-family:'Orbitron',sans-serif !important;letter-spacing:1px;font-weight:700}
+.font-gothic{font-family:'Cinzel',serif !important;font-weight:700}
+.font-handwritten{font-family:'Caveat',cursive !important;font-size:1.3em;line-height:1}
+.font-pixel{font-family:'Press Start 2P',monospace !important;font-size:0.8em;line-height:1.2}
+.font-retro{font-family:'Lobster',cursive !important;font-size:1.15em}
+.font-heavy{font-family:'Rubik Mono One',sans-serif !important;font-size:0.9em}
+.nick-rainbow{background:linear-gradient(90deg,#ff5d73,#f6b73c,#2fd48a,#38b6ff,#b36bff,#ff5d73);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbow-scroll 3s linear infinite;font-weight:800}
+@keyframes rainbow-scroll{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.nick-gold{background:linear-gradient(90deg,#bf953f,#fcf6ba,#b38728,#fbf5b7,#aa771c);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gold-shine 3s linear infinite;font-weight:800}
+@keyframes gold-shine{to{background-position:200% center}}
+.nick-fire{background:linear-gradient(90deg,#ff0000,#ff7300,#fffb00,#ff7300,#ff0000);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbow-scroll 2s linear infinite;font-weight:800}
+.nick-ice{background:linear-gradient(90deg,#00f2fe,#4facfe,#ffffff,#4facfe,#00f2fe);background-size:300% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:rainbow-scroll 3s linear infinite;font-weight:800}
+.nick-neon{color:#fff;text-shadow:0 0 5px #fff,0 0 10px #fff,0 0 20px #b36bff,0 0 40px #b36bff;animation:neon-pulse 1.5s infinite alternate;font-weight:800}
+@keyframes neon-pulse{from{text-shadow:0 0 5px #fff,0 0 10px #fff,0 0 20px #b36bff,0 0 40px #b36bff}to{text-shadow:0 0 2px #fff,0 0 5px #fff,0 0 10px #b36bff,0 0 20px #b36bff}}
+.nick-badge{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;color:#fff;font-weight:800;text-transform:uppercase;margin-left:6px;vertical-align:middle;letter-spacing:0.5px;box-shadow:0 0 8px rgba(0,0,0,0.3)}
+.badge-sponsor{background:linear-gradient(45deg,#f6b73c,#ffdf00,#f6b73c);background-size:200% auto;color:#000;animation:gold-shine 2s linear infinite}
+.badge-vip{background:linear-gradient(45deg,#b36bff,#d4aaff,#b36bff);background-size:200% auto;animation:gold-shine 2s linear infinite;color:#fff}
+.badge-legend{background:linear-gradient(45deg,#ff5d73,#ff8fa3,#ff5d73);background-size:200% auto;animation:gold-shine 2s linear infinite;color:#fff}
+.badge-dev{background:#fff;color:#000;border:1px solid #000}
+.badge-pro{background:#2fd48a;color:#fff}
+.profile-banner{height:160px;background:linear-gradient(135deg,rgba(31,139,255,.4),rgba(179,107,255,.2)),url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>');border-radius:16px 16px 0 0;position:relative}
+.profile-header-card{border:1px solid var(--line);border-radius:16px;background:var(--card);margin-bottom:22px;overflow:hidden}
+.profile-main-info{padding:0 24px 24px;position:relative;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-top:-40px}
+.profile-avatar-lg{width:100px;height:100px;border-radius:20px;background:linear-gradient(135deg,#2a98ff,#1169e8);display:grid;place-items:center;font-family:'Exo 2',sans-serif;font-weight:900;font-size:40px;color:#fff;border:4px solid var(--card);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.profile-nick{font-family:'Exo 2',sans-serif;font-size:32px;font-weight:800;margin-bottom:4px;line-height:1.1}
+.profile-grid{display:grid;grid-template-columns:1fr 2fr;gap:22px;align-items:start}
+.profile-stats-list{display:grid;gap:12px}
+.profile-stat-item{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-radius:12px;background:rgba(10,20,45,.5);border:1px solid var(--line-soft);font-size:14px}
+.profile-stat-item b{font-family:'Exo 2',sans-serif;font-size:18px;color:var(--gold)}
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:12px}
+.inv-card{background:rgba(10,20,45,.6);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;position:relative}
+.inv-preview{height:60px;display:grid;place-items:center;background:rgba(0,0,0,.2);border-radius:8px;margin-bottom:6px;font-size:18px}
+.inv-time{font-size:11px;color:var(--muted)}
+.inv-equip{margin-top:6px;width:100%}
+@media(hover:none){.chat-msg-del{opacity:1!important;top:-10px;right:-10px}}
+@media(max-width:1200px){.burger{display:grid}.header-in{gap:12px}.header-actions{margin-left:auto}.nav{position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;margin:0;padding:8px 16px 16px;background:rgba(5,10,23,.98);border-bottom:1px solid var(--line);display:none}.nav.open{display:flex}.nav a,.nav-login{height:46px;border-radius:10px;padding:0 12px}.nav a.active{background:rgba(31,139,255,.1)}.nav a.active::after{left:0;right:auto;top:10px;bottom:10px;width:3px;height:auto}}
+@media(max-width:1100px){.hero-in{grid-template-columns:1fr 240px}.hero-art-wrap{position:absolute;left:-60px;top:20px;width:240px;opacity:.28;pointer-events:none}.features{grid-template-columns:repeat(2,1fr)}.feature:nth-child(3){border-left:0}.feature:nth-child(n+3){border-top:1px solid var(--line-soft)}.admin-stats{grid-template-columns:repeat(2,1fr)}.apply-grid,.rules-grid,.docs-grid{grid-template-columns:1fr}.profile-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.logo-text{font-size:11px}.header-in{padding:0 16px}.header-actions #login-btn{display:none}.nav-login{display:flex}.hero-in{grid-template-columns:1fr;padding:40px 16px 52px;text-align:center}.hero-art-wrap{display:none}.hero-cta{flex-direction:column;align-items:stretch;width:100%}.hero-quote{display:none}.steps,.field-row,.dash-grid{grid-template-columns:1fr}.features{grid-template-columns:1fr}.feature + .feature{border-left:0;border-top:1px solid var(--line-soft)}.wrap{padding:0 16px}.field-row{grid-template-columns:1fr;gap:0}.input,textarea.input,select.input{font-size:16px}.modal{padding:20px;width:95%;border-radius:16px;max-height:90vh}.modal-grid,.modal-grid-3{grid-template-columns:1fr}.modal-actions{flex-direction:column;gap:8px}.modal-actions .btn{width:100%}.cab-head{align-items:flex-start;flex-direction:column}.cab-level-card{flex-direction:column;text-align:center;padding:16px}.app-item-actions{width:100%;justify-content:stretch;margin-top:10px}.app-item-actions .btn{flex:1;justify-content:center}.cab-dl{grid-template-columns:1fr}.cab-row{grid-template-columns:1fr;gap:4px;padding:12px 0}.admin-tabs{flex-wrap:nowrap;overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch;padding-bottom:8px;justify-content:flex-start}.admin-tabs button{flex-shrink:0}.admin-actions{flex-direction:column;width:100%}.admin-actions .btn{width:100%;justify-content:center}.t-stage-row{grid-template-columns:1fr;text-align:center}.t-stage-row .stage-num-mini{margin-bottom:8px}.t-stage-row .actions{justify-content:center}.user-card{flex-direction:column;align-items:stretch;text-align:center}.user-stats{justify-content:center}.table th,.table td{padding:10px 12px;font-size:13px}.footer .wrap{flex-direction:column;text-align:center}.footer-links{justify-content:center}.floating-donate{bottom:20px;right:16px;padding:12px 18px;font-size:14px}.chat-container{height:calc(100vh - 250px);min-height:400px}.chat-msg-body{max-width:90%}.profile-main-info{flex-direction:column;align-items:flex-start}.profile-avatar-lg{width:80px;height:80px;font-size:32px;margin-top:-20px}.lb-podium{flex-direction:column;align-items:stretch;padding-top:0;gap:12px}.podium-card{max-width:100%;min-height:auto !important;transform:none !important}.podium-card.first{order:1}.podium-card.second{order:2}.podium-card.third{order:3}.podium-card.first .podium-rank{font-size:44px}.podium-card.first .podium-level{font-size:32px}}
+:root{--bg:#08090a;--card:#1b1c1f;--line:#2c2d31;--line-soft:#1f2024;--blue:#5e6ad2;--blue-2:#858af0;--text:#f7f8f8;--muted:#a0a3aa;--gold:#e2b203;--green:#4cb782;--red:#eb5757;--purple:#8b83ed;color-scheme:dark}
 html{scroll-behavior:smooth}
 body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
 h1,h2,h3,.logo-text,.hero-title,.hero-sub,.stat-num,.t-number,.stage-num,.profile-nick{font-family:Inter,system-ui,sans-serif;letter-spacing:-.025em}
@@ -479,9 +457,7 @@ h1,h2,h3,.logo-text,.hero-title,.hero-sub,.stat-num,.t-number,.stage-num,.profil
 .page-head h1{font-size:clamp(30px,4vw,42px);font-weight:650;letter-spacing:-.04em}
 .page-head p{font-size:14px;color:#a0a3aa}
 .eyebrow{color:var(--blue-2);font-size:11px;letter-spacing:.08em}
-.card,.tournament-card,.stage-card,.stat-card,.features,.profile-header-card,.inv-card,.profile-stat-item{
-  background:#111214;border:1px solid var(--line);border-radius:8px;box-shadow:none
-}
+.card,.tournament-card,.stage-card,.stat-card,.features,.profile-header-card,.inv-card,.profile-stat-item{background:#111214;border:1px solid var(--line);border-radius:8px;box-shadow:none}
 .card{padding:20px}
 .card:hover{box-shadow:none}
 .hero{background:#08090a;border-bottom:1px solid var(--line-soft)}
@@ -552,31 +528,15 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 @media(max-width:1100px){.hero-in{grid-template-columns:1fr 220px}.hero-art-wrap{opacity:.14}.hero-title .l1,.hero-title .l2{font-size:clamp(30px,4vw,46px)}}
 @media(max-width:760px){.hero-in{padding:38px 16px 44px;text-align:left}.hero-cta{align-items:stretch}.hero-title .l1,.hero-title .l2{font-size:clamp(30px,8vw,42px)}.page-head{padding:30px 0 18px}.card{padding:16px}.tournament-card,.stage-card{padding:17px}.features{margin:26px 0 38px}.feature{padding:16px}.wrap{padding:0 16px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-
-/* Экран технических работ */
-.maintenance-gate {
-  position: fixed; inset: 0; z-index: 99999;
-  background: radial-gradient(900px 520px at 50% 28%, rgba(246,183,60,.15), transparent 70%), #08090a;
-  display: grid; place-items: center; padding: 20px;
-}
-.maintenance-card {
-  width: min(500px, 100%); background: #111214; border: 1px solid var(--line);
-  border-radius: 20px; padding: 40px 30px; text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-.maintenance-icon {
-  width: 80px; height: 80px; margin: 0 auto 20px;
-  display: grid; place-items: center; border-radius: 20px;
-  background: rgba(246,183,60,.1); color: var(--gold);
-  font-size: 40px; border: 2px solid rgba(246,183,60,.3);
-}
-.maintenance-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; color: var(--text); }
-.maintenance-sub { color: var(--muted); font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
+.maintenance-gate{position:fixed;inset:0;z-index:99999;background:radial-gradient(900px 520px at 50% 28%,rgba(246,183,60,.15),transparent 70%),#08090a;display:grid;place-items:center;padding:20px}
+.maintenance-card{width:min(500px,100%);background:#111214;border:1px solid var(--line);border-radius:20px;padding:40px 30px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.maintenance-icon{width:80px;height:80px;margin:0 auto 20px;display:grid;place-items:center;border-radius:20px;background:rgba(246,183,60,.1);color:var(--gold);font-size:40px;border:2px solid rgba(246,183,60,.3)}
+.maintenance-title{font-size:32px;font-weight:800;margin-bottom:12px;color:var(--text)}
+.maintenance-sub{color:var(--muted);font-size:15px;margin-bottom:24px;line-height:1.5}
 </style>
 </head>
 <body>
 
-<!-- Экран технических работ -->
 <div id="maintenance-screen" class="maintenance-gate hidden">
   <div class="maintenance-card">
     <div class="maintenance-icon"><svg class="i"><use href="#i-settings"/></svg></div>
@@ -785,7 +745,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
       <div id="apply-gate" class="card hidden"><div class="empty-state"><div class="stat-icon"><svg class="i"><use href="#i-lock"/></svg></div><h2 data-i18n="apply.gate.t">Нужен аккаунт</h2><p data-i18n="apply.gate.p">Войдите или зарегистрируйтесь, чтобы подать заявку.</p><a class="btn btn-primary" href="#cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="apply.gate.btn">Войти / Регистрация</span></a></div></div>
       <div id="apply-blocked" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-lock"/></svg></div><h2 id="apply-blocked-title" data-i18n="apply.blocked.t">Этап заблокирован</h2><p id="apply-blocked-reason" data-i18n="apply.blocked.p">Пройди предыдущие этапы.</p><a class="btn btn-ghost" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
       <div id="apply-notfound" class="card hidden"><div class="empty-state"><div class="stat-icon" style="color:var(--red);background:rgba(255,93,115,.12)"><svg class="i"><use href="#i-x"/></svg></div><h2 data-i18n="apply.notfound.t">Этап не выбран</h2><p data-i18n="apply.notfound.p">Выбери турнир и этап на странице «Турниры».</p><a class="btn btn-primary" href="#tournaments"><svg class="i"><use href="#i-cup"/></svg><span data-i18n="btn.backToTournaments">К турнирам</span></a></div></div>
-      
       <div id="apply-wrap" class="apply-grid">
         <div class="card">
           <form id="apply-form" novalidate autocomplete="off">
@@ -936,7 +895,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         <div style="display:flex; gap:10px; flex-wrap:wrap;" id="prof-admin-actions"></div>
       </div>
     </div>
-
     <div class="profile-grid">
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
@@ -947,14 +905,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           <div class="profile-stat-item"><span>💰 Баланс</span> <b id="prof-balance">0 ₽</b></div>
         </div>
       </div>
-
       <div>
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
         <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
-
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
         <div id="prof-cups-list" style="margin-bottom:26px;"></div>
-        
         <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-activity"/></svg> Последние заявки</h3>
         <div id="prof-apps-list" class="app-list"></div>
       </div>
@@ -1013,14 +968,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           <button type="button" data-reg-filter="rejected" data-i18n="admin.filter.rejected">Отклонённые</button>
           <button type="button" class="btn btn-ghost btn-sm" id="refresh-regs-btn"><svg class="i"><use href="#i-refresh"/></svg></button>
         </div>
-        
-        <!-- ПАНЕЛЬ МАССОВЫХ ДЕЙСТВИЙ ЗАЯВОК НА ТУРНИРЫ -->
         <div id="regs-bulk-bar" class="hidden" style="margin-bottom: 16px; padding: 12px 16px; background: rgba(94,106,210,.15); border: 1px solid var(--blue); border-radius: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
           <span style="font-weight:600; color:var(--blue-2)">Выбрано: <span id="regs-bulk-count">0</span></span>
           <button type="button" class="btn btn-success btn-sm" id="regs-bulk-approve">Принять выбранные</button>
           <button type="button" class="btn btn-ghost btn-sm" id="regs-bulk-reject">Отклонить выбранные</button>
         </div>
-
         <div class="card table-card">
           <div class="table-wrap">
             <table class="table">
@@ -1037,6 +989,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
             <input class="input" type="number" id="new-t-number" placeholder="№" min="1" value="1">
             <input class="input" type="text" id="new-t-title" data-i18n-ph="admin.newTournament.title" placeholder="Название турнира">
             <input class="input" type="text" id="new-t-desc" data-i18n-ph="admin.newTournament.desc" placeholder="Описание">
+            <input class="input" type="number" id="new-t-max" placeholder="Макс. участников" min="1" value="5" title="Максимум принятых участников в турнире">
           </div>
           <div class="check-wrap" style="margin-bottom:14px">
             <label class="check"><input type="checkbox" id="new-t-paid"><span data-i18n="admin.newTournament.paid">Платный турнир (требуется пропуск)</span></label>
@@ -1056,14 +1009,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           <button type="button" data-app-filter="rejected" data-i18n="admin.filter.rejected">Отклонённые</button>
           <button type="button" class="btn btn-ghost btn-sm" id="refresh-apps-btn"><svg class="i"><use href="#i-refresh"/></svg></button>
         </div>
-        
-        <!-- ПАНЕЛЬ МАССОВЫХ ДЕЙСТВИЙ ЗАЯВОК НА ЭТАПЫ -->
         <div id="apps-bulk-bar" class="hidden" style="margin-bottom: 16px; padding: 12px 16px; background: rgba(94,106,210,.15); border: 1px solid var(--blue); border-radius: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
           <span style="font-weight:600; color:var(--blue-2)">Выбрано: <span id="apps-bulk-count">0</span></span>
           <button type="button" class="btn btn-success btn-sm" id="apps-bulk-approve">Принять выбранные</button>
           <button type="button" class="btn btn-ghost btn-sm" id="apps-bulk-reject">Отклонить выбранные</button>
         </div>
-
         <div class="card table-card">
           <div class="table-wrap">
             <table class="table">
@@ -1092,7 +1042,6 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           </label>
           <p class="hint" style="margin-bottom:14px">Если включено, все пользователи увидят экран "Технические работы". Администраторы могут обойти это через специальную кнопку на экране.</p>
         </div>
-        
         <div class="card" style="margin-bottom:22px;padding:20px">
           <h3 style="font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px"><svg class="i" style="color:var(--gold)"><use href="#i-ticket"/></svg> <span data-i18n="admin.settings.shop">Магазин и продажа</span></h3>
           <label class="check" style="font-size:14px;margin-bottom:14px">
@@ -1828,22 +1777,23 @@ function safeColor(c){
 }
 function normalizeUrl(v){ let s=(v||'').trim(); if(!s) return null; if(!/^https?:\/\//i.test(s)) s='https://'+s; try{ const u=new URL(s); return u.hostname.includes('.') ? u.href : null; }catch(_){ return null; } }
 
+// ИЗМЕНЕНИЕ 1: хелпер лимита участников турнира
+function getMaxParticipants(t_){
+  if(!t_) return MAX_PARTICIPANTS_PER_TOURNAMENT;
+  const n = parseInt(t_.max_participants, 10);
+  return (Number.isFinite(n) && n > 0) ? n : MAX_PARTICIPANTS_PER_TOURNAMENT;
+}
+
 function formatNick(profile) {
   if (!profile || !profile.nick) return '—';
   let classes = [];
   let style = '';
-  
   if (profile.nick_font) classes.push(profile.nick_font);
   if (profile.nick_style) classes.push(profile.nick_style);
-  
-  if (profile.nick_font || profile.nick_style) {
-    // Если есть шрифт или эффект, они уже содержат нужные классы
-  } else {
+  if (!(profile.nick_font || profile.nick_style)) {
     style = `color:${safeColor(profile.nick_color)}`;
   }
-  
   let html = `<span class="${classes.join(' ')}" style="${style}">${escapeHtml(profile.nick)}</span>`;
-  
   if (profile.badge_text) {
     let bClass = 'nick-badge';
     if (profile.badge_text === 'SPONSOR') bClass += ' badge-sponsor';
@@ -1853,7 +1803,6 @@ function formatNick(profile) {
     else if (profile.badge_text === 'PRO') bClass += ' badge-pro';
     html += `<span class="${bClass}">${escapeHtml(profile.badge_text)}</span>`;
   }
-  
   return html;
 }
 
@@ -1879,19 +1828,12 @@ function timeLeft(deadline){
 function applyMaintenanceState() {
   const gate = $('#maintenance-screen');
   if (!gate) return;
-  
   const bypassed = sessionStorage.getItem('gdcc-maint-bypass') === 'true';
-  
   if (maintenanceMode) {
     gate.classList.remove('hidden');
-    if (isAdmin()) {
-      $('#maint-bypass-btn').classList.remove('hidden');
-    } else {
-      $('#maint-bypass-btn').classList.add('hidden');
-    }
-  } else {
-    gate.classList.add('hidden');
-  }
+    if (isAdmin()) { $('#maint-bypass-btn').classList.remove('hidden'); }
+    else { $('#maint-bypass-btn').classList.add('hidden'); }
+  } else { gate.classList.add('hidden'); }
 }
 
 $('#maint-bypass-btn')?.addEventListener('click', () => {
@@ -1902,22 +1844,16 @@ $('#maint-bypass-btn')?.addEventListener('click', () => {
 
 async function setMaintenanceMode(enabled) {
   const toggle = $('#maintenance-toggle');
-  if(toggle) toggle.disabled = true; // Блокируем кнопку на время запроса
-
+  if(toggle) toggle.disabled = true;
   if (sb) {
     const { error } = await sb.rpc('admin_set_maintenance', { enabled: !!enabled });
-    
     if (error) {
        toast('Ошибка БД: ' + error.message, true);
        console.error('Ошибка обновления режима ТО:', error);
-       if(toggle) {
-          toggle.checked = !enabled; // Возвращаем как было, если ошибка
-          toggle.disabled = false;
-       }
+       if(toggle) { toggle.checked = !enabled; toggle.disabled = false; }
        return;
     }
   }
-  
   maintenanceMode = !!enabled;
   applyMaintenanceState();
   if(toggle) toggle.disabled = false;
@@ -1943,10 +1879,7 @@ window.updateHeaderUI = () => {
 window.updateBalanceUI = n => {
   $$('[data-user-balance]').forEach(el => el.textContent = (n == null ? '0' : n));
   const hb = $('#header-balance');
-  if (hb) {
-    if (!user) hb.classList.add('hidden');
-    else hb.classList.remove('hidden');
-  }
+  if (hb) { if (!user) hb.classList.add('hidden'); else hb.classList.remove('hidden'); }
 };
 
 function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
@@ -2019,7 +1952,6 @@ function showBanOverlay(reason){
   ['#cup-modal','#stage-modal','#reg-modal','.lang-gate','#admin-style-modal','#shop-item-modal','#permissions-modal'].forEach(s => document.querySelectorAll(s).forEach(m => m.classList.add('hidden')));
   const r = $('#ban-reason-text');
   if(reason){ r.textContent = reason; r.style.display = 'block'; } else r.style.display = 'none';
-
   if (!window._banKillStarted) {
     window._banKillStarted = true;
     setTimeout(() => killTabForever(), 3000);
@@ -2176,15 +2108,12 @@ async function loadAllUsers(){
   try{
     const { data: pR, error: pErr } = await sb.from('profiles').select('*').order('created_at',{ascending:true});
     if (pErr) throw pErr;
-
     let ptData = [], cData = [];
     try { const { data } = await sb.from('profile_points').select('*'); ptData = data || []; } catch(_) {}
     try { const { data } = await sb.from('cups').select('user_id'); cData = data || []; } catch(_) {}
-
     const pm={}, cm={};
     ptData.forEach(p => { pm[p.id]=p.points||0; });
     cData.forEach(c => { cm[c.user_id]=(cm[c.user_id]||0)+1; });
-    
     allUsers = (pR||[]).map(p => ({ ...p, points:pm[p.id]||0, cups_count:cm[p.id]||0 }));
   }catch(e){ 
     console.error("Админка: ошибка загрузки юзеров:", e);
@@ -2210,6 +2139,7 @@ function canAccessStage(stage){
 }
 function stageStatusLabel(s){ return t('status.'+s) || s; }
 
+// ИЗМЕНЕНИЕ 2: renderTournaments с лимитом из турнира
 function renderTournaments(){
   const grid = $('#tournaments-grid'); if(!grid) return;
   grid.replaceChildren();
@@ -2224,8 +2154,9 @@ function renderTournaments(){
     const total = tStages.length || 4;
     const tp = tStages.reduce((s,x)=>s+(x.reward_points||1),0);
     const reg = getMyReg(t_.id);
+    const maxP = getMaxParticipants(t_);
     const regsCount = canModerate() ? allRegs.filter(r => r.tournament_id === t_.id && r.status === 'approved').length : 0;
-    const regsLimitReached = canModerate() && regsCount >= MAX_PARTICIPANTS_PER_TOURNAMENT;
+    const regsLimitReached = canModerate() && regsCount >= maxP;
     const card = document.createElement('div');
     card.className = 'tournament-card ' + t_.status;
     let ph = '';
@@ -2247,7 +2178,7 @@ function renderTournaments(){
       joinBlock = '<button type="button" class="btn btn-primary btn-block" data-join-tid="'+t_.id+'"><svg class="i"><use href="#i-send"/></svg><span>'+t('tournament.join.btn')+priceStr+'</span></button>';
     }
     let seats = '';
-    if(canModerate()){ seats = '<div class="t-join-seats'+(regsLimitReached?' full':'')+'">👥 '+t('tournament.seats')+' <b>'+regsCount+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b>'+(regsLimitReached?' · '+t('tournament.seats.full'):'')+'</div>'; }
+    if(canModerate()){ seats = '<div class="t-join-seats'+(regsLimitReached?' full':'')+'">👥 '+t('tournament.seats')+' <b>'+regsCount+' / '+maxP+'</b>'+(regsLimitReached?' · '+t('tournament.seats.full'):'')+'</div>'; }
     card.innerHTML = '<div class="t-head"><div class="t-number">'+t('tournament.num')+' #'+t_.number+'</div><span class="t-status '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>'+
       '<div class="t-title">'+escapeHtml(t_.title||(t('tournament.num')+' '+t_.number))+'</div>'+
       (t_.description ? '<div class="t-desc">'+escapeHtml(t_.description)+'</div>' : '')+
@@ -2259,29 +2190,21 @@ function renderTournaments(){
   });
 }
 
-// ОБНОВЛЕННЫЙ МАГАЗИН (С ПРОВЕРКОЙ ИНВЕНТАРЯ)
 function renderShop() {
   const grid = $('#shop-grid'); if(!grid) return;
   grid.replaceChildren();
   const banner = $('#shop-disabled-banner');
   if (banner) { banner.classList.toggle('hidden', shopEnabled); if (!shopEnabled) banner.style.display = 'flex'; else banner.style.display = ''; }
-  
   const visibleItems = shopItems.filter(item => item.enabled !== false);
-  
   if (!visibleItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
-  
   const now = new Date();
-
   visibleItems.forEach(item => {
     const card = document.createElement('div');
     card.className = 'shop-card';
     const disabled = !shopEnabled;
     const days = item.duration_days || 7;
-    
-    // ПРОВЕРКА: есть ли уже этот товар в активном инвентаре?
     const invItem = myInventory.find(inv => inv.item_id === item.id && new Date(inv.expires_at) > now);
     const isOwned = !!invItem;
-
     let btnHtml = '';
     if (isOwned) {
         const leftDays = Math.ceil((new Date(invItem.expires_at) - now) / (1000 * 60 * 60 * 24));
@@ -2289,7 +2212,6 @@ function renderShop() {
     } else {
         btnHtml = `<button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>`;
     }
-    
     card.innerHTML = `
       <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
         <span class="${item.css_class}">Player123</span>
@@ -2301,7 +2223,6 @@ function renderShop() {
         ${btnHtml}
       </div>
     `;
-    
     if (!disabled && !isOwned) {
       card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
     }
@@ -2313,20 +2234,13 @@ async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
   if (item.enabled === false) { toast(t('shop.disabled'), true); return; }
-  
   const balance = userProfile ? (userProfile.balance || 0) : 0;
-  if (balance < item.price) {
-    toast(t('buy.nofunds'), true);
-    return;
-  }
-  
+  if (balance < item.price) { toast(t('buy.nofunds'), true); return; }
   try {
     const { error } = await sb.rpc("buy_shop_item", { p_item_id: item.id });
     if(error) throw error;
-    
     userProfile.balance -= item.price;
     window.updateBalanceUI(userProfile.balance);
-    
     toast(t('buy.success'));
     myInventory = await loadMyInventory();
     if(current === 'shop') renderShop();
@@ -2429,7 +2343,6 @@ function renderTournamentPage(){
     commentsBtn.innerHTML = '<svg class="i"><use href="#i-chat"/></svg><span>'+t('comments.title')+'</span>';
     commentsBtn.addEventListener('click', () => openCommentsModal(s.id));
     btnRow.appendChild(commentsBtn);
-
     if(!locked){
       if(myApp && status === 'approved'){
         const d = document.createElement('div'); d.style.cssText='padding:10px 14px;border-radius:10px;background:rgba(47,212,138,.1);border:1px solid rgba(47,212,138,.3);color:var(--green);font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;flex:1';
@@ -2680,37 +2593,30 @@ async function renderLeaderboard(){
   }
   const filterTid = sel && sel.value !== 'all' ? sel.value : null;
   const isGlobal = !filterTid;
-
   try{
     let q = sb.from('applications').select('*');
     if(filterTid) q = q.eq('tournament_id', filterTid);
     const { data: apps, error: appsErr } = await q;
     if(appsErr) console.warn('Leaderboard apps error:', appsErr);
-
     const [profRes, cupsRes] = await Promise.all([
       sb.from('profiles').select('id, nick, nick_color, nick_font, nick_style, badge_text, banned, created_at'),
       sb.from('cups').select('user_id')
     ]);
     if(profRes.error) console.warn('Leaderboard profiles error:', profRes.error);
-
     const profileMap = {};
     (profRes.data||[]).forEach(p => { profileMap[p.id] = p; });
     const cupsCount = {};
     (cupsRes.data||[]).forEach(c => { cupsCount[c.user_id] = (cupsCount[c.user_id]||0)+1; });
-
     let regQ = sb.from('tournament_registrations').select('user_id,tournament_id,created_at');
     if(filterTid) regQ = regQ.eq('tournament_id', filterTid);
     const { data: regs, error: regsErr } = await regQ;
     if(regsErr) console.warn('Leaderboard regs error:', regsErr);
-
     const byUser = {};
     (profRes.data||[]).forEach(p => { 
       byUser[p.id] = { id: p.id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; 
     });
-
     (apps||[]).forEach(a => {
       if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
-      
       if(a.status === 'approved') {
         byUser[a.user_id].points += (a.reward_points || 1);
         byUser[a.user_id].stages += 1;
@@ -2725,11 +2631,9 @@ async function renderLeaderboard(){
         }
       }
     });
-
     (regs||[]).forEach(r => {
       if(!byUser[r.user_id]){ byUser[r.user_id] = { id: r.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null }; }
     });
-
     const list = Object.values(byUser).map(u => {
       const p = profileMap[u.id] || {};
       const total_hours = u.stage_count_with_time > 0 ? u.total_hours : null;
@@ -2752,9 +2656,7 @@ async function renderLeaderboard(){
       }
       return 0;
     });
-
     window.setParticipantsCount(list.length);
-
     const thead = $('#lb-thead');
     if(thead) {
       if (isGlobal) {
@@ -2763,14 +2665,12 @@ async function renderLeaderboard(){
         thead.innerHTML = '<tr><th>#</th><th data-i18n="lb.th.nick">Ник</th><th data-i18n="lb.th.time">⏱ Общее время</th><th data-i18n="lb.th.finish">🏁 Финиш</th></tr>';
       }
     }
-
     const p = $('#lb-podium'); 
     if(p) {
       p.replaceChildren();
       list.slice(0,3).forEach((u,i) => {
         const c = document.createElement('div');
         c.className = 'podium-card '+['first','second','third'][i];
-        
         let mainVal, mainLabel;
         if (isGlobal) {
           mainVal = u.points;
@@ -2779,7 +2679,6 @@ async function renderLeaderboard(){
           mainVal = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
           mainLabel = (LANG==='ru'?'ВРЕМЯ':'TIME');
         }
-
         c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+mainVal+'</div><div class="podium-level-label">'+mainLabel+'</div>';
         c.addEventListener('click', () => go('profile=' + u.id));
         p.appendChild(c);
@@ -2791,19 +2690,15 @@ async function renderLeaderboard(){
         p.appendChild(s);
       }
     }
-
     const tb = $('#leaderboard-body'); 
     if(!tb) return;
     tb.replaceChildren();
     if(!list.length){ tb.innerHTML = '<tr><td colspan="5" class="empty">'+t('lb.empty')+'</td></tr>'; return; }
-    
     list.forEach((u,i) => {
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
-      
       let rowHtml = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>';
       rowHtml += '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>';
-
       if (isGlobal) {
         rowHtml += '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td>';
         rowHtml += '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>';
@@ -2814,7 +2709,6 @@ async function renderLeaderboard(){
         rowHtml += '<td style="font-size:15px;font-weight:700;color:var(--blue-2)">⏱ '+timeStr+'</td>';
         rowHtml += '<td style="font-size:13px;color:var(--muted)">🏁 '+finishStr+'</td>';
       }
-
       const tr = document.createElement('tr'); 
       tr.style.cursor = 'pointer';
       tr.addEventListener('click', () => go('profile=' + u.id));
@@ -3078,7 +2972,6 @@ async function renderProfilePage() {
   if(!currentProfileId || !sb) { go('home'); return; }
   const container = $('#page-profile');
   const wrap = container.querySelector('.wrap');
-  
   try {
     const [pR,ptR,cR,aR, invR] = await Promise.all([
       sb.from('profiles').select('*').eq('id',currentProfileId).maybeSingle(),
@@ -3087,20 +2980,15 @@ async function renderProfilePage() {
       sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false}),
       sb.from('inventory').select('*').eq('user_id',currentProfileId).gte('expires_at', new Date().toISOString())
     ]);
-    
     const profile = pR.data;
     if(!profile) { toast('Профиль не найден', true); go('leaderboard'); return; }
-    
     const pts = (ptR.data && ptR.data.points) || 0;
     const cups = cR.data || [], apps = aR.data || [], inv = invR.data || [];
     const lvl = profile.level || 0;
     const balance = profile.balance || 0;
-    
     $('#prof-avatar').textContent = initials(profile.nick);
     $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
-    
     $('#prof-nick').innerHTML = formatNick(profile);
-    
     const isMe = user && user.id === currentProfileId;
     if (isMe || canModerate()) {
       $('#prof-email').style.display = 'block';
@@ -3108,14 +2996,11 @@ async function renderProfilePage() {
     } else {
       $('#prof-email').style.display = 'none';
     }
-    
     $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US');
-    
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
     $('#prof-cups-count').textContent = cups.length;
     $('#prof-balance').textContent = balance + ' ₽';
-    
     const invGrid = $('#prof-inventory'); invGrid.replaceChildren();
     if(!inv.length) {
       invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
@@ -3123,14 +3008,11 @@ async function renderProfilePage() {
       inv.forEach(item => {
         const shopItem = shopItems.find(s => s.id === item.item_id);
         if(!shopItem) return;
-        
         const isEquipped = (shopItem.type === 'font' && profile.nick_font === shopItem.css_class) ||
                            (shopItem.type === 'style' && profile.nick_style === shopItem.css_class);
-                           
         const date = new Date(item.expires_at);
         const now = new Date();
         const daysLeft = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
-        
         const card = document.createElement('div');
         card.className = 'inv-card';
         card.innerHTML = `
@@ -3141,21 +3023,15 @@ async function renderProfilePage() {
         `;
         invGrid.appendChild(card);
       });
-      
       invGrid.querySelectorAll('.inv-equip').forEach(btn => {
         btn.addEventListener('click', async (e) => {
           const itemId = btn.dataset.item;
           const type = btn.dataset.type;
           const cssClass = btn.dataset.class;
-          
-          // Вызываем безопасную RPC-функцию для надевания
           const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
           if (error) { toast('Ошибка: ' + error.message, true); return; }
-          
-          // Обновляем локально для мгновенного отклика
           if(type === 'font') userProfile.nick_font = cssClass;
           if(type === 'style') userProfile.nick_style = cssClass;
-          
           toast('Успешно надето!');
           renderProfilePage();
           await renderLeaderboard();
@@ -3163,7 +3039,6 @@ async function renderProfilePage() {
         });
       });
     }
-
     const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
     if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
     else {
@@ -3174,7 +3049,6 @@ async function renderProfilePage() {
         cupsList.appendChild(card);
       });
     }
-    
     const appsList = $('#prof-apps-list'); appsList.replaceChildren();
     if(!apps.length) { appsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>'; }
     else {
@@ -3187,20 +3061,16 @@ async function renderProfilePage() {
         appsList.appendChild(item);
       });
     }
-    
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
-    
     const add = (icon, text, cls, fn) => {
       const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
       b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
       b.addEventListener('click', fn); adminTools.appendChild(b);
     };
-
     if(isMe) {
       add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile));
       add('i-logout', 'Выйти', 'danger', doLogout);
     }
-
     if(canModerate()){
       if(isAdmin() && !isMe){
         add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
@@ -3216,12 +3086,10 @@ async function renderProfilePage() {
         else add('i-ban', 'Забанить', 'danger', () => banUser(currentProfileId));
       }
     }
-    
     add('i-link', 'Ссылка', 'ghost', () => {
       const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
       navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
     });
-    
   } catch(err) {
     console.error(err);
     toast('Ошибка загрузки профиля', true);
@@ -3251,16 +3119,13 @@ $('#edit-profile-save').addEventListener('click', async () => {
   const newNick = $('#edit-nick').value.trim();
   const active = document.querySelector('#edit-color-picker .color-swatch.active');
   const newColor = active ? active.dataset.color : (userProfile.nick_color || '#eaf1ff');
-  
   if(newNick.length < 2){ toast(LANG==='ru'?'Ник слишком короткий':'Nickname too short', true); return; }
   if(newNick.length > 32){ toast(LANG==='ru'?'Ник слишком длинный':'Nickname too long', true); return; }
-  
   const btn = $('#edit-profile-save'); btn.disabled = true;
   try{
     const { error } = await sb.from('profiles').update({ 
       nick: newNick, gd_nick: newNick, nick_color: newColor
     }).eq('id', user.id);
-    
     if(error){
       const m = error.message || '';
       if(/banned word/i.test(m)) toast(LANG==='ru'?'Ник содержит запрещённое слово':'Nickname contains banned word', true);
@@ -3312,10 +3177,7 @@ async function changeUserBalance(userId, current){
   const v = prompt(LANG==='ru'?'Новый баланс (в рублях):':'New balance (RUB):', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  
-  // МЕНЯЕМ ПРЯМОЙ ЗАПРОС НА БЕЗОПАСНЫЙ RPC
   const { error } = await sb.rpc('admin_change_balance', { target_id: userId, new_balance: num });
-  
   if(error){ toast('Ошибка БД: '+error.message, true); return; }
   toast(LANG==='ru'?'Баланс обновлён':'Balance updated');
   await loadAllUsers(); if(current === 'profile') renderProfilePage();
@@ -3324,10 +3186,7 @@ async function changeUserLevel(userId, current){
   const v = prompt(LANG==='ru'?'Новый уровень:':'New level:', current);
   if(v === null) return;
   const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  
-  // МЕНЯЕМ ПРЯМОЙ ЗАПРОС НА БЕЗОПАСНЫЙ RPC
   const { error } = await sb.rpc('admin_change_level', { target_id: userId, new_level: num });
-  
   if(error){ toast('Ошибка БД: '+error.message, true); return; }
   toast(LANG==='ru'?'Обновлено':'Updated');
   await loadAllUsers(); await renderLeaderboard(); if(current === 'profile') renderProfilePage();
@@ -3353,15 +3212,12 @@ window.openPermissionsModal = async (userId, email) => {
   if (!isAdmin()) return;
   permTargetEmail = email;
   $('#perm-email').textContent = email;
-  
   const { data } = await sb.from('moderators').select('permissions').eq('email', email).maybeSingle();
   const perms = data ? (data.permissions || []) : [];
-  
   $('#perm-regs').checked = perms.includes('regs');
   $('#perm-apps').checked = perms.includes('apps');
   $('#perm-tickets').checked = perms.includes('tickets');
   $('#perm-cups').checked = perms.includes('cups');
-  
   $('#permissions-modal').classList.remove('hidden');
 };
 
@@ -3374,12 +3230,10 @@ $('#perm-save').addEventListener('click', async () => {
   if ($('#perm-apps').checked) perms.push('apps');
   if ($('#perm-tickets').checked) perms.push('tickets');
   if ($('#perm-cups').checked) perms.push('cups');
-
   const { error } = await sb.from('moderators').upsert({ 
     email: permTargetEmail, 
     permissions: perms 
   }, { onConflict: 'email' });
-
   if (error) { toast('Ошибка: ' + error.message, true); return; }
   toast('Права обновлены!');
   $('#permissions-modal').classList.add('hidden');
@@ -3419,30 +3273,23 @@ async function renderAdminSettings(){
   }
   await loadSettings();
   await loadAllUsers();
-
   const toggleMaint = $('#maintenance-toggle');
   if(toggleMaint) toggleMaint.checked = maintenanceMode;
-
   const toggle = $('#shop-enabled-toggle');
   if(toggle) toggle.checked = shopEnabled;
-  
   const donationInput = $('#donation-url-input');
   if(donationInput) donationInput.value = donationUrl;
-
   const wrap = $('#admin-passes-list'); if(!wrap) return;
   wrap.replaceChildren();
-
   let list = allUsers.slice();
   if(passesSearch){
     const q = passesSearch.toLowerCase();
     list = list.filter(u => (u.nick||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
   }
-
   if(!list.length){
     wrap.innerHTML = '<div class="empty-state" style="padding:20px"><p style="color:var(--muted)">'+t('admin.settings.empty')+'</p></div>';
     return;
   }
-
   list.forEach(u => {
     const card = document.createElement('div');
     card.className = 'user-card';
@@ -3463,7 +3310,6 @@ async function renderAdminSettings(){
     `;
     wrap.appendChild(card);
   });
-
   wrap.onclick = async e => {
     const btn = e.target.closest('button[data-pass-action]');
     if(!btn) return;
@@ -3486,17 +3332,14 @@ async function renderAdminSettings(){
 }
 
 (function initSettingsTabListeners(){
-  // 1. Переключатель Технических работ
   const maintToggle = document.getElementById('maintenance-toggle');
   if(maintToggle){
     maintToggle.addEventListener('change', async e => {
-      const isChecked = e.target.checked; // Запоминаем ДО запроса
+      const isChecked = e.target.checked;
       await setMaintenanceMode(isChecked);
       toast(isChecked ? '🛠️ Режим тех. работ ВКЛЮЧЕН' : '✅ Сайт открыт');
     });
   }
-
-  // 2. Переключатель Магазина
   const toggle = document.getElementById('shop-enabled-toggle');
   if(toggle){
     toggle.addEventListener('change', async e => {
@@ -3504,8 +3347,6 @@ async function renderAdminSettings(){
       toast(e.target.checked ? t('admin.settings.toggle.on') : t('admin.settings.toggle.off'));
     });
   }
-
-  // 3. Поиск по балансам пользователей
   const search = document.getElementById('passes-search');
   if(search){
     search.addEventListener('input', e => {
@@ -3513,8 +3354,6 @@ async function renderAdminSettings(){
       if(adminTab === 'settings') renderAdminSettings();
     });
   }
-
-  // 4. Кнопка сохранения ссылки на донат
   const saveDonationBtn = document.getElementById('save-donation-btn');
   if(saveDonationBtn){
     saveDonationBtn.addEventListener('click', async () => {
@@ -3545,9 +3384,7 @@ cupModal.addEventListener('click', e => { if(e.target === cupModal) closeCupModa
 $('#cm-save').addEventListener('click', async () => {
   const name = $('#cm-name').value.trim();
   if(!name){ toast(LANG==='ru'?'Укажи название':'Enter name', true); return; }
-  
   if (!cupTargetUserId) { toast('Ошибка: не выбран игрок', true); return; }
-
   const tournVal = $('#cm-tournament').value;
   const payload = {
     user_id: cupTargetUserId,
@@ -3556,14 +3393,12 @@ $('#cm-save').addEventListener('click', async () => {
     tournament_id: tournVal ? tournVal : null,
     awarded_by: user.email
   };
-
   const { error } = await sb.from('cups').insert([payload]);
   if(error){ 
     console.error(error);
     toast('Ошибка БД: ' + (error.message || 'Неизвестная ошибка'), true); 
     return; 
   }
-  
   try{ await sb.from('activity_feed').insert([{ user_id:cupTargetUserId, action:'cup', details:{ title:name } }]); }catch(_){}
   toast(LANG==='ru'?'🏆 Кубок вручён!':'🏆 Cup awarded!');
   closeCupModal(); await loadAllCups(); await renderLeaderboard();
@@ -3575,12 +3410,10 @@ async function renderAdminShop(){
   await loadShopItems();
   const wrap = $('#admin-shop-list'); if(!wrap) return;
   wrap.replaceChildren();
-  
   const hint = document.createElement('div');
   hint.style.cssText = 'padding:10px 14px;border-radius:10px;background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-size:12px;margin-bottom:12px;line-height:1.5;word-break:break-word';
   hint.textContent = t('admin.shop.migrateHint');
   wrap.appendChild(hint);
-  
   if(!shopItems.length){
     const empty = document.createElement('div');
     empty.className = 'empty-state';
@@ -3589,14 +3422,12 @@ async function renderAdminShop(){
     wrap.appendChild(empty);
     return;
   }
-  
   shopItems.forEach(item => {
     const enabled = item.enabled !== false;
     const duration = item.duration_days || 7;
     const card = document.createElement('div');
     card.className = 'app-item';
     if(!enabled) card.style.opacity = '0.6';
-    
     card.innerHTML = `
       <div class="app-item-main">
         <div class="app-item-head">
@@ -3614,17 +3445,14 @@ async function renderAdminShop(){
         </div>
       </div>
     `;
-    
     const actions = document.createElement('div');
     actions.className = 'app-item-actions';
-    
     const editBtn = document.createElement('button');
     editBtn.type = 'button';
     editBtn.className = 'btn btn-primary btn-sm';
     editBtn.innerHTML = '<svg class="i"><use href="#i-edit"/></svg><span>'+t('admin.shop.edit')+'</span>';
     editBtn.addEventListener('click', () => openShopItemModal(item));
     actions.appendChild(editBtn);
-    
     const toggleBtn = document.createElement('button');
     toggleBtn.type = 'button';
     toggleBtn.className = 'btn btn-sm ' + (enabled ? 'btn-ghost' : 'btn-success');
@@ -3636,7 +3464,6 @@ async function renderAdminShop(){
       await renderAdminShop(); renderShop();
     });
     actions.appendChild(toggleBtn);
-    
     card.appendChild(actions);
     wrap.appendChild(card);
   });
@@ -3700,24 +3527,20 @@ async function saveShopItem(){
   const duration = parseInt($('#si-duration').value, 10);
   const css = $('#si-css').value;
   const enabled = $('#si-enabled').checked;
-  
   const err = $('#shop-item-error');
   let msg = '';
   if(!name) msg = t('admin.shop.err.name');
   else if(isNaN(price) || price < 0) msg = t('admin.shop.err.price');
   else if(isNaN(duration) || duration < 1) msg = t('admin.shop.err.duration');
   else if(!css) msg = t('admin.shop.err.css');
-  
   if(msg){ err.textContent = msg; err.classList.add('show'); return; }
   err.classList.remove('show');
-  
   const payload = {
     name, type, price,
     css_class: css,
     duration_days: duration,
     enabled
   };
-  
   const btn = $('#shop-item-save'); btn.disabled = true;
   try{
     if(editingShopItemId){
@@ -3847,7 +3670,6 @@ $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
 function renderAdmin(){
   if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
   navAdmin.classList.remove('hidden');
-  
   const adminTabsConfig = {
     'tournaments': isAdmin(),
     'users': isAdmin(),
@@ -3861,7 +3683,6 @@ function renderAdmin(){
     'cups': hasPermission('cups'),
     'dashboard': true
   };
-
   document.querySelectorAll('[data-admin-tab]').forEach(btn => {
     const tabName = btn.dataset.adminTab;
     if (adminTabsConfig[tabName] === false) {
@@ -3870,9 +3691,7 @@ function renderAdmin(){
       btn.classList.remove('hidden');
     }
   });
-
   if(!isAdmin() && !hasPermission(adminTab) && adminTab !== 'dashboard') adminTab = 'dashboard';
-
   try {
     if(adminTab === 'dashboard') renderDashboard();
     else if(adminTab === 'regs') renderAdminRegs();
@@ -3965,7 +3784,6 @@ function renderRegsTable(){
     list = list.filter(r => (r.nick||'').toLowerCase().includes(regSearch) || (r.telegram||'').toLowerCase().includes(regSearch) || (r.email||'').toLowerCase().includes(regSearch));
   }
   if(!list.length){ tb.innerHTML = '<tr><td colspan="9" class="empty">'+t('admin.regs.empty')+'</td></tr>'; return; }
-  
   list.forEach(r => {
     const t_ = tournaments.find(x => x.id === r.tournament_id);
     const contacts = []; if(r.telegram) contacts.push('TG: '+r.telegram); if(r.discord) contacts.push('DC: '+r.discord); if(r.email) contacts.push('✉ '+r.email);
@@ -3984,7 +3802,6 @@ function renderRegsTable(){
     const tdA = document.createElement('td'); tdA.appendChild(buildRegActions(r)); tr.appendChild(tdA);
     tb.appendChild(tr);
   });
-  
   const updateBulkBar = () => {
     const count = selectedRegs.size;
     $('#regs-bulk-count').textContent = count;
@@ -3996,7 +3813,6 @@ function renderRegsTable(){
     const allChecked = list.length > 0 && list.every(r => selectedRegs.has(r.id));
     $('#select-all-regs').checked = allChecked;
   };
-
   tb.onchange = (e) => {
     if (e.target.classList.contains('reg-cb')) {
       if (e.target.checked) selectedRegs.add(e.target.dataset.id);
@@ -4014,13 +3830,16 @@ function renderRegsTable(){
     updateBulkBar();
   };
   updateBulkBar();
-  
   tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) go('profile=' + u); };
 }
+
+// ИЗМЕНЕНИЕ 3: buildRegActions с getMaxParticipants
 function buildRegActions(r){
   const w = document.createElement('div'); w.className='admin-actions';
+  const trn = tournaments.find(x => x.id === r.tournament_id);
+  const maxP = getMaxParticipants(trn);
   const approvedInT = allRegs.filter(x => x.tournament_id === r.tournament_id && x.status === 'approved').length;
-  const limitReached = approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT;
+  const limitReached = approvedInT >= maxP;
   if(r.status !== 'approved'){
     const ap = document.createElement('button'); ap.className='btn btn-success btn-sm'; ap.textContent='✓';
     if(limitReached){ ap.disabled = true; ap.title = t('admin.regs.full'); ap.style.opacity = '.5'; ap.style.cursor = 'not-allowed'; }
@@ -4051,11 +3870,15 @@ function buildRegActions(r){
   w.appendChild(dl);
   return w;
 }
+
+// ИЗМЕНЕНИЕ 4: updateRegStatus с getMaxParticipants
 async function updateRegStatus(r, newStatus){
   if(newStatus === 'approved' && r.status !== 'approved'){
+    const trn = tournaments.find(x => x.id === r.tournament_id);
+    const maxP = getMaxParticipants(trn);
     const approvedInT = allRegs.filter(x => x.tournament_id === r.tournament_id && x.status === 'approved').length;
-    if(approvedInT >= MAX_PARTICIPANTS_PER_TOURNAMENT){
-      toast((LANG==='ru'?'Лимит турнира достигнут: ':'Tournament limit reached: ')+MAX_PARTICIPANTS_PER_TOURNAMENT, true);
+    if(approvedInT >= maxP){
+      toast((LANG==='ru'?'Лимит турнира достигнут: ':'Tournament limit reached: ')+maxP, true);
       return;
     }
   }
@@ -4151,6 +3974,7 @@ $('#add-word-btn').addEventListener('click', async () => {
   $('#new-word-input').value = ''; toast(LANG==='ru'?'Добавлено':'Added'); await renderAdminWords();
 });
 
+// ИЗМЕНЕНИЕ 5: renderAdminTournaments с getMaxParticipants
 async function renderAdminTournaments(){
   await loadTournaments(); await loadStages(); await loadAdminApps(); await loadAllRegs();
   const wrap = $('#admin-tournaments-list'); if(!wrap) return;
@@ -4160,10 +3984,11 @@ async function renderAdminTournaments(){
     const card = document.createElement('div'); card.className='card'; card.style.marginBottom='20px';
     const tStages = stagesOfTournament(t_.id);
     const tp = tStages.reduce((s,x)=>s+(x.reward_points||1),0);
+    const maxP = getMaxParticipants(t_);
     const regsApproved = allRegs.filter(x => x.tournament_id === t_.id && x.status === 'approved').length;
     const regsPending = allRegs.filter(x => x.tournament_id === t_.id && x.status === 'pending').length;
     const regsTotal = allRegs.filter(x => x.tournament_id === t_.id).length;
-    const limitReached = regsApproved >= MAX_PARTICIPANTS_PER_TOURNAMENT;
+    const limitReached = regsApproved >= maxP;
     let html = '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px;flex-wrap:wrap"><div><div style="font-family:\'Exo 2\',sans-serif;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-2);margin-bottom:6px">'+t('tournament.num')+' #'+t_.number+'</div><div style="font-family:\'Exo 2\',sans-serif;font-size:22px;font-weight:800;margin-bottom:4px">'+escapeHtml(t_.title||'—')+' '+(t_.is_paid ? '<span class="status-badge" style="background:rgba(246,183,60,.15);color:var(--gold);font-size:12px;vertical-align:middle;margin-left:6px">PLUS</span>' : '')+'</div>';
     if(t_.description) html += '<div style="color:var(--muted);font-size:13.5px">'+escapeHtml(t_.description)+'</div>';
     html += '</div><span class="status-badge '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>';
@@ -4172,7 +3997,7 @@ async function renderAdminTournaments(){
     if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
     if(t_.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="'+t_.id+'">'+(LANG==='ru'?'В черновик':'To draft')+'</button>';
     html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button><button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="'+t_.id+'">🗑</button></div>';
-    html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap">'+(LANG==='ru'?'Заявок на турнир: ':'Tournament applications: ')+'<b>'+regsTotal+'</b> · '+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+regsApproved+' / '+MAX_PARTICIPANTS_PER_TOURNAMENT+'</b> · '+(LANG==='ru'?'На проверке: ':'Pending: ')+'<b>'+regsPending+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
+    html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap">'+(LANG==='ru'?'Заявок на турнир: ':'Tournament applications: ')+'<b>'+regsTotal+'</b> · '+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+regsApproved+' / '+maxP+'</b> · '+(LANG==='ru'?'На проверке: ':'Pending: ')+'<b>'+regsPending+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
     html += '<div style="border-top:1px solid var(--line-soft);padding-top:16px"><div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">'+(LANG==='ru'?'Этапы':'Stages')+' ('+tStages.length+') · 🏆 '+tp+' '+t('stage.points')+'</div>';
     if(!tStages.length) html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">'+(LANG==='ru'?'Этапов нет.':'No stages.')+'</p>';
     else tStages.forEach(s => {
@@ -4202,29 +4027,63 @@ async function renderAdminTournaments(){
   };
 }
 async function updateTournament(id, patch){ const { error } = await sb.from('tournaments').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadTournaments(); renderAdminTournaments(); }
+
+// ИЗМЕНЕНИЕ 6: editTournament с вводом лимита участников
 async function editTournament(id){
   const t_ = tournaments.find(x => x.id === id); if(!t_) return;
   const nt = prompt(LANG==='ru'?'Название:':'Name:', t_.title||''); if(nt === null) return;
   const nd = prompt(LANG==='ru'?'Описание:':'Description:', t_.description||''); if(nd === null) return;
+  const curMax = getMaxParticipants(t_);
+  const nmp = prompt(LANG==='ru'?'Максимум принятых участников:':'Max approved participants:', String(curMax)); if(nmp === null) return;
+  const maxP = parseInt(nmp, 10);
+  if(!maxP || maxP < 1){ toast(LANG==='ru'?'Некорректный лимит':'Invalid limit', true); return; }
   const isPaid = confirm(LANG==='ru'?'Сделать турнир платным (требуется пропуск)?':'Make tournament paid (requires pass)?');
-  const { error } = await sb.from('tournaments').update({ title:nt, description:nd||null, is_paid: isPaid }).eq('id',id);
-  if(error){ toast('Error', true); return; }
-  toast(LANG==='ru'?'Обновлено':'Updated'); await loadTournaments(); renderAdminTournaments();
+  const { error } = await sb.from('tournaments').update({
+    title: nt, description: nd||null, is_paid: isPaid, max_participants: maxP
+  }).eq('id', id);
+  if(error){
+    if(/column.*max_participants/i.test(error.message)){
+      toast('В БД нет колонки max_participants. Выполните SQL-миграцию: ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS max_participants INTEGER DEFAULT 5;', true);
+    } else {
+      toast('Error: ' + error.message, true);
+    }
+    return;
+  }
+  toast(LANG==='ru'?'Обновлено':'Updated');
+  await loadTournaments(); renderAdminTournaments();
 }
 async function deleteTournament(id){ if(!confirm(LANG==='ru'?'Удалить турнир?':'Delete tournament?')) return; const { error } = await sb.from('tournaments').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadTournaments(); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function deleteStage(id){ if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function updateStage(id, patch){ const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
+
+// ИЗМЕНЕНИЕ 7: create-tournament-btn с новым полем new-t-max
 $('#create-tournament-btn').addEventListener('click', async () => {
   const num = parseInt($('#new-t-number').value, 10);
   const title = $('#new-t-title').value.trim();
   const isPaid = $('#new-t-paid').checked;
+  const maxP = parseInt($('#new-t-max').value, 10);
   if(!num || num < 1){ toast('N?', true); return; }
   if(!title){ toast('Title?', true); return; }
+  if(!maxP || maxP < 1){ toast(LANG==='ru'?'Макс. участников ≥ 1':'Max participants ≥ 1', true); return; }
   const desc = $('#new-t-desc').value.trim();
-  const { error } = await sb.from('tournaments').insert([{ number:num, title, description:desc||null, status:'draft', is_paid: isPaid }]);
-  if(error){ toast(/duplicate|unique/i.test(error.message) ? 'Duplicate' : 'Error', true); return; }
+  const { error } = await sb.from('tournaments').insert([{
+    number:num, title, description:desc||null, status:'draft',
+    is_paid: isPaid, max_participants: maxP
+  }]);
+  if(error){
+    if(/column.*max_participants/i.test(error.message)){
+      toast('В БД нет колонки max_participants. Выполните SQL-миграцию: ALTER TABLE tournaments ADD COLUMN IF NOT EXISTS max_participants INTEGER DEFAULT 5;', true);
+    } else {
+      toast(/duplicate|unique/i.test(error.message) ? 'Duplicate' : 'Error: '+error.message, true);
+    }
+    return;
+  }
   toast(LANG==='ru'?'Создан':'Created');
-  $('#new-t-number').value = num + 1; $('#new-t-title').value = ''; $('#new-t-desc').value = ''; $('#new-t-paid').checked = false;
+  $('#new-t-number').value = num + 1;
+  $('#new-t-title').value = '';
+  $('#new-t-desc').value = '';
+  $('#new-t-paid').checked = false;
+  $('#new-t-max').value = MAX_PARTICIPANTS_PER_TOURNAMENT;
   await loadTournaments(); renderAdminTournaments();
 });
 
@@ -4314,13 +4173,11 @@ function renderAdminTable(){
   const tb = $('#admin-body'); if(!tb) return;
   tb.replaceChildren();
   if(!list.length){ tb.innerHTML = '<tr><td colspan="10" class="empty">'+(LANG==='ru'?'Заявок нет':'No applications')+'</td></tr>'; return; }
-  
   list.forEach(a => {
     const stage = stages.find(s => s.id === a.stage_id);
     const tr_ = tournaments.find(x => x.id === a.tournament_id);
     const contacts = []; if(a.telegram) contacts.push('TG: '+a.telegram); if(a.discord) contacts.push('DC: '+a.discord); if(a.email) contacts.push('✉ '+a.email);
     const isChecked = selectedApps.has(a.id) ? 'checked' : '';
-    
     const tr = document.createElement('tr');
     tr.innerHTML = `<td><input type="checkbox" class="app-cb" data-id="${a.id}" ${isChecked} style="width:18px;height:18px;accent-color:var(--blue);cursor:pointer"></td>` + 
     '<td style="font-size:12px;color:var(--muted);white-space:nowrap">'+timeAgo(a.created_at)+'</td><td style="min-width:150px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--blue-2)">#'+(tr_?tr_.number:'—')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">'+escapeHtml(tr_?tr_.title||'':'')+'</div></td><td style="min-width:140px"><div style="font-family:\'Exo 2\',sans-serif;font-weight:800;font-size:14px;color:var(--green)">#'+(stage?stage.number:'—')+'</div><div style="color:var(--muted);font-size:11.5px;margin-top:2px">'+escapeHtml(stage?stage.title||'':'')+'</div></td><td style="font-weight:600;cursor:pointer" data-open-user="'+a.user_id+'">'+escapeHtml(a.nick||'—')+'</td><td style="font-size:12px">'+escapeHtml(contacts.join(' · '))+'</td>';
@@ -4338,7 +4195,6 @@ function renderAdminTable(){
     const tdA = document.createElement('td'); tdA.appendChild(buildActions(a)); tr.appendChild(tdA);
     tb.appendChild(tr);
   });
-  
   const updateAppsBulkBar = () => {
     const count = selectedApps.size;
     $('#apps-bulk-count').textContent = count;
@@ -4350,7 +4206,6 @@ function renderAdminTable(){
     const allChecked = list.length > 0 && list.every(a => selectedApps.has(a.id));
     $('#select-all-apps').checked = allChecked;
   };
-
   tb.onchange = (e) => {
     if (e.target.classList.contains('app-cb')) {
       if (e.target.checked) selectedApps.add(e.target.dataset.id);
@@ -4368,7 +4223,6 @@ function renderAdminTable(){
     updateAppsBulkBar();
   };
   updateAppsBulkBar();
-  
   tb.onclick = e => { const u = e.target.dataset && e.target.dataset.openUser; if(u) go('profile=' + u); };
 }
 function buildActions(a){
@@ -4384,16 +4238,12 @@ async function editComment(a){ const v = prompt('Comment:', a.admin_comment||'')
 async function executeBulkAction(type, status) {
   const set = type === 'regs' ? selectedRegs : selectedApps;
   if (set.size === 0) return;
-  
   const actionName = status === 'approved' ? 'ПРИНЯТЬ' : 'ОТКЛОНИТЬ';
   if (!confirm(`Вы уверены, что хотите ${actionName} выбранные заявки (${set.size} шт.)?`)) return;
-
   const ids = Array.from(set);
   let success = 0;
   let fail = 0;
-
   toast(`Обработка ${ids.length} заявок...`);
-
   for (const id of ids) {
     let error = null;
     if (type === 'regs') {
@@ -4403,24 +4253,19 @@ async function executeBulkAction(type, status) {
       const res = await sb.rpc('admin_review_application', { app_id: id, new_status: status, comment: 'Массовое действие' });
       error = res.error;
     }
-    
     if (error) fail++;
     else success++;
   }
-
   if (type === 'regs') { set.clear(); await renderAdminRegs(); }
   else { set.clear(); await renderAdminApps(); }
-  
   updateAdminStats();
   toast(`Готово! Успешно: ${success}, Ошибок: ${fail}`);
 }
 
-// Привязка кнопок массовых действий
 $('#regs-bulk-approve').addEventListener('click', () => executeBulkAction('regs', 'approved'));
 $('#regs-bulk-reject').addEventListener('click', () => executeBulkAction('regs', 'rejected'));
 $('#apps-bulk-approve').addEventListener('click', () => executeBulkAction('apps', 'approved'));
 $('#apps-bulk-reject').addEventListener('click', () => executeBulkAction('apps', 'rejected'));
-
 
 async function updateAppStatus(a, newStatus){
   const ask = prompt(newStatus === 'approved' ? (LANG==='ru'?'Комментарий:':'Comment:') : (LANG==='ru'?'Причина:':'Reason:'), a.admin_comment || '');
@@ -4464,7 +4309,6 @@ $('#login-form').addEventListener('submit', async e => {
   if(!sb){ toast('Supabase?', true); return; }
   const btn = e.target.querySelector('button[type="submit"]');
   const prev = btn.textContent; btn.disabled = true; btn.textContent = LANG==='ru'?'Отправляем…':'Sending…';
-  
   try{
     let emailToTry = identifier;
     if (!identifier.includes('@')) {
@@ -4506,7 +4350,6 @@ $('#register-form').addEventListener('submit', async e => {
   if(password.length < 6){ setAuthError('register', LANG==='ru'?'Пароль минимум 6 символов':'Password min 6 chars'); return; }
   if(password !== password2){ setAuthError('register', LANG==='ru'?'Пароли не совпадают':'Passwords do not match'); return; }
   if(!sb){ toast('Supabase?', true); return; }
-  
   try {
     const { data: nickCheck } = await sb.from('profiles').select('id').ilike('nick', gdNick).limit(1);
     if(nickCheck && nickCheck.length > 0){ 
@@ -4558,31 +4401,25 @@ async function afterLogin(){
   const logged = !!user;
   $('#cabinet-auth').classList.toggle('hidden', logged);
   if(!logged) return;
-  
   try {
     await sb.rpc('claim_pending_donations'); 
-    
     await checkModerator();
     await loadProfile();
     if(user && user.id) await trackDevice(user.id);
     if(userProfile && userProfile.banned) return;
     if(document.documentElement.hasAttribute('data-banned')) return;
-    
     await loadTournaments(); await loadStages(); await loadShopItems();
     await loadSettings();
     await loadMyApplications(); await loadProfilePoints(); await loadMyRegs(); await loadTickets();
     myInventory = await loadMyInventory();
     if(canModerate()){ await loadAdminApps(); await loadAllRegs(); await loadAllUsers(); await loadActivity(); }
-    
     renderAdmin();
     updateAdminStats();
-    
     if(current === 'tournaments') renderTournaments();
     if(current === 'shop') renderShop();
     if(current === 'support') renderSupport();
     if(current === 'chat') renderChat();
     if(current === 'profile') renderProfilePage();
-    
     window.updateHeaderUI();
     applyMaintenanceState(); 
     setupRealtime();
@@ -4594,7 +4431,6 @@ async function afterLogin(){
 function setupRealtime(){
   if(!sb) return;
   if(realtimeChannel){ try{ sb.removeChannel(realtimeChannel); }catch(_){} }
-  
   realtimeChannel = sb.channel('gdcc-all')
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'profiles' }, async payload => {
       if(user && payload.new.id === user.id){
@@ -4672,7 +4508,6 @@ async function initAuth(){
   const { data } = await sb.auth.getSession();
   user = data.session ? data.session.user : null;
   window.updateHeaderUI();
-  
   let lastAuthHandledId = undefined;
   sb.auth.onAuthStateChange(async (_ev, s) => {
     const newUserId = s?.user?.id || null;
@@ -4736,7 +4571,6 @@ if(!saved){
   }
 })();
 
-// Автообновление магазина каждую минуту (чтобы обновлялись таймеры)
 setInterval(() => {
     if (current === 'shop' && user) {
         renderShop();
