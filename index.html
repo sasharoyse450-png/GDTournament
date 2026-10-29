@@ -2984,30 +2984,19 @@ async function loadProfile(){
     if(error) throw error;
     
     if(!data){
-      // ПРОФИЛЯ НЕТ - СОЗДАЕМ ЕГО НА ЛЕТУ!
+      // Если профиля нет, создаем его
       const baseNick = user.email ? user.email.split('@')[0] : 'Player';
-      // Генерируем уникальный ник, чтобы БД не выдала ошибку дубликата
       const newNick = baseNick + '_' + Math.floor(Math.random() * 100000);
       
       const { data: inserted, error: insErr } = await sb.from('profiles').insert([{ 
-        id: user.id, 
-        email: user.email, 
-        nick: newNick, 
-        gd_nick: newNick, 
-        level: 0, 
-        balance: 0 
+        id: user.id, email: user.email, nick: newNick, gd_nick: newNick, level: 0, balance: 0 
       }]).select().maybeSingle();
 
       if(insErr) {
-        console.error("Не удалось создать профиль:", insErr);
-        // Если БД выдает ошибку, создаем временный объект, чтобы сайт работал
-        userProfile = { 
-          id: user.id, email: user.email, nick: newNick, gd_nick: newNick, 
-          level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, 
-          nick_font: '', nick_style: '', badge_text: null 
-        };
+        console.error("Не удалось создать профиль в БД:", insErr);
+        // Создаем локальный объект, чтобы сайт работал
+        userProfile = { id: user.id, email: user.email, nick: newNick, gd_nick: newNick, level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() };
       } else {
-        // Профиль успешно создан в БД
         userProfile = inserted;
       }
     } else {
@@ -3015,7 +3004,8 @@ async function loadProfile(){
     }
   }catch(e){ 
     console.error("Ошибка loadProfile:", e);
-    userProfile = null; 
+    // Фолбэк, чтобы не выкидывать
+    userProfile = { id: user.id, email: user.email, nick: 'Player', gd_nick: 'Player', level: 0, banned: false, nick_color: '#eaf1ff', balance: 0, nick_font: '', nick_style: '', badge_text: null, created_at: new Date().toISOString() }; 
   }
   applyBanState();
   window.updateBalanceUI(userProfile ? userProfile.balance : 0);
@@ -3047,15 +3037,17 @@ async function renderProfilePage() {
       sb.from('inventory').select('*').eq('user_id',currentProfileId).gte('expires_at', new Date().toISOString())
     ]);
 
-    const profile = pR.data;
+    let profile = pR.data;
     
+    // Фолбэк: если профиля нет в БД, но это профиль текущего авторизованного юзера
+    if(!profile && user && currentProfileId === user.id && userProfile) {
+       profile = userProfile;
+    }
+
+    // Если профиль так и не нашли (например, чужой удаленный аккаунт)
     if(!profile) { 
-      toast(LANG==='ru'?'Профиль не найден! Войдите заново.':'Profile not found! Please log in again.', true); 
-      if (user && currentProfileId === user.id) {
-        doLogout();
-      } else {
-        go('leaderboard');
-      }
+      toast(LANG==='ru'?'Профиль не найден!':'Profile not found!', true); 
+      go('home'); // Вместо выкидывания из аккаунта просто перекидываем на главную
       return; 
     }
     
@@ -3077,7 +3069,9 @@ async function renderProfilePage() {
       $('#prof-email').style.display = 'none';
     }
     
-    $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US');
+    // Безопасная дата регистрации (если её нет, пишем "Недавно")
+    const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US') : 'Недавно';
+    $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + createdDate;
     
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
