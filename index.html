@@ -249,6 +249,10 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .empty-state h2{font-size:22px;margin-bottom:8px}
 .empty-state p{color:var(--muted);max-width:440px;margin:0 auto 18px}
 .admin-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content;flex-wrap:wrap}
+.profile-tabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:rgba(10,20,45,.6);border:1px solid var(--line);margin-bottom:22px;width:fit-content;flex-wrap:wrap}
+.profile-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
+.profile-tabs button.active{background:var(--blue);color:#fff}
+
 .admin-tabs button{height:38px;padding:0 20px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:600 13.5px 'Inter',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}
 .admin-tabs button.active{background:var(--blue);color:#fff}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
@@ -925,24 +929,35 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         <div style="display:flex; gap:10px; flex-wrap:wrap;" id="prof-admin-actions"></div>
       </div>
     </div>
-    <div class="profile-grid">
-      <div>
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
-        <div class="profile-stats-list" style="margin-bottom:22px;">
-          <div class="profile-stat-item"><span>🏆 Очки</span> <b id="prof-points">0</b></div>
-          <div class="profile-stat-item"><span>🔥 Этапов пройдено</span> <b id="prof-level">0</b></div>
-          <div class="profile-stat-item"><span>🥇 Кубков</span> <b id="prof-cups-count">0</b></div>
-          <div class="profile-stat-item"><span>💰 Баланс</span> <b id="prof-balance">0 ₽</b></div>
+    <div class="profile-tabs">
+      <button type="button" data-prof-tab="overview" class="active" data-i18n="prof.tab.overview">Обзор</button>
+      <button type="button" data-prof-tab="history" data-i18n="prof.tab.history">История</button>
+    </div>
+
+    <div id="prof-tab-overview">
+      <div class="profile-grid">
+        <div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
+          <div class="profile-stats-list" style="margin-bottom:22px;">
+            <div class="profile-stat-item"><span>🏆 Очки</span> <b id="prof-points">0</b></div>
+            <div class="profile-stat-item"><span>🔥 Этапов пройдено</span> <b id="prof-level">0</b></div>
+            <div class="profile-stat-item"><span>🥇 Кубков</span> <b id="prof-cups-count">0</b></div>
+            <div class="profile-stat-item"><span>💰 Баланс</span> <b id="prof-balance">0 ₽</b></div>
+            <div class="profile-stat-item"><span>⏱ Общее время</span> <b id="prof-total-time">—</b></div>
+            <div class="profile-stat-item"><span>📊 Win rate</span> <b id="prof-winrate">—</b></div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
+          <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
+          <div id="prof-cups-list" style="margin-bottom:26px;"></div>
         </div>
       </div>
-      <div>
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--blue-2);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-backpack"/></svg> Инвентарь</h3>
-        <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
-        <div id="prof-cups-list" style="margin-bottom:26px;"></div>
-        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-activity"/></svg> Последние заявки</h3>
-        <div id="prof-apps-list" class="app-list"></div>
-      </div>
+    </div>
+
+    <div id="prof-tab-history" class="hidden">
+      <div id="prof-history"></div>
     </div>
   </div>
 </section>
@@ -1416,8 +1431,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         <div class="field">
           <label for="si-type" data-i18n="admin.shop.type">Тип</label>
           <select class="input" id="si-type">
-            <option value="font" data-i18n="admin.shop.type.font">Шрифт</option>
-            <option value="style" data-i18n="admin.shop.type.style">Эффект</option>
+            <option value="font">Шрифт</option>
+            <option value="style">Эффект</option>
+            <option value="avatar">Аватарка (URL картинки)</option>
+            <option value="banner">Фон профиля (URL картинки)</option>
           </select>
         </div>
         <div class="field">
@@ -1431,8 +1448,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           <input class="input" type="number" id="si-duration" min="1" value="7">
         </div>
         <div class="field">
-          <label for="si-css" data-i18n="admin.shop.css">CSS класс</label>
+          <label for="si-css">CSS класс / URL картинки</label>
           <select class="input" id="si-css"></select>
+          <input class="input hidden" type="url" id="si-css-url" placeholder="https://i.imgur.com/avatar.gif">
+          <span class="hint">Для шрифтов — класс. Для аватарок/фонов — прямая ссылка (JPG/PNG/GIF).</span>
         </div>
       </div>
       <div class="field">
@@ -1549,7 +1568,12 @@ const I18N = {
     'success.t':'🎥 Видео отправлено!','success.p':'Мы проверим твою запись. Если всё ок — следующий этап откроется автоматически.',
     'success.cabinet':'В личный кабинет','success.tournaments':'К турнирам',
     'aside.t':'Перед отправкой','aside.1':'Прочитал(а) <a href="#rules">правила турнира</a>','aside.2':'Подготовил(а) запись — <a href="#docs">что нужно</a>','aside.3':'Загрузил(а) видео в облако и открыл(а) доступ',
-    'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
+        'prof.tab.overview':'Обзор','prof.tab.history':'История',
+    'prof.stats.title':'Статистика','prof.inventory':'Инвентарь','prof.cups':'Кубки',
+    'prof.stat.points':'Очки','prof.stat.stages':'Этапов пройдено','prof.stat.cups':'Кубков',
+    'prof.stat.balance':'Баланс','prof.stat.totaltime':'Общее время','prof.stat.winrate':'Win rate',
+    'admin.shop.type.avatar':'Аватарка (URL)','admin.shop.type.banner':'Фон профиля (URL)',
+'lb.title':'Турнирная таблица','lb.lead':'Нажми на ник — увидишь профиль с кубками и статистикой.','lb.participants':'Участников:',
     'lb.th.nick':'Ник','lb.th.points':'🏆 Очки','lb.th.stages':'🔥 Этапов','lb.th.speed':'⚡ Скорость','lb.th.cups':'🥇 Кубки','lb.empty':'Пока нет участников','lb.filter':'Показать топ:',
     'lb.th.time':'⏱ Общее время','lb.th.finish':'🏁 Финиш',
     'chat.title':'Общий чат','chat.lead':'Общайтесь с другими участниками сообщества в реальном времени.','chat.placeholder':'Написать сообщение...','chat.send':'Отправить','chat.empty':'Пока нет сообщений. Будь первым!',
@@ -1664,7 +1688,12 @@ const I18N = {
     'success.t':'🎥 Video submitted!','success.p':'We will review your recording. If all good — the next stage opens automatically.',
     'success.cabinet':'To cabinet','success.tournaments':'To tournaments',
     'aside.t':'Before submitting','aside.1':'Read the <a href="#rules">tournament rules</a>','aside.2':'Prepared a recording — <a href="#docs">what is needed</a>','aside.3':'Uploaded the video to the cloud and made it public',
-    'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
+        'prof.tab.overview':'Overview','prof.tab.history':'History',
+    'prof.stats.title':'Statistics','prof.inventory':'Inventory','prof.cups':'Cups',
+    'prof.stat.points':'Points','prof.stat.stages':'Stages passed','prof.stat.cups':'Cups',
+    'prof.stat.balance':'Balance','prof.stat.totaltime':'Total time','prof.stat.winrate':'Win rate',
+    'admin.shop.type.avatar':'Avatar (URL)','admin.shop.type.banner':'Profile background (URL)',
+'lb.title':'Leaderboard','lb.lead':'Click on a nickname — you will see the profile with cups and stats.','lb.participants':'Participants:',
     'lb.th.nick':'Nickname','lb.th.points':'🏆 Points','lb.th.stages':'🔥 Stages','lb.th.speed':'⚡ Speed','lb.th.cups':'🥇 Cups','lb.empty':'No participants yet','lb.filter':'Show top:',
     'lb.th.time':'⏱ Total Time','lb.th.finish':'🏁 Finish',
     'chat.title':'Global Chat','chat.lead':'Chat with other community members in real time.','chat.placeholder':'Write a message...','chat.send':'Send','chat.empty':'No messages yet. Be the first!',
@@ -1742,6 +1771,8 @@ const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','lead
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 const SHOP_FONTS = ['font-cyber','font-gothic','font-handwritten','font-pixel','font-retro','font-heavy'];
 const SHOP_STYLES = ['nick-rainbow','nick-gold','nick-fire','nick-ice','nick-neon'];
+const SHOP_AVATARS = [];
+const SHOP_BANNERS = [];
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -1838,6 +1869,18 @@ function formatNick(profile) {
     html += `<span class="${bClass}">${escapeHtml(profile.badge_text)}</span>`;
   }
   return html;
+}
+
+function fmtDuration(ms){
+  if(ms == null || ms < 0) return '—';
+  const u = LANG === 'ru' ? { min:'мин', h:'ч', d:'д' } : { min:'m', h:'h', d:'d' };
+  const totalMin = Math.floor(ms / 60000);
+  if(totalMin < 1) return '<1 ' + u.min;
+  if(totalMin < 60) return totalMin + ' ' + u.min;
+  const h = Math.floor(totalMin / 60), m = totalMin % 60;
+  if(h < 24) return h + ' ' + u.h + (m ? ' ' + m + ' ' + u.min : '');
+  const d = Math.floor(h / 24), hh = h % 24;
+  return d + ' ' + u.d + (hh ? ' ' + hh + ' ' + u.h : '');
 }
 
 function timeAgo(dateStr){
@@ -2157,11 +2200,12 @@ async function loadBannedWords(){ if(!sb) return; try{ const {data,error}=await 
 function stagesOfTournament(tid){ return stages.filter(s => s.tournament_id === tid).sort((a,b)=>a.number-b.number); }
 function approvedInTournament(tid){ if(!user) return 0; return myApplications.filter(a => a.tournament_id===tid && a.status==='approved').length; }
 function getMyReg(tid){ return user ? myRegs.find(r => r.tournament_id === tid) : null; }
-function canAccessTournament(tid){ if(!user) return false; const reg = getMyReg(tid); return !!(reg && reg.status === 'approved'); }
+function canAccessTournament(tid){ if(!user) return false; if(canModerate()) return true; const reg = getMyReg(tid); return !!(reg && reg.status === 'approved'); }
 function canAccessStage(stage){
   if(!stage) return false;
   if(userProfile && userProfile.banned) return false;
-  if(stage.status === 'draft' && !canModerate()) return false;
+  if(canModerate()) return true;
+  if(stage.status === 'draft') return false;
   if(!canAccessTournament(stage.tournament_id)) return false;
   if(stage.number === 1) return true;
   const prev = stages.find(s => s.tournament_id === stage.tournament_id && s.number === stage.number-1);
@@ -2244,16 +2288,20 @@ function renderShop() {
         btnHtml = `<button type="button" class="btn btn-primary buy-btn" data-id="${item.id}" ${disabled ? 'disabled' : ''}>${disabled ? t('shop.disabled') : t('shop.buy')}</button>`;
     }
     card.innerHTML = `
-      <div class="inv-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;">
-        <span class="${item.css_class}">Player123</span>
+      <div class="shop-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;">
+        ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
+          : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
+          : '<span class="' + item.css_class + '">Player123</span>'}
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
-      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : 'Эффект для ника'} (${days} ${t('shop.days_suffix')})</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price">${item.price} ₽</div>
         ${btnHtml}
       </div>
     `;
+    card.querySelectorAll('[data-img-src]').forEach(img => { img.src = img.dataset.imgSrc; });
+    card.querySelectorAll('[data-bg-url]').forEach(el => { el.style.backgroundImage = `url(${JSON.stringify(el.dataset.bgUrl)})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; });
     if (!disabled && !isOwned) {
       card.querySelector('.buy-btn').addEventListener('click', () => buyItem(item));
     }
@@ -2269,7 +2317,15 @@ async function buyItem(item) {
   if (balance < item.price) { toast(t('buy.nofunds'), true); return; }
   try {
     const { error } = await sb.rpc("buy_shop_item", { p_item_id: item.id });
-    if(error) throw error;
+    if (error && (item.type === 'avatar' || item.type === 'banner')) {
+      const expiresAt = new Date(Date.now() + (item.duration_days || 7) * 86400000).toISOString();
+      const { error: invErr } = await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
+      if (invErr) throw invErr;
+      const { error: balErr } = await sb.from('profiles').update({ balance: (userProfile.balance || 0) - item.price }).eq('id', user.id);
+      if (balErr) throw balErr;
+    } else if (error) {
+      throw error;
+    }
     userProfile.balance -= item.price;
     window.updateBalanceUI(userProfile.balance);
     toast(t('buy.success'));
@@ -3040,165 +3096,165 @@ async function checkModerator(){
 
 async function renderProfilePage() {
   if(!currentProfileId || !sb) { go('home'); return; }
-  const container = $('#page-profile');
-  const wrap = container.querySelector('.wrap');
-  
   try {
-    const [pR,ptR,cR,aR, invR] = await Promise.all([
-      sb.from('profiles').select('*').eq('id',currentProfileId).maybeSingle(),
-      sb.from('profile_points').select('*').eq('id',currentProfileId).maybeSingle(),
-      sb.from('cups').select('*').eq('user_id',currentProfileId).order('awarded_at',{ascending:false}),
-      sb.from('applications').select('*').eq('user_id',currentProfileId).order('created_at',{ascending:false}),
-      sb.from('inventory').select('*').eq('user_id',currentProfileId).gte('expires_at', new Date().toISOString())
+    const [pR, ptR, cR, aR, invR] = await Promise.all([
+      sb.from('profiles').select('*').eq('id', currentProfileId).maybeSingle(),
+      sb.from('profile_points').select('*').eq('id', currentProfileId).maybeSingle(),
+      sb.from('cups').select('*').eq('user_id', currentProfileId).order('awarded_at', { ascending: false }),
+      sb.from('applications').select('*').eq('user_id', currentProfileId).order('created_at', { ascending: false }),
+      sb.from('inventory').select('*').eq('user_id', currentProfileId).gte('expires_at', new Date().toISOString())
     ]);
-
     let profile = pR.data;
-    
-    if(!profile && user && currentProfileId === user.id && userProfile) {
-       profile = userProfile;
-    }
-
-    if(!profile) { 
-      toast(LANG==='ru'?'Профиль не найден!':'Profile not found!', true); 
-      go('home'); 
-      return; 
-    }
-    
+    if (!profile && user && currentProfileId === user.id && userProfile) profile = userProfile;
+    if (!profile) { toast(LANG === 'ru' ? 'Профиль не найден!' : 'Profile not found!', true); go('home'); return; }
     const pts = (ptR.data && ptR.data.points) || 0;
     const cups = cR.data || [], apps = aR.data || [], inv = invR.data || [];
     const lvl = profile.level || 0;
     const balance = profile.balance || 0;
-    
-    $('#prof-avatar').textContent = initials(profile.nick);
-    $('#prof-avatar').style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
-    
-    $('#prof-nick').innerHTML = formatNick(profile);
-    
-    const isMe = user && user.id === currentProfileId;
-    if (isMe || canModerate()) {
-      $('#prof-email').style.display = 'block';
-      $('#prof-email').textContent = profile.email || 'Почта не указана';
+
+    const avatarEl = $('#prof-avatar');
+    if (profile.avatar_url) {
+      avatarEl.replaceChildren();
+      const img = document.createElement('img');
+      img.src = profile.avatar_url; img.alt = profile.nick || '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
+      avatarEl.appendChild(img);
+      avatarEl.style.background = 'transparent';
     } else {
-      $('#prof-email').style.display = 'none';
+      avatarEl.textContent = initials(profile.nick);
+      avatarEl.style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
     }
-    
-    const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US') : 'Недавно';
-    $('#prof-joined').textContent = (LANG==='ru'?'С нами с ':'Since ') + createdDate;
-    
+
+    const bannerEl = document.querySelector('.profile-banner');
+    if (bannerEl) {
+      if (profile.banner_url) {
+        bannerEl.style.backgroundImage = `url(${JSON.stringify(profile.banner_url)})`;
+        bannerEl.style.backgroundSize = 'cover'; bannerEl.style.backgroundPosition = 'center'; bannerEl.style.backgroundRepeat = 'no-repeat';
+      } else {
+        bannerEl.style.backgroundImage = `linear-gradient(135deg, rgba(31,139,255,.4), rgba(179,107,255,.2)), url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h40v40H0z" fill="none"/><path d="M0 20h40M20 0v40" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></svg>')`;
+      }
+    }
+
+    $('#prof-nick').innerHTML = formatNick(profile);
+    const isMe = user && user.id === currentProfileId;
+    if (isMe || canModerate()) { $('#prof-email').style.display = 'block'; $('#prof-email').textContent = profile.email || 'Почта не указана'; }
+    else $('#prof-email').style.display = 'none';
+    const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'en-US') : 'Недавно';
+    $('#prof-joined').textContent = (LANG === 'ru' ? 'С нами с ' : 'Since ') + createdDate;
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
     $('#prof-cups-count').textContent = cups.length;
     $('#prof-balance').textContent = balance + ' ₽';
-    
+
+    let totalMs = 0;
+    const approvedApps = apps.filter(a => a.status === 'approved');
+    approvedApps.forEach(a => {
+      const s = stages.find(x => x.id === a.stage_id);
+      if (s && s.opened_at && a.created_at) totalMs += Math.max(0, new Date(a.created_at).getTime() - new Date(s.opened_at).getTime());
+    });
+    const tEl = $('#prof-total-time'); if (tEl) tEl.textContent = approvedApps.length ? fmtDuration(totalMs) : '—';
+    const wEl = $('#prof-winrate');
+    if (wEl) { const decided = apps.filter(a => a.status === 'approved' || a.status === 'rejected').length; wEl.textContent = decided > 0 ? Math.round((approvedApps.length / decided) * 100) + '%' : '—'; }
+
     const invGrid = $('#prof-inventory'); invGrid.replaceChildren();
-    if(!inv.length) {
-      invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">'+t('inv.empty')+'</p>';
-    } else {
+    if (!inv.length) { invGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1;">' + t('inv.empty') + '</p>'; }
+    else {
       inv.forEach(item => {
         const shopItem = shopItems.find(s => s.id === item.item_id);
-        if(!shopItem) return;
-        
+        if (!shopItem) return;
         const isEquipped = (shopItem.type === 'font' && profile.nick_font === shopItem.css_class) ||
-                           (shopItem.type === 'style' && profile.nick_style === shopItem.css_class);
-                           
-        const date = new Date(item.expires_at);
-        const now = new Date();
-        const daysLeft = Math.ceil((date - now) / (1000 * 60 * 60 * 24));
-        
-        const card = document.createElement('div');
-        card.className = 'inv-card';
-        card.innerHTML = `
-          <div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>
-          <div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div>
-          <div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>
-          ${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${shopItem.css_class}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}
-        `;
+                           (shopItem.type === 'style' && profile.nick_style === shopItem.css_class) ||
+                           (shopItem.type === 'avatar' && profile.avatar_url === shopItem.css_class) ||
+                           (shopItem.type === 'banner' && profile.banner_url === shopItem.css_class);
+        const daysLeft = Math.ceil((new Date(item.expires_at) - new Date()) / 86400000);
+        const card = document.createElement('div'); card.className = 'inv-card';
+        let prevHtml = '';
+        if (shopItem.type === 'avatar') prevHtml = `<div class="inv-preview" data-img-src="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
+        else if (shopItem.type === 'banner') prevHtml = `<div class="inv-preview" data-bg-url="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
+        else prevHtml = `<div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>`;
+        card.innerHTML = `${prevHtml}<div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div><div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class)}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}`;
         invGrid.appendChild(card);
+        card.querySelectorAll('[data-img-src]').forEach(el => { const img = document.createElement('img'); img.src = el.dataset.imgSrc; img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;'; el.appendChild(img); });
+        card.querySelectorAll('[data-bg-url]').forEach(el => { el.style.backgroundImage = `url(${JSON.stringify(el.dataset.bgUrl)})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; });
       });
-      
       invGrid.querySelectorAll('.inv-equip').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          const itemId = btn.dataset.item;
-          const type = btn.dataset.type;
-          const cssClass = btn.dataset.class;
-          
-          const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
-          if (error) { toast('Ошибка: ' + error.message, true); return; }
-          
-          if(type === 'font') userProfile.nick_font = cssClass;
-          if(type === 'style') userProfile.nick_style = cssClass;
-          
-          toast('Успешно надето!');
-          renderProfilePage();
-          await renderLeaderboard();
-          await renderChat();
+        btn.addEventListener('click', async () => {
+          const itemId = btn.dataset.item; const type = btn.dataset.type; const cssClass = btn.dataset.class;
+          btn.disabled = true;
+          try {
+            if (type === 'avatar' || type === 'banner') {
+              const field = type === 'avatar' ? 'avatar_url' : 'banner_url';
+              const { error } = await sb.from('profiles').update({ [field]: cssClass }).eq('id', user.id);
+              if (error) throw error;
+              userProfile[field] = cssClass;
+            } else {
+              const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
+              if (error) throw error;
+              if (type === 'font') userProfile.nick_font = cssClass;
+              if (type === 'style') userProfile.nick_style = cssClass;
+            }
+            toast(LANG === 'ru' ? 'Успешно надето!' : 'Equipped!');
+            renderProfilePage(); await renderLeaderboard(); await renderChat();
+          } catch (e) { console.error(e); toast('Ошибка: ' + (e.message || e), true); btn.disabled = false; }
         });
       });
     }
 
     const cupsList = $('#prof-cups-list'); cupsList.replaceChildren();
-    if(!cups.length) { cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Пока нет кубков':'No cups yet')+'</p>'; }
-    else {
-      cups.forEach(c => {
-        const tr = tournaments.find(x => x.id === c.tournament_id);
-        const card = document.createElement('div'); card.className='cup-card';
-        card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>'+escapeHtml(c.title)+'</h4>'+(c.description?'<p>'+escapeHtml(c.description)+'</p>':'')+'<small>'+new Date(c.awarded_at).toLocaleDateString(LANG==='ru'?'ru-RU':'en-US')+(tr?' · '+t('tournament.num')+' #'+tr.number:'')+'</small></div>';
-        cupsList.appendChild(card);
-      });
-    }
-    
-    const appsList = $('#prof-apps-list'); appsList.replaceChildren();
-    if(!apps.length) { appsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">'+(LANG==='ru'?'Нет заявок':'No applications')+'</p>'; }
-    else {
-      apps.slice(0,10).forEach(a => {
-        const s = stages.find(x => x.id === a.stage_id);
-        const tr = tournaments.find(x => x.id === a.tournament_id);
-        const label = (tr?'#'+tr.number+' · ':'')+(s?(s.title||(t('stage.num')+' '+s.number)):'—');
-        const item = document.createElement('div'); item.className='app-item';
-        item.innerHTML = '<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">'+escapeHtml(label)+'</span><span class="status-badge '+a.status+'">'+t('status.'+a.status)+'</span><span class="app-item-date">'+timeAgo(a.created_at)+'</span></div></div>';
-        appsList.appendChild(item);
-      });
-    }
-    
-    const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
-    
-    const add = (icon, text, cls, fn) => {
-      const b = document.createElement('button'); b.type='button'; b.className='btn btn-'+cls;
-      b.innerHTML = '<svg class="i"><use href="#'+icon+'"/></svg><span>'+text+'</span>';
-      b.addEventListener('click', fn); adminTools.appendChild(b);
-    };
+    if (!cups.length) cupsList.innerHTML = '<p style="color:var(--muted);font-size:14px;">' + (LANG === 'ru' ? 'Пока нет кубков' : 'No cups yet') + '</p>';
+    else cups.forEach(c => {
+      const trn = tournaments.find(x => x.id === c.tournament_id);
+      const card = document.createElement('div'); card.className = 'cup-card';
+      card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>' + escapeHtml(c.title) + '</h4>' + (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') + '<small>' + new Date(c.awarded_at).toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'en-US') + (trn ? ' · Турнир #' + trn.number : '') + '</small></div>';
+      cupsList.appendChild(card);
+    });
 
-    if(isMe) {
-      add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile));
-      add('i-logout', 'Выйти', 'danger', doLogout);
-    }
-
-    if(canModerate()){
-      if(isAdmin() && !isMe){
-        add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
+    const historyEl = $('#prof-history');
+    if (historyEl) {
+      historyEl.replaceChildren();
+      if (!apps.length) historyEl.innerHTML = '<div class="card empty-state" style="padding:40px 20px"><p style="color:var(--muted)">' + (LANG === 'ru' ? 'История пуста' : 'History is empty') + '</p></div>';
+      else {
+        const approved = apps.filter(a => a.status === 'approved');
+        const rejected = apps.filter(a => a.status === 'rejected');
+        const pending = apps.filter(a => a.status === 'pending');
+        let histMs = 0;
+        approved.forEach(a => { const s = stages.find(x => x.id === a.stage_id); if (s && s.opened_at && a.created_at) histMs += Math.max(0, new Date(a.created_at).getTime() - new Date(s.opened_at).getTime()); });
+        const summary = document.createElement('div');
+        summary.style.cssText = 'margin-bottom:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px';
+        summary.innerHTML = `<div class="profile-stat-item"><span>✓ Одобрено</span><b style="color:var(--green)">${approved.length}</b></div><div class="profile-stat-item"><span>⏳ На проверке</span><b style="color:var(--gold)">${pending.length}</b></div><div class="profile-stat-item"><span>✕ Отклонено</span><b style="color:var(--red)">${rejected.length}</b></div><div class="profile-stat-item"><span>⏱ Суммарное время</span><b style="color:var(--blue-2)">${approved.length ? fmtDuration(histMs) : '—'}</b></div>`;
+        historyEl.appendChild(summary);
+        const card = document.createElement('div'); card.className = 'card table-card';
+        const table = document.createElement('table'); table.className = 'table'; table.style.minWidth = '100%';
+        table.innerHTML = `<thead><tr><th>Турнир</th><th>Этап</th><th>Статус</th><th>Время</th><th>Очки</th><th>Отзыв админа</th><th>Дата</th></tr></thead>`;
+        const tbody = document.createElement('tbody');
+        apps.forEach(a => {
+          const s = stages.find(x => x.id === a.stage_id);
+          const trn = tournaments.find(x => x.id === a.tournament_id);
+          let durationMs = null;
+          if (s && s.opened_at && a.created_at) durationMs = Math.max(0, new Date(a.created_at).getTime() - new Date(s.opened_at).getTime());
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td style="font-weight:700;color:var(--blue-2)">${trn ? '#' + trn.number : '—'}</td><td>${escapeHtml(s ? (s.title || ('Этап ' + s.number)) : '—')}</td><td><span class="status-badge ${a.status}">${t('status.' + a.status)}</span></td><td style="font-size:13px;color:var(--muted)">${durationMs !== null ? '⏱ ' + fmtDuration(durationMs) : '—'}</td><td>${a.status === 'approved' ? '<span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)">🏆 ' + (s ? (s.reward_points || 1) : 1) + '</span>' : '—'}</td><td style="font-size:12px;color:var(--muted);max-width:220px;word-break:break-word">${a.admin_comment ? '💬 ' + escapeHtml(a.admin_comment) : '—'}</td><td style="font-size:12px;color:var(--muted);white-space:nowrap">${new Date(a.created_at).toLocaleString(LANG === 'ru' ? 'ru-RU' : 'en-US', { day:'2-digit', month:'2-digit', year:'2-digit', hour:'2-digit', minute:'2-digit' })}</td>`;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody); card.appendChild(table); historyEl.appendChild(card);
       }
-      if(isAdmin()){
+    }
+
+    const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
+    const add = (icon, text, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-' + cls; b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg><span>' + text + '</span>'; b.addEventListener('click', fn); adminTools.appendChild(b); };
+    if (isMe) { add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile)); add('i-logout', 'Выйти', 'danger', doLogout); }
+    if (canModerate()) {
+      if (isAdmin() && !isMe) add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
+      if (isAdmin()) {
         add('i-coins', 'Баланс', 'ghost', () => changeUserBalance(currentProfileId, balance));
         add('i-fire', 'Уровень', 'ghost', () => changeUserLevel(currentProfileId, lvl));
         add('i-star', 'Стиль и Плашка', 'gold', () => openStyleModal(currentProfileId, profile));
       }
       add('i-trophy', 'Вручить кубок', 'gold', () => openCupModal(currentProfileId, profile.nick));
-      if(isAdmin()){
-        if(profile.banned) add('i-check', 'Разбанить', 'success', () => unbanUser(currentProfileId));
-        else add('i-ban', 'Забанить', 'danger', () => banUser(currentProfileId));
-      }
+      if (isAdmin()) { if (profile.banned) add('i-check', 'Разбанить', 'success', () => unbanUser(currentProfileId)); else add('i-ban', 'Забанить', 'danger', () => banUser(currentProfileId)); }
     }
-    
-    add('i-link', 'Ссылка', 'ghost', () => {
-      const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId;
-      navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true));
-    });
-    
-  } catch(err) {
-    console.error(err);
-    toast('Ошибка загрузки профиля', true);
-    go('leaderboard');
-  }
+    add('i-link', 'Ссылка', 'ghost', () => { const url = window.location.origin + window.location.pathname + '#profile=' + currentProfileId; navigator.clipboard.writeText(url).then(() => toast(t('toast.copied'))).catch(() => toast('Error', true)); });
+  } catch (err) { console.error(err); toast('Ошибка загрузки профиля', true); go('leaderboard'); }
 }
 
 function openEditProfileModal(profile) {
@@ -3537,18 +3593,22 @@ async function renderAdminShop(){
         <div class="app-item-head">
           <span class="app-item-stage">${escapeHtml(item.name)}</span>
           <span class="status-badge ${enabled ? 'approved' : 'rejected'}">${enabled ? t('admin.shop.status.on') : t('admin.shop.status.off')}</span>
-          <span class="status-badge" style="background:rgba(31,139,255,.15);color:var(--blue-2)">${item.type === 'font' ? t('admin.shop.type.font') : t('admin.shop.type.style')}</span>
+          <span class="status-badge" style="background:rgba(31,139,255,.15);color:var(--blue-2)">${item.type === 'font' ? t('admin.shop.type.font') : item.type === 'style' ? t('admin.shop.type.style') : item.type === 'avatar' ? t('admin.shop.type.avatar') : t('admin.shop.type.banner')}</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px">
           <span>💰 <b style="color:var(--gold);font-family:'Exo 2',sans-serif;font-size:15px">${item.price} ₽</b></span>
           <span>⏱ <b style="color:var(--text)">${duration}</b> ${t('admin.shop.days')}</span>
           <span>🎨 <code style="background:rgba(31,139,255,.12);color:var(--blue-2);padding:1px 6px;border-radius:4px;font-size:11px">${escapeHtml(item.css_class)}</code></span>
         </div>
-        <div class="inv-preview" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px">
-          <span class="${item.css_class}">Player123</span>
+        <div class="shop-item-prev-${item.id}" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px;overflow:hidden">
+          ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
+            : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
+            : '<span class="' + item.css_class + '">Player123</span>'}
         </div>
       </div>
     `;
+    card.querySelectorAll('[data-img-src]').forEach(img => { img.src = img.dataset.imgSrc; });
+    card.querySelectorAll('[data-bg-url]').forEach(el => { el.style.backgroundImage = `url(${JSON.stringify(el.dataset.bgUrl)})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; });
     const actions = document.createElement('div');
     actions.className = 'app-item-actions';
     const editBtn = document.createElement('button');
@@ -3574,48 +3634,48 @@ async function renderAdminShop(){
 }
 
 function updateShopItemPreview(){
-  const css = $('#si-css').value || '';
+  const type = $('#si-type').value;
+  const isUrl = (type === 'avatar' || type === 'banner');
+  const value = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const prev = $('#si-preview');
-  prev.className = css;
-  prev.textContent = 'Player123';
+  prev.style.cssText = 'height:80px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;background:rgba(31,139,255,.1);';
+  prev.className = ''; prev.replaceChildren();
+  if (type === 'avatar' && value) { const img = document.createElement('img'); img.src = value; img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;'; prev.appendChild(img); }
+  else if (type === 'banner' && value) { prev.style.backgroundImage = `url(${JSON.stringify(value)})`; prev.style.backgroundSize = 'cover'; prev.style.backgroundPosition = 'center'; }
+  else { prev.className = isUrl ? '' : value; prev.textContent = 'Player123'; }
 }
 
-function populateCssDropdown(type, currentClass){
+function populateCssDropdown(type, currentValue){
   const cssSel = $('#si-css');
   cssSel.innerHTML = '';
-  const list = type === 'font' ? SHOP_FONTS : SHOP_STYLES;
-  list.forEach(c => {
-    const o = document.createElement('option');
-    o.value = c;
-    o.textContent = c;
-    if(c === currentClass) o.selected = true;
-    cssSel.appendChild(o);
-  });
-  if(currentClass && !list.includes(currentClass)){
-    const o = document.createElement('option');
-    o.value = currentClass;
-    o.textContent = currentClass;
-    o.selected = true;
-    cssSel.insertBefore(o, cssSel.firstChild);
-  }
+  let list = [];
+  if (type === 'font') list = SHOP_FONTS;
+  else if (type === 'style') list = SHOP_STYLES;
+  else if (type === 'avatar') list = SHOP_AVATARS;
+  else if (type === 'banner') list = SHOP_BANNERS;
+  list.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; if(c === currentValue) o.selected = true; cssSel.appendChild(o); });
+  if (currentValue && !list.includes(currentValue)) { const o = document.createElement('option'); o.value = currentValue; o.textContent = currentValue; o.selected = true; cssSel.insertBefore(o, cssSel.firstChild); }
 }
 
 function openShopItemModal(item){
   editingShopItemId = item ? item.id : null;
-  const m = $('#shop-item-modal');
   $('#shop-item-modal-title').textContent = item ? t('admin.shop.edit') : t('admin.shop.new');
   $('#shop-item-modal-subtitle').textContent = item ? item.name : '';
   $('#si-name').value = item ? item.name : '';
-  $('#si-type').value = item ? item.type : 'font';
+  const type = item ? item.type : 'font';
+  $('#si-type').value = type;
   $('#si-price').value = item ? item.price : 100;
   $('#si-duration').value = item ? (item.duration_days || 7) : 7;
   $('#si-enabled').checked = item ? (item.enabled !== false) : true;
-  populateCssDropdown($('#si-type').value, item ? item.css_class : '');
+  const isUrl = (type === 'avatar' || type === 'banner');
+  $('#si-css').classList.toggle('hidden', isUrl);
+  $('#si-css-url').classList.toggle('hidden', !isUrl);
+  if (isUrl) $('#si-css-url').value = item ? item.css_class : '';
+  else populateCssDropdown(type, item ? item.css_class : '');
   updateShopItemPreview();
-  $('#shop-item-error').textContent = '';
-  $('#shop-item-error').classList.remove('show');
+  $('#shop-item-error').textContent = ''; $('#shop-item-error').classList.remove('show');
   $('#shop-item-delete').classList.toggle('hidden', !item);
-  m.classList.remove('hidden');
+  $('#shop-item-modal').classList.remove('hidden');
   setTimeout(() => $('#si-name').focus(), 100);
 }
 
@@ -3629,7 +3689,8 @@ async function saveShopItem(){
   const type = $('#si-type').value;
   const price = parseInt($('#si-price').value, 10);
   const duration = parseInt($('#si-duration').value, 10);
-  const css = $('#si-css').value;
+  const isUrl = (type === 'avatar' || type === 'banner');
+  const css = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const enabled = $('#si-enabled').checked;
   const err = $('#shop-item-error');
   let msg = '';
@@ -3639,35 +3700,20 @@ async function saveShopItem(){
   else if(!css) msg = t('admin.shop.err.css');
   if(msg){ err.textContent = msg; err.classList.add('show'); return; }
   err.classList.remove('show');
-  const payload = {
-    name, type, price,
-    css_class: css,
-    duration_days: duration,
-    enabled
-  };
+  const payload = { name, type, price, css_class: css, duration_days: duration, enabled };
   const btn = $('#shop-item-save'); btn.disabled = true;
-  try{
-    if(editingShopItemId){
-      const { error } = await sb.from('shop_items').update(payload).eq('id', editingShopItemId);
-      if(error) throw error;
-    } else {
-      const { error } = await sb.from('shop_items').insert([payload]);
-      if(error) throw error;
-    }
+  try {
+    if (editingShopItemId) { const { error } = await sb.from('shop_items').update(payload).eq('id', editingShopItemId); if(error) throw error; }
+    else { const { error } = await sb.from('shop_items').insert([payload]); if(error) throw error; }
     toast(t('admin.shop.saved'));
     closeShopItemModal();
-    await loadShopItems();
-    await renderAdminShop();
-    renderShop();
-  }catch(e){
+    await loadShopItems(); await renderAdminShop(); renderShop();
+  } catch(e) {
     console.error(e);
     const m = e.message || '';
-    if(/column|does not exist|schema/i.test(m)){
-      toast(t('admin.shop.migrateError'), true);
-    } else {
-      toast('Error: ' + m, true);
-    }
-  }finally{ btn.disabled = false; }
+    if(/column|does not exist|schema|check/i.test(m)) toast(t('admin.shop.migrateError'), true);
+    else toast('Error: ' + m, true);
+  } finally { btn.disabled = false; }
 }
 
 async function deleteShopItem(){
@@ -3692,9 +3738,13 @@ $('#shop-item-cancel')?.addEventListener('click', closeShopItemModal);
 $('#shop-item-save')?.addEventListener('click', saveShopItem);
 $('#shop-item-delete')?.addEventListener('click', deleteShopItem);
 $('#si-css')?.addEventListener('change', updateShopItemPreview);
+$('#si-css-url')?.addEventListener('input', updateShopItemPreview);
 $('#si-type')?.addEventListener('change', () => {
   const type = $('#si-type').value;
-  populateCssDropdown(type, '');
+  const isUrl = (type === 'avatar' || type === 'banner');
+  $('#si-css').classList.toggle('hidden', isUrl);
+  $('#si-css-url').classList.toggle('hidden', !isUrl);
+  if (!isUrl) populateCssDropdown(type, '');
   updateShopItemPreview();
 });
 $('#shop-item-modal')?.addEventListener('click', e => { if(e.target === $('#shop-item-modal')) closeShopItemModal(); });
@@ -4724,6 +4774,14 @@ document.getElementById('new-ticket-btn')?.addEventListener('click', () => { ope
     }catch(err){ console.error(err); toast('Error: '+(err.message||err), true); } finally{ if(btn) btn.disabled = false; }
   });
 })();
+document.querySelectorAll('[data-prof-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-prof-tab]').forEach(x => x.classList.toggle('active', x === btn));
+    document.querySelectorAll('[id^="prof-tab-"]').forEach(x => x.classList.add('hidden'));
+    const tgt = document.getElementById('prof-tab-' + btn.dataset.profTab);
+    if (tgt) tgt.classList.remove('hidden');
+  });
+});
 </script>
 </body>
 </html>
