@@ -2317,7 +2317,7 @@ function renderShop() {
       <div class="shop-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;">
         ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
           : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
-          : item.type === 'frame' ? `<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`
+          : item.type === 'frame' ? `<div style="position:relative;width:64px;height:64px;margin:auto;"><div style="width:100%;height:100%;border-radius:50%;background:#2a98ff;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`
           : '<span class="' + item.css_class + '">Player123</span>'}
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
@@ -2703,22 +2703,24 @@ function getAvatarHtml(u, size = 24) {
   const initial = nick.slice(0, 2).toUpperCase();
   const fontSize = Math.floor(size * 0.4);
 
-  let baseHtml = '';
+  // Базовая аватарка (картинка или инициалы)
+  let avatarContent = '';
   if (avatarUrl) {
-    baseHtml = `<img src="${escapeHtml(avatarUrl)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" alt="">`;
+    avatarContent = `<img src="${escapeHtml(avatarUrl)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" alt="">`;
   } else {
-    baseHtml = `<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#2a98ff,#1169e8);display:flex;align-items:center;justify-content:center;font-size:${fontSize}px;font-weight:700;color:#fff;">${escapeHtml(initial)}</div>`;
+    avatarContent = `<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#2a98ff,#1169e8);display:flex;align-items:center;justify-content:center;font-size:${fontSize}px;font-weight:700;color:#fff;">${escapeHtml(initial)}</div>`;
   }
 
-  let frameHtml = '';
+  // Рамка (накладывается поверх, строго по центру)
+  let frameContent = '';
   if (frameUrl) {
-    frameHtml = `<img src="${escapeHtml(frameUrl)}" style="position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);pointer-events:none;object-fit:contain;z-index:10;" alt="">`;
+    frameContent = `<img src="${escapeHtml(frameUrl)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;pointer-events:none;z-index:2;" alt="">`;
   }
 
   return `
-    <div style="width:${size}px;height:${size}px;position:relative;flex-shrink:0;">
-      ${baseHtml}
-      ${frameHtml}
+    <div style="width:${size}px;height:${size}px;position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      ${avatarContent}
+      ${frameContent}
     </div>
   `;
 }
@@ -3193,9 +3195,7 @@ async function renderProfilePage() {
 
     const avatarEl = $('#prof-avatar');
     avatarEl.innerHTML = getAvatarHtml(profile, 100);
-    avatarEl.style.background = 'transparent';
-    avatarEl.style.border = 'none';
-    avatarEl.style.overflow = 'visible';
+    avatarEl.style.cssText = 'background: transparent; border: none; overflow: visible; border-radius: 0; box-shadow: none; padding: 0;';
 
     const bannerEl = document.querySelector('.profile-banner');
     if (bannerEl) {
@@ -3244,7 +3244,7 @@ async function renderProfilePage() {
         let prevHtml = '';
         if (shopItem.type === 'avatar') prevHtml = `<div class="inv-preview" data-img-src="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
         else if (shopItem.type === 'banner') prevHtml = `<div class="inv-preview" data-bg-url="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
-        else if (shopItem.type === 'frame') prevHtml = `<div class="inv-preview" style="position:relative;display:flex;align-items:center;justify-content:center;"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(shopItem.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`;
+        else if (shopItem.type === 'frame') prevHtml = `<div class="inv-preview" style="position:relative;display:flex;align-items:center;justify-content:center;"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(shopItem.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`;
         else prevHtml = `<div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>`;
         card.innerHTML = `${prevHtml}<div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div><div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class)}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}`;
         invGrid.appendChild(card);
@@ -3257,14 +3257,10 @@ async function renderProfilePage() {
           btn.disabled = true;
           try {
             if (type === 'avatar' || type === 'banner' || type === 'frame') {
-              const field = type === 'avatar' ? 'avatar_url' : 'banner_url';
+              const field = type === 'avatar' ? 'avatar_url' : type === 'banner' ? 'banner_url' : 'avatar_frame';
               const { error } = await sb.from('profiles').update({ [field]: cssClass }).eq('id', user.id);
               if (error) throw error;
-              userProfile[field] = cssClass;
-            } else if (type === 'frame') {
-              const { error } = await sb.from('profiles').update({ avatar_frame: cssClass }).eq('id', user.id);
-              if (error) throw error;
-              userProfile.avatar_frame = cssClass;
+              userProfile[field] = cssClass; // Мгновенно обновляем локально
             } else {
               const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
               if (error) throw error;
@@ -3681,7 +3677,7 @@ async function renderAdminShop(){
         <div class="shop-item-prev-${item.id}" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px;overflow:hidden">
           ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
             : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
-            : item.type === 'frame' ? `<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`
+            : item.type === 'frame' ? `<div style="position:relative;width:40px;height:40px;margin:auto;"><div style="width:100%;height:100%;border-radius:50%;background:#2a98ff;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`
             : '<span class="' + item.css_class + '">Player123</span>'}
         </div>
       </div>
