@@ -1435,6 +1435,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
             <option value="style">Эффект</option>
             <option value="avatar">Аватарка (URL картинки)</option>
             <option value="banner">Фон профиля (URL картинки)</option>
+            <option value="frame">Рамка для аватарки (URL картинки)</option>
           </select>
         </div>
         <div class="field">
@@ -1507,6 +1508,31 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
       <div style="margin-top:16px">
         <button class="btn btn-ghost" id="appeal-ban-btn" data-i18n="ticket.appeal">Подать апелляцию</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модалка для бесплатной смены аватара/фона -->
+<div class="modal-back hidden" id="free-media-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div>
+        <h2 id="fm-title">Изменить аватарку</h2>
+        <p id="fm-subtitle">Вставьте прямую ссылку на картинку (JPG, PNG, GIF)</p>
+      </div>
+      <button class="modal-close" id="fm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section">
+      <div class="field">
+        <label for="fm-url">Ссылка на картинку</label>
+        <input class="input" type="url" id="fm-url" placeholder="https://i.imgur.com/image.png">
+      </div>
+      <div class="error" id="fm-error"></div>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-danger" id="fm-remove">Удалить</button>
+      <button type="button" class="btn btn-ghost" id="fm-cancel">Отмена</button>
+      <button type="button" class="btn btn-primary" id="fm-save">Сохранить</button>
     </div>
   </div>
 </div>
@@ -2291,10 +2317,11 @@ function renderShop() {
       <div class="shop-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;">
         ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
           : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
+          : item.type === 'frame' ? `<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`
           : '<span class="' + item.css_class + '">Player123</span>'}
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
-      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price">${item.price} ₽</div>
         ${btnHtml}
@@ -2669,6 +2696,43 @@ form.addEventListener('submit', async e => {
   }
 });
 
+function getAvatarHtml(u, size = 24) {
+  const avatarUrl = u.avatar_url;
+  const frameUrl = u.avatar_frame;
+  const nick = u.nick || '?';
+  const initial = nick.slice(0, 2).toUpperCase();
+  const fontSize = Math.floor(size * 0.4);
+
+  let baseHtml = '';
+  if (avatarUrl) {
+    baseHtml = `<img src="${escapeHtml(avatarUrl)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;" alt="">`;
+  } else {
+    baseHtml = `<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#2a98ff,#1169e8);display:flex;align-items:center;justify-content:center;font-size:${fontSize}px;font-weight:700;color:#fff;">${escapeHtml(initial)}</div>`;
+  }
+
+  let frameHtml = '';
+  if (frameUrl) {
+    frameHtml = `<img src="${escapeHtml(frameUrl)}" style="position:absolute;inset:-6px;width:calc(100% + 12px);height:calc(100% + 12px);pointer-events:none;object-fit:contain;z-index:10;" alt="">`;
+  }
+
+  return `
+    <div style="width:${size}px;height:${size}px;position:relative;flex-shrink:0;">
+      ${baseHtml}
+      ${frameHtml}
+    </div>
+  `;
+}
+
+// Логика модалки бесплатной смены
+let fmType = 'avatar';
+function openFreeMediaModal(type, currentUrl) {
+  fmType = type;
+  $('#fm-title').textContent = type === 'avatar' ? 'Изменить аватарку' : 'Изменить фон профиля';
+  $('#fm-url').value = currentUrl || '';
+  $('#fm-error').classList.remove('show');
+  $('#free-media-modal').classList.remove('hidden');
+}
+
 async function renderLeaderboard(){
   if(!sb) return;
   const sel = $('#lb-tournament-select');
@@ -2688,7 +2752,7 @@ async function renderLeaderboard(){
     
     // Запрашиваем только тех, у кого есть ник
     const [profRes, cupsRes] = await Promise.all([
-      sb.from('profiles').select('id, nick, nick_color, nick_font, nick_style, badge_text, banned, created_at').not('nick', 'is', null).neq('nick', ''),
+      sb.from('profiles').select('id, nick, nick_color, nick_font, nick_style, badge_text, banned, created_at, avatar_url, avatar_frame').not('nick', 'is', null).neq('nick', ''),
       sb.from('cups').select('user_id')
     ]);
     if(profRes.error) console.warn('Leaderboard profiles error:', profRes.error);
@@ -2735,6 +2799,7 @@ async function renderLeaderboard(){
       const total_hours = u.stage_count_with_time > 0 ? u.total_hours : null;
       return { 
         id: u.id, nick: p.nick || '—', nick_color: p.nick_color, nick_font: p.nick_font, nick_style: p.nick_style, badge_text: p.badge_text, banned: p.banned, 
+        avatar_url: p.avatar_url, avatar_frame: p.avatar_frame, 
         points: u.points, stages: u.stages, cups: cupsCount[u.id]||0, 
         total_hours: total_hours, last_approved_at: u.last_approved_at 
       };
@@ -2779,7 +2844,15 @@ async function renderLeaderboard(){
           mainVal = u.total_hours !== null ? (u.total_hours < 1 ? Math.round(u.total_hours*60)+'м' : u.total_hours.toFixed(1)+'ч') : '—';
           mainLabel = (LANG==='ru'?'ВРЕМЯ':'TIME');
         }
-        c.innerHTML = '<div class="podium-rank">'+(i+1)+'</div><div class="podium-nick">'+formatNick(u)+'</div><div class="podium-level">'+mainVal+'</div><div class="podium-level-label">'+mainLabel+'</div>';
+        c.innerHTML = `
+          <div class="podium-rank">${i+1}</div>
+          <div class="podium-nick" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;">
+            ${getAvatarHtml(u, 32)}
+            <span>${formatNick(u)}</span>
+          </div>
+          <div class="podium-level">${mainVal}</div>
+          <div class="podium-level-label">${mainLabel}</div>
+        `;
         c.addEventListener('click', () => go('profile=' + u.id));
         p.appendChild(c);
       });
@@ -2799,7 +2872,13 @@ async function renderLeaderboard(){
       const r = i+1;
       const rc = r===1?'gold':r===2?'silver':r===3?'bronze':'';
       let rowHtml = '<td><span class="rank-badge '+rc+'">'+r+'</span></td>';
-      rowHtml += '<td style="font-weight:600">'+formatNick(u)+(u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':'')+'</td>';
+      rowHtml += `
+        <td style="font-weight:600">
+          <div style="display:flex;align-items:center;gap:10px;">
+            ${getAvatarHtml(u, 28)}
+            <span>${formatNick(u)}${u.banned?' <span class="status-badge banned">'+(LANG==='ru'?'Бан':'Ban')+'</span>':''}</span>
+          </div>
+        </td>`;
       if (isGlobal) {
         rowHtml += '<td><span class="level-pill" style="background:rgba(246,183,60,.15);color:var(--gold)"><svg class="i" style="font-size:14px"><use href="#i-coins"/></svg>'+u.points+'</span></td>';
         rowHtml += '<td><span class="level-pill"><svg class="i" style="font-size:14px"><use href="#i-fire"/></svg>'+u.stages+'</span></td>';
@@ -3113,17 +3192,10 @@ async function renderProfilePage() {
     const balance = profile.balance || 0;
 
     const avatarEl = $('#prof-avatar');
-    if (profile.avatar_url) {
-      avatarEl.replaceChildren();
-      const img = document.createElement('img');
-      img.src = profile.avatar_url; img.alt = profile.nick || '';
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:16px;display:block;';
-      avatarEl.appendChild(img);
-      avatarEl.style.background = 'transparent';
-    } else {
-      avatarEl.textContent = initials(profile.nick);
-      avatarEl.style.background = safeColor(profile.nick_color) !== 'inherit' ? `linear-gradient(135deg, ${safeColor(profile.nick_color)}, #1169e8)` : 'linear-gradient(135deg, #2a98ff, #1169e8)';
-    }
+    avatarEl.innerHTML = getAvatarHtml(profile, 100);
+    avatarEl.style.background = 'transparent';
+    avatarEl.style.border = 'none';
+    avatarEl.style.overflow = 'visible';
 
     const bannerEl = document.querySelector('.profile-banner');
     if (bannerEl) {
@@ -3165,12 +3237,14 @@ async function renderProfilePage() {
         const isEquipped = (shopItem.type === 'font' && profile.nick_font === shopItem.css_class) ||
                            (shopItem.type === 'style' && profile.nick_style === shopItem.css_class) ||
                            (shopItem.type === 'avatar' && profile.avatar_url === shopItem.css_class) ||
-                           (shopItem.type === 'banner' && profile.banner_url === shopItem.css_class);
+                           (shopItem.type === 'banner' && profile.banner_url === shopItem.css_class) ||
+                           (shopItem.type === 'frame' && profile.avatar_frame === shopItem.css_class);
         const daysLeft = Math.ceil((new Date(item.expires_at) - new Date()) / 86400000);
         const card = document.createElement('div'); card.className = 'inv-card';
         let prevHtml = '';
         if (shopItem.type === 'avatar') prevHtml = `<div class="inv-preview" data-img-src="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
         else if (shopItem.type === 'banner') prevHtml = `<div class="inv-preview" data-bg-url="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
+        else if (shopItem.type === 'frame') prevHtml = `<div class="inv-preview" style="position:relative;display:flex;align-items:center;justify-content:center;"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(shopItem.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`;
         else prevHtml = `<div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>`;
         card.innerHTML = `${prevHtml}<div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div><div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class)}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}`;
         invGrid.appendChild(card);
@@ -3182,11 +3256,15 @@ async function renderProfilePage() {
           const itemId = btn.dataset.item; const type = btn.dataset.type; const cssClass = btn.dataset.class;
           btn.disabled = true;
           try {
-            if (type === 'avatar' || type === 'banner') {
+            if (type === 'avatar' || type === 'banner' || type === 'frame') {
               const field = type === 'avatar' ? 'avatar_url' : 'banner_url';
               const { error } = await sb.from('profiles').update({ [field]: cssClass }).eq('id', user.id);
               if (error) throw error;
               userProfile[field] = cssClass;
+            } else if (type === 'frame') {
+              const { error } = await sb.from('profiles').update({ avatar_frame: cssClass }).eq('id', user.id);
+              if (error) throw error;
+              userProfile.avatar_frame = cssClass;
             } else {
               const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
               if (error) throw error;
@@ -3242,7 +3320,7 @@ async function renderProfilePage() {
 
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
     const add = (icon, text, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-' + cls; b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg><span>' + text + '</span>'; b.addEventListener('click', fn); adminTools.appendChild(b); };
-    if (isMe) { add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile)); add('i-logout', 'Выйти', 'danger', doLogout); }
+    if (isMe) { add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile)); add('i-camera', 'Аватар', 'ghost', () => openFreeMediaModal('avatar', profile.avatar_url)); add('i-image', 'Фон', 'ghost', () => openFreeMediaModal('banner', profile.banner_url)); add('i-logout', 'Выйти', 'danger', doLogout); }
     if (canModerate()) {
       if (isAdmin() && !isMe) add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
       if (isAdmin()) {
@@ -3593,7 +3671,7 @@ async function renderAdminShop(){
         <div class="app-item-head">
           <span class="app-item-stage">${escapeHtml(item.name)}</span>
           <span class="status-badge ${enabled ? 'approved' : 'rejected'}">${enabled ? t('admin.shop.status.on') : t('admin.shop.status.off')}</span>
-          <span class="status-badge" style="background:rgba(31,139,255,.15);color:var(--blue-2)">${item.type === 'font' ? t('admin.shop.type.font') : item.type === 'style' ? t('admin.shop.type.style') : item.type === 'avatar' ? t('admin.shop.type.avatar') : t('admin.shop.type.banner')}</span>
+          <span class="status-badge" style="background:rgba(31,139,255,.15);color:var(--blue-2)">${item.type === 'font' ? t('admin.shop.type.font') : item.type === 'style' ? t('admin.shop.type.style') : item.type === 'avatar' ? t('admin.shop.type.avatar') : item.type === 'frame' ? 'Рамка аватарки' : t('admin.shop.type.banner')}</span>
         </div>
         <div style="display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px">
           <span>💰 <b style="color:var(--gold);font-family:'Exo 2',sans-serif;font-size:15px">${item.price} ₽</b></span>
@@ -3603,6 +3681,7 @@ async function renderAdminShop(){
         <div class="shop-item-prev-${item.id}" style="height:60px;background:rgba(31,139,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-top:8px;overflow:hidden">
           ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
             : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
+            : item.type === 'frame' ? `<div style="position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.2);"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:2;"></div>`
             : '<span class="' + item.css_class + '">Player123</span>'}
         </div>
       </div>
@@ -3635,7 +3714,7 @@ async function renderAdminShop(){
 
 function updateShopItemPreview(){
   const type = $('#si-type').value;
-  const isUrl = (type === 'avatar' || type === 'banner');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
   const value = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const prev = $('#si-preview');
   prev.style.cssText = 'height:80px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;background:rgba(31,139,255,.1);';
@@ -3653,6 +3732,7 @@ function populateCssDropdown(type, currentValue){
   else if (type === 'style') list = SHOP_STYLES;
   else if (type === 'avatar') list = SHOP_AVATARS;
   else if (type === 'banner') list = SHOP_BANNERS;
+  else if (type === 'frame') list = [];
   list.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; if(c === currentValue) o.selected = true; cssSel.appendChild(o); });
   if (currentValue && !list.includes(currentValue)) { const o = document.createElement('option'); o.value = currentValue; o.textContent = currentValue; o.selected = true; cssSel.insertBefore(o, cssSel.firstChild); }
 }
@@ -3667,7 +3747,7 @@ function openShopItemModal(item){
   $('#si-price').value = item ? item.price : 100;
   $('#si-duration').value = item ? (item.duration_days || 7) : 7;
   $('#si-enabled').checked = item ? (item.enabled !== false) : true;
-  const isUrl = (type === 'avatar' || type === 'banner');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
   $('#si-css').classList.toggle('hidden', isUrl);
   $('#si-css-url').classList.toggle('hidden', !isUrl);
   if (isUrl) $('#si-css-url').value = item ? item.css_class : '';
@@ -3689,7 +3769,7 @@ async function saveShopItem(){
   const type = $('#si-type').value;
   const price = parseInt($('#si-price').value, 10);
   const duration = parseInt($('#si-duration').value, 10);
-  const isUrl = (type === 'avatar' || type === 'banner');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
   const css = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const enabled = $('#si-enabled').checked;
   const err = $('#shop-item-error');
@@ -3741,7 +3821,7 @@ $('#si-css')?.addEventListener('change', updateShopItemPreview);
 $('#si-css-url')?.addEventListener('input', updateShopItemPreview);
 $('#si-type')?.addEventListener('change', () => {
   const type = $('#si-type').value;
-  const isUrl = (type === 'avatar' || type === 'banner');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
   $('#si-css').classList.toggle('hidden', isUrl);
   $('#si-css-url').classList.toggle('hidden', !isUrl);
   if (!isUrl) populateCssDropdown(type, '');
@@ -4782,6 +4862,40 @@ document.querySelectorAll('[data-prof-tab]').forEach(btn => {
     if (tgt) tgt.classList.remove('hidden');
   });
 });
+
+
+// Слушатели модалки бесплатной смены аватара и фона
+document.addEventListener('DOMContentLoaded', () => {
+  $('#fm-close')?.addEventListener('click', () => $('#free-media-modal').classList.add('hidden'));
+  $('#fm-cancel')?.addEventListener('click', () => $('#free-media-modal').classList.add('hidden'));
+  $('#free-media-modal')?.addEventListener('click', e => { if(e.target === $('#free-media-modal')) $('#free-media-modal').classList.add('hidden'); });
+
+  $('#fm-remove')?.addEventListener('click', async () => {
+    if(!user) return;
+    const field = fmType === 'avatar' ? 'avatar_url' : 'banner_url';
+    const { error } = await sb.from('profiles').update({ [field]: null }).eq('id', user.id);
+    if (error) { toast('Ошибка', true); return; }
+    userProfile[field] = null;
+    $('#free-media-modal').classList.add('hidden');
+    toast('Удалено');
+    renderProfilePage();
+  });
+
+  $('#fm-save')?.addEventListener('click', async () => {
+    if(!user) return;
+    const url = $('#fm-url').value.trim();
+    if (!url) { $('#fm-error').textContent = 'Введите ссылку'; $('#fm-error').classList.add('show'); return; }
+    if (!url.match(/^https?:\/\//i)) { $('#fm-error').textContent = 'Ссылка должна начинаться с http:// или https://'; $('#fm-error').classList.add('show'); return; }
+    const field = fmType === 'avatar' ? 'avatar_url' : 'banner_url';
+    const { error } = await sb.from('profiles').update({ [field]: url }).eq('id', user.id);
+    if (error) { $('#fm-error').textContent = error.message; $('#fm-error').classList.add('show'); return; }
+    userProfile[field] = url;
+    $('#free-media-modal').classList.add('hidden');
+    toast('Успешно обновлено!');
+    renderProfilePage();
+  });
+});
+
 </script>
 </body>
 </html>
