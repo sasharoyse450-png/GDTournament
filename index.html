@@ -2223,11 +2223,13 @@ function show(id){
   if(id === 'support') renderSupport();
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
-  if(id === 'admin') renderAdmin();\n  if(id === 'tasks') renderTasksPage();
+  if(id === 'admin') renderAdmin();
+  if(id === 'tasks') renderTasksPage();
   if(id === 'profile') renderProfilePage();
   window.updateHeaderUI();
   nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
 }
+
 function go(id){
   if(!PAGE_IDS.includes(id) && !id.startsWith('profile=')) id = 'home';
   if(id === 'admin' && !canModerate()) return;
@@ -2409,17 +2411,20 @@ async function buyItem(item) {
   }
 
   try {
-    const { error } = await sb.rpc("buy_shop_item", { p_item_id: item.id });
-    if (error && ['avatar','banner','frame'].includes(item.type)) {
+    let error = null;
+    if (!isBonus) {
+      const res = await sb.rpc("buy_shop_item", { p_item_id: item.id });
+      error = res.error;
+    } else {
+      error = true;
+    }
+    if (error) {
       const expiresAt = new Date(Date.now() + (item.duration_days || 7) * 86400000).toISOString();
       const { error: invErr } = await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
       if (invErr) throw invErr;
       const { error: balErr } = await sb.from('profiles').update({ [field]: currentBalance - item.price }).eq('id', user.id);
       if (balErr) throw balErr;
-    } else if (error) {
-      throw error;
     }
-
     if (isBonus) {
       userProfile.bonus_balance = currentBalance - item.price;
       window.updateBonusUI(userProfile.bonus_balance);
@@ -2433,7 +2438,7 @@ async function buyItem(item) {
     if(current === 'profile') renderProfilePage();
   } catch (e) {
     console.error(e);
-    toast(e.message || 'Error', true);
+    toast(e.message || 'Ошибка при покупке', true);
   }
 }
 
@@ -3288,7 +3293,7 @@ async function renderProfilePage() {
     $('#prof-points').textContent = pts;
     $('#prof-level').textContent = lvl;
     $('#prof-cups-count').textContent = cups.length;
-    $('#prof-balance').textContent = balance + ' ₽';
+    $('#prof-balance').textContent = balance + ' ₽ / ' + (profile.bonus_balance || 0) + ' Б';
 
     let totalMs = 0;
     const approvedApps = apps.filter(a => a.status === 'approved');
@@ -3392,7 +3397,7 @@ async function renderProfilePage() {
     if (canModerate()) {
       if (isAdmin() && !isMe) add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
       if (isAdmin()) {
-        add('i-coins', 'Баланс', 'ghost', () => changeUserBalance(currentProfileId, balance));
+        add('i-coins', 'Баланс', 'ghost', () => changeUserBalance(currentProfileId, balance, profile.bonus_balance || 0));
         add('i-fire', 'Уровень', 'ghost', () => changeUserLevel(currentProfileId, lvl));
         add('i-star', 'Стиль и Плашка', 'gold', () => openStyleModal(currentProfileId, profile));
       }
@@ -3822,7 +3827,8 @@ function openShopItemModal(item){
   $('#si-name').value = item ? item.name : '';
   const type = item ? item.type : 'font';
   $('#si-type').value = type;
-  $('#si-price').value = item ? item.price : 100;\n  $('#si-currency').value = item ? (item.currency_type || 'main') : 'main';
+  $('#si-price').value = item ? item.price : 100;
+  $('#si-currency').value = item ? (item.currency_type || 'main') : 'main';
   $('#si-duration').value = item ? (item.duration_days || 7) : 7;
   $('#si-enabled').checked = item ? (item.enabled !== false) : true;
   const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
@@ -3846,6 +3852,7 @@ async function saveShopItem(){
   const name = $('#si-name').value.trim();
   const type = $('#si-type').value;
   const price = parseInt($('#si-price').value, 10);
+  const currency = $('#si-currency').value;
   const duration = parseInt($('#si-duration').value, 10);
   const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
   const css = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
@@ -3858,7 +3865,7 @@ async function saveShopItem(){
   else if(!css) msg = t('admin.shop.err.css');
   if(msg){ err.textContent = msg; err.classList.add('show'); return; }
   err.classList.remove('show');
-  const payload = { name, type, price, css_class: css, duration_days: duration, enabled };
+  const payload = { name, type, price, css_class: css, duration_days: duration, enabled, currency_type: currency };
   const btn = $('#shop-item-save'); btn.disabled = true;
   try {
     if (editingShopItemId) { const { error } = await sb.from('shop_items').update(payload).eq('id', editingShopItemId); if(error) throw error; }
@@ -3987,6 +3994,8 @@ function renderAdmin(){
     'users': isAdmin(),
     'settings': isAdmin(),
     'shop': isAdmin(),
+    'tasks': isAdmin(),
+    'task-reviews': isAdmin(),
     'words': isAdmin(),
     'log': isAdmin(),
     'regs': hasPermission('regs'),
@@ -4015,7 +4024,9 @@ function renderAdmin(){
     else if(adminTab === 'cups') renderAdminCups();
     else if(adminTab === 'shop') renderAdminShop();
     else if(adminTab === 'words') renderAdminWords();
-    else if(adminTab === 'log') renderAdminLog();\n    else if(adminTab === 'tasks') renderAdminTasks();\n    else if(adminTab === 'task-reviews') renderAdminTaskReviews();
+    else if(adminTab === 'log') renderAdminLog();
+    else if(adminTab === 'tasks') renderAdminTasks();
+    else if(adminTab === 'task-reviews') renderAdminTaskReviews();
   } catch(e) {
     console.error("Ошибка при отрисовке вкладки", adminTab, e);
   }
