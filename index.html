@@ -639,6 +639,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
       <a href="#shop" data-nav="shop"><svg class="i"><use href="#i-shop"/></svg><span data-i18n="nav.shop">Магазин</span></a>
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span data-i18n="nav.leaderboard">Таблица</span></a>
       <a href="#chat" data-nav="chat"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.chat">Чат</span></a>
+      <a href="#tasks" data-nav="tasks"><svg class="i"><use href="#i-check"/></svg><span data-i18n="nav.tasks">Задания</span></a>
       <a href="#support" data-nav="support"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.support">Поддержка</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
       <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span><span class="nav-badge hidden" id="nav-admin-badge">0</span></a>
@@ -647,6 +648,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
     <div class="header-actions">
       <div id="header-balance" class="balance-badge hidden" title="Ваш баланс">
         <svg class="i"><use href="#i-coins"/></svg> <span data-user-balance>0</span> ₽
+      </div>
+      <div id="header-bonus" class="balance-badge hidden" title="Бонусный баланс" style="background:rgba(179,107,255,.1);border-color:rgba(179,107,255,.3);color:var(--purple)">
+        <svg class="i"><use href="#i-star"/></svg> <span data-user-bonus>0</span> Б
       </div>
       <div class="lang" role="group">
         <button type="button" data-lang="ru" aria-pressed="true">RU</button>
@@ -862,6 +866,19 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
   </div>
 </section>
 
+<section class="page" id="page-tasks">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow"><svg class="i"><use href="#i-check"/></svg><span>Квесты</span></div>
+      <h1>Задания</h1>
+      <p>Выполняй задания, получай бонусы и трать их на эксклюзивный декор в магазине!</p>
+    </div>
+    <div class="page-body">
+      <div id="tasks-list" class="app-list"></div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="page-support">
   <div class="wrap">
     <div class="page-head">
@@ -980,6 +997,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
     <div class="page-body">
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active" data-i18n="admin.tab.dashboard">Дашборд</button>
+        <button type="button" data-admin-tab="tasks" id="tab-tasks">Конструктор заданий</button>
+        <button type="button" data-admin-tab="task-reviews" id="tab-task-reviews">Проверка заданий</button>
         <button type="button" data-admin-tab="regs" id="tab-regs" data-i18n="admin.tab.regs">Заявки на турниры</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
         <button type="button" data-admin-tab="apps" id="tab-apps" data-i18n="admin.tab.apps">Заявки на этапы</button>
@@ -1154,6 +1173,34 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
           </div>
         </div>
         <div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th data-i18n="admin.words.word">Слово</th><th data-i18n="admin.words.added">Добавлено</th><th data-i18n="admin.th.actions">Действия</th></tr></thead><tbody id="admin-words-body"></tbody></table></div></div>
+      </div>
+      <div id="admin-tasks" class="hidden">
+        <div class="card" style="margin-bottom:22px;padding:20px">
+          <h3 style="font-size:16px;margin-bottom:16px;">Создать задание</h3>
+          <div class="field-row" style="margin-bottom:14px">
+            <input class="input" type="text" id="new-task-title" placeholder="Название задания">
+            <input class="input" type="number" id="new-task-reward" placeholder="Награда" min="1" value="10">
+          </div>
+          <div class="field-row" style="margin-bottom:14px">
+            <select class="input" id="new-task-currency">
+              <option value="bonus">Бонусные рубли (для магазина)</option>
+              <option value="main">Основные рубли (для турниров)</option>
+            </select>
+            <input class="input" type="text" id="new-task-desc" placeholder="Описание (что нужно сделать)">
+          </div>
+          <button type="button" class="btn btn-primary" id="create-task-btn">Создать задание</button>
+        </div>
+        <div id="admin-tasks-list"></div>
+      </div>
+      <div id="admin-task-reviews" class="hidden">
+        <div class="card table-card">
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Дата</th><th>Игрок</th><th>Задание</th><th>Доказательство</th><th>Статус</th><th>Действия</th></tr></thead>
+              <tbody id="admin-task-reviews-body"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div id="admin-log" class="hidden"><div class="card table-card"><div class="table-wrap"><table class="table"><thead><tr><th data-i18n="admin.log.when">Когда</th><th data-i18n="admin.log.who">Кто</th><th data-i18n="admin.log.what">Что</th></tr></thead><tbody id="admin-log-body"></tbody></table></div></div></div>
     </div>
@@ -1444,6 +1491,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
         </div>
       </div>
       <div class="field-row">
+        <div class="field">
+          <label for="si-currency">Валюта</label>
+          <select class="input" id="si-currency">
+            <option value="main">Основная (₽)</option>
+            <option value="bonus">Бонусная (Б)</option>
+          </select>
+        </div>
         <div class="field">
           <label for="si-duration" data-i18n="admin.shop.duration">Срок (дней)</label>
           <input class="input" type="number" id="si-duration" min="1" value="7">
@@ -1793,7 +1847,7 @@ const I18N = {
   }
 };
 
-const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile'];
+const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile','tasks'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 const SHOP_FONTS = ['font-cyber','font-gothic','font-handwritten','font-pixel','font-retro','font-heavy'];
 const SHOP_STYLES = ['nick-rainbow','nick-gold','nick-fire','nick-ice','nick-neon'];
@@ -1984,6 +2038,11 @@ window.updateBalanceUI = n => {
   const hb = $('#header-balance');
   if (hb) { if (!user) hb.classList.add('hidden'); else hb.classList.remove('hidden'); }
 };
+window.updateBonusUI = n => {
+  $$('[data-user-bonus]').forEach(el => el.textContent = (n == null ? '0' : n));
+  const hb = $('#header-bonus');
+  if (hb) { if (!user) hb.classList.add('hidden'); else hb.classList.remove('hidden'); }
+};
 
 function storedLang(){ try{ const v = localStorage.getItem('gdcc-lang'); return (v==='ru'||v==='en')?v:null; }catch(_){ return null; } }
 function saveLang(l){ try{ localStorage.setItem('gdcc-lang', l); }catch(_){} }
@@ -2164,7 +2223,7 @@ function show(id){
   if(id === 'support') renderSupport();
   if(id === 'tournament') renderTournamentPage();
   if(id === 'apply') refreshApplyView();
-  if(id === 'admin') renderAdmin();
+  if(id === 'admin') renderAdmin();\n  if(id === 'tasks') renderTasksPage();
   if(id === 'profile') renderProfilePage();
   window.updateHeaderUI();
   nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
@@ -2323,7 +2382,7 @@ function renderShop() {
       <div class="shop-title">${escapeHtml(item.name)}</div>
       <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
-        <div class="shop-price">${item.price} ₽</div>
+        <div class="shop-price" style="color:${item.currency_type === 'bonus' ? 'var(--purple)' : 'var(--gold)'}">${item.price} ${item.currency_type === 'bonus' ? 'Б' : '₽'}</div>
         ${btnHtml}
       </div>
     `;
@@ -2340,21 +2399,34 @@ async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
   if (item.enabled === false) { toast(t('shop.disabled'), true); return; }
-  const balance = userProfile ? (userProfile.balance || 0) : 0;
-  if (balance < item.price) { toast(t('buy.nofunds'), true); return; }
+
+  const isBonus = item.currency_type === 'bonus';
+  const currentBalance = isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0);
+  const field = isBonus ? 'bonus_balance' : 'balance';
+  if (currentBalance < item.price) {
+    toast(isBonus ? 'Недостаточно бонусных рублей!' : t('buy.nofunds'), true);
+    return;
+  }
+
   try {
     const { error } = await sb.rpc("buy_shop_item", { p_item_id: item.id });
-    if (error && (item.type === 'avatar' || item.type === 'banner')) {
+    if (error && ['avatar','banner','frame'].includes(item.type)) {
       const expiresAt = new Date(Date.now() + (item.duration_days || 7) * 86400000).toISOString();
       const { error: invErr } = await sb.from('inventory').insert([{ user_id: user.id, item_id: item.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
       if (invErr) throw invErr;
-      const { error: balErr } = await sb.from('profiles').update({ balance: (userProfile.balance || 0) - item.price }).eq('id', user.id);
+      const { error: balErr } = await sb.from('profiles').update({ [field]: currentBalance - item.price }).eq('id', user.id);
       if (balErr) throw balErr;
     } else if (error) {
       throw error;
     }
-    userProfile.balance -= item.price;
-    window.updateBalanceUI(userProfile.balance);
+
+    if (isBonus) {
+      userProfile.bonus_balance = currentBalance - item.price;
+      window.updateBonusUI(userProfile.bonus_balance);
+    } else {
+      userProfile.balance = currentBalance - item.price;
+      window.updateBalanceUI(userProfile.balance);
+    }
     toast(t('buy.success'));
     myInventory = await loadMyInventory();
     if(current === 'shop') renderShop();
@@ -3407,13 +3479,23 @@ $('#asm-save').addEventListener('click', async () => {
   } catch(e) { toast('Error: ' + e.message, true); } finally { btn.disabled = false; }
 });
 
-async function changeUserBalance(userId, current){
-  const v = prompt(LANG==='ru'?'Новый баланс (в рублях):':'New balance (RUB):', current);
-  if(v === null) return;
-  const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
-  const { error } = await sb.rpc('admin_change_balance', { target_id: userId, new_balance: num });
-  if(error){ toast('Ошибка БД: '+error.message, true); return; }
-  toast(LANG==='ru'?'Баланс обновлён':'Balance updated');
+async function changeUserBalance(userId, currentMain, currentBonus = 0){
+  const type = prompt("Какой баланс изменить? Введите 1 (Основной) или 2 (Бонусный):", "1");
+  if(type === null) return;
+  if(type === "1"){
+    const v = prompt('Новый ОСНОВНОЙ баланс (₽):', currentMain);
+    if(v === null) return;
+    const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
+    const { error } = await sb.rpc('admin_change_balance', { target_id: userId, new_balance: num });
+    if(error){ toast('Ошибка БД: '+error.message, true); return; }
+  } else if(type === "2"){
+    const v = prompt('Новый БОНУСНЫЙ баланс (Б):', currentBonus);
+    if(v === null) return;
+    const num = parseInt(v,10); if(isNaN(num) || num < 0){ toast('Invalid', true); return; }
+    const { error } = await sb.from('profiles').update({ bonus_balance: num }).eq('id', userId);
+    if(error){ toast('Ошибка БД: '+error.message, true); return; }
+  } else { toast('Введите 1 или 2', true); return; }
+  toast('Баланс обновлён');
   await loadAllUsers(); if(current === 'profile') renderProfilePage();
 }
 async function changeUserLevel(userId, current){
@@ -3740,7 +3822,7 @@ function openShopItemModal(item){
   $('#si-name').value = item ? item.name : '';
   const type = item ? item.type : 'font';
   $('#si-type').value = type;
-  $('#si-price').value = item ? item.price : 100;
+  $('#si-price').value = item ? item.price : 100;\n  $('#si-currency').value = item ? (item.currency_type || 'main') : 'main';
   $('#si-duration').value = item ? (item.duration_days || 7) : 7;
   $('#si-enabled').checked = item ? (item.enabled !== false) : true;
   const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
@@ -3891,7 +3973,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -3933,7 +4015,7 @@ function renderAdmin(){
     else if(adminTab === 'cups') renderAdminCups();
     else if(adminTab === 'shop') renderAdminShop();
     else if(adminTab === 'words') renderAdminWords();
-    else if(adminTab === 'log') renderAdminLog();
+    else if(adminTab === 'log') renderAdminLog();\n    else if(adminTab === 'tasks') renderAdminTasks();\n    else if(adminTab === 'task-reviews') renderAdminTaskReviews();
   } catch(e) {
     console.error("Ошибка при отрисовке вкладки", adminTab, e);
   }
@@ -4891,6 +4973,100 @@ document.addEventListener('DOMContentLoaded', () => {
     renderProfilePage();
   });
 });
+
+
+// === TASKS / BONUS BALANCE ===
+let allTasks = [], allUserTasks = [];
+async function loadTasksData(){
+  if(!sb) return;
+  try{
+    const {data:t,error} = await sb.from('tasks').select('*').order('created_at',{ascending:false});
+    if(error) throw error;
+    allTasks = t || [];
+    if(user){
+      const {data:ut,error:ue} = await sb.from('user_tasks').select('*').eq('user_id',user.id);
+      if(ue) throw ue;
+      allUserTasks = ut || [];
+    }else allUserTasks = [];
+  }catch(e){ console.warn('Tasks load:',e.message); }
+}
+async function renderTasksPage(){
+  const wrap = $('#tasks-list'); if(!wrap) return;
+  wrap.innerHTML = '<p style="color:var(--muted)">Загрузка...</p>';
+  await loadTasksData(); wrap.innerHTML = '';
+  const activeTasks = allTasks.filter(t=>t.is_active);
+  if(!activeTasks.length){wrap.innerHTML='<div class="card empty-state"><p>Пока нет активных заданий. Заходи позже!</p></div>';return;}
+  if(!user){wrap.innerHTML='<div class="card empty-state"><p>Войдите, чтобы выполнять задания.</p><a class="btn btn-primary" href="#cabinet">Войти</a></div>';return;}
+  activeTasks.forEach(t=>{
+    const mySub=allUserTasks.find(ut=>ut.task_id===t.id), card=document.createElement('div'); card.className='app-item';
+    let statusHtml='',btnHtml=`<button class="btn btn-primary btn-sm" onclick="submitTask('${t.id}')">Выполнить</button>`;
+    if(mySub){
+      if(mySub.status==='pending'){statusHtml='<span class="status-badge pending">На проверке</span>';btnHtml='';}
+      else if(mySub.status==='approved'){statusHtml='<span class="status-badge approved">Выполнено</span>';btnHtml='';}
+      else if(mySub.status==='rejected'){statusHtml='<span class="status-badge rejected">Отклонено</span>';btnHtml=`<button class="btn btn-ghost btn-sm" onclick="submitTask('${t.id}')">Пересдать</button>`;}
+    }
+    const currencyName=t.currency_type==='bonus'?'Б':'₽',currencyColor=t.currency_type==='bonus'?'var(--purple)':'var(--gold)';
+    card.innerHTML=`<div class="app-item-main"><div class="app-item-head"><span class="app-item-stage">${escapeHtml(t.title)}</span>${statusHtml}</div><div style="color:var(--muted);font-size:13px;margin-bottom:8px">${escapeHtml(t.description||'')}</div><div style="font-weight:700;color:${currencyColor};font-size:16px">+${t.reward} ${currencyName}</div></div><div class="app-item-actions">${btnHtml}</div>`;
+    wrap.appendChild(card);
+  });
+}
+window.submitTask=async taskId=>{
+  const proof=prompt('Вставьте ссылку на скриншот/видео (доказательство):'); if(proof===null)return;
+  if(!proof.trim()){toast('Ссылка обязательна',true);return;}
+  const btn=document.querySelector(`button[onclick="submitTask('${taskId}')"]`);if(btn)btn.disabled=true;
+  try{
+    const existing=allUserTasks.find(ut=>ut.task_id===taskId);
+    if(existing){
+      const {error}=await sb.from('user_tasks').update({status:'pending',proof_url:proof.trim(),created_at:new Date().toISOString()}).eq('id',existing.id);if(error)throw error;
+    }else{
+      const {error}=await sb.from('user_tasks').insert([{user_id:user.id,task_id:taskId,proof_url:proof.trim()}]);if(error)throw error;
+    }
+    toast('Задание отправлено на проверку!');await renderTasksPage();
+  }catch(e){toast('Ошибка: '+e.message,true);}finally{if(btn)btn.disabled=false;}
+};
+async function renderAdminTasks(){
+  await loadTasksData();const list=$('#admin-tasks-list');if(!list)return;list.innerHTML='';
+  if(!allTasks.length){list.innerHTML='<p style="color:var(--muted)">Заданий пока нет.</p>';return;}
+  allTasks.forEach(t=>{
+    const card=document.createElement('div');card.className='user-card';card.style.cursor='default';
+    card.innerHTML=`<div class="user-info"><b>${escapeHtml(t.title)}</b><small>${t.reward} ${t.currency_type==='bonus'?'Б':'₽'} · ${t.is_active?'Активно':'Скрыто'}</small></div><button class="btn btn-ghost btn-sm" onclick="toggleTask('${t.id}',${t.is_active})">${t.is_active?'Скрыть':'Включить'}</button><button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">Удалить</button>`;
+    list.appendChild(card);
+  });
+}
+$('#create-task-btn')?.addEventListener('click',async()=>{
+  const title=$('#new-task-title').value.trim(),desc=$('#new-task-desc').value.trim(),reward=parseInt($('#new-task-reward').value,10),currency=$('#new-task-currency').value;
+  if(!title||!Number.isFinite(reward)||reward<1){toast('Заполните название и корректную награду',true);return;}
+  try{const {error}=await sb.from('tasks').insert([{title,description:desc,reward,currency_type:currency}]);if(error)throw error;toast('Задание создано!');$('#new-task-title').value='';$('#new-task-desc').value='';await renderAdminTasks();}
+  catch(e){toast(e.message,true);}
+});
+window.toggleTask=async(id,currentStatus)=>{const {error}=await sb.from('tasks').update({is_active:!currentStatus}).eq('id',id);if(error){toast(error.message,true);return;}await renderAdminTasks();};
+window.deleteTask=async id=>{if(!confirm('Удалить задание?'))return;const {error}=await sb.from('tasks').delete().eq('id',id);if(error){toast(error.message,true);return;}await renderAdminTasks();};
+async function renderAdminTaskReviews(){
+  const tb=$('#admin-task-reviews-body');if(!tb)return;tb.innerHTML='<tr><td colspan="6" style="text-align:center">Загрузка...</td></tr>';
+  try{
+    const {data:uts,error}=await sb.from('user_tasks').select('*, profile:profiles(nick), task:tasks(title,reward,currency_type)').order('created_at',{ascending:false});if(error)throw error;
+    tb.innerHTML='';const pending=(uts||[]).filter(ut=>ut.status==='pending');
+    if(!pending.length){tb.innerHTML='<tr><td colspan="6" class="empty">Нет заявок на проверку</td></tr>';return;}
+    pending.forEach(ut=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="font-size:12px;color:var(--muted)">${timeAgo(ut.created_at)}</td><td style="font-weight:700">${escapeHtml(ut.profile?.nick||'—')}</td><td>${escapeHtml(ut.task?.title||'—')}</td><td><a href="${escapeHtml(ut.proof_url||'#')}" target="_blank" rel="noopener" class="video-link">Смотреть</a></td><td><span class="status-badge pending">На проверке</span></td><td><button class="btn btn-success btn-sm" onclick="reviewTask('${ut.id}','approved','${ut.user_id}',${Number(ut.task?.reward)||0},'${ut.task?.currency_type||'main'}')">✓</button> <button class="btn btn-ghost btn-sm" onclick="reviewTask('${ut.id}','rejected')">✕</button></td>`;
+      tb.appendChild(tr);
+    });
+  }catch(e){tb.innerHTML=`<tr><td colspan="6" class="empty">${escapeHtml(e.message)}</td></tr>`;}
+}
+window.reviewTask=async(id,status,userId,reward,currency)=>{
+  try{
+    if(status==='approved'){
+      const field=currency==='bonus'?'bonus_balance':'balance';
+      const {data:prof,error}=await sb.from('profiles').select(field).eq('id',userId).single();if(error)throw error;
+      const newBal=(prof[field]||0)+parseInt(reward,10);
+      const {error:be}=await sb.from('profiles').update({[field]:newBal}).eq('id',userId);if(be)throw be;
+      if(user&&user.id===userId&&userProfile){userProfile[field]=newBal;if(field==='bonus_balance')updateBonusUI(newBal);else updateBalanceUI(newBal);}
+    }
+    const {error}=await sb.from('user_tasks').update({status}).eq('id',id);if(error)throw error;
+    toast(status==='approved'?'Задание одобрено!':'Отклонено');await renderAdminTaskReviews();
+  }catch(e){toast(e.message,true);}
+};
 
 </script>
 </body>
