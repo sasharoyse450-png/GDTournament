@@ -917,7 +917,7 @@ body { display: block; }
 <section class="page" id="page-lootboxes">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow">🎁 <span data-i18n="nav.lootboxes">Кейсы</span></div><h1 data-i18n="nav.lootboxes">Кейсы</h1></div>
-    <div class="page-body"><p style="color:var(--muted)">Раздел кейсов пока не подключён.</p></div>
+    <div class="page-body"><div class="shop-grid" id="lootboxes-grid"></div></div>
   </div>
 </section>
 
@@ -1053,7 +1053,22 @@ body { display: block; }
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
         <button type="button" data-admin-tab="log" id="tab-log" data-i18n="admin.tab.log">Лог</button>
       </div>
-      <div id="admin-lootboxes" class="hidden"></div>
+      <div id="admin-lootboxes" class="hidden">
+        <div class="card" style="padding:20px;margin-bottom:22px">
+          <h3 id="admin-lb-title" style="font-size:17px;margin-bottom:16px">Создать кейс</h3>
+          <div class="field-row">
+            <div class="field"><label for="new-lb-name">Название кейса</label><input class="input" id="new-lb-name" type="text" maxlength="80" placeholder="Новогодний кейс"></div>
+            <div class="field"><label for="new-lb-price">Цена</label><input class="input" id="new-lb-price" type="number" min="1" value="100"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="new-lb-currency">Валюта</label><select class="input" id="new-lb-currency"><option value="main">Рубли</option><option value="bonus">Бонусы</option></select></div>
+            <div class="field"><label for="new-lb-image">URL картинки (необязательно)</label><input class="input" id="new-lb-image" type="url" placeholder="https://..."></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label>Предметы, которые могут выпасть</label><div id="new-lb-items-list" style="display:grid;gap:7px;max-height:220px;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:10px"></div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button type="button" class="btn btn-primary" id="save-lb-btn">Сохранить кейс</button><button type="button" class="btn btn-ghost hidden" id="cancel-lb-edit-btn">Отмена</button></div>
+        </div>
+        <div class="card" style="padding:20px"><h3 style="font-size:16px;margin-bottom:14px">Существующие кейсы</h3><div id="admin-lootboxes-list"></div></div>
+      </div>
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span data-i18n="admin.stat.total">Всего заявок</span></div>
@@ -1529,7 +1544,6 @@ body { display: block; }
             <option value="avatar">Аватарка (URL картинки)</option>
             <option value="banner">Фон профиля (URL картинки)</option>
             <option value="frame">Рамка для аватарки (URL картинки)</option>
-            <option value="lootbox">Сундук (Рулетка)</option>
           </select>
         </div>
         <div class="field">
@@ -2418,7 +2432,7 @@ function renderShop() {
   grid.replaceChildren();
   const banner = $('#shop-disabled-banner');
   if (banner) { banner.classList.toggle('hidden', shopEnabled); if (!shopEnabled) banner.style.display = 'flex'; else banner.style.display = ''; }
-  const visibleItems = shopItems.filter(item => item.enabled !== false);
+  const visibleItems = shopItems.filter(item => item.enabled !== false && item.type !== 'lootbox');
   if (!visibleItems.length) { grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-shop"/></svg></div><h2>Товаров пока нет</h2></div>'; return; }
   const now = new Date();
   visibleItems.forEach(item => {
@@ -2440,11 +2454,10 @@ function renderShop() {
         ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
           : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
            : item.type === 'frame' ? `<div style="position:relative;width:64px;height:64px;margin:auto;"><div style="width:100%;height:100%;border-radius:50%;background:#2a98ff;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`
-          : item.type === 'lootbox' ? (item.css_class && /^https?:\/\//i.test(item.css_class) ? `<img data-img-src="${escapeHtml(item.css_class)}" style="max-width:80%;max-height:80%;object-fit:contain" alt="Сундук">` : `<div style="font-size:48px;filter:drop-shadow(0 0 15px rgba(246,183,60,.8));animation:float 2s infinite ease-in-out">🎁</div>`)
           : '<span class="' + item.css_class + '">Player123</span>'}
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
-      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : item.type === 'lootbox' ? 'Сундук с сокровищами' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price" style="color:${item.currency_type === 'bonus' ? 'var(--purple)' : 'var(--gold)'}">${item.price} ${item.currency_type === 'bonus' ? 'Б' : '₽'}</div>
         ${btnHtml}
@@ -5163,7 +5176,9 @@ async function startLootboxRoulette(boxItem) {
   const balance = isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0);
   if (balance < Number(boxItem.price || 0)) { toast('Недостаточно средств для открытия сундука!', true); return; }
 
-  const possiblePrizes = shopItems.filter(i => String(i.id) !== String(boxItem.id) && i.enabled !== false && i.type !== 'lootbox');
+  // Берем только те предметы, которые админ выбрал для этого кейса
+  const selectedPrizeIds = Array.isArray(boxItem.items) ? boxItem.items.map(String) : [];
+  const possiblePrizes = shopItems.filter(i => selectedPrizeIds.includes(String(i.id)) && i.enabled !== false && i.type !== 'lootbox');
   if (!possiblePrizes.length) { toast('В магазине нет призов для сундука!', true); return; }
 
   lootboxBusy = true;
@@ -5242,6 +5257,201 @@ async function startLootboxRoulette(boxItem) {
   }
 }
 function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
+
+
+// ================= СИСТЕМА КЕЙСОВ (ЛУТБОКСОВ) =================
+let allLootboxes = [];
+let editingLootboxId = null;
+
+// Загрузка кейсов из базы
+async function loadLootboxes() {
+  if (!sb) return;
+  try {
+    const { data, error } = await sb.from('lootboxes').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    allLootboxes = data || [];
+  } catch (e) {
+    console.warn('Ошибка загрузки кейсов:', e.message);
+    allLootboxes = [];
+  }
+}
+
+// Отрисовка страницы кейсов для игроков
+async function renderLootboxesPage() {
+  const grid = $('#lootboxes-grid');
+  if (!grid) return;
+  grid.innerHTML = '<p style="color:var(--muted)">Загрузка...</p>';
+
+  await loadLootboxes();
+  await loadShopItems();
+
+  grid.innerHTML = '';
+  const activeBoxes = allLootboxes.filter(lb => lb.is_active !== false);
+
+  if (!activeBoxes.length) {
+    grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-backpack"/></svg></div><h2>Кейсов пока нет</h2><p>Заглядывай позже, скоро здесь появятся крутые призы!</p></div>';
+    return;
+  }
+
+  activeBoxes.forEach(lb => {
+    const card = document.createElement('div');
+    card.className = 'shop-card';
+    const isBonus = lb.currency_type === 'bonus';
+    const itemsCount = Array.isArray(lb.items) ? lb.items.length : 0;
+    const imgHtml = lb.image_url
+      ? `<img src="${escapeHtml(lb.image_url)}" style="max-width:80%;max-height:80%;object-fit:contain" alt="">`
+      : '<div style="font-size:64px;filter:drop-shadow(0 0 15px rgba(246,183,60,.8))">🎁</div>';
+
+    card.innerHTML = `
+      <div class="shop-preview" style="height:120px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        ${imgHtml}
+      </div>
+      <div class="shop-title">${escapeHtml(lb.name)}</div>
+      <div class="shop-desc">Внутри: ${itemsCount} предметов</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
+        <div class="shop-price" style="color:${isBonus ? 'var(--purple)' : 'var(--gold)'}">${Number(lb.price) || 0} ${isBonus ? 'Б' : '₽'}</div>
+        <button type="button" class="btn btn-primary" onclick="openLootboxById('${escapeHtml(lb.id)}')">Открыть</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Нажатие на кнопку "Открыть кейс"
+window.openLootboxById = async (boxId) => {
+  if (!user) { go('cabinet'); return; }
+  const box = allLootboxes.find(b => String(b.id) === String(boxId));
+  if (!box) return;
+  startLootboxRoulette(box);
+};
+
+// === АДМИНКА: Отрисовка вкладки ===
+async function renderAdminLootboxes() {
+  await loadLootboxes();
+  await loadShopItems();
+
+  const itemsList = $('#new-lb-items-list');
+  if (itemsList) {
+    itemsList.innerHTML = '';
+    const prizes = shopItems.filter(i => i.type !== 'lootbox' && i.enabled !== false);
+    if (!prizes.length) {
+      itemsList.innerHTML = '<span style="color:var(--muted);font-size:12px;">В магазине нет предметов. Сначала добавьте их в магазин!</span>';
+    } else {
+      prizes.forEach(p => {
+        const lbl = document.createElement('label');
+        lbl.className = 'check';
+        lbl.style.fontSize = '12px';
+        lbl.style.marginBottom = '4px';
+        lbl.innerHTML = `<input type="checkbox" value="${escapeHtml(p.id)}" class="lb-prize-cb"> <span>${escapeHtml(p.name)}</span>`;
+        itemsList.appendChild(lbl);
+      });
+    }
+  }
+
+  const list = $('#admin-lootboxes-list');
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (!allLootboxes.length) {
+    list.innerHTML = '<p style="color:var(--muted)">Кейсов пока нет.</p>';
+    return;
+  }
+
+  allLootboxes.forEach(lb => {
+    const card = document.createElement('div');
+    card.className = 'user-card';
+    card.style.cursor = 'default';
+    const itemsCount = Array.isArray(lb.items) ? lb.items.length : 0;
+    card.innerHTML = `
+      <div class="user-info">
+        <b>${escapeHtml(lb.name)}</b>
+        <small>${Number(lb.price) || 0} ${lb.currency_type === 'bonus' ? 'Б' : '₽'} · Призов: ${itemsCount} · ${lb.is_active !== false ? 'Активен' : 'Скрыт'}</small>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// === АДМИНКА: Сохранение кейса ===
+document.getElementById('save-lb-btn')?.addEventListener('click', async () => {
+  const name = $('#new-lb-name').value.trim();
+  const price = parseInt($('#new-lb-price').value, 10);
+  const currency = $('#new-lb-currency').value;
+  const imageUrl = $('#new-lb-image').value.trim() || null;
+  const checkedBoxes = Array.from(document.querySelectorAll('.lb-prize-cb:checked')).map(cb => cb.value);
+
+  if (!name || isNaN(price) || price < 1) { toast('Заполните название и цену', true); return; }
+  if (checkedBoxes.length === 0) { toast('Выберите хотя бы один приз!', true); return; }
+
+  const btn = $('#save-lb-btn');
+  btn.disabled = true;
+  btn.textContent = 'Сохранение...';
+  const payload = { name, price, currency_type: currency, image_url: imageUrl, items: checkedBoxes };
+
+  try {
+    if (editingLootboxId) {
+      const { error } = await sb.from('lootboxes').update(payload).eq('id', editingLootboxId);
+      if (error) throw error;
+      toast('Кейс обновлен!');
+    } else {
+      const { error } = await sb.from('lootboxes').insert([payload]);
+      if (error) throw error;
+      toast('Кейс создан!');
+    }
+    resetLootboxForm();
+    await renderAdminLootboxes();
+  } catch (e) {
+    toast('Ошибка: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Сохранить кейс';
+  }
+});
+
+// === АДМИНКА: Редактирование и удаление ===
+window.editLootbox = (id) => {
+  const lb = allLootboxes.find(b => String(b.id) === String(id));
+  if (!lb) return;
+  editingLootboxId = id;
+  $('#admin-lb-title').textContent = 'Редактировать кейс';
+  $('#new-lb-name').value = lb.name || '';
+  $('#new-lb-price').value = lb.price || 100;
+  $('#new-lb-currency').value = lb.currency_type || 'main';
+  $('#new-lb-image').value = lb.image_url || '';
+  const selected = Array.isArray(lb.items) ? lb.items.map(String) : [];
+  document.querySelectorAll('.lb-prize-cb').forEach(cb => { cb.checked = selected.includes(String(cb.value)); });
+  $('#cancel-lb-edit-btn').classList.remove('hidden');
+  document.getElementById('admin-lootboxes').scrollIntoView({ behavior: 'smooth' });
+};
+
+window.deleteLootbox = async (id) => {
+  if (!confirm('Удалить этот кейс?')) return;
+  try {
+    const { error } = await sb.from('lootboxes').delete().eq('id', id);
+    if (error) throw error;
+    toast('Кейс удален');
+    await renderAdminLootboxes();
+  } catch (e) {
+    toast('Ошибка: ' + e.message, true);
+  }
+};
+
+function resetLootboxForm() {
+  editingLootboxId = null;
+  $('#admin-lb-title').textContent = 'Создать кейс';
+  $('#new-lb-name').value = '';
+  $('#new-lb-price').value = '100';
+  $('#new-lb-image').value = '';
+  $('#new-lb-currency').value = 'main';
+  document.querySelectorAll('.lb-prize-cb').forEach(cb => { cb.checked = false; });
+  $('#cancel-lb-edit-btn').classList.add('hidden');
+}
+
+document.getElementById('cancel-lb-edit-btn')?.addEventListener('click', resetLootboxForm);
 
 </script>
 </body>
