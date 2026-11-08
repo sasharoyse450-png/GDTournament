@@ -2758,12 +2758,19 @@ function canAccessStage(stage){
   const app = myApplications.find(a => a.stage_id === prev.id);
   return !!(app && app.status === 'approved');
 }
-function stageStatusLabel(s){ return t('status.'+s) || s; }
+function stageStatusLabel(s){
+  if(s === 'archived') return 'Архив';
+  return t('status.'+s) || s;
+}
 
 function renderTournaments(){
   const grid = $('#tournaments-grid'); if(!grid) return;
   grid.replaceChildren();
-  const visible = tournaments.filter(t_ => t_.status !== 'draft' || canModerate());
+  // Скрываем черновики и архив от обычных игроков
+  const visible = tournaments.filter(t_ => {
+    if (canModerate()) return true; // Админ видит всё
+    return t_.status !== 'draft' && t_.status !== 'archived'; // Игроки не видят черновики и архив
+  });
   if(!visible.length){
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>'+(LANG==='ru'?'Турниров пока нет':'No tournaments yet')+'</h2></div>';
     return;
@@ -4843,7 +4850,15 @@ async function editTournament(id){
   toast(LANG==='ru'?'Обновлено':'Updated');
   await loadTournaments(); renderAdminTournaments();
 }
-async function deleteTournament(id){ if(!confirm(LANG==='ru'?'Удалить турнир?':'Delete tournament?')) return; const { error } = await sb.from('tournaments').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadTournaments(); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
+async function deleteTournament(id){
+  if(!confirm('Отправить турнир в архив? Все баллы и история игроков сохранятся.')) return;
+  // Вместо удаления мы просто меняем статус
+  const { error } = await sb.from('tournaments').update({ status: 'archived' }).eq('id',id);
+  if(error){ toast('Error', true); return; }
+  toast('Турнир перенесен в архив');
+  await loadTournaments();
+  renderAdminTournaments();
+} = await sb.from('tournaments').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadTournaments(); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function deleteStage(id){ if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function updateStage(id, patch){ const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
 
