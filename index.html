@@ -4893,39 +4893,65 @@ $('#create-tournament-btn').addEventListener('click', async () => {
 });
 
 // GDBrowser demon pool: cached locally to avoid repeated API requests.
-const IGDC_DEMON_POOL_KEY = 'igdc_gdbrowser_demon_pool_v1';
+// v2 invalidates the old cache, which may contain empty/incorrect results.
+const IGDC_DEMON_POOL_KEY = 'igdc_gdbrowser_demon_pool_v2';
 const IGDC_DEMON_TYPES = ['Easy Demon','Medium Demon','Hard Demon','Insane Demon'];
+const IGDC_DEMON_FILTERS = {'Easy Demon':1,'Medium Demon':2,'Hard Demon':3,'Insane Demon':4};
 let igdcDemonPoolCache = null;
-function normalizeGDBrowserLevel(level){
+function normalizeGDBrowserLevel(level, requestedType=''){
   if(!level || !level.id || !level.name || !level.author) return null;
   const rawDiff = String(level.difficulty || '').toLowerCase().replace(/\s+/g,' ').trim();
-  let difficulty = IGDC_DEMON_TYPES.find(d => rawDiff === d.toLowerCase());
-  if(!difficulty && rawDiff === 'demon'){
-    const partial = String(level.partialDiff || '').toLowerCase().trim();
-    const map = {easy:'Easy Demon',medium:'Medium Demon',hard:'Hard Demon',insane:'Insane Demon'};
-    difficulty = map[partial] || null;
-  }
-  if(!difficulty || level.platformer) return null;
+  const partial = String(level.partialDiff || level.demonDifficulty || '').toLowerCase().replace(/_/g,'-').trim();
+  const map = {
+    'easy':'Easy Demon','easy demon':'Easy Demon','demon-easy':'Easy Demon','easy-demon':'Easy Demon','1':'Easy Demon',
+    'medium':'Medium Demon','medium demon':'Medium Demon','demon-medium':'Medium Demon','medium-demon':'Medium Demon','2':'Medium Demon',
+    'hard':'Hard Demon','hard demon':'Hard Demon','demon-hard':'Hard Demon','hard-demon':'Hard Demon','3':'Hard Demon',
+    'insane':'Insane Demon','insane demon':'Insane Demon','demon-insane':'Insane Demon','insane-demon':'Insane Demon','4':'Insane Demon'
+  };
+  let difficulty = IGDC_DEMON_TYPES.find(d => rawDiff === d.toLowerCase()) || map[partial] || null;
+  if(!difficulty && rawDiff === 'demon') difficulty = map[partial] || null;
+  // Some GDBrowser responses omit the demon subtype; the request filter is authoritative.
+  if(!difficulty && rawDiff.includes('demon') && requestedType) difficulty = requestedType;
+  if(!difficulty || level.platformer || rawDiff === 'extreme demon' || partial.includes('extreme')) return null;
   return { id:String(level.id), name:String(level.name), author:String(level.author), difficulty };
 }
 async function loadIGDCDemonPool(force=false){
   if(!force && igdcDemonPoolCache) return igdcDemonPoolCache;
   if(!force){
-    try{ const saved=JSON.parse(localStorage.getItem(IGDC_DEMON_POOL_KEY)||'null'); if(saved && saved.savedAt && Date.now()-saved.savedAt < 7*86400000 && Array.isArray(saved.levels)){ const cached={}; IGDC_DEMON_TYPES.forEach(type=>{cached[type]=saved.levels.filter(level=>level.difficulty===type);}); igdcDemonPoolCache=cached; return igdcDemonPoolCache; } }catch(e){}
+    try{
+      const saved=JSON.parse(localStorage.getItem(IGDC_DEMON_POOL_KEY)||'null');
+      if(saved && saved.savedAt && Date.now()-saved.savedAt < 7*86400000 && Array.isArray(saved.levels)){
+        const cached={};
+        IGDC_DEMON_TYPES.forEach(type=>{cached[type]=saved.levels.filter(level=>level.difficulty===type);});
+        if(IGDC_DEMON_TYPES.every(type=>cached[type].length>0)){igdcDemonPoolCache=cached;return cached;}
+      }
+    }catch(e){}
   }
-  const terms=['a','e','i','o','u','the','of','to','re'];
+  const terms=['a']; // one bounded request per demon subtype to avoid rate limiting
   const collected=new Map();
-  for(const term of terms){
-    const url='https://gdbrowser.com/api/search/'+encodeURIComponent(term)+'?diff=10&type=1&count=100';
-    const response=await fetch(url,{headers:{'Accept':'application/json'}});
-    if(!response.ok) throw new Error('GDBrowser HTTP '+response.status);
-    const data=await response.json();
-    if(Array.isArray(data)) data.forEach(item=>{ const level=normalizeGDBrowserLevel(item); if(level) collected.set(level.id,level); });
+  const failures=[];
+  for(const demonType of IGDC_DEMON_TYPES){
+    const filter=IGDC_DEMON_FILTERS[demonType];
+    for(const term of terms){
+      try{
+        const params=new URLSearchParams({diff:'10',type:'1',count:'100',demonFilter:String(filter)});
+        const url='https://gdbrowser.com/api/search/'+encodeURIComponent(term)+'?'+params.toString();
+        const response=await fetch(url,{headers:{'Accept':'application/json'}});
+        if(!response.ok) throw new Error('HTTP '+response.status);
+        const data=await response.json();
+        if(!Array.isArray(data)) throw new Error('Некорректный ответ API');
+        data.forEach(item=>{
+          const level=normalizeGDBrowserLevel(item,demonType);
+          if(level && level.difficulty===demonType) collected.set(level.id,level);
+        });
+      }catch(err){ failures.push(demonType+': '+(err.message||'ошибка запроса')); }
+    }
   }
   const levels=[...collected.values()];
-  const pool={}; IGDC_DEMON_TYPES.forEach(type=>{ pool[type]=levels.filter(l=>l.difficulty===type); });
+  const pool={}; IGDC_DEMON_TYPES.forEach(type=>{pool[type]=levels.filter(level=>level.difficulty===type);});
+  if(!levels.length) throw new Error('GDBrowser не вернул уровни. Возможно, API временно недоступен или блокирует запросы.');
   igdcDemonPoolCache=pool;
-  try{ localStorage.setItem(IGDC_DEMON_POOL_KEY,JSON.stringify({savedAt:Date.now(),levels})); }catch(e){}
+  try{localStorage.setItem(IGDC_DEMON_POOL_KEY,JSON.stringify({savedAt:Date.now(),levels}));}catch(e){}
   return pool;
 }
 function setDemonPoolStatus(message,isError=false){
@@ -4936,7 +4962,7 @@ $('#m-pick-random-demon').addEventListener('click',async()=>{
   btn.disabled=true; btn.textContent='Загрузка…'; setDemonPoolStatus('Получаем уровни Geometry Dash из GDBrowser…');
   try{
     const pool=await loadIGDCDemonPool(); const candidates=pool[type]||[];
-    if(!candidates.length) throw new Error('Для '+type+' пока не удалось собрать уровни. Попробуйте позже или выберите другой тип.');
+    if(!candidates.length) throw new Error('GDBrowser не вернул уровни категории '+type+'. Попробуйте обновить пул позже.');
     const picked=candidates[Math.floor(Math.random()*candidates.length)];
     $('#m-level-name').value=picked.name; $('#m-level-id').value=picked.id;
     $('#m-level-author').value=picked.author; $('#m-difficulty').value=picked.difficulty;
