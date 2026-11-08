@@ -648,6 +648,28 @@ body { display: block; }
 .possible-prizes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;max-height:350px;overflow-y:auto;padding:4px 10px 8px 0}
 @media(max-width:650px){.roulette-modal-content{padding:22px 14px}.case-title-glow{font-size:25px}.case-img-wrap{height:130px}.btn-cs-spin{padding:13px 24px;font-size:16px}.case-item{width:130px}}
 
+
+/* Live lootbox drops */
+.lb-live-section{margin:44px 0 12px;padding:24px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(17,20,29,.92),rgba(10,12,18,.88))}
+.lb-live-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}
+.lb-live-heading h2{font-family:'Exo 2',sans-serif;font-size:25px;margin:4px 0}
+.lb-live-heading h3{font-family:'Exo 2',sans-serif;font-size:18px;margin:0 0 4px}
+.lb-live-heading p{color:var(--muted);font-size:13px;margin:0}
+.lb-live-status{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid rgba(52,211,153,.25);border-radius:99px;color:#6ee7b7;font-size:10px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
+.lb-live-status i{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
+.lb-live-feed{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}
+.lb-feed-item{display:flex;align-items:center;gap:11px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025)}
+.lb-feed-thumb{width:42px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.055);overflow:hidden;font-size:22px}
+.lb-feed-thumb img{width:100%;height:100%;object-fit:contain}
+.lb-feed-info{min-width:0;flex:1}
+.lb-feed-player{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-feed-prize{font-size:13px;font-weight:750;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0}
+.lb-feed-case{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-feed-time{font-size:10px;color:var(--muted);white-space:nowrap;flex:none}
+.lb-feed-empty{grid-column:1/-1;padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;font-size:13px}
+.lb-modal-live{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.lb-modal-live .lb-live-feed{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+@media(max-width:600px){.lb-live-section{padding:16px;margin-top:30px}.lb-live-heading{align-items:flex-start}.lb-live-feed{grid-template-columns:1fr}.lb-feed-time{font-size:9px}}
 </style>
 <style id="refined-product-redesign">
 /* ==========================================================
@@ -998,6 +1020,13 @@ tr:hover td{background:rgba(255,255,255,.018)}
       <div class="feature"><svg class="i"><use href="#i-shop"/></svg><div><b data-i18n="feat.3.t">Магазин стиля</b><span data-i18n="feat.3.d">Уникальные шрифты и эффекты.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat.4.t">Кубки</b><span data-i18n="feat.4.d">Награды в профиле за победы.</span></div></div>
     </div>
+    <section class="lb-live-section">
+      <div class="lb-live-heading">
+        <div><div class="eyebrow">🎁 LIVE DROPS</div><h2>Последние выпадения</h2><p>Свежая история призов из всех кейсов</p></div>
+        <span class="lb-live-status"><i></i> LIVE</span>
+      </div>
+      <div id="lb-live-home" class="lb-live-feed"><div class="lb-feed-empty">Загрузка выпадений...</div></div>
+    </section>
   </div>
 </section>
 
@@ -1943,6 +1972,10 @@ tr:hover td{background:rgba(255,255,255,.018)}
     <div class="case-controls" id="lb-controls"><label class="lb-count-control">Открыть: <select id="lb-open-count" aria-label="Количество открытий"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option></select></label><label class="lb-fast-toggle" style="display:inline-flex;align-items:center;gap:7px;color:var(--gold);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap"><input id="lb-fast-open" type="checkbox" style="accent-color:var(--gold);width:16px;height:16px">⚡ Fast</label><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
     <div id="lootbox-result" class="hidden" style="text-align:center;margin-bottom:30px"><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:160px;height:160px;background:rgba(0,0,0,.6);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(246,183,60,.5);overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:24px;color:#fff;margin-bottom:20px;text-transform:uppercase"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
     <div id="possible-prizes-container"><h3 class="possible-prizes-title">Возможные призы</h3><div class="possible-prizes-grid" id="possible-prizes-grid"></div></div>
+    <section class="lb-modal-live">
+      <div class="lb-live-heading"><div><h3>Последние выпадения этого кейса</h3><p>Что получали другие игроки</p></div><span class="lb-live-status"><i></i> LIVE</span></div>
+      <div id="lb-live-case" class="lb-live-feed"><div class="lb-feed-empty">Загрузка...</div></div>
+    </section>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -2551,6 +2584,60 @@ function updateDonationUI(){
   try{ localStorage.setItem('gdcc-donation-url', donationUrl); }catch(_){}
 }
 
+// ================= LIVE ЛЕНТА ВЫПАДЕНИЙ =================
+let lootboxFeedRefreshBusy = false;
+function formatLootboxDropTime(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return '';
+  return date.toLocaleTimeString(LANG === 'en' ? 'en-GB' : 'ru-RU', {hour:'2-digit', minute:'2-digit'});
+}
+async function renderLootboxFeed(targetId, lootboxId = null) {
+  const host = document.getElementById(targetId);
+  if (!host || !sb || lootboxFeedRefreshBusy) return;
+  lootboxFeedRefreshBusy = true;
+  try {
+    const { data, error } = await sb.rpc('get_lootbox_live_feed', {
+      p_lootbox_id: lootboxId || null, p_limit: 24
+    });
+    if (error) throw error;
+    const drops = Array.isArray(data) ? data : [];
+    if (!drops.length) {
+      host.innerHTML = '<div class="lb-feed-empty">Пока ещё нет выпадений. Первые призы появятся здесь!</div>';
+      return;
+    }
+    host.innerHTML = drops.map(drop => {
+      const safeImage = drop.prize_image && /^https?:\/\//i.test(drop.prize_image)
+        ? `<img src="${escapeHtml(drop.prize_image)}" alt="">` : '🎁';
+      const amount = drop.prize_amount !== null && drop.prize_amount !== undefined
+        ? ` <span style="color:var(--gold)">+${escapeHtml(drop.prize_amount)} ${drop.currency_type === 'bonus' ? 'Б' : '₽'}</span>` : '';
+      return `<article class="lb-feed-item">
+        <div class="lb-feed-thumb">${safeImage}</div>
+        <div class="lb-feed-info">
+          <div class="lb-feed-player">${escapeHtml(drop.player_nick || 'Игрок')}</div>
+          <div class="lb-feed-prize">${escapeHtml(drop.prize_name || 'Приз')}${amount}</div>
+          <div class="lb-feed-case">${escapeHtml(drop.lootbox_name || 'Кейс')}</div>
+        </div>
+        <time class="lb-feed-time">${escapeHtml(formatLootboxDropTime(drop.created_at))}</time>
+      </article>`;
+    }).join('');
+  } catch (error) {
+    console.warn('Не удалось обновить live-ленту:', error.message || error);
+    if (!host.dataset.loaded) host.innerHTML = '<div class="lb-feed-empty">Лента временно недоступна</div>';
+  } finally {
+    if (host) host.dataset.loaded = '1';
+    lootboxFeedRefreshBusy = false;
+  }
+}
+function refreshVisibleLootboxFeeds() {
+  if (current === 'home') renderLootboxFeed('lb-live-home');
+  const modal = document.getElementById('lootbox-modal');
+  if (modal && !modal.classList.contains('hidden')) {
+    renderLootboxFeed('lb-live-case', modal.dataset.lootboxId || null);
+  }
+}
+setInterval(refreshVisibleLootboxFeeds, 10000);
+
+
 function show(id){
   if(id === 'cabinet') {
     if (user) { go('profile=' + user.id); return; }
@@ -2569,6 +2656,7 @@ function show(id){
   current = id;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
   $$('[data-nav]').forEach(a => { const on = a.dataset.nav === id; a.classList.toggle('active', on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
+  if(id === 'home') renderLootboxFeed('lb-live-home');
   if(id === 'leaderboard') renderLeaderboard();
   if(id === 'chat') { chatLastIds = ''; isChatLoaded = false; renderChat(); startChatPolling(); }
   else { stopChatPolling(); }
@@ -5657,6 +5745,26 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
     }
 
     if (winners.some(w => w.type !== 'currency')) myInventory = await loadMyInventory();
+    // В ленту отправляются только публичные данные о призе, без email и ID аккаунта.
+    try {
+      const publicDrops = winners.map(won => ({
+        prize_name: won.name || 'Приз',
+        prize_type: won.type || 'item',
+        prize_image: ((won.type === 'avatar' || won.type === 'frame' || won.type === 'banner') && /^https?:\/\//i.test(String(won.css_class || ''))) ? won.css_class : null,
+        prize_amount: won.type === 'currency' ? Number(won.amount || 0) : null,
+        currency_type: won.type === 'currency' ? (won.currency || 'regular') : null
+      }));
+      const { error: feedError } = await sb.rpc('publish_lootbox_live_drops', {
+        p_lootbox_id: boxItem.id, p_drops: publicDrops
+      });
+      if (feedError) console.warn('Не удалось опубликовать выпадения:', feedError.message);
+      else {
+        if (current === 'home') renderLootboxFeed('lb-live-home');
+        renderLootboxFeed('lb-live-case', boxItem.id);
+      }
+    } catch (feedError) {
+      console.warn('Ошибка публикации выпадений:', feedError);
+    }
     const previewEl = $('#lootbox-winner-preview');
     previewEl.style.background = '';
     previewEl.style.width = openCount > 1 ? 'min(720px, 100%)' : '160px';
@@ -5695,6 +5803,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
   }
 }
 function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
+
 
 
 // ================= СИСТЕМА КЕЙСОВ (ЛУТБОКСОВ) =================
@@ -5764,6 +5873,7 @@ window.openLootboxById = async (boxId) => {
   const possiblePrizes = resolveLootboxPrizes(box);
   if (!possiblePrizes.length) { toast('В кейсе нет доступных призов!', true); return; }
   $('#lb-title').textContent = box.name;
+  $('#lootbox-modal').dataset.lootboxId = String(box.id);
   const unitPrice = Number(box.price) || 0;
   const currencyLabel = box.currency_type === 'bonus' ? 'Б' : '₽';
   const countSelect = $('#lb-open-count');
@@ -5797,6 +5907,7 @@ window.openLootboxById = async (boxId) => {
   const previewStrip = $('#roulette-lanes .roulette-strip-cs');
   if (previewStrip) { previewStrip.style.transition = 'none'; previewStrip.style.transform = 'translateX(0)'; }
   $('#lootbox-modal').classList.remove('hidden');
+  renderLootboxFeed('lb-live-case', box.id);
   $('#lb-spin-btn').onclick = () => startLootboxRoulette(box, possiblePrizes, Number($('#lb-open-count').value) || 1);
 };
 
