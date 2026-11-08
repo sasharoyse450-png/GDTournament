@@ -1327,6 +1327,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
           <div class="field-row">
             <div class="field"><label for="new-lb-currency">Валюта</label><select class="input" id="new-lb-currency"><option value="main">Рубли</option><option value="bonus">Бонусы</option></select></div>
             <div class="field"><label for="new-lb-limit">Лимит открытий на игрока (0 — без лимита)</label><input class="input" id="new-lb-limit" type="number" min="0" step="1" value="0" placeholder="0"></div>
+            <div class="field"><label for="new-lb-global-limit">Общий тираж открытий для всех (0 — без лимита)</label><input class="input" id="new-lb-global-limit" type="number" min="0" step="1" value="0" placeholder="Например, 10"><small style="color:var(--muted)">Например, 10 — всего десять открытий на всех игроков.</small></div>
           </div>
           <div class="field-row">
             <div class="field" style="grid-column:1/-1"><label for="new-lb-image">URL картинки (необязательно)</label><input class="input" id="new-lb-image" type="url" placeholder="https://..."></div>
@@ -5543,6 +5544,14 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
     }
   }
 
+  const globalLimit = Math.max(0, Number(boxItem.global_open_limit) || 0);
+  const globalOpened = Math.max(0, Number(boxItem.global_opened_count) || 0);
+  if (globalLimit > 0 && globalOpened + openCount > globalLimit) {
+    const remaining = Math.max(0, globalLimit - globalOpened);
+    toast(`Осталось всего ${remaining} открытий этого кейса на всех игроков.`, true);
+    return;
+  }
+
   lootboxBusy = true;
   const spinBtn = $('#lb-spin-btn');
   const countSelect = $('#lb-open-count');
@@ -5553,9 +5562,22 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
   $('#lootbox-result').classList.add('hidden');
 
   try {
-    const { error: balErr } = await sb.from('profiles').update({ [field]: balance - totalPrice }).eq('id', user.id);
-    if (balErr) throw balErr;
-    userProfile[field] = balance - totalPrice;
+    // Сервер атомарно проверяет оба лимита, списывает оплату и фиксирует открытия.
+    // Это защищает общий тираж от одновременных запросов разных игроков.
+    const { data: reservation, error: reserveError } = await sb.rpc('reserve_lootbox_openings', {
+      p_lootbox_id: boxItem.id,
+      p_count: openCount
+    });
+    if (reserveError) throw reserveError;
+    if (!reservation || reservation.success !== true) {
+      const remaining = Math.max(0, Number(reservation?.remaining) || 0);
+      if (reservation?.reason === 'not_found') throw new Error('Кейс больше недоступен.');
+      if (reservation?.reason === 'personal_limit') throw new Error(`Ваш лимит исчерпан. Осталось открытий: ${remaining}.`);
+      if (reservation?.reason === 'insufficient_balance') throw new Error('Недостаточно средств для выбранного количества открытий.');
+      throw new Error(`Общий тираж закончился. Осталось открытий: ${remaining}.`);
+    }
+    boxItem.global_opened_count = Number(reservation.opened_count ?? (Number(boxItem.global_opened_count || 0) + openCount));
+    userProfile[field] = Number(reservation.balance ?? Math.max(0, balance - totalPrice));
     if (isBonus) window.updateBonusUI(userProfile.bonus_balance);
     else window.updateBalanceUI(userProfile.balance);
 
@@ -5620,8 +5642,6 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
           if (error) throw error;
         }
       }
-      const { error: openLogError } = await sb.from('user_case_opens').insert([{ user_id: user.id, lootbox_id: boxItem.id }]);
-      if (openLogError) throw openLogError;
     }
 
     if (winners.some(w => w.type !== 'currency')) myInventory = await loadMyInventory();
@@ -5647,8 +5667,12 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
     $('#lootbox-result').classList.remove('hidden');
     if (current === 'shop') renderShop();
     if (current === 'profile') renderProfilePage();
+    if (current === 'lootboxes') renderLootboxesPage();
   } catch (e) {
     console.error('Ошибка мульти-открытия кейса:', e);
+    $('#lb-controls').classList.remove('hidden');
+    $('#possible-prizes-container').classList.remove('hidden');
+    $('#lootbox-result').classList.add('hidden');
     toast('Ошибка открытия кейса: ' + (e.message || 'неизвестная ошибка'), true);
     if (current === 'shop') renderShop();
     if (current === 'profile') renderProfilePage();
@@ -5704,9 +5728,16 @@ async function renderLootboxesPage() {
       openedCount = userCount || 0;
     }
     const limit = Math.max(0, Number(lb.open_limit) || 0);
-    const limitReached = limit > 0 && openedCount >= limit;
-    const limitText = limit > 0 ? (limitReached ? 'Лимит исчерпан' : `Осталось: ${Math.max(0, limit - openedCount)} / ${limit}`) : 'Безлимит';
-    card.innerHTML = `<div class="case-img-wrap">${image}</div><div style="font-family:'Exo 2',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:8px">${escapeHtml(lb.name)}</div><div style="color:var(--muted);font-size:13px;margin-bottom:8px">Внутри: ${count} призов</div><div style="color:${limitReached ? 'var(--red)' : 'var(--muted)'};font-size:12px;margin-bottom:12px;font-weight:600">${limitText}</div><button type="button" class="btn-cs-spin" style="width:100%;padding:12px" ${limitReached ? 'disabled' : ''}>Открыть <span class="btn-cs-price">${Number(lb.price)||0} ${isBonus?'Б':'₽'}</span></button>`;
+    const globalLimit = Math.max(0, Number(lb.global_open_limit) || 0);
+    const globalOpened = Math.max(0, Number(lb.global_opened_count) || 0);
+    const personalRemaining = limit > 0 ? Math.max(0, limit - openedCount) : Infinity;
+    const globalRemaining = globalLimit > 0 ? Math.max(0, globalLimit - globalOpened) : Infinity;
+    const limitReached = personalRemaining <= 0 || globalRemaining <= 0;
+    const limitLines = [];
+    if (globalLimit > 0) limitLines.push(globalRemaining > 0 ? `Общий остаток: ${globalRemaining} / ${globalLimit}` : 'Общий тираж закончился');
+    if (limit > 0) limitLines.push(personalRemaining > 0 ? `Ваш остаток: ${personalRemaining} / ${limit}` : 'Ваш лимит исчерпан');
+    const limitText = limitLines.length ? limitLines.join(' · ') : 'Безлимит';
+    card.innerHTML = `<div class="case-img-wrap">${image}</div><div style="font-family:'Exo 2',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:8px">${escapeHtml(lb.name)}</div><div style="color:var(--muted);font-size:13px;margin-bottom:8px">Внутри: ${count} призов</div><div style="color:${limitReached ? 'var(--red)' : 'var(--muted)'};font-size:12px;margin-bottom:12px;font-weight:600">${escapeHtml(limitText)}</div><button type="button" class="btn-cs-spin" style="width:100%;padding:12px" ${limitReached ? 'disabled' : ''}>Открыть <span class="btn-cs-price">${Number(lb.price)||0} ${isBonus?'Б':'₽'}</span></button>`;
     card.querySelector('button').addEventListener('click', ev => { ev.stopPropagation(); if (!limitReached) openLootboxById(lb.id); });
     card.addEventListener('click', () => { if (!limitReached) openLootboxById(lb.id); });
     grid.appendChild(card);
@@ -5724,9 +5755,22 @@ window.openLootboxById = async (boxId) => {
   const unitPrice = Number(box.price) || 0;
   const currencyLabel = box.currency_type === 'bonus' ? 'Б' : '₽';
   const countSelect = $('#lb-open-count');
+  const personalLimit = Math.max(0, Number(box.open_limit) || 0);
+  const globalLimit = Math.max(0, Number(box.global_open_limit) || 0);
+  const globalRemaining = globalLimit > 0 ? Math.max(0, globalLimit - Number(box.global_opened_count || 0)) : 5;
+  let personalRemaining = 5;
+  if (personalLimit > 0) {
+    const { count: userCount, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', box.id);
+    if (error) throw error;
+    personalRemaining = Math.max(0, personalLimit - (userCount || 0));
+  }
+  const maxAvailable = Math.min(5, globalRemaining, personalRemaining);
+  if (maxAvailable < 1) { toast('Лимит открытий этого кейса исчерпан.', true); return; }
   countSelect.value = '1';
+  Array.from(countSelect.options).forEach(option => { option.disabled = Number(option.value) > maxAvailable; });
   const updateBatchPrice = () => {
-    const count = Math.min(5, Math.max(1, Number(countSelect.value) || 1));
+    const count = Math.min(maxAvailable, 5, Math.max(1, Number(countSelect.value) || 1));
+    if (Number(countSelect.value) > maxAvailable) countSelect.value = String(maxAvailable);
     $('#lb-spin-price').textContent = `${unitPrice * count} ${currencyLabel}`;
     $('#lb-spin-btn').firstChild.textContent = count > 1 ? `Открыть ${count}x ` : 'Крутить ';
   };
@@ -5776,7 +5820,10 @@ async function renderAdminLootboxes() {
   allLootboxes.forEach(lb => {
     const card = document.createElement('div'); card.className = 'user-card'; card.style.cursor = 'default';
     const itemsCount = Array.isArray(lb.items) ? lb.items.length : 0;
-    card.innerHTML = `<div class="user-info"><b>${escapeHtml(lb.name)}</b><small>${Number(lb.price)||0} ${lb.currency_type==='bonus'?'Б':'₽'} · Призов: ${itemsCount} · ${Number(lb.open_limit)>0?'Лимит: '+Number(lb.open_limit):'Безлимит'} · ${lb.is_active!==false?'Активен':'Скрыт'}</small></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button><button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button></div>`;
+    const globalLimit = Math.max(0, Number(lb.global_open_limit) || 0);
+    const globalOpened = Math.max(0, Number(lb.global_opened_count) || 0);
+    const globalText = globalLimit > 0 ? `Общий тираж: ${globalOpened}/${globalLimit}` : `Открытий всего: ${globalOpened} (без общего лимита)`;
+    card.innerHTML = `<div class="user-info"><b>${escapeHtml(lb.name)}</b><small>${Number(lb.price)||0} ${lb.currency_type==='bonus'?'Б':'₽'} · Призов: ${itemsCount} · ${Number(lb.open_limit)>0?'Лимит на игрока: '+Number(lb.open_limit):'На игрока без лимита'} · ${globalText} · ${lb.is_active!==false?'Активен':'Скрыт'}</small></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button><button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button></div>`;
     list.appendChild(card);
   });
 }
@@ -5821,6 +5868,7 @@ document.getElementById('save-lb-btn')?.addEventListener('click', async () => {
   const name = $('#new-lb-name').value.trim(), price = parseInt($('#new-lb-price').value,10);
   const currency = $('#new-lb-currency').value, imageUrl = $('#new-lb-image').value.trim() || null;
   const openLimit = Math.max(0, parseInt($('#new-lb-limit')?.value, 10) || 0);
+  const globalOpenLimit = Math.max(0, parseInt($('#new-lb-global-limit')?.value, 10) || 0);
   const checkedBoxes = Array.from(document.querySelectorAll('.lb-prize-cb:checked')).map(cb => {
     const input = document.querySelector(`.lb-prize-chance[data-item-id="${CSS.escape(cb.value)}"]`);
     const daysInput = document.querySelector(`.lb-prize-days[data-item-id="${CSS.escape(cb.value)}"]`);
@@ -5832,7 +5880,7 @@ document.getElementById('save-lb-btn')?.addEventListener('click', async () => {
   if (finalItems.some(item => !Number.isFinite(item.chance) || item.chance <= 0)) { toast('У каждого приза должен быть шанс больше 0%', true); return; }
   const btn = $('#save-lb-btn'); btn.disabled = true; btn.textContent = 'Сохранение...';
   try {
-    const payload = { name, price, currency_type:currency, image_url:imageUrl, items:finalItems, open_limit:openLimit };
+    const payload = { name, price, currency_type:currency, image_url:imageUrl, items:finalItems, open_limit:openLimit, global_open_limit:globalOpenLimit };
     if (editingLootboxId) { const {error}=await sb.from('lootboxes').update(payload).eq('id',editingLootboxId); if(error) throw error; toast('Кейс обновлен!'); }
     else { const {error}=await sb.from('lootboxes').insert([payload]); if(error) throw error; toast('Кейс создан!'); }
     resetLootboxForm(); await renderAdminLootboxes();
@@ -5850,6 +5898,7 @@ window.editLootbox = (id) => {
   $('#new-lb-price').value = lb.price || 100;
   $('#new-lb-currency').value = lb.currency_type || 'main';
   $('#new-lb-limit').value = Math.max(0, Number(lb.open_limit) || 0);
+  $('#new-lb-global-limit').value = Math.max(0, Number(lb.global_open_limit) || 0);
   $('#new-lb-image').value = lb.image_url || '';
 
   const savedItems = Array.isArray(lb.items) ? lb.items : [];
@@ -5893,6 +5942,7 @@ function resetLootboxForm() {
   $('#new-lb-name').value = '';
   $('#new-lb-price').value = '100';
   $('#new-lb-limit').value = '0';
+  $('#new-lb-global-limit').value = '0';
   $('#new-lb-image').value = '';
   $('#new-lb-currency').value = 'main';
   $('#new-lb-cur-type').value = 'main';
