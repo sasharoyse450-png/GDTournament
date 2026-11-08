@@ -4918,16 +4918,33 @@ function normalizeGDBrowserLevel(level, requestedType=''){
 async function loadOneIGDCDemon(demonType){
   const filter=IGDC_DEMON_FILTERS[demonType];
   if(!filter) throw new Error('Неизвестная сложность демона.');
-  // GDBrowser expects a search query in the URL path. Request only one result.
-  const params=new URLSearchParams({diff:'10',demonFilter:String(filter),count:'1'});
+  // GDBrowser search uses diff=-2 for demons and type=0 for search.
+  // count=1 keeps the response small: only one matching level is requested.
+  const params=new URLSearchParams({diff:'-2',type:'0',demonFilter:String(filter),count:'1'});
   const url='https://gdbrowser.com/api/search/a?'+params.toString();
   const response=await fetch(url,{headers:{'Accept':'application/json'},cache:'no-store'});
+  const body=await response.text();
   if(!response.ok) throw new Error('GDBrowser: HTTP '+response.status);
-  const payload=await response.json();
-  const data=Array.isArray(payload) ? payload : (Array.isArray(payload?.levels) ? payload.levels : (Array.isArray(payload?.data) ? payload.data : []));
-  if(!data.length) throw new Error('GDBrowser вернул пустой ответ. Проверьте доступность API и попробуйте ещё раз.');
+  let payload;
+  try { payload=JSON.parse(body); }
+  catch { throw new Error('GDBrowser вернул не JSON. Возможно, API временно недоступен.'); }
+  let data=[];
+  if(Array.isArray(payload)) data=payload;
+  else if(payload && typeof payload==='object'){
+    for(const key of ['levels','data','results','items']){
+      if(Array.isArray(payload[key])) { data=payload[key]; break; }
+    }
+    if(!data.length && (payload.id!=null || payload.levelID!=null)) data=[payload];
+  }
+  if(!data.length) {
+    const apiError=payload && typeof payload==='object' ? (payload.error||payload.message||payload.status) : '';
+    throw new Error(apiError ? 'GDBrowser: '+String(apiError) : 'GDBrowser не нашёл уровень этой сложности.');
+  }
   const candidates=data.map(item=>normalizeGDBrowserLevel(item,demonType)).filter(Boolean);
-  if(!candidates.length) throw new Error('GDBrowser вернул данные в неожиданном формате.');
+  if(!candidates.length) {
+    console.error('Unexpected GDBrowser payload:',payload);
+    throw new Error('GDBrowser прислал уровень без обязательных полей ID или названия.');
+  }
   return candidates[Math.floor(Math.random()*candidates.length)];
 }
 function setDemonPoolStatus(message,isError=false){
