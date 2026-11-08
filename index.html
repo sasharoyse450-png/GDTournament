@@ -1092,23 +1092,26 @@ body { display: block; }
           </div>
           <div class="field-row">
             <div class="field"><label for="new-lb-currency">Валюта</label><select class="input" id="new-lb-currency"><option value="main">Рубли</option><option value="bonus">Бонусы</option></select></div>
-            <div class="field"><label for="new-lb-image">URL картинки (необязательно)</label><input class="input" id="new-lb-image" type="url" placeholder="https://..."></div>
+            <div class="field"><label for="new-lb-limit">Лимит открытий на игрока (0 — без лимита)</label><input class="input" id="new-lb-limit" type="number" min="0" step="1" value="0" placeholder="0"></div>
           </div>
-          <div class="field" style="margin-top:10px"><label>Предметы, которые могут выпасть</label><div id="new-lb-items-list" style="display:grid;gap:7px;max-height:220px;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:10px"></div></div>
+          <div class="field-row">
+            <div class="field" style="grid-column:1/-1"><label for="new-lb-image">URL картинки (необязательно)</label><input class="input" id="new-lb-image" type="url" placeholder="https://..."></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label>Предметы из магазина и шанс выпадения каждого (%)</label><div id="new-lb-items-list" style="display:grid;gap:8px;max-height:300px;overflow:auto;padding:12px;border:1px solid var(--line);border-radius:10px"></div></div>
           <div class="field-row" style="margin-top:14px; margin-bottom:14px; padding:12px; background:rgba(246,183,60,.08); border:1px solid rgba(246,183,60,.3); border-radius:10px;">
             <div class="field" style="margin:0">
-              <label style="color:var(--gold); font-weight:600;">Добавить валюту в кейс</label>
+              <label style="color:var(--gold); font-weight:600;">Добавить валютный приз (можно добавлять сколько угодно)</label>
               <div style="display:flex; gap:8px; margin-top:6px;">
                 <select class="input" id="new-lb-cur-type" style="flex:1;">
                   <option value="main">Основные (₽)</option>
                   <option value="bonus">Бонусные (Б)</option>
                 </select>
-                <input class="input" type="number" id="new-lb-cur-amount" placeholder="Сумма" min="1" style="flex:1;">
+                <input class="input" type="number" id="new-lb-cur-amount" placeholder="Сумма" min="1" style="flex:1;"><input class="input" type="number" id="new-lb-cur-chance" placeholder="Шанс %" min="0.01" step="0.01" value="10" style="flex:1;">
                 <button type="button" class="btn btn-gold btn-sm" id="add-lb-currency-btn">+ Добавить</button>
               </div>
             </div>
           </div>
-          <div id="new-lb-currency-list" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;"></div>
+          <div id="new-lb-currency-list" style="display:grid;gap:8px;margin-bottom:14px;"></div><div id="lb-chance-total" style="font-size:12px;color:var(--muted);margin:4px 0 12px">Сумма весов: 0%</div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button type="button" class="btn btn-primary" id="save-lb-btn">Сохранить кейс</button><button type="button" class="btn btn-ghost hidden" id="cancel-lb-edit-btn">Отмена</button></div>
         </div>
         <div class="card" style="padding:20px"><h3 style="font-size:16px;margin-bottom:14px">Существующие кейсы</h3><div id="admin-lootboxes-list"></div></div>
@@ -5236,18 +5239,34 @@ function resolveLootboxPrizes(box) {
   (Array.isArray(box.items) ? box.items : []).forEach(item => {
     if (typeof item === 'string' || typeof item === 'number') {
       const shopItem = shopItems.find(s => String(s.id) === String(item));
-      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push(shopItem);
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push({ ...shopItem, chance: 1, duration: Number(shopItem.duration_days || 7) });
     } else if (item && typeof item === 'object' && (item.currency === 'main' || item.currency === 'bonus')) {
-      const amount = Number(item.amount);
-      if (Number.isFinite(amount) && amount > 0) prizes.push({
-        id: 'currency_' + item.currency + '_' + amount,
+      const amount = Number(item.amount), chance = Number(item.chance ?? 1);
+      if (Number.isFinite(amount) && amount > 0 && Number.isFinite(chance) && chance > 0) prizes.push({
+        id: 'currency_' + item.currency + '_' + amount + '_' + Math.random().toString(36).slice(2),
         name: amount + (item.currency === 'bonus' ? ' Бонусов' : ' Рублей'),
-        type: 'currency', currency: item.currency, amount,
+        type: 'currency', currency: item.currency, amount, chance,
         css_class: item.currency === 'bonus' ? 'nick-gold' : 'nick-rainbow'
       });
+    } else if (item && typeof item === 'object' && (item.item_id || item.id)) {
+      const shopItem = shopItems.find(s => String(s.id) === String(item.item_id || item.id));
+      const chance = Number(item.chance ?? 1);
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox' && Number.isFinite(chance) && chance > 0) prizes.push({ ...shopItem, chance, duration: Number(item.duration ?? shopItem.duration_days ?? 7) });
     }
   });
   return prizes;
+}
+
+function pickLootboxPrize(prizes) {
+  const valid = prizes.filter(p => Number.isFinite(Number(p.chance)) && Number(p.chance) > 0);
+  const total = valid.reduce((sum, p) => sum + Number(p.chance), 0);
+  if (!total) return null;
+  let roll = Math.random() * total;
+  for (const prize of valid) {
+    roll -= Number(prize.chance);
+    if (roll < 0) return prize;
+  }
+  return valid[valid.length - 1];
 }
 
 async function startLootboxRoulette(boxItem, possiblePrizes) {
@@ -5258,6 +5277,23 @@ async function startLootboxRoulette(boxItem, possiblePrizes) {
   const balance = Number(isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0));
   const boxPrice = Number(boxItem.price || 0);
   if (balance < boxPrice) { toast('Недостаточно средств для открытия сундука!', true); return; }
+
+  // Персональный лимит открытий кейса
+  const openLimit = Math.max(0, Number(boxItem.open_limit) || 0);
+  if (openLimit > 0) {
+    try {
+      const { count, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', boxItem.id);
+      if (error) throw error;
+      if ((count || 0) >= openLimit) {
+        toast('Вы достигли лимита открытий этого кейса!', true);
+        return;
+      }
+    } catch (e) {
+      console.error('Не удалось проверить лимит кейса:', e);
+      toast('Не удалось проверить лимит кейса. Попробуйте позже.', true);
+      return;
+    }
+  }
 
   lootboxBusy = true;
   const spinBtn = $('#lb-spin-btn');
@@ -5270,7 +5306,8 @@ async function startLootboxRoulette(boxItem, possiblePrizes) {
     if (isBonus) window.updateBonusUI(userProfile.bonus_balance);
     else window.updateBalanceUI(userProfile.balance);
 
-    const won = possiblePrizes[Math.floor(Math.random() * possiblePrizes.length)];
+    const won = pickLootboxPrize(possiblePrizes);
+    if (!won) throw new Error("У призов не заданы положительные шансы");
     pendingLootboxItem = won;
     const strip = $('#roulette-strip');
     strip.style.transition = 'none';
@@ -5278,7 +5315,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes) {
     strip.innerHTML = '';
     const total = 60, winnerIndex = 50;
     for (let i = 0; i < total; i++) {
-      const prize = i === winnerIndex ? won : possiblePrizes[Math.floor(Math.random() * possiblePrizes.length)];
+      const prize = i === winnerIndex ? won : pickLootboxPrize(possiblePrizes) || possiblePrizes[0];
       strip.insertAdjacentHTML('beforeend', getCaseItemHtml(prize));
     }
     strip.getBoundingClientRect();
@@ -5309,14 +5346,32 @@ async function startLootboxRoulette(boxItem, possiblePrizes) {
           const color = won.currency === 'bonus' ? '#b36bff' : '#f6b73c';
           previewEl.innerHTML = `<div style="font-size:40px;font-weight:900;color:${color}">+${Number(won.amount)} ${won.currency === 'bonus' ? 'Бонусов' : '₽'}</div>`;
         } else {
-          const expiresAt = new Date(Date.now() + (won.duration_days || 7) * 86400000).toISOString();
-          const { error } = await sb.from('inventory').insert([{ user_id: user.id, item_id: won.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
-          if (error) throw error;
+          // Срок из настроек кейса; если предмет уже есть — продлеваем его срок.
+          const durationDays = Math.max(1, Number(won.duration ?? won.duration_days ?? 7) || 7);
+          const durationMs = durationDays * 86400000;
+          const { data: existingInv, error: findInvError } = await sb.from('inventory')
+            .select('*').eq('user_id', user.id).eq('item_id', won.id)
+            .order('expires_at', { ascending: false }).limit(1).maybeSingle();
+          if (findInvError) throw findInvError;
+          if (existingInv) {
+            const oldExpiry = existingInv.expires_at ? new Date(existingInv.expires_at).getTime() : 0;
+            const baseTime = Math.max(Date.now(), Number.isFinite(oldExpiry) ? oldExpiry : 0);
+            const newExpiry = new Date(baseTime + durationMs).toISOString();
+            const { error } = await sb.from('inventory').update({ expires_at: newExpiry }).eq('id', existingInv.id);
+            if (error) throw error;
+          } else {
+            const expiresAt = new Date(Date.now() + durationMs).toISOString();
+            const { error } = await sb.from('inventory').insert([{ user_id: user.id, item_id: won.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
+            if (error) throw error;
+          }
           myInventory = await loadMyInventory();
           if ((won.type === 'avatar' || won.type === 'frame') && won.css_class) previewEl.innerHTML = `<img src="${escapeHtml(won.css_class)}" style="max-width:90%;max-height:90%;object-fit:contain">`;
           else if (won.type === 'banner' && won.css_class) previewEl.style.background = `url('${escapeHtml(won.css_class)}') center/cover`;
           else previewEl.innerHTML = `<div class="${escapeHtml(won.css_class || '')}" style="font-size:40px">Aa</div>`;
         }
+        // Сохраняем факт успешного открытия для персонального лимита.
+        const { error: openLogError } = await sb.from('user_case_opens').insert([{ user_id: user.id, lootbox_id: boxItem.id }]);
+        if (openLogError) throw openLogError;
       } catch (e) {
         console.error('Ошибка выдачи приза', e);
         toast('Ошибка выдачи приза: ' + e.message, true);
@@ -5370,16 +5425,26 @@ async function renderLootboxesPage() {
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-backpack"/></svg></div><h2>Кейсов пока нет</h2><p>Заглядывай позже, скоро здесь появятся крутые призы!</p></div>';
     return;
   }
-  activeBoxes.forEach(lb => {
+  for (const lb of activeBoxes) {
     const card = document.createElement('div');
     card.className = 'case-card';
     const isBonus = lb.currency_type === 'bonus';
     const count = Array.isArray(lb.items) ? lb.items.length : 0;
     const image = lb.image_url ? `<img src="${escapeHtml(lb.image_url)}" alt="">` : '<div class="emoji">🎁</div>';
-    card.innerHTML = `<div class="case-img-wrap">${image}</div><div style="font-family:'Exo 2',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:8px">${escapeHtml(lb.name)}</div><div style="color:var(--muted);font-size:13px;margin-bottom:16px">Внутри: ${count} призов</div><button type="button" class="btn-cs-spin" style="width:100%;padding:12px">Открыть <span class="btn-cs-price">${Number(lb.price)||0} ${isBonus?'Б':'₽'}</span></button>`;
-    card.addEventListener('click', () => openLootboxById(lb.id));
+    let openedCount = 0;
+    if (user && Number(lb.open_limit) > 0) {
+      const { count: userCount, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', lb.id);
+      if (error) console.warn('Не удалось загрузить лимит кейса:', error.message);
+      openedCount = userCount || 0;
+    }
+    const limit = Math.max(0, Number(lb.open_limit) || 0);
+    const limitReached = limit > 0 && openedCount >= limit;
+    const limitText = limit > 0 ? (limitReached ? 'Лимит исчерпан' : `Осталось: ${Math.max(0, limit - openedCount)} / ${limit}`) : 'Безлимит';
+    card.innerHTML = `<div class="case-img-wrap">${image}</div><div style="font-family:'Exo 2',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:8px">${escapeHtml(lb.name)}</div><div style="color:var(--muted);font-size:13px;margin-bottom:8px">Внутри: ${count} призов</div><div style="color:${limitReached ? 'var(--red)' : 'var(--muted)'};font-size:12px;margin-bottom:12px;font-weight:600">${limitText}</div><button type="button" class="btn-cs-spin" style="width:100%;padding:12px" ${limitReached ? 'disabled' : ''}>Открыть <span class="btn-cs-price">${Number(lb.price)||0} ${isBonus?'Б':'₽'}</span></button>`;
+    card.querySelector('button').addEventListener('click', ev => { ev.stopPropagation(); if (!limitReached) openLootboxById(lb.id); });
+    card.addEventListener('click', () => { if (!limitReached) openLootboxById(lb.id); });
     grid.appendChild(card);
-  });
+  }
 }
 
 window.openLootboxById = async (boxId) => {
@@ -5411,7 +5476,6 @@ let currentCurrencyDrops = []; // Временное хранилище доба
 async function renderAdminLootboxes() {
   await loadLootboxes();
   await loadShopItems();
-
   const itemsList = $('#new-lb-items-list');
   if (itemsList) {
     itemsList.innerHTML = '';
@@ -5420,108 +5484,86 @@ async function renderAdminLootboxes() {
       itemsList.innerHTML = '<span style="color:var(--muted);font-size:12px;">В магазине нет предметов. Сначала добавьте их в магазин!</span>';
     } else {
       prizes.forEach(p => {
-        const lbl = document.createElement('label');
-        lbl.className = 'check';
-        lbl.style.fontSize = '12px';
-        lbl.style.marginBottom = '4px';
-        lbl.innerHTML = `<input type="checkbox" value="${escapeHtml(p.id)}" class="lb-prize-cb"> <span>${escapeHtml(p.name)}</span>`;
-        itemsList.appendChild(lbl);
+        const row = document.createElement('div');
+        row.style.cssText = 'display:grid;grid-template-columns:minmax(0,1fr) 105px 105px;gap:8px;align-items:center;padding:7px;border:1px solid var(--line);border-radius:8px;';
+        row.innerHTML = `<label style="display:flex;gap:8px;align-items:center;min-width:0"><input type="checkbox" value="${escapeHtml(p.id)}" class="lb-prize-cb"><span style="overflow:hidden;text-overflow:ellipsis">${escapeHtml(p.name)}</span></label><label style="font-size:11px;color:var(--muted)">Шанс %<input class="input lb-prize-chance" data-item-id="${escapeHtml(p.id)}" type="number" min="0.01" step="0.01" value="10" style="padding:7px;margin-top:3px" disabled></label><label style="font-size:11px;color:var(--muted)">Дней<input class="input lb-prize-days" data-item-id="${escapeHtml(p.id)}" type="number" min="1" step="1" value="7" style="padding:7px;margin-top:3px" disabled></label>`;
+        const cb = row.querySelector('.lb-prize-cb'), chance = row.querySelector('.lb-prize-chance'), days = row.querySelector('.lb-prize-days');
+        cb.addEventListener('change', () => { chance.disabled = !cb.checked; days.disabled = !cb.checked; updateLootboxChanceTotal(); });
+        chance.addEventListener('input', updateLootboxChanceTotal);
+        itemsList.appendChild(row);
       });
     }
   }
-
   renderCurrentCurrencyDrops();
-
   const list = $('#admin-lootboxes-list');
   if (!list) return;
   list.innerHTML = '';
-  if (!allLootboxes.length) {
-    list.innerHTML = '<p style="color:var(--muted)">Кейсов пока нет.</p>';
-    return;
-  }
-
+  if (!allLootboxes.length) { list.innerHTML = '<p style="color:var(--muted)">Кейсов пока нет.</p>'; return; }
   allLootboxes.forEach(lb => {
-    const card = document.createElement('div');
-    card.className = 'user-card';
-    card.style.cursor = 'default';
+    const card = document.createElement('div'); card.className = 'user-card'; card.style.cursor = 'default';
     const itemsCount = Array.isArray(lb.items) ? lb.items.length : 0;
-    card.innerHTML = `
-      <div class="user-info">
-        <b>${escapeHtml(lb.name)}</b>
-        <small>${Number(lb.price) || 0} ${lb.currency_type === 'bonus' ? 'Б' : '₽'} · Призов: ${itemsCount} · ${lb.is_active !== false ? 'Активен' : 'Скрыт'}</small>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button>
-        <button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button>
-      </div>
-    `;
+    card.innerHTML = `<div class="user-info"><b>${escapeHtml(lb.name)}</b><small>${Number(lb.price)||0} ${lb.currency_type==='bonus'?'Б':'₽'} · Призов: ${itemsCount} · ${Number(lb.open_limit)>0?'Лимит: '+Number(lb.open_limit):'Безлимит'} · ${lb.is_active!==false?'Активен':'Скрыт'}</small></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button><button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button></div>`;
     list.appendChild(card);
   });
 }
 
-function renderCurrentCurrencyDrops() {
-  const wrap = $('#new-lb-currency-list');
-  if (!wrap) return;
-  wrap.innerHTML = '';
-  currentCurrencyDrops.forEach((drop, idx) => {
-    const badge = document.createElement('div');
-    badge.style.cssText = 'padding:6px 12px; border-radius:8px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:8px; background:rgba(47,212,138,.1); border:1px solid rgba(47,212,138,.3); color:var(--green);';
-    badge.innerHTML = `+${Number(drop.amount)} ${drop.currency === 'bonus' ? 'Б' : '₽'} <button type="button" onclick="removeCurrencyDrop(${idx})" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0">&times;</button>`;
-    wrap.appendChild(badge);
+function updateLootboxChanceTotal() {
+  let total = 0;
+  document.querySelectorAll('.lb-prize-cb:checked').forEach(cb => {
+    const input = document.querySelector(`.lb-prize-chance[data-item-id="${CSS.escape(cb.value)}"]`);
+    total += Math.max(0, Number(input?.value) || 0);
   });
+  currentCurrencyDrops.forEach(drop => total += Math.max(0, Number(drop.chance) || 0));
+  const label = $('#lb-chance-total');
+  if (label) label.textContent = `Сумма весов: ${total.toFixed(2)}% · итоговый шанс каждого приза рассчитывается относительно общей суммы`;
 }
 
-window.removeCurrencyDrop = (idx) => {
-  currentCurrencyDrops.splice(idx, 1);
-  renderCurrentCurrencyDrops();
-};
+function renderCurrentCurrencyDrops() {
+  const wrap = $('#new-lb-currency-list'); if (!wrap) return;
+  wrap.innerHTML = '';
+  currentCurrencyDrops.forEach((drop, idx) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:grid;grid-template-columns:1fr 120px 34px;gap:8px;align-items:center;padding:8px;border:1px solid rgba(47,212,138,.3);border-radius:8px;background:rgba(47,212,138,.06)';
+    row.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--green)">+${Number(drop.amount)} ${drop.currency==='bonus'?'Б':'₽'}</div><label style="font-size:11px;color:var(--muted)">Шанс %<input class="input" type="number" min="0.01" step="0.01" value="${Number(drop.chance)||1}" data-currency-chance="${idx}" style="padding:7px;margin-top:3px"></label><button type="button" class="btn btn-danger btn-sm" onclick="removeCurrencyDrop(${idx})">×</button>`;
+    row.querySelector('[data-currency-chance]').addEventListener('input', e => { currentCurrencyDrops[idx].chance = Number(e.target.value); updateLootboxChanceTotal(); });
+    wrap.appendChild(row);
+  });
+  updateLootboxChanceTotal();
+}
+
+window.removeCurrencyDrop = idx => { currentCurrencyDrops.splice(idx, 1); renderCurrentCurrencyDrops(); };
 
 document.getElementById('add-lb-currency-btn')?.addEventListener('click', () => {
   const type = $('#new-lb-cur-type').value;
-  const amount = parseInt($('#new-lb-cur-amount').value, 10);
-  if (isNaN(amount) || amount < 1) { toast('Введите корректную сумму', true); return; }
-  currentCurrencyDrops.push({ currency: type, amount });
-  $('#new-lb-cur-amount').value = '';
-  renderCurrentCurrencyDrops();
+  const amount = Number($('#new-lb-cur-amount').value);
+  const chance = Number($('#new-lb-cur-chance').value);
+  if (!Number.isFinite(amount) || amount < 1) { toast('Введите корректную сумму', true); return; }
+  if (!Number.isFinite(chance) || chance <= 0) { toast('Укажите шанс больше 0%', true); return; }
+  currentCurrencyDrops.push({ currency: type, amount, chance });
+  $('#new-lb-cur-amount').value = ''; renderCurrentCurrencyDrops();
 });
 
 document.getElementById('save-lb-btn')?.addEventListener('click', async () => {
-  const name = $('#new-lb-name').value.trim();
-  const price = parseInt($('#new-lb-price').value, 10);
-  const currency = $('#new-lb-currency').value;
-  const imageUrl = $('#new-lb-image').value.trim() || null;
-  const checkedBoxes = Array.from(document.querySelectorAll('.lb-prize-cb:checked')).map(cb => cb.value);
-
-  if (!name || isNaN(price) || price < 1) { toast('Заполните название и цену', true); return; }
-  if (checkedBoxes.length === 0 && currentCurrencyDrops.length === 0) {
-    toast('Добавьте хотя бы один предмет или валюту в кейс!', true);
-    return;
-  }
-
-  const btn = $('#save-lb-btn');
-  btn.disabled = true;
-  btn.textContent = 'Сохранение...';
-  const finalItems = [...checkedBoxes, ...currentCurrencyDrops.map(drop => ({ currency: drop.currency, amount: Number(drop.amount) }))];
-  const payload = { name, price, currency_type: currency, image_url: imageUrl, items: finalItems };
-
+  const name = $('#new-lb-name').value.trim(), price = parseInt($('#new-lb-price').value,10);
+  const currency = $('#new-lb-currency').value, imageUrl = $('#new-lb-image').value.trim() || null;
+  const openLimit = Math.max(0, parseInt($('#new-lb-limit')?.value, 10) || 0);
+  const checkedBoxes = Array.from(document.querySelectorAll('.lb-prize-cb:checked')).map(cb => {
+    const input = document.querySelector(`.lb-prize-chance[data-item-id="${CSS.escape(cb.value)}"]`);
+    const daysInput = document.querySelector(`.lb-prize-days[data-item-id="${CSS.escape(cb.value)}"]`);
+    return { item_id: cb.value, chance: Number(input?.value), duration: Math.max(1, parseInt(daysInput?.value, 10) || 7) };
+  });
+  if (!name || !Number.isFinite(price) || price < 1) { toast('Заполните название и цену', true); return; }
+  const finalItems = [...checkedBoxes, ...currentCurrencyDrops.map(drop => ({ currency:drop.currency, amount:Number(drop.amount), chance:Number(drop.chance) }))];
+  if (!finalItems.length) { toast('Добавьте хотя бы один предмет или валютный приз!', true); return; }
+  if (finalItems.some(item => !Number.isFinite(item.chance) || item.chance <= 0)) { toast('У каждого приза должен быть шанс больше 0%', true); return; }
+  const btn = $('#save-lb-btn'); btn.disabled = true; btn.textContent = 'Сохранение...';
   try {
-    if (editingLootboxId) {
-      const { error } = await sb.from('lootboxes').update(payload).eq('id', editingLootboxId);
-      if (error) throw error;
-      toast('Кейс обновлен!');
-    } else {
-      const { error } = await sb.from('lootboxes').insert([payload]);
-      if (error) throw error;
-      toast('Кейс создан!');
-    }
-    resetLootboxForm();
-    await renderAdminLootboxes();
-  } catch (e) {
-    toast('Ошибка: ' + e.message, true);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Сохранить кейс';
-  }
+    const payload = { name, price, currency_type:currency, image_url:imageUrl, items:finalItems, open_limit:openLimit };
+    if (editingLootboxId) { const {error}=await sb.from('lootboxes').update(payload).eq('id',editingLootboxId); if(error) throw error; toast('Кейс обновлен!'); }
+    else { const {error}=await sb.from('lootboxes').insert([payload]); if(error) throw error; toast('Кейс создан!'); }
+    resetLootboxForm(); await renderAdminLootboxes();
+  } catch(e) { toast('Ошибка: '+e.message,true); }
+  finally { btn.disabled=false; btn.textContent='Сохранить кейс'; }
 });
 
 // === АДМИНКА: Редактирование и удаление ===
@@ -5533,14 +5575,25 @@ window.editLootbox = (id) => {
   $('#new-lb-name').value = lb.name || '';
   $('#new-lb-price').value = lb.price || 100;
   $('#new-lb-currency').value = lb.currency_type || 'main';
+  $('#new-lb-limit').value = Math.max(0, Number(lb.open_limit) || 0);
   $('#new-lb-image').value = lb.image_url || '';
 
   const savedItems = Array.isArray(lb.items) ? lb.items : [];
-  const selectedIds = savedItems.filter(item => typeof item === 'string' || typeof item === 'number').map(String);
-  document.querySelectorAll('.lb-prize-cb').forEach(cb => { cb.checked = selectedIds.includes(String(cb.value)); });
-  currentCurrencyDrops = savedItems
-    .filter(item => item && typeof item === 'object' && item.currency)
-    .map(item => ({ currency: item.currency, amount: Number(item.amount) }));
+  const savedShop = savedItems.map(item => {
+    if (typeof item === 'string' || typeof item === 'number') return { item_id:String(item), chance:1, duration:7 };
+    if (item && (item.item_id || item.id) && !item.currency) return { item_id:String(item.item_id || item.id), chance:Number(item.chance ?? 1), duration:Math.max(1, Number(item.duration ?? 7) || 7) };
+    return null;
+  }).filter(Boolean);
+  document.querySelectorAll('.lb-prize-cb').forEach(cb => {
+    const saved = savedShop.find(x => x.item_id === String(cb.value));
+    cb.checked = !!saved;
+    const input = document.querySelector(`.lb-prize-chance[data-item-id="${CSS.escape(cb.value)}"]`);
+    if (input) { input.disabled = !saved; input.value = saved ? saved.chance : 10; }
+    const daysInput = document.querySelector(`.lb-prize-days[data-item-id="${CSS.escape(cb.value)}"]`);
+    if (daysInput) { daysInput.disabled = !saved; daysInput.value = saved ? saved.duration : 7; }
+  });
+  currentCurrencyDrops = savedItems.filter(item => item && typeof item === 'object' && item.currency)
+    .map(item => ({ currency:item.currency, amount:Number(item.amount), chance:Number(item.chance ?? 1) }));
   renderCurrentCurrencyDrops();
 
   $('#cancel-lb-edit-btn').classList.remove('hidden');
@@ -5565,11 +5618,13 @@ function resetLootboxForm() {
   $('#admin-lb-title').textContent = 'Создать кейс';
   $('#new-lb-name').value = '';
   $('#new-lb-price').value = '100';
+  $('#new-lb-limit').value = '0';
   $('#new-lb-image').value = '';
   $('#new-lb-currency').value = 'main';
   $('#new-lb-cur-type').value = 'main';
   $('#new-lb-cur-amount').value = '';
-  document.querySelectorAll('.lb-prize-cb').forEach(cb => { cb.checked = false; });
+  document.querySelectorAll('.lb-prize-cb').forEach(cb => { cb.checked = false; const input = document.querySelector(`.lb-prize-chance[data-item-id="${CSS.escape(cb.value)}"]`); if (input) { input.disabled = true; input.value = 10; } const daysInput = document.querySelector(`.lb-prize-days[data-item-id="${CSS.escape(cb.value)}"]`); if (daysInput) { daysInput.disabled = true; daysInput.value = 7; } });
+  $('#new-lb-cur-chance').value = '10';
   renderCurrentCurrencyDrops();
   $('#cancel-lb-edit-btn').classList.add('hidden');
 }
