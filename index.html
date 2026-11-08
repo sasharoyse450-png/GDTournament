@@ -632,7 +632,14 @@ body { display: block; }
 .case-item .name{font-size:11px;color:rgba(255,255,255,.8);text-align:center;width:100%;padding:0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .case-item-chance{width:100%;margin-top:7px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:10px;line-height:1.2;white-space:nowrap}
 .case-item-chance b{color:#a9a5ff;font-family:JetBrains Mono,monospace;font-size:11px;font-weight:700}
-.case-controls{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:32px}
+.case-controls{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:32px;flex-wrap:wrap}
+.lb-count-control{display:flex;align-items:center;gap:9px;color:var(--muted);font-size:14px;font-weight:700}
+.lb-count-control select{background:#17151f;color:#fff;border:1px solid rgba(157,102,255,.55);border-radius:10px;padding:12px 14px;font-size:16px;font-weight:800;cursor:pointer;outline:none}
+.lb-count-control select:focus{border-color:#a879ff;box-shadow:0 0 0 3px rgba(122,60,255,.18)}
+#lootbox-winner-preview .lb-batch-rewards{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;width:100%;padding:10px}
+#lootbox-winner-preview .lb-batch-reward{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 7px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.04);font-size:12px;color:#fff}
+#lootbox-winner-preview .lb-batch-reward img{max-width:64px;max-height:64px;object-fit:contain}
+#lootbox-winner-preview .lb-batch-reward strong{color:#ffd166;font-size:11px;text-align:center;overflow-wrap:anywhere}
 .btn-cs-spin{background:linear-gradient(180deg,#7a3cff,#4a1bb3);border:1px solid #9d66ff;padding:16px 60px;border-radius:12px;color:#fff;font-size:20px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 10px 30px rgba(122,60,255,.4);transition:all .2s;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:10px}
 .btn-cs-spin:hover{transform:translateY(-2px);box-shadow:0 15px 40px rgba(122,60,255,.6)}.btn-cs-spin:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-cs-price{font-size:18px;color:#ffd166;font-weight:900}
@@ -1931,7 +1938,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
     <button class="modal-close" onclick="closeLootboxModal()" style="position:absolute;right:20px;top:20px;z-index:100;"><svg class="i"><use href="#i-x"/></svg></button>
     <h2 class="case-title-glow" id="lb-title">Название кейса</h2>
     <div class="roulette-container-cs"><div class="roulette-pointer-cs"></div><div class="roulette-strip-cs" id="roulette-strip"></div></div>
-    <div class="case-controls" id="lb-controls"><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
+    <div class="case-controls" id="lb-controls"><label class="lb-count-control">Открыть: <select id="lb-open-count" aria-label="Количество открытий"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option></select></label><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
     <div id="lootbox-result" class="hidden" style="text-align:center;margin-bottom:30px"><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:160px;height:160px;background:rgba(0,0,0,.6);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(246,183,60,.5);overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:24px;color:#fff;margin-bottom:20px;text-transform:uppercase"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
     <div id="possible-prizes-container"><h3 class="possible-prizes-title">Возможные призы</h3><div class="possible-prizes-grid" id="possible-prizes-grid"></div></div>
   </div>
@@ -5507,23 +5514,26 @@ function pickLootboxPrize(prizes) {
   return valid[valid.length - 1];
 }
 
-async function startLootboxRoulette(boxItem, possiblePrizes) {
+async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1) {
   if (lootboxBusy || !Array.isArray(possiblePrizes) || !possiblePrizes.length) return;
   if (!user) { go('cabinet'); return; }
+  const openCount = Math.min(5, Math.max(1, Number(requestedCount) || 1));
   const isBonus = boxItem.currency_type === 'bonus';
   const field = isBonus ? 'bonus_balance' : 'balance';
   const balance = Number(isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0));
   const boxPrice = Number(boxItem.price || 0);
-  if (balance < boxPrice) { toast('Недостаточно средств для открытия сундука!', true); return; }
+  const totalPrice = boxPrice * openCount;
+  if (balance < totalPrice) { toast('Недостаточно средств для ' + openCount + ' открытий!', true); return; }
 
-  // Персональный лимит открытий кейса
+  // Проверяем персональный лимит сразу на всё выбранное количество открытий.
   const openLimit = Math.max(0, Number(boxItem.open_limit) || 0);
   if (openLimit > 0) {
     try {
       const { count, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', boxItem.id);
       if (error) throw error;
-      if ((count || 0) >= openLimit) {
-        toast('Вы достигли лимита открытий этого кейса!', true);
+      if ((count || 0) + openCount > openLimit) {
+        const remaining = Math.max(0, openLimit - (count || 0));
+        toast(`Можно открыть только ${remaining} раз(а): достигнут лимит кейса!`, true);
         return;
       }
     } catch (e) {
@@ -5535,99 +5545,122 @@ async function startLootboxRoulette(boxItem, possiblePrizes) {
 
   lootboxBusy = true;
   const spinBtn = $('#lb-spin-btn');
+  const countSelect = $('#lb-open-count');
   if (spinBtn) spinBtn.disabled = true;
+  if (countSelect) countSelect.disabled = true;
   $('#lb-controls').classList.add('hidden');
+  $('#possible-prizes-container').classList.add('hidden');
+  $('#lootbox-result').classList.add('hidden');
+
   try {
-    const { error: balErr } = await sb.from('profiles').update({ [field]: balance - boxPrice }).eq('id', user.id);
+    // Списываем общую стоимость одним обновлением баланса.
+    const { error: balErr } = await sb.from('profiles').update({ [field]: balance - totalPrice }).eq('id', user.id);
     if (balErr) throw balErr;
-    userProfile[field] = balance - boxPrice;
+    userProfile[field] = balance - totalPrice;
     if (isBonus) window.updateBonusUI(userProfile.bonus_balance);
     else window.updateBalanceUI(userProfile.balance);
 
-    const won = pickLootboxPrize(possiblePrizes);
-    if (!won) throw new Error("У призов не заданы положительные шансы");
-    pendingLootboxItem = won;
+    const winners = [];
     const strip = $('#roulette-strip');
-    strip.style.transition = 'none';
-    strip.style.transform = 'translateX(0)';
-    strip.innerHTML = '';
-    const total = 60, winnerIndex = 50;
-    for (let i = 0; i < total; i++) {
-      const prize = i === winnerIndex ? won : pickLootboxPrize(possiblePrizes) || possiblePrizes[0];
-      strip.insertAdjacentHTML('beforeend', getCaseItemHtml(prize));
-    }
-    strip.getBoundingClientRect();
-    const winnerEl = strip.children[winnerIndex];
     const container = document.querySelector('.roulette-container-cs');
-    const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - container.clientWidth / 2;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
-      strip.style.transform = `translateX(-${distance}px)`;
-    }));
 
-    strip.addEventListener('transitionend', async function onEnd(ev) {
-      if (ev.propertyName !== 'transform') return;
-      strip.removeEventListener('transitionend', onEnd);
-      $('#possible-prizes-container').classList.add('hidden');
-      const previewEl = $('#lootbox-winner-preview');
-      previewEl.innerHTML = '';
-      previewEl.style.background = '';
-      try {
-        if (won.type === 'currency') {
-          const rewardField = won.currency === 'bonus' ? 'bonus_balance' : 'balance';
-          const currentBal = Number(userProfile[rewardField] || 0);
-          const newBal = currentBal + Number(won.amount);
-          const { error } = await sb.from('profiles').update({ [rewardField]: newBal }).eq('id', user.id);
-          if (error) throw error;
-          userProfile[rewardField] = newBal;
-          if (won.currency === 'bonus') window.updateBonusUI(newBal); else window.updateBalanceUI(newBal);
-          const color = won.currency === 'bonus' ? '#b36bff' : '#f6b73c';
-          previewEl.innerHTML = `<div style="font-size:40px;font-weight:900;color:${color}">+${Number(won.amount)} ${won.currency === 'bonus' ? 'Бонусов' : '₽'}</div>`;
-        } else {
-          // Срок из настроек кейса; если предмет уже есть — продлеваем его срок.
-          const durationDays = Math.max(1, Number(won.duration ?? won.duration_days ?? 7) || 7);
-          const durationMs = durationDays * 86400000;
-          const { data: existingInv, error: findInvError } = await sb.from('inventory')
-            .select('*').eq('user_id', user.id).eq('item_id', won.id)
-            .order('expires_at', { ascending: false }).limit(1).maybeSingle();
-          if (findInvError) throw findInvError;
-          if (existingInv) {
-            const oldExpiry = existingInv.expires_at ? new Date(existingInv.expires_at).getTime() : 0;
-            const baseTime = Math.max(Date.now(), Number.isFinite(oldExpiry) ? oldExpiry : 0);
-            const newExpiry = new Date(baseTime + durationMs).toISOString();
-            const { error } = await sb.from('inventory').update({ expires_at: newExpiry }).eq('id', existingInv.id);
-            if (error) throw error;
-          } else {
-            const expiresAt = new Date(Date.now() + durationMs).toISOString();
-            const { error } = await sb.from('inventory').insert([{ user_id: user.id, item_id: won.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
-            if (error) throw error;
-          }
-          myInventory = await loadMyInventory();
-          if ((won.type === 'avatar' || won.type === 'frame') && won.css_class) previewEl.innerHTML = `<img src="${escapeHtml(won.css_class)}" style="max-width:90%;max-height:90%;object-fit:contain">`;
-          else if (won.type === 'banner' && won.css_class) previewEl.style.background = `url('${escapeHtml(won.css_class)}') center/cover`;
-          else previewEl.innerHTML = `<div class="${escapeHtml(won.css_class || '')}" style="font-size:40px">Aa</div>`;
-        }
-        // Сохраняем факт успешного открытия для персонального лимита.
-        const { error: openLogError } = await sb.from('user_case_opens').insert([{ user_id: user.id, lootbox_id: boxItem.id }]);
-        if (openLogError) throw openLogError;
-      } catch (e) {
-        console.error('Ошибка выдачи приза', e);
-        toast('Ошибка выдачи приза: ' + e.message, true);
+    for (let round = 0; round < openCount; round++) {
+      const won = pickLootboxPrize(possiblePrizes);
+      if (!won) throw new Error('У призов не заданы положительные шансы');
+      pendingLootboxItem = won;
+      strip.style.transition = 'none';
+      strip.style.transform = 'translateX(0)';
+      strip.innerHTML = '';
+      const total = 60, winnerIndex = 50;
+      for (let i = 0; i < total; i++) {
+        const prize = i === winnerIndex ? won : pickLootboxPrize(possiblePrizes) || possiblePrizes[0];
+        strip.insertAdjacentHTML('beforeend', getCaseItemHtml(prize));
       }
-      $('#lb-title').textContent = '🎉 ПОЗДРАВЛЯЕМ!';
-      $('#lootbox-winner-name').textContent = won.name || 'Ваш приз';
-      $('#lootbox-result').classList.remove('hidden');
-      lootboxBusy = false;
-      if (spinBtn) spinBtn.disabled = false;
-      if (current === 'shop') renderShop();
-      if (current === 'profile') renderProfilePage();
-    });
+      strip.getBoundingClientRect();
+      const winnerEl = strip.children[winnerIndex];
+      const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - container.clientWidth / 2;
+      await new Promise(resolve => {
+        let finished = false;
+        const finish = () => {
+          if (finished) return;
+          finished = true;
+          strip.removeEventListener('transitionend', onEnd);
+          resolve();
+        };
+        const onEnd = ev => { if (ev.propertyName === 'transform') finish(); };
+        strip.addEventListener('transitionend', onEnd);
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
+          strip.style.transform = `translateX(-${distance}px)`;
+        }));
+        setTimeout(finish, 7500);
+      });
+
+      // Выдаём каждый выигрыш и отдельно фиксируем каждое открытие в лимите.
+      if (won.type === 'currency') {
+        const rewardField = won.currency === 'bonus' ? 'bonus_balance' : 'balance';
+        const currentBal = Number(userProfile[rewardField] || 0);
+        const newBal = currentBal + Number(won.amount);
+        const { error } = await sb.from('profiles').update({ [rewardField]: newBal }).eq('id', user.id);
+        if (error) throw error;
+        userProfile[rewardField] = newBal;
+        if (won.currency === 'bonus') window.updateBonusUI(newBal); else window.updateBalanceUI(newBal);
+      } else {
+        const durationDays = Math.max(1, Number(won.duration ?? won.duration_days ?? 7) || 7);
+        const durationMs = durationDays * 86400000;
+        const { data: existingInv, error: findInvError } = await sb.from('inventory')
+          .select('*').eq('user_id', user.id).eq('item_id', won.id)
+          .order('expires_at', { ascending: false }).limit(1).maybeSingle();
+        if (findInvError) throw findInvError;
+        if (existingInv) {
+          const oldExpiry = existingInv.expires_at ? new Date(existingInv.expires_at).getTime() : 0;
+          const baseTime = Math.max(Date.now(), Number.isFinite(oldExpiry) ? oldExpiry : 0);
+          const newExpiry = new Date(baseTime + durationMs).toISOString();
+          const { error } = await sb.from('inventory').update({ expires_at: newExpiry }).eq('id', existingInv.id);
+          if (error) throw error;
+        } else {
+          const expiresAt = new Date(Date.now() + durationMs).toISOString();
+          const { error } = await sb.from('inventory').insert([{ user_id: user.id, item_id: won.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
+          if (error) throw error;
+        }
+      }
+      const { error: openLogError } = await sb.from('user_case_opens').insert([{ user_id: user.id, lootbox_id: boxItem.id }]);
+      if (openLogError) throw openLogError;
+      winners.push(won);
+    }
+
+    if (winners.some(w => w.type !== 'currency')) myInventory = await loadMyInventory();
+    const previewEl = $('#lootbox-winner-preview');
+    previewEl.style.background = '';
+    previewEl.style.width = openCount > 1 ? 'min(720px, 100%)' : '160px';
+    previewEl.style.height = openCount > 1 ? 'auto' : '160px';
+    previewEl.style.minHeight = '160px';
+    previewEl.innerHTML = `<div class="lb-batch-rewards">${winners.map(won => {
+      let visual = '';
+      if (won.type === 'currency') {
+        const color = won.currency === 'bonus' ? '#b36bff' : '#f6b73c';
+        visual = `<strong style="font-size:19px;color:${color}">+${Number(won.amount)} ${won.currency === 'bonus' ? 'Б' : '₽'}</strong>`;
+      } else if ((won.type === 'avatar' || won.type === 'frame' || won.type === 'banner') && won.css_class) {
+        visual = `<img src="${escapeHtml(won.css_class)}" alt="">`;
+      } else {
+        visual = `<span class="${escapeHtml(won.css_class || '')}" style="font-size:28px">Aa</span>`;
+      }
+      return `<div class="lb-batch-reward">${visual}<span>${escapeHtml(won.name || 'Приз')}</span></div>`;
+    }).join('')}</div>`;
+    $('#lb-title').textContent = openCount > 1 ? `🎉 ${openCount} ОТКРЫТИЙ ЗАВЕРШЕНО!` : '🎉 ПОЗДРАВЛЯЕМ!';
+    $('#lootbox-winner-name').textContent = openCount > 1 ? `Ваши ${openCount} приза` : (winners[0].name || 'Ваш приз');
+    $('#lootbox-result').classList.remove('hidden');
+    if (current === 'shop') renderShop();
+    if (current === 'profile') renderProfilePage();
   } catch (e) {
-    console.error(e);
-    toast(e.message || 'Ошибка открытия сундука', true);
+    console.error('Ошибка мульти-открытия кейса:', e);
+    toast('Ошибка открытия кейса: ' + (e.message || 'неизвестная ошибка'), true);
+    if (current === 'shop') renderShop();
+    if (current === 'profile') renderProfilePage();
+  } finally {
     lootboxBusy = false;
     if (spinBtn) spinBtn.disabled = false;
-    $('#lb-controls').classList.remove('hidden');
+    if (countSelect) countSelect.disabled = false;
   }
 }
 function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
@@ -5693,7 +5726,17 @@ window.openLootboxById = async (boxId) => {
   const possiblePrizes = resolveLootboxPrizes(box);
   if (!possiblePrizes.length) { toast('В кейсе нет доступных призов!', true); return; }
   $('#lb-title').textContent = box.name;
-  $('#lb-spin-price').textContent = `${Number(box.price)||0} ${box.currency_type === 'bonus' ? 'Б' : '₽'}`;
+  const unitPrice = Number(box.price) || 0;
+  const currencyLabel = box.currency_type === 'bonus' ? 'Б' : '₽';
+  const countSelect = $('#lb-open-count');
+  countSelect.value = '1';
+  const updateBatchPrice = () => {
+    const count = Math.min(5, Math.max(1, Number(countSelect.value) || 1));
+    $('#lb-spin-price').textContent = `${unitPrice * count} ${currencyLabel}`;
+    $('#lb-spin-btn').firstChild.textContent = count > 1 ? `Открыть ${count}x ` : 'Крутить ';
+  };
+  countSelect.onchange = updateBatchPrice;
+  updateBatchPrice();
   $('#lootbox-result').classList.add('hidden');
   $('#lb-controls').classList.remove('hidden');
   $('#possible-prizes-container').classList.remove('hidden');
@@ -5705,7 +5748,7 @@ window.openLootboxById = async (boxId) => {
   strip.innerHTML = '';
   for (let i = 0; i < 20; i++) strip.insertAdjacentHTML('beforeend', getCaseItemHtml(possiblePrizes[i % possiblePrizes.length]));
   $('#lootbox-modal').classList.remove('hidden');
-  $('#lb-spin-btn').onclick = () => startLootboxRoulette(box, possiblePrizes);
+  $('#lb-spin-btn').onclick = () => startLootboxRoulette(box, possiblePrizes, Number($('#lb-open-count').value) || 1);
 };
 
 let currentCurrencyDrops = []; // Временное хранилище добавленной валюты
