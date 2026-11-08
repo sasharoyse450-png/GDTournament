@@ -4934,7 +4934,7 @@ async function loadIGDCDemonPool(force=false){
     const filter=IGDC_DEMON_FILTERS[demonType];
     for(const term of terms){
       try{
-        const params=new URLSearchParams({diff:'10',type:'1',count:'100',demonFilter:String(filter)});
+        const params=new URLSearchParams({diff:'10',type:'0',count:'100',demonFilter:String(filter)});
         const url='https://gdbrowser.com/api/search/'+encodeURIComponent(term)+'?'+params.toString();
         const response=await fetch(url,{headers:{'Accept':'application/json'}});
         if(!response.ok) throw new Error('HTTP '+response.status);
