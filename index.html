@@ -566,6 +566,26 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 }
 .maintenance-title { font-size: 32px; font-weight: 800; margin-bottom: 12px; color: var(--text); }
 .maintenance-sub { color: var(--muted); font-size: 15px; margin-bottom: 24px; line-height: 1.5; }
+
+/* === НОВЫЙ МАКЕТ С БОКОВЫМ МЕНЮ === */
+body { display: block; }
+.app-layout { display: flex; min-height: 100vh; }
+.sidebar { width:260px; flex-shrink:0; background:var(--bg); border-right:1px solid var(--line-soft); display:flex; flex-direction:column; position:fixed; top:0; bottom:0; left:0; z-index:60; overflow-y:auto; transition:transform .3s ease; }
+.sidebar .logo { padding:24px; display:flex; align-items:center; gap:10px; text-decoration:none; flex-shrink:0; }
+.sidebar .nav { display:flex; flex-direction:column; padding:0 12px; gap:4px; flex:1; margin:0; }
+.sidebar .nav a,.sidebar .nav-login { position:relative; display:flex; align-items:center; gap:12px; padding:0 16px; height:44px; color:var(--muted); text-decoration:none; font-size:14px; font-weight:500; white-space:nowrap; transition:all .2s; border-radius:8px; background:transparent; border:none; cursor:pointer; text-align:left; width:100%; font-family:inherit; }
+.sidebar .nav a:hover,.sidebar .nav-login:hover { color:var(--text); background:rgba(255,255,255,.05); }
+.sidebar .nav a.active { color:var(--blue-2); background:rgba(94,106,210,.15); font-weight:600; }
+.sidebar .nav a.active::after { display:none; }
+.sidebar .nav a .i { font-size:18px; }
+.sidebar .nav-badge { margin-left:auto; }
+.main-content { flex:1; margin-left:260px; display:flex; flex-direction:column; min-width:0; }
+.topbar { height:64px; display:flex; align-items:center; justify-content:flex-end; padding:0 24px; background:rgba(8,9,10,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--line-soft); position:sticky; top:0; z-index:50; }
+.topbar .burger { display:none; margin-right:auto; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--text); font-size:22px; cursor:pointer; place-items:center; }
+.topbar .header-actions { display:flex; align-items:center; gap:12px; margin-left:0; }
+@media(max-width:1200px) { .sidebar { transform:translateX(-100%); box-shadow:10px 0 30px rgba(0,0,0,.5); } .sidebar.open { transform:translateX(0); } .main-content { margin-left:0; } .topbar { justify-content:space-between; } .topbar .burger { display:grid; } .sidebar .nav-login { display:flex; } }
+@media(min-width:1201px) { .sidebar .nav-login { display:none; } }
+
 </style>
 </head>
 <body>
@@ -627,8 +647,9 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
 </defs>
 </svg>
 
-<header class="header">
-  <div class="header-in">
+<div class="app-layout">
+  <!-- ЛЕВОЕ МЕНЮ -->
+  <aside class="sidebar" id="sidebar">
     <a class="logo" href="#home">
       <svg class="logo-mark" viewBox="0 0 40 40"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4cc3ff"/><stop offset="1" stop-color="#1257ff"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="7" fill="url(#lg)"/><rect x="10" y="10" width="20" height="20" rx="3" fill="#061230"/><path d="M14 26l6-12 6 12z" fill="#4cc3ff"/></svg>
       <span class="logo-text">INTERNATIONAL<br><span>GD CHAMPIONSHIP</span></span>
@@ -645,24 +666,18 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
       <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span><span class="nav-badge hidden" id="nav-admin-badge">0</span></a>
       <button class="nav-login" id="login-btn-nav" type="button" data-i18n="btn.login">Войти</button>
     </nav>
-    <div class="header-actions">
-      <div id="header-balance" class="balance-badge hidden" title="Ваш баланс">
-        <svg class="i"><use href="#i-coins"/></svg> <span data-user-balance>0</span> ₽
-      </div>
-      <div id="header-bonus" class="balance-badge hidden" title="Бонусный баланс" style="background:rgba(179,107,255,.1);border-color:rgba(179,107,255,.3);color:var(--purple)">
-        <svg class="i"><use href="#i-star"/></svg> <span data-user-bonus>0</span> Б
-      </div>
-      <div class="lang" role="group">
-        <button type="button" data-lang="ru" aria-pressed="true">RU</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
-      <button class="btn btn-ghost btn-sm" id="login-btn" type="button" data-i18n="btn.login">Войти</button>
+  </aside>
+  <div class="main-content">
+    <header class="topbar">
       <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
-    </div>
-  </div>
-</header>
-
-<main>
+      <div class="header-actions">
+        <div id="header-balance" class="balance-badge hidden" title="Ваш баланс"><svg class="i"><use href="#i-coins"/></svg> <span data-user-balance>0</span> ₽</div>
+        <div id="header-bonus" class="balance-badge hidden" title="Бонусный баланс" style="background:rgba(179,107,255,.1);border-color:rgba(179,107,255,.3);color:var(--purple)"><svg class="i"><use href="#i-star"/></svg> <span data-user-bonus>0</span> Б</div>
+        <div class="lang" role="group"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
+        <button class="btn btn-ghost btn-sm" id="login-btn" type="button" data-i18n="btn.login">Войти</button>
+      </div>
+    </header>
+    <main>
 <section class="page" id="page-home">
   <div class="hero">
     <div class="hero-in">
@@ -1228,6 +1243,8 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--blue-2);outline-off
     </div>
   </div>
 </footer>
+  </div><!-- Конец main-content -->
+</div><!-- Конец app-layout -->
 
 <a href="https://dalink.to/theteacher" id="floating-donate-btn" class="floating-donate" target="_blank" rel="noopener">
   <svg class="i"><use href="#i-heart"/></svg>
@@ -2227,7 +2244,10 @@ function show(id){
   if(id === 'tasks') renderTasksPage();
   if(id === 'profile') renderProfilePage();
   window.updateHeaderUI();
-  nav.classList.remove('open'); burger.setAttribute('aria-expanded','false'); window.scrollTo(0,0);
+  const sidebarEl = document.getElementById('sidebar');
+  if (sidebarEl) sidebarEl.classList.remove('open');
+  burger.setAttribute('aria-expanded','false');
+  window.scrollTo(0,0);
 }
 
 function go(id){
@@ -2249,11 +2269,12 @@ document.addEventListener('click', e => {
 window.addEventListener('popstate', () => show(readHash()));
 window.addEventListener('hashchange', () => show(readHash()));
 burger.addEventListener('click', () => {
-  const isOpen = nav.classList.toggle('open');
+  const sidebarEl = document.getElementById('sidebar');
+  const isOpen = sidebarEl.classList.toggle('open');
   burger.setAttribute('aria-expanded', String(isOpen));
 });
 $('#login-btn').addEventListener('click', () => go('cabinet'));
-$('#login-btn-nav').addEventListener('click', () => { nav.classList.remove('open'); go('cabinet'); });
+$('#login-btn-nav').addEventListener('click', () => { document.getElementById('sidebar').classList.remove('open'); go('cabinet'); });
 $('#tournament-back').addEventListener('click', () => go('tournaments'));
 window.setParticipantsCount = n => { $$('[data-participants-count]').forEach(el => el.textContent = (n == null ? '—' : n)); };
 
