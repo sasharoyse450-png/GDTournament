@@ -394,7 +394,7 @@ select.input{appearance:none;cursor:pointer;padding-right:40px;background-image:
 .shop-title{font-family:'Exo 2',sans-serif;font-size:22px;font-weight:800}
 .shop-desc{color:var(--muted);font-size:14px}
 .shop-price{font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--gold)}
-.balance-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:16px}
+.balance-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(246,183,60,.1);border:1px solid rgba(246,183,60,.3);color:var(--gold);font-weight:700;font-family:'Exo 2',sans-serif;font-size:14px;white-space:nowrap;flex-shrink:0}
 .font-cyber { font-family: 'Orbitron', sans-serif !important; letter-spacing: 1px; font-weight: 700; }
 .font-gothic { font-family: 'Cinzel', serif !important; font-weight: 700; }
 .font-handwritten { font-family: 'Caveat', cursive !important; font-size: 1.3em; line-height: 1; }
@@ -582,9 +582,28 @@ body { display: block; }
 .main-content { flex:1; margin-left:260px; display:flex; flex-direction:column; min-width:0; }
 .topbar { height:64px; display:flex; align-items:center; justify-content:flex-end; padding:0 24px; background:rgba(8,9,10,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--line-soft); position:sticky; top:0; z-index:50; }
 .topbar .burger { display:none; margin-right:auto; width:40px; height:40px; border-radius:10px; border:1px solid var(--line); background:transparent; color:var(--text); font-size:22px; cursor:pointer; place-items:center; }
-.topbar .header-actions { display:flex; align-items:center; gap:12px; margin-left:0; }
+.topbar .header-actions { display:flex; align-items:center; gap:8px; margin-left:0; flex-wrap:nowrap; white-space:nowrap; }
 @media(max-width:1200px) { .sidebar { transform:translateX(-100%); box-shadow:10px 0 30px rgba(0,0,0,.5); } .sidebar.open { transform:translateX(0); } .main-content { margin-left:0; } .topbar { justify-content:space-between; } .topbar .burger { display:grid; } .sidebar .nav-login { display:flex; } }
 @media(min-width:1201px) { .sidebar .nav-login { display:none; } }
+@media(max-width:760px) {
+  .balance-badge { font-size:12px; padding:4px 8px; gap:4px; }
+  .balance-badge .i { font-size:14px; }
+  .topbar .header-actions { gap:4px; flex-wrap:nowrap; white-space:nowrap; }
+}
+@media(max-width:400px) {
+  .balance-badge span:last-child { display:none; }
+}
+
+
+/* === СТИЛИ ДЛЯ РУЛЕТКИ СУНДУКОВ === */
+.lootbox-container{width:min(900px,95%);background:#0d0e10;border:1px solid var(--line);border-radius:16px;padding:30px;margin:auto;position:relative;box-shadow:0 20px 100px rgba(0,0,0,.8)}
+.lootbox-header{text-align:center;margin-bottom:20px}.lootbox-header h2{font-family:'Exo 2',sans-serif;font-size:28px;color:var(--text)}
+.roulette-wrapper{position:relative;width:100%;height:140px;background:#050a17;border:2px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:inset 0 0 20px rgba(0,0,0,.8)}
+.roulette-pointer{position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:30px;height:30px;z-index:10;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6))}.roulette-pointer svg{width:100%;height:100%}
+.roulette-window{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center}.roulette-strip{display:flex;gap:10px;padding:0 10px;transition:transform 7s cubic-bezier(.1,.8,.1,1);will-change:transform}
+.roulette-item{width:120px;height:110px;flex-shrink:0;background:#1a1c23;border:1px solid #333;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;position:relative;padding:5px}.roulette-item img{max-width:80%;max-height:60%;object-fit:contain;margin-bottom:5px}.roulette-item .item-name{font-size:10px;color:#a0a3aa;text-align:center;padding:0 5px;line-height:1.2}.roulette-item.winner{border-color:var(--gold);box-shadow:0 0 20px rgba(246,183,60,.5)}
+.roulette-wrapper::after{content:'';position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(246,183,60,.8);transform:translateX(-50%);z-index:5;box-shadow:0 0 10px var(--gold)}
+@media(max-width:600px){.lootbox-container{padding:16px}.lootbox-header h2{font-size:22px}.roulette-wrapper{height:125px}.roulette-item{height:100px}}
 
 </style>
 </head>
@@ -1500,6 +1519,7 @@ body { display: block; }
             <option value="avatar">Аватарка (URL картинки)</option>
             <option value="banner">Фон профиля (URL картинки)</option>
             <option value="frame">Рамка для аватарки (URL картинки)</option>
+            <option value="lootbox">Сундук (Рулетка)</option>
           </select>
         </div>
         <div class="field">
@@ -1608,6 +1628,14 @@ body { display: block; }
   </div>
 </div>
 
+<!-- Модалка открытия сундука (Рулетка) -->
+<div class="modal-back hidden" id="lootbox-modal">
+  <div class="lootbox-container">
+    <div class="lootbox-header"><h2 id="lb-title">Открытие сундука...</h2></div>
+    <div class="roulette-wrapper"><div class="roulette-pointer"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22h20L12 2z" fill="#f6b73c"/></svg></div><div class="roulette-window"><div class="roulette-strip" id="roulette-strip"></div></div></div>
+    <div id="lootbox-result" class="hidden" style="text-align:center;margin-top:20px"><h3 style="color:var(--gold);font-size:24px;margin-bottom:10px">Вы получили:</h3><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:120px;height:120px;background:rgba(0,0,0,.5);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:20px;margin-bottom:20px"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2399,11 +2427,12 @@ function renderShop() {
       <div class="shop-preview" style="height:80px;background:rgba(31,139,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;">
         ${item.type === 'avatar' ? '<img data-img-src="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%;object-fit:cover" alt="">'
           : item.type === 'banner' ? '<div data-bg-url="' + escapeHtml(item.css_class) + '" style="width:100%;height:100%"></div>'
-          : item.type === 'frame' ? `<div style="position:relative;width:64px;height:64px;margin:auto;"><div style="width:100%;height:100%;border-radius:50%;background:#2a98ff;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`
+           : item.type === 'frame' ? `<div style="position:relative;width:64px;height:64px;margin:auto;"><div style="width:100%;height:100%;border-radius:50%;background:#2a98ff;"></div><img data-img-src="${escapeHtml(item.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`
+          : item.type === 'lootbox' ? (item.css_class && /^https?:\/\//i.test(item.css_class) ? `<img data-img-src="${escapeHtml(item.css_class)}" style="max-width:80%;max-height:80%;object-fit:contain" alt="Сундук">` : `<div style="font-size:48px;filter:drop-shadow(0 0 15px rgba(246,183,60,.8));animation:float 2s infinite ease-in-out">🎁</div>`)
           : '<span class="' + item.css_class + '">Player123</span>'}
       </div>
       <div class="shop-title">${escapeHtml(item.name)}</div>
-      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
+      <div class="shop-desc">${item.type === 'font' ? 'Шрифт для ника' : item.type === 'style' ? 'Эффект для ника' : item.type === 'avatar' ? 'Аватарка профиля' : item.type === 'frame' ? 'Рамка аватарки' : item.type === 'lootbox' ? 'Сундук с сокровищами' : 'Фон профиля'} (${days} ${t('shop.days_suffix')})</div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px">
         <div class="shop-price" style="color:${item.currency_type === 'bonus' ? 'var(--purple)' : 'var(--gold)'}">${item.price} ${item.currency_type === 'bonus' ? 'Б' : '₽'}</div>
         ${btnHtml}
@@ -2422,6 +2451,7 @@ async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
   if (item.enabled === false) { toast(t('shop.disabled'), true); return; }
+  if (item.type === 'lootbox') { startLootboxRoulette(item); return; }
 
   const isBonus = item.currency_type === 'bonus';
   const currentBalance = isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0);
@@ -3354,7 +3384,7 @@ async function renderProfilePage() {
           const itemId = btn.dataset.item; const type = btn.dataset.type; const cssClass = btn.dataset.class;
           btn.disabled = true;
           try {
-            if (type === 'avatar' || type === 'banner' || type === 'frame') {
+            if (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox') {
               const field = type === 'avatar' ? 'avatar_url' : type === 'banner' ? 'banner_url' : 'avatar_frame';
               const { error } = await sb.from('profiles').update({ [field]: cssClass }).eq('id', user.id);
               if (error) throw error;
@@ -3818,13 +3848,14 @@ async function renderAdminShop(){
 
 function updateShopItemPreview(){
   const type = $('#si-type').value;
-  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox');
   const value = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const prev = $('#si-preview');
   prev.style.cssText = 'height:80px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden;background:rgba(31,139,255,.1);';
   prev.className = ''; prev.replaceChildren();
   if (type === 'avatar' && value) { const img = document.createElement('img'); img.src = value; img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;'; prev.appendChild(img); }
   else if (type === 'banner' && value) { prev.style.backgroundImage = `url(${JSON.stringify(value)})`; prev.style.backgroundSize = 'cover'; prev.style.backgroundPosition = 'center'; }
+  else if(type === 'lootbox') { if(value && /^https?:\/\//i.test(value)){const img=document.createElement('img');img.src=value;img.style.cssText='max-width:80%;max-height:80%;object-fit:contain';prev.appendChild(img);}else prev.textContent='🎁'; }
   else { prev.className = isUrl ? '' : value; prev.textContent = 'Player123'; }
 }
 
@@ -3852,7 +3883,7 @@ function openShopItemModal(item){
   $('#si-currency').value = item ? (item.currency_type || 'main') : 'main';
   $('#si-duration').value = item ? (item.duration_days || 7) : 7;
   $('#si-enabled').checked = item ? (item.enabled !== false) : true;
-  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox');
   $('#si-css').classList.toggle('hidden', isUrl);
   $('#si-css-url').classList.toggle('hidden', !isUrl);
   if (isUrl) $('#si-css-url').value = item ? item.css_class : '';
@@ -3875,7 +3906,7 @@ async function saveShopItem(){
   const price = parseInt($('#si-price').value, 10);
   const currency = $('#si-currency').value;
   const duration = parseInt($('#si-duration').value, 10);
-  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox');
   const css = isUrl ? ($('#si-css-url').value || '').trim() : ($('#si-css').value || '');
   const enabled = $('#si-enabled').checked;
   const err = $('#shop-item-error');
@@ -3883,7 +3914,7 @@ async function saveShopItem(){
   if(!name) msg = t('admin.shop.err.name');
   else if(isNaN(price) || price < 0) msg = t('admin.shop.err.price');
   else if(isNaN(duration) || duration < 1) msg = t('admin.shop.err.duration');
-  else if(!css) msg = t('admin.shop.err.css');
+  else if(!css && type !== 'lootbox') msg = t('admin.shop.err.css');
   if(msg){ err.textContent = msg; err.classList.add('show'); return; }
   err.classList.remove('show');
   const payload = { name, type, price, css_class: css, duration_days: duration, enabled, currency_type: currency };
@@ -3927,7 +3958,7 @@ $('#si-css')?.addEventListener('change', updateShopItemPreview);
 $('#si-css-url')?.addEventListener('input', updateShopItemPreview);
 $('#si-type')?.addEventListener('change', () => {
   const type = $('#si-type').value;
-  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame');
+  const isUrl = (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox');
   $('#si-css').classList.toggle('hidden', isUrl);
   $('#si-css-url').classList.toggle('hidden', !isUrl);
   if (!isUrl) populateCssDropdown(type, '');
@@ -5099,6 +5130,60 @@ window.reviewTask=async(id,status,userId,reward,currency)=>{
     toast(status==='approved'?'Задание одобрено!':'Отклонено');await renderAdminTaskReviews();
   }catch(e){toast(e.message,true);}
 };
+
+
+// ================= ЛОГИКА СУНДУКОВ (РУЛЕТКА) =================
+let pendingLootboxItem = null;
+let lootboxBusy = false;
+async function startLootboxRoulette(boxItem){
+  if(lootboxBusy)return;
+  if(!user){go('cabinet');return;}
+  const isBonus=boxItem.currency_type==='bonus';
+  const balance=isBonus?(userProfile?.bonus_balance||0):(userProfile?.balance||0);
+  if(balance<Number(boxItem.price||0)){toast('Недостаточно средств для открытия сундука!',true);return;}
+  const possiblePrizes=shopItems.filter(i=>String(i.id)!==String(boxItem.id)&&i.enabled!==false&&i.type!=='lootbox');
+  if(!possiblePrizes.length){toast('В магазине нет призов для сундука!',true);return;}
+  lootboxBusy=true;
+  const field=isBonus?'bonus_balance':'balance';
+  try{
+    const {error:balErr}=await sb.from('profiles').update({[field]:balance-Number(boxItem.price||0)}).eq('id',user.id);
+    if(balErr)throw balErr;
+    if(isBonus){userProfile.bonus_balance=balance-Number(boxItem.price||0);window.updateBonusUI(userProfile.bonus_balance);}
+    else{userProfile.balance=balance-Number(boxItem.price||0);window.updateBalanceUI(userProfile.balance);}
+    pendingLootboxItem=possiblePrizes[Math.floor(Math.random()*possiblePrizes.length)];
+    const modal=$('#lootbox-modal'),strip=$('#roulette-strip');
+    $('#lootbox-result').classList.add('hidden');$('#lb-title').textContent='Открываем сундук...';
+    modal.classList.remove('hidden');strip.innerHTML='';strip.style.transition='none';strip.style.transform='translateX(0)';
+    const total=60,winnerIndex=50;
+    for(let i=0;i<total;i++){
+      const prize=i===winnerIndex?pendingLootboxItem:possiblePrizes[Math.floor(Math.random()*possiblePrizes.length)];
+      const el=document.createElement('div');el.className='roulette-item'+(i===winnerIndex?' winner':'');
+      let preview='';
+      if((prize.type==='avatar'||prize.type==='frame')&&prize.css_class)preview=`<img src="${escapeHtml(prize.css_class)}" alt="">`;
+      else if(prize.type==='banner'&&prize.css_class)preview=`<div style="width:100%;height:60%;background:url('${escapeHtml(prize.css_class)}') center/cover"></div>`;
+      else preview=`<div class="${escapeHtml(prize.css_class||'')}" style="font-size:24px">Aa</div>`;
+      el.innerHTML=preview+`<div class="item-name">${escapeHtml(prize.name)}</div>`;strip.appendChild(el);
+    }
+    // Force layout, then center the selected card precisely beneath the pointer.
+    strip.getBoundingClientRect();
+    const winnerEl=strip.children[winnerIndex],windowEl=document.querySelector('.roulette-window');
+    const distance=winnerEl.offsetLeft+winnerEl.offsetWidth/2-windowEl.clientWidth/2;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{strip.style.transition='transform 6.5s cubic-bezier(.15,.85,.15,1)';strip.style.transform=`translateX(-${distance}px)`;}));
+    strip.addEventListener('transitionend',async function onEnd(ev){if(ev.propertyName!=='transform')return;strip.removeEventListener('transitionend',onEnd);
+      $('#lb-title').textContent='🎉 ПОЗДРАВЛЯЕМ!';const previewEl=$('#lootbox-winner-preview');previewEl.innerHTML='';previewEl.style.background='';
+      const won=pendingLootboxItem;
+      if((won.type==='avatar'||won.type==='frame')&&won.css_class)previewEl.innerHTML=`<img src="${escapeHtml(won.css_class)}" style="max-width:90%;max-height:90%;object-fit:contain">`;
+      else if(won.type==='banner'&&won.css_class)previewEl.style.background=`url('${escapeHtml(won.css_class)}') center/cover`;
+      else previewEl.innerHTML=`<div class="${escapeHtml(won.css_class||'')}" style="font-size:40px">Aa</div>`;
+      $('#lootbox-winner-name').textContent=won.name;$('#lootbox-result').classList.remove('hidden');
+      try{const expiresAt=new Date(Date.now()+(won.duration_days||7)*86400000).toISOString();const {error}=await sb.from('inventory').insert([{user_id:user.id,item_id:won.id,expires_at:expiresAt,purchased_at:new Date().toISOString()}]);if(error)throw error;myInventory=await loadMyInventory();}
+      catch(e){console.error('Ошибка выдачи приза',e);toast('Рулетка завершилась, но приз не удалось сохранить: '+e.message,true);}
+    lootboxBusy=false;
+    if(current==='shop')renderShop();if(current==='profile')renderProfilePage();
+    });
+  }catch(e){console.error(e);toast(e.message||'Ошибка открытия сундука',true);lootboxBusy=false;}
+}
+function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
 
 </script>
 </body>
