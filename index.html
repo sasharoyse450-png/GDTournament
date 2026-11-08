@@ -1747,7 +1747,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
     <div class="modal-section"><h3 data-i18n="stage.modal.basic">Основное</h3><div class="modal-grid"><div class="field" style="margin:0"><label for="m-title" data-i18n="stage.modal.title.label">Название</label><input class="input" type="text" id="m-title"></div><div class="field" style="margin:0"><label for="m-number" data-i18n="stage.modal.number">Номер</label><input class="input" type="number" id="m-number" min="1"></div></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.desc">Описание</h3><div class="field"><label for="m-desc" data-i18n="stage.modal.desc.label">Описание</label><input class="input" type="text" id="m-desc"></div><div class="field" style="margin-bottom:0"><label for="m-task" data-i18n="stage.modal.task">Задача</label><input class="input" type="text" id="m-task"></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.rules">Правила</h3><div class="field" style="margin:0"><textarea class="input" id="m-rules" data-i18n-ph="stage.modal.rules.ph" placeholder="Одно правило на строку" style="height:100px"></textarea></div></div>
-    <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-author">Автор уровня</label><input class="input" type="text" id="m-level-author" placeholder="Creator"></div><div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:12px"><div class="field" style="margin:0;min-width:190px;flex:1"><label for="m-random-demon-difficulty">Случайный демон из API</label><select class="input" id="m-random-demon-difficulty"><option value="Easy Demon">Easy Demon</option><option value="Medium Demon">Medium Demon</option><option value="Hard Demon">Hard Demon</option><option value="Insane Demon">Insane Demon</option></select></div><button type="button" class="btn btn-ghost" id="m-pick-random-demon">🎲 Выбрать случайный</button></div><div id="m-demon-pool-status" style="font-size:12px;color:var(--muted);margin-top:8px">Пул загружается из GDBrowser при первом выборе. Данные уровня сохраняются в этапе.</div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-author">Автор уровня</label><input class="input" type="text" id="m-level-author" placeholder="Creator"></div><div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:12px"><div class="field" style="margin:0;min-width:190px;flex:1"><label for="m-random-demon-difficulty">Случайный демон из API</label><select class="input" id="m-random-demon-difficulty"><option value="Easy Demon">Easy Demon</option><option value="Medium Demon">Medium Demon</option><option value="Hard Demon">Hard Demon</option><option value="Insane Demon">Insane Demon</option></select></div><button type="button" class="btn btn-ghost" id="m-pick-random-demon">🎲 Выбрать случайный</button></div><div id="m-demon-pool-status" style="font-size:12px;color:var(--muted);margin-top:8px">Каждый выбор загружает 1 случайный уровень из разных страниц GDBrowser. Недавние повторы исключаются.</div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.reward">🏆 Награда и лимиты</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-reward-points" data-i18n="stage.modal.points">Очки</label><input class="input" type="number" id="m-reward-points" min="1" value="1"></div><div class="field" style="margin:0"><label for="m-max" data-i18n="stage.modal.max">Лимит мест</label><input class="input" type="number" id="m-max" min="1"></div><div class="field" style="margin:0"><label for="m-deadline" data-i18n="stage.modal.deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward" data-i18n="stage.modal.rewardText">Текст награды</label><input class="input" type="text" id="m-reward"></div></div>
     <div class="modal-actions"><button type="button" class="btn btn-ghost" id="modal-cancel" data-i18n="btn.cancel">Отмена</button><button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span data-i18n="btn.save">Сохранить</span></button></div>
   </div>
@@ -4918,41 +4918,77 @@ function normalizeGDBrowserLevel(level, requestedType=''){
 async function loadOneIGDCDemon(demonType){
   const filter=IGDC_DEMON_FILTERS[demonType];
   if(!filter) throw new Error('Неизвестная сложность демона.');
-  // GDBrowser search uses diff=-2 for demons and type=0 for search.
-  // count=1 keeps the response small: only one matching level is requested.
-  const params=new URLSearchParams({diff:'-2',type:'0',demonFilter:String(filter),count:'1'});
-  const url='https://gdbrowser.com/api/search/a?'+params.toString();
-  const response=await fetch(url,{headers:{'Accept':'application/json'},cache:'no-store'});
-  const body=await response.text();
-  if(!response.ok) throw new Error('GDBrowser: HTTP '+response.status);
-  let payload;
-  try { payload=JSON.parse(body); }
-  catch { throw new Error('GDBrowser вернул не JSON. Возможно, API временно недоступен.'); }
-  let data=[];
-  if(Array.isArray(payload)) data=payload;
-  else if(payload && typeof payload==='object'){
-    for(const key of ['levels','data','results','items']){
-      if(Array.isArray(payload[key])) { data=payload[key]; break; }
+
+  // GDBrowser supports paginated level search. Request exactly one result
+  // from a random page instead of always asking for the first result.
+  const storageKey='igdc-random-demon-seen-v1';
+  let seen=[];
+  try {
+    const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');
+    seen=Array.isArray(saved[demonType]) ? saved[demonType] : [];
+  } catch(e) { seen=[]; }
+
+  let lastCandidate=null;
+  const attempts=8;
+  for(let attempt=0;attempt<attempts;attempt++){
+    const page=Math.floor(Math.random()*250);
+    const params=new URLSearchParams({
+      diff:'-2',
+      type:'0',
+      demonFilter:String(filter),
+      count:'1',
+      page:String(page)
+    });
+    const url='https://gdbrowser.com/api/search/a?'+params.toString();
+    const response=await fetch(url,{headers:{'Accept':'application/json'},cache:'no-store'});
+    const body=await response.text();
+    if(!response.ok) throw new Error('GDBrowser: HTTP '+response.status);
+    let payload;
+    try { payload=JSON.parse(body); }
+    catch { throw new Error('GDBrowser вернул не JSON. Возможно, API временно недоступен.'); }
+
+    let data=[];
+    if(Array.isArray(payload)) data=payload;
+    else if(payload && typeof payload==='object'){
+      for(const key of ['levels','data','results','items']){
+        if(Array.isArray(payload[key])) { data=payload[key]; break; }
+      }
+      if(!data.length && (payload.id!=null || payload.levelID!=null)) data=[payload];
     }
-    if(!data.length && (payload.id!=null || payload.levelID!=null)) data=[payload];
+    const candidate=data.map(item=>normalizeGDBrowserLevel(item,demonType)).find(Boolean);
+    if(!candidate) continue;
+
+    lastCandidate=candidate;
+    if(!seen.includes(candidate.id)){
+      seen=[candidate.id,...seen].slice(0,50);
+      try {
+        const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');
+        saved[demonType]=seen;
+        localStorage.setItem(storageKey,JSON.stringify(saved));
+      } catch(e) {}
+      return candidate;
+    }
   }
-  if(!data.length) {
-    const apiError=payload && typeof payload==='object' ? (payload.error||payload.message||payload.status) : '';
-    throw new Error(apiError ? 'GDBrowser: '+String(apiError) : 'GDBrowser не нашёл уровень этой сложности.');
+
+  if(lastCandidate){
+    // If the random pages only returned recently seen levels, still provide
+    // one valid level rather than failing the stage editor.
+    seen=[lastCandidate.id,...seen.filter(id=>id!==lastCandidate.id)].slice(0,50);
+    try {
+      const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');
+      saved[demonType]=seen;
+      localStorage.setItem(storageKey,JSON.stringify(saved));
+    } catch(e) {}
+    return lastCandidate;
   }
-  const candidates=data.map(item=>normalizeGDBrowserLevel(item,demonType)).filter(Boolean);
-  if(!candidates.length) {
-    console.error('Unexpected GDBrowser payload:',payload);
-    throw new Error('GDBrowser прислал уровень без обязательных полей ID или названия.');
-  }
-  return candidates[Math.floor(Math.random()*candidates.length)];
+  throw new Error('GDBrowser не нашёл уровень на случайных страницах. Попробуй ещё раз.');
 }
 function setDemonPoolStatus(message,isError=false){
   const el=$('#m-demon-pool-status'); if(el){el.textContent=message;el.style.color=isError?'var(--red)':'var(--muted)';}
 }
 $('#m-pick-random-demon').addEventListener('click',async()=>{
   const btn=$('#m-pick-random-demon'); const type=$('#m-random-demon-difficulty').value;
-  btn.disabled=true; btn.textContent='Загрузка…'; setDemonPoolStatus('Загружаем один уровень '+type+' из GDBrowser…');
+  btn.disabled=true; btn.textContent='Загрузка…'; setDemonPoolStatus('Загружаем один случайный уровень '+type+' из GDBrowser…');
   try{
     const picked=await loadOneIGDCDemon(type);
     $('#m-level-name').value=picked.name; $('#m-level-id').value=picked.id;
