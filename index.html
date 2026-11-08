@@ -680,6 +680,7 @@ body { display: block; }
       <a href="#leaderboard" data-nav="leaderboard"><svg class="i"><use href="#i-chart"/></svg><span data-i18n="nav.leaderboard">Таблица</span></a>
       <a href="#chat" data-nav="chat"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.chat">Чат</span></a>
       <a href="#tasks" data-nav="tasks"><svg class="i"><use href="#i-check"/></svg><span data-i18n="nav.tasks">Задания</span></a>
+      <a href="#lootboxes" data-nav="lootboxes"><svg class="i"><use href="#i-backpack"/></svg><span data-i18n="nav.lootboxes">Кейсы</span></a>
       <a href="#support" data-nav="support"><svg class="i"><use href="#i-chat"/></svg><span data-i18n="nav.support">Поддержка</span></a>
       <a href="#cabinet" data-nav="cabinet"><svg class="i"><use href="#i-user"/></svg><span data-i18n="nav.cabinet">Кабинет</span></a>
       <a href="#admin" data-nav="admin" id="nav-admin" class="hidden"><svg class="i"><use href="#i-admin"/></svg><span data-i18n="nav.admin">Админка</span><span class="nav-badge hidden" id="nav-admin-badge">0</span></a>
@@ -913,6 +914,13 @@ body { display: block; }
   </div>
 </section>
 
+<section class="page" id="page-lootboxes">
+  <div class="wrap">
+    <div class="page-head"><div class="eyebrow">🎁 <span data-i18n="nav.lootboxes">Кейсы</span></div><h1 data-i18n="nav.lootboxes">Кейсы</h1></div>
+    <div class="page-body"><p style="color:var(--muted)">Раздел кейсов пока не подключён.</p></div>
+  </div>
+</section>
+
 <section class="page" id="page-support">
   <div class="wrap">
     <div class="page-head">
@@ -1032,6 +1040,7 @@ body { display: block; }
       <div class="admin-tabs">
         <button type="button" data-admin-tab="dashboard" class="active" data-i18n="admin.tab.dashboard">Дашборд</button>
         <button type="button" data-admin-tab="tasks" id="tab-tasks">Конструктор заданий</button>
+        <button type="button" data-admin-tab="lootboxes" id="tab-lootboxes">Кейсы</button>
         <button type="button" data-admin-tab="task-reviews" id="tab-task-reviews">Проверка заданий</button>
         <button type="button" data-admin-tab="regs" id="tab-regs" data-i18n="admin.tab.regs">Заявки на турниры</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
@@ -1044,6 +1053,7 @@ body { display: block; }
         <button type="button" data-admin-tab="words" id="tab-words" data-i18n="admin.tab.words">Стоп-слова</button>
         <button type="button" data-admin-tab="log" id="tab-log" data-i18n="admin.tab.log">Лог</button>
       </div>
+      <div id="admin-lootboxes" class="hidden"></div>
       <div id="admin-dashboard">
         <div class="admin-stats">
           <div class="admin-stat"><b data-admin-total>—</b><span data-i18n="admin.stat.total">Всего заявок</span></div>
@@ -1652,7 +1662,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
 const I18N = {
   ru: {
-    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.tasks':'Задания','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
+    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.tasks':'Задания','nav.lootboxes':'Кейсы','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам','btn.copyLink':'Поделиться профилем',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
     'cta.tournaments':'К турнирам','cta.shop':'В магазин','stat.participants':'Участников',
@@ -1772,7 +1782,7 @@ const I18N = {
     'buy.already':'Этот предмет уже активен'
   },
   en: {
-    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.tasks':'Tasks','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
+    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.tasks':'Tasks','nav.lootboxes':'Cases','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments','btn.copyLink':'Share profile',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
     'cta.tournaments':'To tournaments','cta.shop':'To shop','stat.participants':'Participants',
@@ -1893,7 +1903,7 @@ const I18N = {
   }
 };
 
-const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile','tasks'];
+const PAGE_IDS = ['home','rules','tournaments','shop','tournament','apply','leaderboard','chat','support','cabinet','docs','admin','profile','tasks','lootboxes'];
 const COLORS = ['#eaf1ff','#38b6ff','#2fd48a','#f6b73c','#ff5d73','#b36bff','#ff8a3d','#ff61d9','#7de3ff'];
 const SHOP_FONTS = ['font-cyber','font-gothic','font-handwritten','font-pixel','font-retro','font-heavy'];
 const SHOP_STYLES = ['nick-rainbow','nick-gold','nick-fire','nick-ice','nick-neon'];
@@ -2271,6 +2281,7 @@ function show(id){
   if(id === 'apply') refreshApplyView();
   if(id === 'admin') renderAdmin();
   if(id === 'tasks') renderTasksPage();
+  if(id === 'lootboxes' && typeof renderLootboxesPage === 'function') renderLootboxesPage();
   if(id === 'profile') renderProfilePage();
   window.updateHeaderUI();
   const sidebarEl = document.getElementById('sidebar');
@@ -4039,7 +4050,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','log','lootboxes'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -4054,6 +4065,7 @@ function renderAdmin(){
     'settings': isAdmin(),
     'shop': isAdmin(),
     'tasks': isAdmin(),
+    'lootboxes': isAdmin(),
     'task-reviews': isAdmin(),
     'words': isAdmin(),
     'log': isAdmin(),
@@ -4085,6 +4097,7 @@ function renderAdmin(){
     else if(adminTab === 'words') renderAdminWords();
     else if(adminTab === 'log') renderAdminLog();
     else if(adminTab === 'tasks') renderAdminTasks();
+    else if(adminTab === 'lootboxes' && typeof renderAdminLootboxes === 'function') renderAdminLootboxes();
     else if(adminTab === 'task-reviews') renderAdminTaskReviews();
   } catch(e) {
     console.error("Ошибка при отрисовке вкладки", adminTab, e);
