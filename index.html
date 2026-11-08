@@ -657,19 +657,21 @@ body { display: block; }
 .lb-live-heading p{color:var(--muted);font-size:13px;margin:0}
 .lb-live-status{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid rgba(52,211,153,.25);border-radius:99px;color:#6ee7b7;font-size:10px;font-weight:800;letter-spacing:.12em;white-space:nowrap}
 .lb-live-status i{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 10px #34d399}
-.lb-live-feed{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}
-.lb-feed-item{display:flex;align-items:center;gap:11px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025)}
-.lb-feed-thumb{width:42px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.055);overflow:hidden;font-size:22px}
+.lb-live-feed{display:flex;align-items:stretch;gap:10px;width:100%;overflow:hidden;position:relative;min-height:76px}
+.lb-live-track{display:flex;align-items:stretch;gap:10px;width:max-content;flex:none;animation:lb-live-marquee 48s linear infinite;will-change:transform}
+.lb-live-feed:hover .lb-live-track{animation-play-state:paused}
+.lb-feed-item{display:flex;align-items:center;gap:10px;flex:0 0 250px;width:250px;min-width:250px;padding:9px 11px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.025);box-sizing:border-box}
+.lb-feed-thumb{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:9px;background:rgba(255,255,255,.055);overflow:hidden;font-size:22px}
 .lb-feed-thumb img{width:100%;height:100%;object-fit:contain}
 .lb-feed-info{min-width:0;flex:1}
 .lb-feed-player{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lb-feed-prize{font-size:13px;font-weight:750;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:2px 0}
 .lb-feed-case{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lb-feed-time{font-size:10px;color:var(--muted);white-space:nowrap;flex:none}
-.lb-feed-empty{grid-column:1/-1;padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;font-size:13px}
+.lb-feed-empty{width:100%;padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;font-size:13px}
+@keyframes lb-live-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .lb-modal-live{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
-.lb-modal-live .lb-live-feed{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-@media(max-width:600px){.lb-live-section{padding:16px;margin-top:30px}.lb-live-heading{align-items:flex-start}.lb-live-feed{grid-template-columns:1fr}.lb-feed-time{font-size:9px}}
+@media(max-width:600px){.lb-live-section{padding:16px;margin-top:30px}.lb-live-heading{align-items:flex-start}.lb-feed-item{flex-basis:225px;width:225px;min-width:225px}.lb-live-track{animation-duration:38s}}
 </style>
 <style id="refined-product-redesign">
 /* ==========================================================
@@ -2599,15 +2601,20 @@ async function renderLootboxFeed(targetId, lootboxId = null) {
   lootboxFeedRefreshBusy = true;
   try {
     const { data, error } = await sb.rpc('get_lootbox_live_feed', {
-      p_lootbox_id: lootboxId || null, p_limit: 24
+      p_lootbox_id: lootboxId || null, p_limit: 12
     });
     if (error) throw error;
     const drops = Array.isArray(data) ? data : [];
     if (!drops.length) {
       host.innerHTML = '<div class="lb-feed-empty">Пока ещё нет выпадений. Первые призы появятся здесь!</div>';
+      host.dataset.signature = '';
       return;
     }
-    host.innerHTML = drops.map(drop => {
+    const signature = drops.map(drop => drop.id).join('|');
+    if (host.dataset.signature === signature) return;
+    host.dataset.signature = signature;
+
+    const renderItem = drop => {
       const safeImage = drop.prize_image && /^https?:\/\//i.test(drop.prize_image)
         ? `<img src="${escapeHtml(drop.prize_image)}" alt="">` : '🎁';
       const amount = drop.prize_amount !== null && drop.prize_amount !== undefined
@@ -2621,7 +2628,9 @@ async function renderLootboxFeed(targetId, lootboxId = null) {
         </div>
         <time class="lb-feed-time">${escapeHtml(formatLootboxDropTime(drop.created_at))}</time>
       </article>`;
-    }).join('');
+    };
+    const items = drops.map(renderItem).join('');
+    host.innerHTML = `<div class="lb-live-track">${items}${items}</div>`;
   } catch (error) {
     console.warn('Не удалось обновить live-ленту:', error.message || error);
     if (!host.dataset.loaded) host.innerHTML = '<div class="lb-feed-empty">Лента временно недоступна</div>';
