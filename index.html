@@ -4892,35 +4892,42 @@ $('#create-tournament-btn').addEventListener('click', async () => {
   await loadTournaments(); renderAdminTournaments();
 });
 
-// GDBrowser: fetch exactly one demon level for the selected difficulty.
+// GDBrowser: request one level for the selected demon difficulty.
 const IGDC_DEMON_FILTERS = {'Easy Demon':1,'Medium Demon':2,'Hard Demon':3,'Insane Demon':4};
 function normalizeGDBrowserLevel(level, requestedType=''){
-  if(!level || !level.id || !level.name || !level.author) return null;
-  const rawDiff = String(level.difficulty || '').toLowerCase().replace(/\s+/g,' ').trim();
-  const partial = String(level.partialDiff || level.demonDifficulty || '').toLowerCase().replace(/_/g,'-').trim();
+  if(!level || typeof level !== 'object') return null;
+  const id = level.id ?? level.levelID ?? level.levelId;
+  const name = level.name ?? level.levelName ?? level.level;
+  const author = level.author ?? level.creator ?? level.username ?? level.creatorName ?? 'Unknown';
+  if(id == null || !name) return null;
+  const rawDiff = String(level.difficulty ?? level.diff ?? '').toLowerCase().replace(/\s+/g,' ').trim();
+  const partial = String(level.partialDiff ?? level.demonDifficulty ?? level.demonDiff ?? '').toLowerCase().replace(/_/g,'-').trim();
   const map = {
     'easy':'Easy Demon','easy demon':'Easy Demon','demon-easy':'Easy Demon','easy-demon':'Easy Demon','1':'Easy Demon',
     'medium':'Medium Demon','medium demon':'Medium Demon','demon-medium':'Medium Demon','medium-demon':'Medium Demon','2':'Medium Demon',
     'hard':'Hard Demon','hard demon':'Hard Demon','demon-hard':'Hard Demon','hard-demon':'Hard Demon','3':'Hard Demon',
     'insane':'Insane Demon','insane demon':'Insane Demon','demon-insane':'Insane Demon','insane-demon':'Insane Demon','4':'Insane Demon'
   };
-  let difficulty = ['Easy Demon','Medium Demon','Hard Demon','Insane Demon'].find(d => rawDiff === d.toLowerCase()) || map[partial] || null;
-  if(!difficulty && rawDiff === 'demon') difficulty = map[partial] || requestedType || null;
-  if(!difficulty && rawDiff.includes('demon') && requestedType) difficulty = requestedType;
-  if(!difficulty || level.platformer || rawDiff === 'extreme demon' || partial.includes('extreme')) return null;
-  return { id:String(level.id), name:String(level.name), author:String(level.author), difficulty };
+  let difficulty = map[rawDiff] || map[partial] || null;
+  // The API's demonFilter is the authoritative difficulty filter; its response
+  // may only label the level as "Demon" or omit the partial difficulty.
+  if(!difficulty) difficulty = requestedType;
+  if(!difficulty || level.platformer === true || rawDiff === 'extreme demon' || partial.includes('extreme')) return null;
+  return {id:String(id), name:String(name), author:String(author), difficulty};
 }
 async function loadOneIGDCDemon(demonType){
   const filter=IGDC_DEMON_FILTERS[demonType];
   if(!filter) throw new Error('Неизвестная сложность демона.');
-  const params=new URLSearchParams({diff:'10',type:'0',count:'1',demonFilter:String(filter)});
+  // GDBrowser expects a search query in the URL path. Request only one result.
+  const params=new URLSearchParams({diff:'10',demonFilter:String(filter),count:'1'});
   const url='https://gdbrowser.com/api/search/a?'+params.toString();
   const response=await fetch(url,{headers:{'Accept':'application/json'},cache:'no-store'});
   if(!response.ok) throw new Error('GDBrowser: HTTP '+response.status);
-  const data=await response.json();
-  if(!Array.isArray(data) || !data.length) throw new Error('GDBrowser не вернул уровень этой сложности. Попробуйте ещё раз.');
-  const candidates=data.map(item=>normalizeGDBrowserLevel(item,demonType)).filter(level=>level && level.difficulty===demonType);
-  if(!candidates.length) throw new Error('GDBrowser не вернул подходящий '+demonType+'. Попробуйте ещё раз.');
+  const payload=await response.json();
+  const data=Array.isArray(payload) ? payload : (Array.isArray(payload?.levels) ? payload.levels : (Array.isArray(payload?.data) ? payload.data : []));
+  if(!data.length) throw new Error('GDBrowser вернул пустой ответ. Проверьте доступность API и попробуйте ещё раз.');
+  const candidates=data.map(item=>normalizeGDBrowserLevel(item,demonType)).filter(Boolean);
+  if(!candidates.length) throw new Error('GDBrowser вернул данные в неожиданном формате.');
   return candidates[Math.floor(Math.random()*candidates.length)];
 }
 function setDemonPoolStatus(message,isError=false){
