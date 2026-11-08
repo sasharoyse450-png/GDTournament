@@ -1020,13 +1020,6 @@ tr:hover td{background:rgba(255,255,255,.018)}
       <div class="feature"><svg class="i"><use href="#i-shop"/></svg><div><b data-i18n="feat.3.t">Магазин стиля</b><span data-i18n="feat.3.d">Уникальные шрифты и эффекты.</span></div></div>
       <div class="feature"><svg class="i"><use href="#i-trophy"/></svg><div><b data-i18n="feat.4.t">Кубки</b><span data-i18n="feat.4.d">Награды в профиле за победы.</span></div></div>
     </div>
-    <section class="lb-live-section">
-      <div class="lb-live-heading">
-        <div><div class="eyebrow">🎁 LIVE DROPS</div><h2>Последние выпадения</h2><p>Свежая история призов из всех кейсов</p></div>
-        <span class="lb-live-status"><i></i> LIVE</span>
-      </div>
-      <div id="lb-live-home" class="lb-live-feed"><div class="lb-feed-empty">Загрузка выпадений...</div></div>
-    </section>
   </div>
 </section>
 
@@ -1210,7 +1203,16 @@ tr:hover td{background:rgba(255,255,255,.018)}
 <section class="page" id="page-lootboxes">
   <div class="wrap">
     <div class="page-head"><div class="eyebrow">🎁 <span data-i18n="nav.lootboxes">Кейсы</span></div><h1 data-i18n="nav.lootboxes">Кейсы</h1></div>
-    <div class="page-body"><div class="shop-grid" id="lootboxes-grid"></div></div>
+    <div class="page-body">
+      <div class="shop-grid" id="lootboxes-grid"></div>
+      <section class="lb-live-section">
+        <div class="lb-live-heading">
+          <div><div class="eyebrow">🎁 LIVE DROPS</div><h2>Последние выпадения</h2><p>Свежая история призов из всех кейсов</p></div>
+          <span class="lb-live-status"><i></i> LIVE</span>
+        </div>
+        <div id="lb-live-all" class="lb-live-feed"><div class="lb-feed-empty">Загрузка выпадений...</div></div>
+      </section>
+    </div>
   </div>
 </section>
 
@@ -2629,7 +2631,7 @@ async function renderLootboxFeed(targetId, lootboxId = null) {
   }
 }
 function refreshVisibleLootboxFeeds() {
-  if (current === 'home') renderLootboxFeed('lb-live-home');
+  if (current === 'lootboxes') renderLootboxFeed('lb-live-all');
   const modal = document.getElementById('lootbox-modal');
   if (modal && !modal.classList.contains('hidden')) {
     renderLootboxFeed('lb-live-case', modal.dataset.lootboxId || null);
@@ -2656,7 +2658,7 @@ function show(id){
   current = id;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + id));
   $$('[data-nav]').forEach(a => { const on = a.dataset.nav === id; a.classList.toggle('active', on); if(on) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  if(id === 'home') renderLootboxFeed('lb-live-home');
+  if(id === 'lootboxes') renderLootboxFeed('lb-live-all');
   if(id === 'leaderboard') renderLeaderboard();
   if(id === 'chat') { chatLastIds = ''; isChatLoaded = false; renderChat(); startChatPolling(); }
   else { stopChatPolling(); }
@@ -5759,7 +5761,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
       });
       if (feedError) console.warn('Не удалось опубликовать выпадения:', feedError.message);
       else {
-        if (current === 'home') renderLootboxFeed('lb-live-home');
+        if (current === 'lootboxes') renderLootboxFeed('lb-live-all');
         renderLootboxFeed('lb-live-case', boxItem.id);
       }
     } catch (feedError) {
