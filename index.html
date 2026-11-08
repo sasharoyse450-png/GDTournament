@@ -1631,6 +1631,7 @@ body { display: block; }
 <!-- Модалка открытия сундука (Рулетка) -->
 <div class="modal-back hidden" id="lootbox-modal">
   <div class="lootbox-container">
+    <button class="modal-close" onclick="closeLootboxModal()" style="position:absolute;right:20px;top:20px;z-index:100;"><svg class="i"><use href="#i-x"/></svg></button>
     <div class="lootbox-header"><h2 id="lb-title">Открытие сундука...</h2></div>
     <div class="roulette-wrapper"><div class="roulette-pointer"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 22h20L12 2z" fill="#f6b73c"/></svg></div><div class="roulette-window"><div class="roulette-strip" id="roulette-strip"></div></div></div>
     <div id="lootbox-result" class="hidden" style="text-align:center;margin-top:20px"><h3 style="color:var(--gold);font-size:24px;margin-bottom:10px">Вы получили:</h3><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:120px;height:120px;background:rgba(0,0,0,.5);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:20px;margin-bottom:20px"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
@@ -1651,7 +1652,7 @@ const sb = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
 
 const I18N = {
   ru: {
-    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
+    'nav.home':'Главная','nav.rules':'Правила','nav.tournaments':'Турниры','nav.shop':'Магазин','nav.tasks':'Задания','nav.leaderboard':'Таблица','nav.chat':'Чат','nav.support':'Поддержка','nav.cabinet':'Кабинет','nav.admin':'Админка',
     'btn.login':'Войти','btn.cancel':'Отмена','btn.save':'Сохранить','btn.backToTournaments':'К турнирам','btn.copyLink':'Поделиться профилем',
     'hero.sub':'Championship','hero.lead':'Покажи свой скилл. Докажи, что ты лучший.','hero.desc':'Турниры по Geometry Dash среди участников нашего сообщества.',
     'cta.tournaments':'К турнирам','cta.shop':'В магазин','stat.participants':'Участников',
@@ -1771,7 +1772,7 @@ const I18N = {
     'buy.already':'Этот предмет уже активен'
   },
   en: {
-    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
+    'nav.home':'Home','nav.rules':'Rules','nav.tournaments':'Tournaments','nav.shop':'Shop','nav.tasks':'Tasks','nav.leaderboard':'Leaderboard','nav.chat':'Chat','nav.support':'Support','nav.cabinet':'Cabinet','nav.admin':'Admin',
     'btn.login':'Log in','btn.cancel':'Cancel','btn.save':'Save','btn.backToTournaments':'Back to tournaments','btn.copyLink':'Share profile',
     'hero.sub':'Championship','hero.lead':'Show your skill. Prove you are the best.','hero.desc':'Geometry Dash tournaments for members of our community.',
     'cta.tournaments':'To tournaments','cta.shop':'To shop','stat.participants':'Participants',
@@ -2451,7 +2452,13 @@ async function buyItem(item) {
   if (!user) { go('cabinet'); return; }
   if (!shopEnabled) { toast(t('shop.disabled'), true); return; }
   if (item.enabled === false) { toast(t('shop.disabled'), true); return; }
-  if (item.type === 'lootbox') { startLootboxRoulette(item); return; }
+  if (item.type === 'lootbox') { 
+    if (lootboxBusy) return; 
+    const btn = document.querySelector(`.buy-btn[data-id="${item.id}"]`);
+    if (btn) { btn.disabled = true; btn.textContent = 'Загрузка...'; }
+    startLootboxRoulette(item); 
+    return; 
+  }
 
   const isBonus = item.currency_type === 'bonus';
   const currentBalance = isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0);
@@ -5135,53 +5142,91 @@ window.reviewTask=async(id,status,userId,reward,currency)=>{
 // ================= ЛОГИКА СУНДУКОВ (РУЛЕТКА) =================
 let pendingLootboxItem = null;
 let lootboxBusy = false;
-async function startLootboxRoulette(boxItem){
-  if(lootboxBusy)return;
-  if(!user){go('cabinet');return;}
-  const isBonus=boxItem.currency_type==='bonus';
-  const balance=isBonus?(userProfile?.bonus_balance||0):(userProfile?.balance||0);
-  if(balance<Number(boxItem.price||0)){toast('Недостаточно средств для открытия сундука!',true);return;}
-  const possiblePrizes=shopItems.filter(i=>String(i.id)!==String(boxItem.id)&&i.enabled!==false&&i.type!=='lootbox');
-  if(!possiblePrizes.length){toast('В магазине нет призов для сундука!',true);return;}
-  lootboxBusy=true;
-  const field=isBonus?'bonus_balance':'balance';
-  try{
-    const {error:balErr}=await sb.from('profiles').update({[field]:balance-Number(boxItem.price||0)}).eq('id',user.id);
-    if(balErr)throw balErr;
-    if(isBonus){userProfile.bonus_balance=balance-Number(boxItem.price||0);window.updateBonusUI(userProfile.bonus_balance);}
-    else{userProfile.balance=balance-Number(boxItem.price||0);window.updateBalanceUI(userProfile.balance);}
-    pendingLootboxItem=possiblePrizes[Math.floor(Math.random()*possiblePrizes.length)];
-    const modal=$('#lootbox-modal'),strip=$('#roulette-strip');
-    $('#lootbox-result').classList.add('hidden');$('#lb-title').textContent='Открываем сундук...';
-    modal.classList.remove('hidden');strip.innerHTML='';strip.style.transition='none';strip.style.transform='translateX(0)';
-    const total=60,winnerIndex=50;
-    for(let i=0;i<total;i++){
-      const prize=i===winnerIndex?pendingLootboxItem:possiblePrizes[Math.floor(Math.random()*possiblePrizes.length)];
-      const el=document.createElement('div');el.className='roulette-item'+(i===winnerIndex?' winner':'');
-      let preview='';
-      if((prize.type==='avatar'||prize.type==='frame')&&prize.css_class)preview=`<img src="${escapeHtml(prize.css_class)}" alt="">`;
-      else if(prize.type==='banner'&&prize.css_class)preview=`<div style="width:100%;height:60%;background:url('${escapeHtml(prize.css_class)}') center/cover"></div>`;
-      else preview=`<div class="${escapeHtml(prize.css_class||'')}" style="font-size:24px">Aa</div>`;
-      el.innerHTML=preview+`<div class="item-name">${escapeHtml(prize.name)}</div>`;strip.appendChild(el);
+async function startLootboxRoulette(boxItem) {
+  if (lootboxBusy) return;
+  if (!user) { go('cabinet'); return; }
+
+  const isBonus = boxItem.currency_type === 'bonus';
+  const balance = isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0);
+  if (balance < Number(boxItem.price || 0)) { toast('Недостаточно средств для открытия сундука!', true); return; }
+
+  const possiblePrizes = shopItems.filter(i => String(i.id) !== String(boxItem.id) && i.enabled !== false && i.type !== 'lootbox');
+  if (!possiblePrizes.length) { toast('В магазине нет призов для сундука!', true); return; }
+
+  lootboxBusy = true;
+  const field = isBonus ? 'bonus_balance' : 'balance';
+
+  try {
+    // 1. Списываем деньги
+    const { error: balErr } = await sb.from('profiles').update({ [field]: balance - Number(boxItem.price || 0) }).eq('id', user.id);
+    if (balErr) throw balErr;
+    if (isBonus) { userProfile.bonus_balance = balance - Number(boxItem.price || 0); window.updateBonusUI(userProfile.bonus_balance); }
+    else { userProfile.balance = balance - Number(boxItem.price || 0); window.updateBalanceUI(userProfile.balance); }
+
+    // 2. СРАЗУ выбираем и выдаем приз в БД (чтобы не потерялся)
+    pendingLootboxItem = possiblePrizes[Math.floor(Math.random() * possiblePrizes.length)];
+    const expiresAt = new Date(Date.now() + (pendingLootboxItem.duration_days || 7) * 86400000).toISOString();
+    const { error: invErr } = await sb.from('inventory').insert([{ user_id: user.id, item_id: pendingLootboxItem.id, expires_at: expiresAt, purchased_at: new Date().toISOString() }]);
+    if (invErr) throw invErr;
+    myInventory = await loadMyInventory(); // Обновляем инвентарь
+
+    // 3. Запускаем анимацию
+    const modal = $('#lootbox-modal'), strip = $('#roulette-strip');
+    $('#lootbox-result').classList.add('hidden');
+    $('#lb-title').textContent = 'Открываем сундук...';
+    modal.classList.remove('hidden');
+    strip.innerHTML = '';
+    strip.style.transition = 'none';
+    strip.style.transform = 'translateX(0)';
+
+    const total = 60, winnerIndex = 50;
+    for (let i = 0; i < total; i++) {
+      const prize = i === winnerIndex ? pendingLootboxItem : possiblePrizes[Math.floor(Math.random() * possiblePrizes.length)];
+      const el = document.createElement('div');
+      el.className = 'roulette-item' + (i === winnerIndex ? ' winner' : '');
+      let preview = '';
+      if ((prize.type === 'avatar' || prize.type === 'frame') && prize.css_class) preview = `<img src="${escapeHtml(prize.css_class)}" alt="">`;
+      else if (prize.type === 'banner' && prize.css_class) preview = `<div style="width:100%;height:60%;background:url('${escapeHtml(prize.css_class)}') center/cover"></div>`;
+      else preview = `<div class="${escapeHtml(prize.css_class || '')}" style="font-size:24px">Aa</div>`;
+      el.innerHTML = preview + `<div class="item-name">${escapeHtml(prize.name)}</div>`;
+      strip.appendChild(el);
     }
-    // Force layout, then center the selected card precisely beneath the pointer.
+
     strip.getBoundingClientRect();
-    const winnerEl=strip.children[winnerIndex],windowEl=document.querySelector('.roulette-window');
-    const distance=winnerEl.offsetLeft+winnerEl.offsetWidth/2-windowEl.clientWidth/2;
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{strip.style.transition='transform 6.5s cubic-bezier(.15,.85,.15,1)';strip.style.transform=`translateX(-${distance}px)`;}));
-    strip.addEventListener('transitionend',async function onEnd(ev){if(ev.propertyName!=='transform')return;strip.removeEventListener('transitionend',onEnd);
-      $('#lb-title').textContent='🎉 ПОЗДРАВЛЯЕМ!';const previewEl=$('#lootbox-winner-preview');previewEl.innerHTML='';previewEl.style.background='';
-      const won=pendingLootboxItem;
-      if((won.type==='avatar'||won.type==='frame')&&won.css_class)previewEl.innerHTML=`<img src="${escapeHtml(won.css_class)}" style="max-width:90%;max-height:90%;object-fit:contain">`;
-      else if(won.type==='banner'&&won.css_class)previewEl.style.background=`url('${escapeHtml(won.css_class)}') center/cover`;
-      else previewEl.innerHTML=`<div class="${escapeHtml(won.css_class||'')}" style="font-size:40px">Aa</div>`;
-      $('#lootbox-winner-name').textContent=won.name;$('#lootbox-result').classList.remove('hidden');
-      try{const expiresAt=new Date(Date.now()+(won.duration_days||7)*86400000).toISOString();const {error}=await sb.from('inventory').insert([{user_id:user.id,item_id:won.id,expires_at:expiresAt,purchased_at:new Date().toISOString()}]);if(error)throw error;myInventory=await loadMyInventory();}
-      catch(e){console.error('Ошибка выдачи приза',e);toast('Рулетка завершилась, но приз не удалось сохранить: '+e.message,true);}
-    lootboxBusy=false;
-    if(current==='shop')renderShop();if(current==='profile')renderProfilePage();
+    const winnerEl = strip.children[winnerIndex], windowEl = document.querySelector('.roulette-window');
+    const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - windowEl.clientWidth / 2;
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
+      strip.style.transform = `translateX(-${distance}px)`;
+    }));
+
+    strip.addEventListener('transitionend', function onEnd(ev) {
+      if (ev.propertyName !== 'transform') return;
+      strip.removeEventListener('transitionend', onEnd);
+
+      $('#lb-title').textContent = '🎉 ПОЗДРАВЛЯЕМ!';
+      const previewEl = $('#lootbox-winner-preview');
+      previewEl.innerHTML = ''; previewEl.style.background = '';
+
+      const won = pendingLootboxItem;
+      if ((won.type === 'avatar' || won.type === 'frame') && won.css_class) previewEl.innerHTML = `<img src="${escapeHtml(won.css_class)}" style="max-width:90%;max-height:90%;object-fit:contain">`;
+      else if (won.type === 'banner' && won.css_class) previewEl.style.background = `url('${escapeHtml(won.css_class)}') center/cover`;
+      else previewEl.innerHTML = `<div class="${escapeHtml(won.css_class || '')}" style="font-size:40px">Aa</div>`;
+
+      $('#lootbox-winner-name').textContent = won.name;
+      $('#lootbox-result').classList.remove('hidden');
+      lootboxBusy = false;
+
+      if (current === 'shop') renderShop();
+      if (current === 'profile') renderProfilePage();
     });
-  }catch(e){console.error(e);toast(e.message||'Ошибка открытия сундука',true);lootboxBusy=false;}
+
+  } catch (e) {
+    console.error(e);
+    toast(e.message || 'Ошибка открытия сундука', true);
+    lootboxBusy = false;
+  }
 }
 function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
 
