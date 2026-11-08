@@ -1747,7 +1747,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
     <div class="modal-section"><h3 data-i18n="stage.modal.basic">Основное</h3><div class="modal-grid"><div class="field" style="margin:0"><label for="m-title" data-i18n="stage.modal.title.label">Название</label><input class="input" type="text" id="m-title"></div><div class="field" style="margin:0"><label for="m-number" data-i18n="stage.modal.number">Номер</label><input class="input" type="number" id="m-number" min="1"></div></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.desc">Описание</h3><div class="field"><label for="m-desc" data-i18n="stage.modal.desc.label">Описание</label><input class="input" type="text" id="m-desc"></div><div class="field" style="margin-bottom:0"><label for="m-task" data-i18n="stage.modal.task">Задача</label><input class="input" type="text" id="m-task"></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.rules">Правила</h3><div class="field" style="margin:0"><textarea class="input" id="m-rules" data-i18n-ph="stage.modal.rules.ph" placeholder="Одно правило на строку" style="height:100px"></textarea></div></div>
-    <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
+    <div class="modal-section"><h3 data-i18n="stage.modal.level">Уровень</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-level-name" data-i18n="stage.modal.level.name">Название</label><input class="input" type="text" id="m-level-name"></div><div class="field" style="margin:0"><label for="m-level-id" data-i18n="stage.modal.level.id">ID</label><input class="input" type="text" id="m-level-id"></div><div class="field" style="margin:0"><label for="m-difficulty" data-i18n="stage.modal.difficulty">Сложность</label><select class="input" id="m-difficulty"><option value="">—</option><option>Easy</option><option>Normal</option><option>Hard</option><option>Harder</option><option>Insane</option><option>Easy Demon</option><option>Medium Demon</option><option>Hard Demon</option><option>Insane Demon</option><option>Extreme Demon</option></select></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-author">Автор уровня</label><input class="input" type="text" id="m-level-author" placeholder="Creator"></div><div style="display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:12px"><div class="field" style="margin:0;min-width:190px;flex:1"><label for="m-random-demon-difficulty">Случайный демон из API</label><select class="input" id="m-random-demon-difficulty"><option value="Easy Demon">Easy Demon</option><option value="Medium Demon">Medium Demon</option><option value="Hard Demon">Hard Demon</option><option value="Insane Demon">Insane Demon</option></select></div><button type="button" class="btn btn-ghost" id="m-pick-random-demon">🎲 Выбрать случайный</button></div><div id="m-demon-pool-status" style="font-size:12px;color:var(--muted);margin-top:8px">Пул загружается из GDBrowser при первом выборе. Данные уровня сохраняются в этапе.</div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-level-url" data-i18n="stage.modal.level.url">Ссылка на видео</label><input class="input" type="text" id="m-level-url"></div></div>
     <div class="modal-section"><h3 data-i18n="stage.modal.reward">🏆 Награда и лимиты</h3><div class="modal-grid-3"><div class="field" style="margin:0"><label for="m-reward-points" data-i18n="stage.modal.points">Очки</label><input class="input" type="number" id="m-reward-points" min="1" value="1"></div><div class="field" style="margin:0"><label for="m-max" data-i18n="stage.modal.max">Лимит мест</label><input class="input" type="number" id="m-max" min="1"></div><div class="field" style="margin:0"><label for="m-deadline" data-i18n="stage.modal.deadline">Дедлайн</label><input class="input" type="datetime-local" id="m-deadline"></div></div><div class="field" style="margin-top:12px;margin-bottom:0"><label for="m-reward" data-i18n="stage.modal.rewardText">Текст награды</label><input class="input" type="text" id="m-reward"></div></div>
     <div class="modal-actions"><button type="button" class="btn btn-ghost" id="modal-cancel" data-i18n="btn.cancel">Отмена</button><button type="button" class="btn btn-primary" id="modal-save"><svg class="i"><use href="#i-check"/></svg><span data-i18n="btn.save">Сохранить</span></button></div>
   </div>
@@ -2977,6 +2977,7 @@ function renderTournamentPage(){
     if(s.level_name || s.level_id || s.difficulty){
       html += '<div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--muted)">';
       if(s.level_name) html += '<span>🎮 <b style="color:var(--text)">'+escapeHtml(s.level_name)+'</b></span>';
+      if(s.level_author) html += '<span>✍️ '+escapeHtml(s.level_author)+'</span>';
       if(s.difficulty) html += '<span>⚡ '+escapeHtml(s.difficulty)+'</span>';
       if(s.level_id) html += '<span>ID: <code style="background:rgba(31,139,255,.15);color:var(--blue-2);padding:1px 5px;border-radius:3px">'+escapeHtml(s.level_id)+'</code></span>';
       html += '</div>';
@@ -3320,7 +3321,9 @@ async function renderLeaderboard(){
       if(!byUser[a.user_id]) byUser[a.user_id] = { id: a.user_id, points: 0, stages: 0, total_hours: 0, stage_count_with_time: 0, last_approved_at: null };
       
       if(a.status === 'approved') {
-        byUser[a.user_id].points += (a.reward_points || 1);
+        // Берём сохранённые в базе баллы, а не локальные/старые значения.
+        const pts = a.reward_points ? parseInt(a.reward_points, 10) : 1;
+        byUser[a.user_id].points += Number.isFinite(pts) ? pts : 1;
         byUser[a.user_id].stages += 1;
         const openTime = a.opened_at || a.stage_created_at;
         if(openTime && a.created_at){
@@ -4791,7 +4794,7 @@ async function renderAdminTournaments(){
     if(!tStages.length) html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">'+(LANG==='ru'?'Этапов нет.':'No stages.')+'</p>';
     else tStages.forEach(s => {
       const cnt = adminApps.filter(a => a.stage_id === s.id).length;
-      html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+s.status+'">'+stageStatusLabel(s.status)+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
+      html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+(s.level_author?'Автор: '+escapeHtml(s.level_author)+' · ':'')+(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+s.status+'">'+stageStatusLabel(s.status)+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
       if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="'+s.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
       if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="'+s.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
       html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button><button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="'+s.id+'">🗑</button></div></div>';
@@ -4874,6 +4877,59 @@ $('#create-tournament-btn').addEventListener('click', async () => {
   await loadTournaments(); renderAdminTournaments();
 });
 
+// GDBrowser demon pool: cached locally to avoid repeated API requests.
+const IGDC_DEMON_POOL_KEY = 'igdc_gdbrowser_demon_pool_v1';
+const IGDC_DEMON_TYPES = ['Easy Demon','Medium Demon','Hard Demon','Insane Demon'];
+let igdcDemonPoolCache = null;
+function normalizeGDBrowserLevel(level){
+  if(!level || !level.id || !level.name || !level.author) return null;
+  const rawDiff = String(level.difficulty || '').toLowerCase().replace(/\s+/g,' ').trim();
+  let difficulty = IGDC_DEMON_TYPES.find(d => rawDiff === d.toLowerCase());
+  if(!difficulty && rawDiff === 'demon'){
+    const partial = String(level.partialDiff || '').toLowerCase().trim();
+    const map = {easy:'Easy Demon',medium:'Medium Demon',hard:'Hard Demon',insane:'Insane Demon'};
+    difficulty = map[partial] || null;
+  }
+  if(!difficulty || level.platformer) return null;
+  return { id:String(level.id), name:String(level.name), author:String(level.author), difficulty };
+}
+async function loadIGDCDemonPool(force=false){
+  if(!force && igdcDemonPoolCache) return igdcDemonPoolCache;
+  if(!force){
+    try{ const saved=JSON.parse(localStorage.getItem(IGDC_DEMON_POOL_KEY)||'null'); if(saved && saved.savedAt && Date.now()-saved.savedAt < 7*86400000 && Array.isArray(saved.levels)){ const cached={}; IGDC_DEMON_TYPES.forEach(type=>{cached[type]=saved.levels.filter(level=>level.difficulty===type);}); igdcDemonPoolCache=cached; return igdcDemonPoolCache; } }catch(e){}
+  }
+  const terms=['a','e','i','o','u','the','of','to','re'];
+  const collected=new Map();
+  for(const term of terms){
+    const url='https://gdbrowser.com/api/search/'+encodeURIComponent(term)+'?diff=10&type=1&count=100';
+    const response=await fetch(url,{headers:{'Accept':'application/json'}});
+    if(!response.ok) throw new Error('GDBrowser HTTP '+response.status);
+    const data=await response.json();
+    if(Array.isArray(data)) data.forEach(item=>{ const level=normalizeGDBrowserLevel(item); if(level) collected.set(level.id,level); });
+  }
+  const levels=[...collected.values()];
+  const pool={}; IGDC_DEMON_TYPES.forEach(type=>{ pool[type]=levels.filter(l=>l.difficulty===type); });
+  igdcDemonPoolCache=pool;
+  try{ localStorage.setItem(IGDC_DEMON_POOL_KEY,JSON.stringify({savedAt:Date.now(),levels})); }catch(e){}
+  return pool;
+}
+function setDemonPoolStatus(message,isError=false){
+  const el=$('#m-demon-pool-status'); if(el){el.textContent=message;el.style.color=isError?'var(--red)':'var(--muted)';}
+}
+$('#m-pick-random-demon').addEventListener('click',async()=>{
+  const btn=$('#m-pick-random-demon'); const type=$('#m-random-demon-difficulty').value;
+  btn.disabled=true; btn.textContent='Загрузка…'; setDemonPoolStatus('Получаем уровни Geometry Dash из GDBrowser…');
+  try{
+    const pool=await loadIGDCDemonPool(); const candidates=pool[type]||[];
+    if(!candidates.length) throw new Error('Для '+type+' пока не удалось собрать уровни. Попробуйте позже или выберите другой тип.');
+    const picked=candidates[Math.floor(Math.random()*candidates.length)];
+    $('#m-level-name').value=picked.name; $('#m-level-id').value=picked.id;
+    $('#m-level-author').value=picked.author; $('#m-difficulty').value=picked.difficulty;
+    setDemonPoolStatus('Выбран: '+picked.name+' · '+picked.author+' · ID '+picked.id+' · В пуле '+candidates.length+' уровней этого типа'+(candidates.length<50?' (пока меньше 50)':' (цель 50 достигнута)')+'.');
+  }catch(err){ console.error('IGDC demon pool:',err); setDemonPoolStatus(err.message||'Не удалось загрузить пул уровней.',true); }
+  finally{btn.disabled=false;btn.textContent='🎲 Выбрать случайный';}
+});
+
 function openStageModal(stageId, tournamentId, isNew){
   modalStageId = stageId; modalIsNew = !!isNew;
   const s = stageId ? stages.find(x => x.id === stageId) : null;
@@ -4888,6 +4944,7 @@ function openStageModal(stageId, tournamentId, isNew){
   $('#m-rules').value = s ? (s.rules||'') : '';
   $('#m-level-name').value = s ? (s.level_name||'') : '';
   $('#m-level-id').value = s ? (s.level_id||'') : '';
+  $('#m-level-author').value = s ? (s.level_author||'') : '';
   $('#m-difficulty').value = s ? (s.difficulty||'') : '';
   $('#m-level-url').value = s ? (s.level_url||'') : '';
   $('#m-reward-points').value = s ? (s.reward_points||1) : 1;
@@ -4914,7 +4971,8 @@ $('#modal-save').addEventListener('click', async () => {
     tournament_id: modalTournamentId, number, title,
     description: $('#m-desc').value.trim()||null, task: $('#m-task').value.trim()||null,
     rules: $('#m-rules').value.trim()||null, level_name: $('#m-level-name').value.trim()||null,
-    level_id: $('#m-level-id').value.trim()||null, difficulty: $('#m-difficulty').value||null,
+    level_id: $('#m-level-id').value.trim()||null, level_author: $('#m-level-author').value.trim()||null,
+    difficulty: $('#m-difficulty').value||null,
     level_url: $('#m-level-url').value.trim()||null, reward_points: pts,
     reward: $('#m-reward').value.trim()||null,
     max_participants: mx ? parseInt(mx,10) : null,
