@@ -4858,7 +4858,7 @@ async function deleteTournament(id){
   toast('Турнир перенесен в архив');
   await loadTournaments();
   renderAdminTournaments();
-} = await sb.from('tournaments').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadTournaments(); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
+}
 async function deleteStage(id){ if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function updateStage(id, patch){ const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
 
