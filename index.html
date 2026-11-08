@@ -618,10 +618,11 @@ body { display: block; }
 .case-img-wrap .emoji{font-size:80px;filter:drop-shadow(0 0 20px rgba(255,215,0,.4))}
 .roulette-modal-content{width:min(1200px,95%);max-height:94vh;overflow-y:auto;background:radial-gradient(circle at center,#1a1525 0%,#0a0a0f 100%);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:40px;margin:auto;position:relative;box-shadow:0 0 100px rgba(0,0,0,.8)}
 .case-title-glow{text-align:center;font-family:'Exo 2',sans-serif;font-size:36px;font-weight:900;color:#fff;text-shadow:0 0 20px rgba(255,255,255,.5);margin:0 40px 30px;text-transform:uppercase}
-.roulette-container-cs{position:relative;height:180px;background:rgba(0,0,0,.6);border-radius:12px;border:2px solid rgba(255,255,255,.05);overflow:hidden;margin-bottom:30px;box-shadow:inset 0 0 50px rgba(0,0,0,.9)}
-.roulette-pointer-cs{position:absolute;top:0;bottom:0;left:50%;width:4px;background:var(--gold);transform:translateX(-50%);z-index:10;box-shadow:0 0 15px var(--gold)}
-.roulette-pointer-cs:before,.roulette-pointer-cs:after{content:'';position:absolute;left:50%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent}
-.roulette-pointer-cs:before{top:0;border-top:12px solid var(--gold)}.roulette-pointer-cs:after{bottom:0;border-bottom:12px solid var(--gold)}
+.roulette-container-cs{position:relative;display:flex;flex-direction:column;gap:8px;height:auto;max-height:58vh;padding:8px;background:rgba(0,0,0,.6);border-radius:12px;border:2px solid rgba(255,255,255,.05);overflow-y:auto;overflow-x:hidden;margin-bottom:30px;box-shadow:inset 0 0 50px rgba(0,0,0,.9)}
+.roulette-lane{position:relative;flex:0 0 164px;height:164px;min-width:0;overflow:hidden;border-radius:8px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07)}
+.roulette-lane:after{content:'';position:absolute;top:0;bottom:0;left:50%;width:3px;background:rgba(246,183,60,.95);transform:translateX(-50%);z-index:10;box-shadow:0 0 12px var(--gold);pointer-events:none}
+.roulette-lane:before{content:'';position:absolute;top:0;bottom:0;left:calc(50% - 7px);width:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:10px solid var(--gold);z-index:11;pointer-events:none}
+.roulette-strip-cs{display:flex;gap:12px;padding:8px 20px;height:100%;align-items:center;transition:transform 6.5s cubic-bezier(.15,.85,.15,1);will-change:transform;width:max-content}
 .roulette-strip-cs{display:flex;gap:12px;padding:20px;height:100%;align-items:center;transition:transform 6.5s cubic-bezier(.15,.85,.15,1);will-change:transform}
 .case-item{width:160px;height:148px;flex-shrink:0;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.2));border:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8px}
 .case-item.rarity-common{border-bottom:4px solid #5e6ad2;background:radial-gradient(circle at top,rgba(94,106,210,.2),transparent 70%)}
@@ -1937,7 +1938,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
   <div class="roulette-modal-content">
     <button class="modal-close" onclick="closeLootboxModal()" style="position:absolute;right:20px;top:20px;z-index:100;"><svg class="i"><use href="#i-x"/></svg></button>
     <h2 class="case-title-glow" id="lb-title">Название кейса</h2>
-    <div class="roulette-container-cs"><div class="roulette-pointer-cs"></div><div class="roulette-strip-cs" id="roulette-strip"></div></div>
+    <div class="roulette-container-cs" id="roulette-lanes"></div>
     <div class="case-controls" id="lb-controls"><label class="lb-count-control">Открыть: <select id="lb-open-count" aria-label="Количество открытий"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option></select></label><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
     <div id="lootbox-result" class="hidden" style="text-align:center;margin-bottom:30px"><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:160px;height:160px;background:rgba(0,0,0,.6);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(246,183,60,.5);overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:24px;color:#fff;margin-bottom:20px;text-transform:uppercase"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
     <div id="possible-prizes-container"><h3 class="possible-prizes-title">Возможные призы</h3><div class="possible-prizes-grid" id="possible-prizes-grid"></div></div>
@@ -5525,7 +5526,6 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
   const totalPrice = boxPrice * openCount;
   if (balance < totalPrice) { toast('Недостаточно средств для ' + openCount + ' открытий!', true); return; }
 
-  // Проверяем персональный лимит сразу на всё выбранное количество открытий.
   const openLimit = Math.max(0, Number(boxItem.open_limit) || 0);
   if (openLimit > 0) {
     try {
@@ -5553,50 +5553,46 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
   $('#lootbox-result').classList.add('hidden');
 
   try {
-    // Списываем общую стоимость одним обновлением баланса.
     const { error: balErr } = await sb.from('profiles').update({ [field]: balance - totalPrice }).eq('id', user.id);
     if (balErr) throw balErr;
     userProfile[field] = balance - totalPrice;
     if (isBonus) window.updateBonusUI(userProfile.bonus_balance);
     else window.updateBalanceUI(userProfile.balance);
 
-    const winners = [];
-    const strip = $('#roulette-strip');
-    const container = document.querySelector('.roulette-container-cs');
+    // Сначала определяем все выигрыши, затем запускаем все полосы одновременно.
+    const winners = Array.from({ length: openCount }, () => pickLootboxPrize(possiblePrizes));
+    if (winners.some(w => !w)) throw new Error('У призов не заданы положительные шансы');
+    const lanesHost = $('#roulette-lanes');
+    lanesHost.innerHTML = winners.map((won, laneIndex) => {
+      const winnerIndex = 50;
+      const stripItems = Array.from({ length: 60 }, (_, i) => getCaseItemHtml(i === winnerIndex ? won : (pickLootboxPrize(possiblePrizes) || possiblePrizes[0]))).join('');
+      return `<div class="roulette-lane" data-lane="${laneIndex}"><div class="roulette-strip-cs">${stripItems}</div></div>`;
+    }).join('');
 
-    for (let round = 0; round < openCount; round++) {
-      const won = pickLootboxPrize(possiblePrizes);
-      if (!won) throw new Error('У призов не заданы положительные шансы');
-      pendingLootboxItem = won;
-      strip.style.transition = 'none';
-      strip.style.transform = 'translateX(0)';
-      strip.innerHTML = '';
-      const total = 60, winnerIndex = 50;
-      for (let i = 0; i < total; i++) {
-        const prize = i === winnerIndex ? won : pickLootboxPrize(possiblePrizes) || possiblePrizes[0];
-        strip.insertAdjacentHTML('beforeend', getCaseItemHtml(prize));
-      }
-      strip.getBoundingClientRect();
-      const winnerEl = strip.children[winnerIndex];
-      const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - container.clientWidth / 2;
-      await new Promise(resolve => {
-        let finished = false;
-        const finish = () => {
-          if (finished) return;
-          finished = true;
-          strip.removeEventListener('transitionend', onEnd);
-          resolve();
-        };
-        const onEnd = ev => { if (ev.propertyName === 'transform') finish(); };
-        strip.addEventListener('transitionend', onEnd);
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
-          strip.style.transform = `translateX(-${distance}px)`;
-        }));
-        setTimeout(finish, 7500);
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    const laneAnimations = Array.from(lanesHost.querySelectorAll('.roulette-lane')).map(lane => new Promise(resolve => {
+      const strip = lane.querySelector('.roulette-strip-cs');
+      const winnerEl = strip.children[50];
+      const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - lane.clientWidth / 2;
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        strip.removeEventListener('transitionend', onEnd);
+        resolve();
+      };
+      const onEnd = ev => { if (ev.propertyName === 'transform') finish(); };
+      strip.addEventListener('transitionend', onEnd);
+      requestAnimationFrame(() => {
+        strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
+        strip.style.transform = `translateX(-${distance}px)`;
       });
+      setTimeout(finish, 7500);
+    }));
+    await Promise.all(laneAnimations);
 
-      // Выдаём каждый выигрыш и отдельно фиксируем каждое открытие в лимите.
+    // Выдаём все выпавшие предметы и фиксируем каждое открытие отдельно.
+    for (const won of winners) {
       if (won.type === 'currency') {
         const rewardField = won.currency === 'bonus' ? 'bonus_balance' : 'balance';
         const currentBal = Number(userProfile[rewardField] || 0);
@@ -5626,7 +5622,6 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
       }
       const { error: openLogError } = await sb.from('user_case_opens').insert([{ user_id: user.id, lootbox_id: boxItem.id }]);
       if (openLogError) throw openLogError;
-      winners.push(won);
     }
 
     if (winners.some(w => w.type !== 'currency')) myInventory = await loadMyInventory();
@@ -5742,11 +5737,9 @@ window.openLootboxById = async (boxId) => {
   $('#possible-prizes-container').classList.remove('hidden');
   $('#lb-spin-btn').disabled = false;
   $('#possible-prizes-grid').innerHTML = possiblePrizes.map(prize => getCaseItemHtml(prize, true, possiblePrizes)).join('');
-  const strip = $('#roulette-strip');
-  strip.style.transition = 'none';
-  strip.style.transform = 'translateX(0)';
-  strip.innerHTML = '';
-  for (let i = 0; i < 20; i++) strip.insertAdjacentHTML('beforeend', getCaseItemHtml(possiblePrizes[i % possiblePrizes.length]));
+  $('#roulette-lanes').innerHTML = `<div class="roulette-lane"><div class="roulette-strip-cs">${Array.from({ length: 20 }, (_, i) => getCaseItemHtml(possiblePrizes[i % possiblePrizes.length])).join('')}</div></div>`;
+  const previewStrip = $('#roulette-lanes .roulette-strip-cs');
+  if (previewStrip) { previewStrip.style.transition = 'none'; previewStrip.style.transform = 'translateX(0)'; }
   $('#lootbox-modal').classList.remove('hidden');
   $('#lb-spin-btn').onclick = () => startLootboxRoulette(box, possiblePrizes, Number($('#lb-open-count').value) || 1);
 };
