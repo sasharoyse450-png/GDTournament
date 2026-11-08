@@ -1322,7 +1322,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
           <h3 id="admin-lb-title" style="font-size:17px;margin-bottom:16px">Создать кейс</h3>
           <div class="field-row">
             <div class="field"><label for="new-lb-name">Название кейса</label><input class="input" id="new-lb-name" type="text" maxlength="80" placeholder="Новогодний кейс"></div>
-            <div class="field"><label for="new-lb-price">Цена</label><input class="input" id="new-lb-price" type="number" min="1" value="100"></div>
+            <div class="field"><label for="new-lb-price">Цена</label><input class="input" id="new-lb-price" type="number" min="0" step="1" value="100"></div>
           </div>
           <div class="field-row">
             <div class="field"><label for="new-lb-currency">Валюта</label><select class="input" id="new-lb-currency"><option value="main">Рубли</option><option value="bonus">Бонусы</option></select></div>
@@ -1940,7 +1940,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
     <button class="modal-close" onclick="closeLootboxModal()" style="position:absolute;right:20px;top:20px;z-index:100;"><svg class="i"><use href="#i-x"/></svg></button>
     <h2 class="case-title-glow" id="lb-title">Название кейса</h2>
     <div class="roulette-container-cs" id="roulette-lanes"></div>
-    <div class="case-controls" id="lb-controls"><label class="lb-count-control">Открыть: <select id="lb-open-count" aria-label="Количество открытий"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option></select></label><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
+    <div class="case-controls" id="lb-controls"><label class="lb-count-control">Открыть: <select id="lb-open-count" aria-label="Количество открытий"><option value="1">1x</option><option value="2">2x</option><option value="3">3x</option><option value="4">4x</option><option value="5">5x</option></select></label><label class="lb-fast-toggle" style="display:inline-flex;align-items:center;gap:7px;color:var(--gold);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap"><input id="lb-fast-open" type="checkbox" style="accent-color:var(--gold);width:16px;height:16px">⚡ Fast</label><button class="btn-cs-spin" id="lb-spin-btn" type="button">Крутить <span class="btn-cs-price" id="lb-spin-price">100 ₽</span></button></div>
     <div id="lootbox-result" class="hidden" style="text-align:center;margin-bottom:30px"><div id="lootbox-winner-preview" style="margin:0 auto 20px;width:160px;height:160px;background:rgba(0,0,0,.6);border-radius:16px;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(246,183,60,.5);overflow:hidden"></div><h4 id="lootbox-winner-name" style="font-size:24px;color:#fff;margin-bottom:20px;text-transform:uppercase"></h4><button class="btn btn-primary" onclick="closeLootboxModal()">Забрать</button></div>
     <div id="possible-prizes-container"><h3 class="possible-prizes-title">Возможные призы</h3><div class="possible-prizes-grid" id="possible-prizes-grid"></div></div>
   </div>
@@ -5520,6 +5520,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
   if (lootboxBusy || !Array.isArray(possiblePrizes) || !possiblePrizes.length) return;
   if (!user) { go('cabinet'); return; }
   const openCount = Math.min(5, Math.max(1, Number(requestedCount) || 1));
+  const fastOpen = !!$('#lb-fast-open')?.checked;
   const isBonus = boxItem.currency_type === 'bonus';
   const field = isBonus ? 'bonus_balance' : 'balance';
   const balance = Number(isBonus ? (userProfile?.bonus_balance || 0) : (userProfile?.balance || 0));
@@ -5592,26 +5593,37 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
     }).join('');
 
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    const laneAnimations = Array.from(lanesHost.querySelectorAll('.roulette-lane')).map(lane => new Promise(resolve => {
-      const strip = lane.querySelector('.roulette-strip-cs');
-      const winnerEl = strip.children[50];
-      const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - lane.clientWidth / 2;
-      let finished = false;
-      const finish = () => {
-        if (finished) return;
-        finished = true;
-        strip.removeEventListener('transitionend', onEnd);
-        resolve();
-      };
-      const onEnd = ev => { if (ev.propertyName === 'transform') finish(); };
-      strip.addEventListener('transitionend', onEnd);
-      requestAnimationFrame(() => {
-        strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
+    if (fastOpen) {
+      // Fast: мгновенно перемещаем каждую полосу к заранее выбранному выигрышу.
+      lanesHost.querySelectorAll('.roulette-lane').forEach(lane => {
+        const strip = lane.querySelector('.roulette-strip-cs');
+        const winnerEl = strip.children[50];
+        const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - lane.clientWidth / 2;
+        strip.style.transition = 'none';
         strip.style.transform = `translateX(-${distance}px)`;
       });
-      setTimeout(finish, 7500);
-    }));
-    await Promise.all(laneAnimations);
+    } else {
+      const laneAnimations = Array.from(lanesHost.querySelectorAll('.roulette-lane')).map(lane => new Promise(resolve => {
+        const strip = lane.querySelector('.roulette-strip-cs');
+        const winnerEl = strip.children[50];
+        const distance = winnerEl.offsetLeft + winnerEl.offsetWidth / 2 - lane.clientWidth / 2;
+        let finished = false;
+        const finish = () => {
+          if (finished) return;
+          finished = true;
+          strip.removeEventListener('transitionend', onEnd);
+          resolve();
+        };
+        const onEnd = ev => { if (ev.propertyName === 'transform') finish(); };
+        strip.addEventListener('transitionend', onEnd);
+        requestAnimationFrame(() => {
+          strip.style.transition = 'transform 6.5s cubic-bezier(.15,.85,.15,1)';
+          strip.style.transform = `translateX(-${distance}px)`;
+        });
+        setTimeout(finish, 7500);
+      }));
+      await Promise.all(laneAnimations);
+    }
 
     // Выдаём все выпавшие предметы и фиксируем каждое открытие отдельно.
     for (const won of winners) {
@@ -5874,7 +5886,7 @@ document.getElementById('save-lb-btn')?.addEventListener('click', async () => {
     const daysInput = document.querySelector(`.lb-prize-days[data-item-id="${CSS.escape(cb.value)}"]`);
     return { item_id: cb.value, chance: Number(input?.value), duration: Math.max(1, parseInt(daysInput?.value, 10) || 7) };
   });
-  if (!name || !Number.isFinite(price) || price < 1) { toast('Заполните название и цену', true); return; }
+  if (!name || !Number.isFinite(price) || price < 0) { toast('Укажите название и цену не меньше 0', true); return; }
   const finalItems = [...checkedBoxes, ...currentCurrencyDrops.map(drop => ({ currency:drop.currency, amount:Number(drop.amount), chance:Number(drop.chance) }))];
   if (!finalItems.length) { toast('Добавьте хотя бы один предмет или валютный приз!', true); return; }
   if (finalItems.some(item => !Number.isFinite(item.chance) || item.chance <= 0)) { toast('У каждого приза должен быть шанс больше 0%', true); return; }
@@ -5895,7 +5907,7 @@ window.editLootbox = (id) => {
   editingLootboxId = id;
   $('#admin-lb-title').textContent = 'Редактировать кейс';
   $('#new-lb-name').value = lb.name || '';
-  $('#new-lb-price').value = lb.price || 100;
+  $('#new-lb-price').value = lb.price ?? 100;
   $('#new-lb-currency').value = lb.currency_type || 'main';
   $('#new-lb-limit').value = Math.max(0, Number(lb.open_limit) || 0);
   $('#new-lb-global-limit').value = Math.max(0, Number(lb.global_open_limit) || 0);
