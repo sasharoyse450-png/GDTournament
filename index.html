@@ -5712,6 +5712,11 @@ let lootboxBusy = false;
 function getCaseItemHtml(prize, showChance = false, prizePool = []) {
   let imgHtml = '';
   let rarityClass = 'rarity-common';
+  const rawDuration = prize.drop_duration ?? prize.duration ?? prize.duration_days;
+  const durationDays = Number(rawDuration);
+  const durationBadge = prize.type !== 'currency' && Number.isFinite(durationDays) && durationDays > 0
+    ? `<div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;color:#fff;z-index:5">${durationDays} дн.</div>`
+    : '';
   if (prize.type === 'currency') {
     const color = prize.currency === 'bonus' ? '#b36bff' : '#f6b73c';
     imgHtml = `<div style="font-size:32px;font-weight:900;color:${color}">${Number(prize.amount)}${prize.currency === 'bonus' ? 'Б' : '₽'}</div>`;
@@ -5732,7 +5737,7 @@ function getCaseItemHtml(prize, showChance = false, prizePool = []) {
   const chanceHtml = showChance
     ? `<div class="case-item-chance">Шанс выпадения <b>${chanceText || '0'}%</b></div>`
     : '';
-  return `<div class="case-item ${rarityClass}">${imgHtml}<div class="name">${escapeHtml(prize.name || 'Приз')}</div>${chanceHtml}</div>`;
+  return `<div class="case-item ${rarityClass}">${durationBadge}${imgHtml}<div class="name">${escapeHtml(prize.name || 'Приз')}</div>${chanceHtml}</div>`;
 }
 
 function resolveLootboxPrizes(box) {
@@ -5740,7 +5745,7 @@ function resolveLootboxPrizes(box) {
   (Array.isArray(box.items) ? box.items : []).forEach(item => {
     if (typeof item === 'string' || typeof item === 'number') {
       const shopItem = shopItems.find(s => String(s.id) === String(item));
-      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push({ ...shopItem, chance: 1, duration: Number(shopItem.duration_days || 7) });
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push({ ...shopItem, chance: 1, duration: Number(shopItem.duration_days || 7), drop_duration: Number(shopItem.duration_days || 7) });
     } else if (item && typeof item === 'object' && (item.currency === 'main' || item.currency === 'bonus')) {
       const amount = Number(item.amount), chance = Number(item.chance ?? 1);
       if (Number.isFinite(amount) && amount > 0 && Number.isFinite(chance) && chance > 0) prizes.push({
@@ -5752,7 +5757,7 @@ function resolveLootboxPrizes(box) {
     } else if (item && typeof item === 'object' && (item.item_id || item.id)) {
       const shopItem = shopItems.find(s => String(s.id) === String(item.item_id || item.id));
       const chance = Number(item.chance ?? 1);
-      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox' && Number.isFinite(chance) && chance > 0) prizes.push({ ...shopItem, chance, duration: Number(item.duration ?? shopItem.duration_days ?? 7) });
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox' && Number.isFinite(chance) && chance > 0) prizes.push({ ...shopItem, chance, duration: Number(item.duration ?? shopItem.duration_days ?? 7), drop_duration: Number(item.duration ?? shopItem.duration_days ?? 7) });
     }
   });
   return prizes;
@@ -5890,7 +5895,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
         userProfile[rewardField] = newBal;
         if (won.currency === 'bonus') window.updateBonusUI(newBal); else window.updateBalanceUI(newBal);
       } else {
-        const durationDays = Math.max(1, Number(won.duration ?? won.duration_days ?? 7) || 7);
+        const durationDays = Math.max(1, Number(won.drop_duration ?? won.duration ?? won.duration_days ?? 7) || 7);
         const durationMs = durationDays * 86400000;
         const { data: existingInv, error: findInvError } = await sb.from('inventory')
           .select('*').eq('user_id', user.id).eq('item_id', won.id)
