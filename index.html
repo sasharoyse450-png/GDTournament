@@ -1913,11 +1913,19 @@ tr:hover td{background:rgba(255,255,255,.018)}
       <div><h2>Права модератора</h2><p id="perm-email">—</p></div>
       <button class="modal-close" id="perm-close" type="button"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
-    <div class="modal-section">
-      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-regs"> <span>Заявки на турниры (Принятие/Отклонение)</span></label>
-      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-apps"> <span>Заявки на этапы (Проверка видео)</span></label>
-      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-tickets"> <span>Обращения в поддержку (Тикеты)</span></label>
-      <label class="check" style="margin-bottom:10px"><input type="checkbox" id="perm-cups"> <span>Вручение кубков</span></label>
+    <div class="modal-section" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <label class="check"><input type="checkbox" id="perm-regs"> <span>Заявки на турниры</span></label>
+      <label class="check"><input type="checkbox" id="perm-apps"> <span>Заявки на этапы</span></label>
+      <label class="check"><input type="checkbox" id="perm-tickets"> <span>Поддержка (Тикеты)</span></label>
+      <label class="check"><input type="checkbox" id="perm-cups"> <span>Вручение кубков</span></label>
+      <label class="check"><input type="checkbox" id="perm-tournaments"> <span>Создание турниров</span></label>
+      <label class="check"><input type="checkbox" id="perm-stages"> <span>Настройка этапов</span></label>
+      <label class="check"><input type="checkbox" id="perm-tasks"> <span>Создание заданий</span></label>
+      <label class="check"><input type="checkbox" id="perm-task-reviews"> <span>Проверка заданий</span></label>
+      <label class="check"><input type="checkbox" id="perm-users"> <span>Юзеры (баланс)</span></label>
+      <label class="check"><input type="checkbox" id="perm-shop"> <span>Магазин</span></label>
+      <label class="check"><input type="checkbox" id="perm-lootboxes"> <span>Кейсы</span></label>
+      <label class="check"><input type="checkbox" id="perm-words"> <span>Стоп-слова</span></label>
     </div>
     <div class="modal-actions">
       <button type="button" class="btn btn-danger" id="perm-revoke">Снять админку</button>
@@ -2296,10 +2304,7 @@ function canModerate(){ return isAdmin() || isModeratorFlag; }
 function hasPermission(perm) {
   if (isAdmin()) return true;
   if (!isModeratorFlag) return false;
-  if (!window.moderatorPermissions || window.moderatorPermissions.length === 0) {
-    return ['regs', 'apps', 'tickets', 'cups'].includes(perm); 
-  }
-  return window.moderatorPermissions.includes(perm);
+  return Array.isArray(window.moderatorPermissions) && window.moderatorPermissions.includes(perm);
 }
 
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -4011,10 +4016,10 @@ window.openPermissionsModal = async (userId, email) => {
   $('#perm-email').textContent = email;
   const { data } = await sb.from('moderators').select('permissions').eq('email', email).maybeSingle();
   const perms = data ? (data.permissions || []) : [];
-  $('#perm-regs').checked = perms.includes('regs');
-  $('#perm-apps').checked = perms.includes('apps');
-  $('#perm-tickets').checked = perms.includes('tickets');
-  $('#perm-cups').checked = perms.includes('cups');
+  ['regs', 'apps', 'tickets', 'cups', 'tournaments', 'stages', 'tasks', 'task-reviews', 'users', 'shop', 'lootboxes', 'words'].forEach(p => {
+    const el = document.getElementById('perm-' + p);
+    if (el) el.checked = perms.includes(p);
+  });
   $('#permissions-modal').classList.remove('hidden');
 };
 
@@ -4023,18 +4028,18 @@ $('#permissions-modal').addEventListener('click', e => { if(e.target === $('#per
 
 $('#perm-save').addEventListener('click', async () => {
   const perms = [];
-  if ($('#perm-regs').checked) perms.push('regs');
-  if ($('#perm-apps').checked) perms.push('apps');
-  if ($('#perm-tickets').checked) perms.push('tickets');
-  if ($('#perm-cups').checked) perms.push('cups');
-  const { error } = await sb.from('moderators').upsert({ 
-    email: permTargetEmail, 
-    permissions: perms 
+  ['regs', 'apps', 'tickets', 'cups', 'tournaments', 'stages', 'tasks', 'task-reviews', 'users', 'shop', 'lootboxes', 'words'].forEach(p => {
+    const el = document.getElementById('perm-' + p);
+    if (el && el.checked) perms.push(p);
+  });
+  const { error } = await sb.from('moderators').upsert({
+    email: permTargetEmail,
+    permissions: perms
   }, { onConflict: 'email' });
   if (error) { toast('Ошибка: ' + error.message, true); return; }
   toast('Права обновлены!');
   $('#permissions-modal').classList.add('hidden');
-  await checkModerator(); 
+  await checkModerator();
   renderAdmin();
 });
 
@@ -4468,7 +4473,7 @@ function renderAdmin(){
   const adminTabsConfig = {
     'dashboard': isAdmin(),
     'regs': hasPermission('regs'),
-    'tournaments': hasPermission('tournaments'),
+    'tournaments': hasPermission('tournaments') || hasPermission('stages'),
     'apps': hasPermission('apps'),
     'tasks': hasPermission('tasks'),
     'task-reviews': hasPermission('task-reviews'),
@@ -4784,6 +4789,8 @@ async function renderAdminTournaments(){
   await loadTournaments(); await loadStages(); await loadAdminApps(); await loadAllRegs();
   const wrap = $('#admin-tournaments-list'); if(!wrap) return;
   wrap.replaceChildren();
+  const createTournamentPanel = document.querySelector('#admin-tournaments > .card');
+  if(createTournamentPanel) createTournamentPanel.classList.toggle('hidden', !hasPermission('tournaments'));
   if(!tournaments.length){ wrap.innerHTML = '<div class="card empty-state"><div class="stat-icon"><svg class="i"><use href="#i-cup"/></svg></div><h2>'+(LANG==='ru'?'Турниров нет':'No tournaments')+'</h2></div>'; return; }
   tournaments.forEach(t_ => {
     const card = document.createElement('div'); card.className='card'; card.style.marginBottom='20px';
@@ -4798,10 +4805,12 @@ async function renderAdminTournaments(){
     if(t_.description) html += '<div style="color:var(--muted);font-size:13.5px">'+escapeHtml(t_.description)+'</div>';
     html += '</div><span class="status-badge '+t_.status+'">'+stageStatusLabel(t_.status)+'</span></div>';
     html += '<div class="admin-actions" style="margin-bottom:16px">';
-    if(t_.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="'+t_.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
-    if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
-    if(t_.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="'+t_.id+'">'+(LANG==='ru'?'В черновик':'To draft')+'</button>';
-    html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button>';
+    if(hasPermission('tournaments')) {
+      if(t_.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="'+t_.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
+      if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
+      if(t_.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="'+t_.id+'">'+(LANG==='ru'?'В черновик':'To draft')+'</button>';
+      html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button>';
+    }
     if (isAdmin()) html += '<button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="'+t_.id+'">🗑</button>';
     html += '</div>';
     html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap">'+(LANG==='ru'?'Заявок на турнир: ':'Tournament applications: ')+'<b>'+regsTotal+'</b> · '+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+regsApproved+' / '+maxP+'</b> · '+(LANG==='ru'?'На проверке: ':'Pending: ')+'<b>'+regsPending+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
@@ -4810,34 +4819,40 @@ async function renderAdminTournaments(){
     else tStages.forEach(s => {
       const cnt = adminApps.filter(a => a.stage_id === s.id).length;
       html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+(s.level_author?'Автор: '+escapeHtml(s.level_author)+' · ':'')+(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+s.status+'">'+stageStatusLabel(s.status)+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
-      if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="'+s.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
-      if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="'+s.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
-      html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button>';
+      if(hasPermission('stages')) {
+        if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="'+s.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
+        if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="'+s.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
+        html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button>';
+      }
       if (isAdmin()) html += '<button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="'+s.id+'">🗑</button>';
       html += '</div></div>';
     });
     const next = (tStages.length ? Math.max(...tStages.map(s=>s.number)) : 0) + 1;
-    html += '<div style="margin-top:14px"><button type="button" class="btn btn-primary btn-sm" data-action="s-add" data-tid="'+t_.id+'" data-num="'+next+'"><svg class="i"><use href="#i-plus"/></svg> '+(LANG==='ru'?'Добавить этап':'Add stage')+' #'+next+'</button></div></div>';
+    if(hasPermission('stages')) html += '<div style="margin-top:14px"><button type="button" class="btn btn-primary btn-sm" data-action="s-add" data-tid="'+t_.id+'" data-num="'+next+'"><svg class="i"><use href="#i-plus"/></svg> '+(LANG==='ru'?'Добавить этап':'Add stage')+' #'+next+'</button></div>';
+    html += '</div>';
     card.innerHTML = html; wrap.appendChild(card);
   });
   wrap.onclick = e => {
     const btn = e.target.closest('button[data-action]'); if(!btn) return;
     const a = btn.dataset.action, id = btn.dataset.id, tid = btn.dataset.tid, num = btn.dataset.num;
+    if(a.startsWith('t-') && a !== 't-del' && !hasPermission('tournaments')) { toast('Недостаточно прав', true); return; }
+    if(a.startsWith('s-') && a !== 's-del' && !hasPermission('stages')) { toast('Недостаточно прав', true); return; }
     if(a === 't-open') updateTournament(id, { status:'open', opened_at:new Date().toISOString() });
     else if(a === 't-close') updateTournament(id, { status:'closed', closed_at:new Date().toISOString() });
     else if(a === 't-draft') updateTournament(id, { status:'draft' });
     else if(a === 't-edit') editTournament(id);
-    else if(a === 't-del') deleteTournament(id);
+    else if(a === 't-del') { if(!isAdmin()){ toast('Недостаточно прав', true); return; } deleteTournament(id); }
     else if(a === 's-open') updateStage(id, { status:'open', opened_at:new Date().toISOString() });
     else if(a === 's-close') updateStage(id, { status:'closed', closed_at:new Date().toISOString() });
     else if(a === 's-edit') openStageModal(id, null, false);
-    else if(a === 's-del') deleteStage(id);
+    else if(a === 's-del') { if(!isAdmin()){ toast('Недостаточно прав', true); return; } deleteStage(id); }
     else if(a === 's-add') openStageModal(null, tid, true);
   };
 }
-async function updateTournament(id, patch){ const { error } = await sb.from('tournaments').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadTournaments(); renderAdminTournaments(); }
+async function updateTournament(id, patch){ if(!isAdmin() && !hasPermission('tournaments')){ toast('Недостаточно прав', true); return; } const { error } = await sb.from('tournaments').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadTournaments(); renderAdminTournaments(); }
 
 async function editTournament(id){
+  if(!isAdmin() && !hasPermission('tournaments')){ toast('Недостаточно прав', true); return; }
   const t_ = tournaments.find(x => x.id === id); if(!t_) return;
   const nt = prompt(LANG==='ru'?'Название:':'Name:', t_.title||''); if(nt === null) return;
   const nd = prompt(LANG==='ru'?'Описание:':'Description:', t_.description||''); if(nd === null) return;
@@ -4871,9 +4886,10 @@ async function deleteTournament(id){
   renderAdminTournaments();
 }
 async function deleteStage(id){ if(!isAdmin()){ toast(LANG==='ru'?'Недостаточно прав':'Permission denied', true); return; } if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
-async function updateStage(id, patch){ const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
+async function updateStage(id, patch){ if(!isAdmin() && !hasPermission('stages')){ toast('Недостаточно прав', true); return; } const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
 
 $('#create-tournament-btn').addEventListener('click', async () => {
+  if(!isAdmin() && !hasPermission('tournaments')){ toast('Недостаточно прав', true); return; }
   const num = parseInt($('#new-t-number').value, 10);
   const title = $('#new-t-title').value.trim();
   const isPaid = $('#new-t-paid').checked;
@@ -5010,6 +5026,7 @@ $('#m-pick-random-demon').addEventListener('click',async()=>{
 });
 
 function openStageModal(stageId, tournamentId, isNew){
+  if(!isAdmin() && !hasPermission('stages')){ toast('Недостаточно прав', true); return; }
   modalStageId = stageId; modalIsNew = !!isNew;
   const s = stageId ? stages.find(x => x.id === stageId) : null;
   modalTournamentId = isNew ? tournamentId : (s ? s.tournament_id : null);
@@ -5038,6 +5055,7 @@ $('#modal-close').addEventListener('click', closeStageModal);
 $('#modal-cancel').addEventListener('click', closeStageModal);
 stageModal.addEventListener('click', e => { if(e.target === stageModal) closeStageModal(); });
 $('#modal-save').addEventListener('click', async () => {
+  if(!isAdmin() && !hasPermission('stages')){ toast('Недостаточно прав', true); return; }
   const title = $('#m-title').value.trim();
   const number = parseInt($('#m-number').value, 10);
   if(!title){ toast('Title?', true); return; }
