@@ -5709,11 +5709,10 @@ window.reviewTask=async(id,status,userId,reward,currency)=>{
 let pendingLootboxItem = null;
 let lootboxBusy = false;
 
-function getCaseItemHtml(prize, showChance = false, prizePool = []) {
+function getCaseItemHtml(prize, chance = null) {
   let imgHtml = '';
   let rarityClass = 'rarity-common';
-  const rawDuration = prize.drop_duration ?? prize.duration ?? prize.duration_days;
-  const durationDays = Number(rawDuration);
+  const durationDays = Number(prize.drop_duration);
   const durationBadge = prize.type !== 'currency' && Number.isFinite(durationDays) && durationDays > 0
     ? `<div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.2);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;color:#fff;z-index:5">${durationDays} дн.</div>`
     : '';
@@ -5727,17 +5726,14 @@ function getCaseItemHtml(prize, showChance = false, prizePool = []) {
   } else {
     imgHtml = `<div class="${escapeHtml(prize.css_class || '')}" style="font-size:28px">Aa</div>`;
   }
-  const totalWeight = (Array.isArray(prizePool) ? prizePool : [])
-    .reduce((sum, item) => sum + Math.max(0, Number(item.chance) || 0), 0);
-  const weight = Math.max(0, Number(prize.chance) || 0);
-  const chance = totalWeight > 0 ? (weight / totalWeight) * 100 : 0;
-  const chanceText = chance >= 1
-    ? chance.toFixed(2).replace(/\.?0+$/, '')
-    : chance.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
-  const chanceHtml = showChance
-    ? `<div class="case-item-chance">Шанс выпадения <b>${chanceText || '0'}%</b></div>`
+  const chanceNumber = chance === null ? null : Number(chance);
+  const chanceText = chanceNumber === null || !Number.isFinite(chanceNumber)
+    ? ''
+    : (chanceNumber >= 1 ? chanceNumber.toFixed(2).replace(/\.?0+$/, '') : chanceNumber.toFixed(4).replace(/0+$/, '').replace(/\.$/, ''));
+  const chanceHtml = chanceText !== ''
+    ? `<div style="font-size:10px;color:#a0a3aa;margin-top:4px;font-weight:600">Шанс: ${chanceText}%</div>`
     : '';
-  return `<div class="case-item ${rarityClass}">${durationBadge}${imgHtml}<div class="name">${escapeHtml(prize.name || 'Приз')}</div>${chanceHtml}</div>`;
+  return `<div class="case-item ${rarityClass}" style="height:150px;padding-bottom:10px">${durationBadge}${imgHtml}<div class="name" style="margin-bottom:auto">${escapeHtml(prize.name || 'Приз')}</div>${chanceHtml}</div>`;
 }
 
 function resolveLootboxPrizes(box) {
@@ -5745,7 +5741,7 @@ function resolveLootboxPrizes(box) {
   (Array.isArray(box.items) ? box.items : []).forEach(item => {
     if (typeof item === 'string' || typeof item === 'number') {
       const shopItem = shopItems.find(s => String(s.id) === String(item));
-      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push({ ...shopItem, chance: 1, duration: Number(shopItem.duration_days || 7), drop_duration: Number(shopItem.duration_days || 7) });
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox') prizes.push({ ...shopItem, chance: 1, duration: 7, drop_duration: 7 });
     } else if (item && typeof item === 'object' && (item.currency === 'main' || item.currency === 'bonus')) {
       const amount = Number(item.amount), chance = Number(item.chance ?? 1);
       if (Number.isFinite(amount) && amount > 0 && Number.isFinite(chance) && chance > 0) prizes.push({
@@ -5757,7 +5753,7 @@ function resolveLootboxPrizes(box) {
     } else if (item && typeof item === 'object' && (item.item_id || item.id)) {
       const shopItem = shopItems.find(s => String(s.id) === String(item.item_id || item.id));
       const chance = Number(item.chance ?? 1);
-      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox' && Number.isFinite(chance) && chance > 0) prizes.push({ ...shopItem, chance, duration: Number(item.duration ?? shopItem.duration_days ?? 7), drop_duration: Number(item.duration ?? shopItem.duration_days ?? 7) });
+      if (shopItem && shopItem.enabled !== false && shopItem.type !== 'lootbox' && Number.isFinite(chance) && chance > 0) { const duration = Number(item.duration) > 0 ? Number(item.duration) : 7; prizes.push({ ...shopItem, chance, duration, drop_duration: duration }); }
     }
   });
   return prizes;
@@ -6073,7 +6069,21 @@ window.openLootboxById = async (boxId) => {
   $('#lb-controls').classList.remove('hidden');
   $('#possible-prizes-container').classList.remove('hidden');
   $('#lb-spin-btn').disabled = false;
-  $('#possible-prizes-grid').innerHTML = possiblePrizes.map(prize => getCaseItemHtml(prize, true, possiblePrizes)).join('');
+  // Объединяем одинаковые призы и суммируем их веса выпадения.
+  const aggregatedPrizes = new Map();
+  possiblePrizes.forEach(prize => {
+    const key = prize.type === 'currency'
+      ? `currency:${prize.currency}:${Number(prize.amount)}`
+      : `item:${String(prize.id)}`;
+    const weight = Math.max(0, Number(prize.chance) || 0);
+    if (!aggregatedPrizes.has(key)) aggregatedPrizes.set(key, { ...prize, totalChanceWeight: 0 });
+    aggregatedPrizes.get(key).totalChanceWeight += weight;
+  });
+  const totalChanceWeight = Array.from(aggregatedPrizes.values()).reduce((sum, prize) => sum + prize.totalChanceWeight, 0);
+  $('#possible-prizes-grid').innerHTML = Array.from(aggregatedPrizes.values()).map(prize => {
+    const chance = totalChanceWeight > 0 ? (prize.totalChanceWeight / totalChanceWeight) * 100 : 0;
+    return getCaseItemHtml(prize, chance);
+  }).join('');
   $('#roulette-lanes').innerHTML = `<div class="roulette-lane"><div class="roulette-strip-cs">${Array.from({ length: 20 }, (_, i) => getCaseItemHtml(possiblePrizes[i % possiblePrizes.length])).join('')}</div></div>`;
   const previewStrip = $('#roulette-lanes .roulette-strip-cs');
   if (previewStrip) { previewStrip.style.transition = 'none'; previewStrip.style.transform = 'translateX(0)'; }
