@@ -4465,32 +4465,38 @@ $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
 }));
 function renderAdmin(){
   if(!canModerate()){ navAdmin.classList.add('hidden'); return; }
-  navAdmin.classList.remove('hidden');
   const adminTabsConfig = {
-    'tournaments': isAdmin(),
-    'users': isAdmin(),
-    'settings': isAdmin(),
-    'shop': isAdmin(),
-    'tasks': isAdmin(),
-    'lootboxes': isAdmin(),
-    'task-reviews': isAdmin(),
-    'words': isAdmin(),
-    'log': isAdmin(),
+    'dashboard': isAdmin(),
     'regs': hasPermission('regs'),
+    'tournaments': hasPermission('tournaments'),
     'apps': hasPermission('apps'),
+    'tasks': hasPermission('tasks'),
+    'task-reviews': hasPermission('task-reviews'),
+    'users': hasPermission('users'),
+    'shop': hasPermission('shop'),
+    'lootboxes': hasPermission('lootboxes'),
     'tickets': hasPermission('tickets'),
     'cups': hasPermission('cups'),
-    'dashboard': true
+    'words': hasPermission('words'),
+    'settings': isAdmin(),
+    'log': isAdmin()
   };
+  let firstAvailableTab = null;
   document.querySelectorAll('[data-admin-tab]').forEach(btn => {
-    const tabName = btn.dataset.adminTab;
-    if (adminTabsConfig[tabName] === false) {
-      btn.classList.add('hidden');
-    } else {
-      btn.classList.remove('hidden');
-    }
+    const allowed = adminTabsConfig[btn.dataset.adminTab] === true;
+    btn.classList.toggle('hidden', !allowed);
+    if(allowed && !firstAvailableTab) firstAvailableTab = btn.dataset.adminTab;
   });
-  if(!isAdmin() && !hasPermission(adminTab) && adminTab !== 'dashboard') adminTab = 'dashboard';
+  if(!firstAvailableTab){ navAdmin.classList.add('hidden'); return; }
+  navAdmin.classList.remove('hidden');
+  if(!adminTabsConfig[adminTab]) adminTab = firstAvailableTab;
+  document.querySelectorAll('[data-admin-tab]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.adminTab === adminTab);
+  });
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','lootboxes','log'].forEach(tab => {
+    const el = document.getElementById('admin-' + tab);
+    if(el) el.classList.toggle('hidden', tab !== adminTab);
+  });
   try {
     if(adminTab === 'dashboard') renderDashboard();
     else if(adminTab === 'regs') renderAdminRegs();
@@ -4795,7 +4801,9 @@ async function renderAdminTournaments(){
     if(t_.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="t-open" data-id="'+t_.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
     if(t_.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-close" data-id="'+t_.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
     if(t_.status !== 'draft') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-draft" data-id="'+t_.id+'">'+(LANG==='ru'?'В черновик':'To draft')+'</button>';
-    html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button><button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="'+t_.id+'">🗑</button></div>';
+    html += '<button type="button" class="btn btn-ghost btn-sm" data-action="t-edit" data-id="'+t_.id+'">✎</button>';
+    if (isAdmin()) html += '<button type="button" class="btn btn-danger btn-sm" data-action="t-del" data-id="'+t_.id+'">🗑</button>';
+    html += '</div>';
     html += '<div style="padding:10px 14px;border-radius:10px;background:'+(limitReached?'rgba(255,93,115,.08)':'rgba(31,139,255,.06)')+';border:1px solid '+(limitReached?'rgba(255,93,115,.35)':'rgba(31,139,255,.25)')+';font-size:13px;color:'+(limitReached?'var(--red)':'var(--blue-2)')+';margin-bottom:14px;display:flex;gap:16px;flex-wrap:wrap">'+(LANG==='ru'?'Заявок на турнир: ':'Tournament applications: ')+'<b>'+regsTotal+'</b> · '+(LANG==='ru'?'Принято: ':'Approved: ')+'<b>'+regsApproved+' / '+maxP+'</b> · '+(LANG==='ru'?'На проверке: ':'Pending: ')+'<b>'+regsPending+'</b>'+(limitReached?' · '+(LANG==='ru'?'лимит достигнут':'limit reached'):'')+'</div>';
     html += '<div style="border-top:1px solid var(--line-soft);padding-top:16px"><div style="font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px">'+(LANG==='ru'?'Этапы':'Stages')+' ('+tStages.length+') · 🏆 '+tp+' '+t('stage.points')+'</div>';
     if(!tStages.length) html += '<p style="color:var(--muted);font-size:13.5px;margin-bottom:14px">'+(LANG==='ru'?'Этапов нет.':'No stages.')+'</p>';
@@ -4804,7 +4812,9 @@ async function renderAdminTournaments(){
       html += '<div class="t-stage-row"><div class="stage-num-mini">'+s.number+'</div><div class="info"><b>'+escapeHtml(s.title||(t('stage.num')+' '+s.number))+'</b><span>'+(s.level_name?escapeHtml(s.level_name)+' · ':'')+(s.level_author?'Автор: '+escapeHtml(s.level_author)+' · ':'')+(s.difficulty||'—')+' · <b style="color:var(--gold)">🏆 '+(s.reward_points||1)+'</b></span></div><div style="font-size:12px;color:var(--muted)"><span class="status-badge '+s.status+'">'+stageStatusLabel(s.status)+'</span> · '+(LANG==='ru'?'Заявок: ':'Apps: ')+cnt+'</div><div class="actions">';
       if(s.status !== 'open') html += '<button type="button" class="btn btn-success btn-sm" data-action="s-open" data-id="'+s.id+'">'+(LANG==='ru'?'Открыть':'Open')+'</button>';
       if(s.status !== 'closed') html += '<button type="button" class="btn btn-ghost btn-sm" data-action="s-close" data-id="'+s.id+'">'+(LANG==='ru'?'Закрыть':'Close')+'</button>';
-      html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button><button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="'+s.id+'">🗑</button></div></div>';
+      html += '<button type="button" class="btn btn-primary btn-sm" data-action="s-edit" data-id="'+s.id+'">'+(LANG==='ru'?'Настроить':'Edit')+'</button>';
+      if (isAdmin()) html += '<button type="button" class="btn btn-danger btn-sm" data-action="s-del" data-id="'+s.id+'">🗑</button>';
+      html += '</div></div>';
     });
     const next = (tStages.length ? Math.max(...tStages.map(s=>s.number)) : 0) + 1;
     html += '<div style="margin-top:14px"><button type="button" class="btn btn-primary btn-sm" data-action="s-add" data-tid="'+t_.id+'" data-num="'+next+'"><svg class="i"><use href="#i-plus"/></svg> '+(LANG==='ru'?'Добавить этап':'Add stage')+' #'+next+'</button></div></div>';
@@ -4851,6 +4861,7 @@ async function editTournament(id){
   await loadTournaments(); renderAdminTournaments();
 }
 async function deleteTournament(id){
+  if(!isAdmin()){ toast(LANG==='ru'?'Недостаточно прав':'Permission denied', true); return; }
   if(!confirm('Отправить турнир в архив? Все баллы и история игроков сохранятся.')) return;
   // Вместо удаления мы просто меняем статус
   const { error } = await sb.from('tournaments').update({ status: 'archived' }).eq('id',id);
@@ -4859,7 +4870,7 @@ async function deleteTournament(id){
   await loadTournaments();
   renderAdminTournaments();
 }
-async function deleteStage(id){ if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
+async function deleteStage(id){ if(!isAdmin()){ toast(LANG==='ru'?'Недостаточно прав':'Permission denied', true); return; } if(!confirm(LANG==='ru'?'Удалить этап?':'Delete stage?')) return; const { error } = await sb.from('stages').delete().eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Удалён':'Deleted'); await loadStages(); await loadAdminApps(); renderAdminTournaments(); }
 async function updateStage(id, patch){ const { error } = await sb.from('stages').update(patch).eq('id',id); if(error){ toast('Error', true); return; } toast(LANG==='ru'?'Обновлено':'Updated'); await loadStages(); renderAdminTournaments(); }
 
 $('#create-tournament-btn').addEventListener('click', async () => {
@@ -6083,7 +6094,7 @@ async function renderAdminLootboxes() {
     const globalLimit = Math.max(0, Number(lb.global_open_limit) || 0);
     const globalOpened = Math.max(0, Number(lb.global_opened_count) || 0);
     const globalText = globalLimit > 0 ? `Общий тираж: ${globalOpened}/${globalLimit}` : `Открытий всего: ${globalOpened} (без общего лимита)`;
-    card.innerHTML = `<div class="user-info"><b>${escapeHtml(lb.name)}</b><small>${Number(lb.price)||0} ${lb.currency_type==='bonus'?'Б':'₽'} · Призов: ${itemsCount} · ${Number(lb.open_limit)>0?'Лимит на игрока: '+Number(lb.open_limit):'На игрока без лимита'} · ${globalText} · ${lb.is_active!==false?'Активен':'Скрыт'}</small></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button><button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button></div>`;
+    card.innerHTML = `<div class="user-info"><b>${escapeHtml(lb.name)}</b><small>${Number(lb.price)||0} ${lb.currency_type==='bonus'?'Б':'₽'} · Призов: ${itemsCount} · ${Number(lb.open_limit)>0?'Лимит на игрока: '+Number(lb.open_limit):'На игрока без лимита'} · ${globalText} · ${lb.is_active!==false?'Активен':'Скрыт'}</small></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-ghost btn-sm" onclick="editLootbox('${escapeHtml(lb.id)}')">✎ Изменить</button>${isAdmin() ? `<button type="button" class="btn btn-danger btn-sm" onclick="deleteLootbox('${escapeHtml(lb.id)}')">🗑</button>` : ''}</div>`;
     list.appendChild(card);
   });
 }
@@ -6184,6 +6195,7 @@ window.editLootbox = (id) => {
 };
 
 window.deleteLootbox = async (id) => {
+  if (!isAdmin()) { toast(LANG==='ru'?'Недостаточно прав':'Permission denied', true); return; }
   if (!confirm('Удалить этот кейс?')) return;
   try {
     const { error } = await sb.from('lootboxes').delete().eq('id', id);
