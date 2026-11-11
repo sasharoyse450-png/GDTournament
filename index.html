@@ -672,6 +672,8 @@ body { display: block; }
 @keyframes lb-live-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .lb-modal-live{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
 @media(max-width:600px){.lb-live-section{padding:16px;margin-top:30px}.lb-live-heading{align-items:flex-start}.lb-feed-item{flex-basis:225px;width:225px;min-width:225px}.lb-live-track{animation-duration:38s}}
+
+.badge-success{background:rgba(46,204,113,.16);color:#55d98a;border:1px solid rgba(46,204,113,.3)}.badge-muted{background:rgba(150,160,180,.12);color:var(--muted);border:1px solid rgba(150,160,180,.2)}
 </style>
 <style id="refined-product-redesign">
 /* ==========================================================
@@ -1672,7 +1674,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
         <label data-i18n="cab.color">Цвет ника</label>
         <div class="color-picker" id="edit-color-picker"></div>
       </div>
-      <div class="field"><label for="edit-title">Активный титул</label><select class="input" id="edit-title"><option value="">Нет</option><option value="Повелитель Демонов">Повелитель Демонов</option><option value="Легенда GD">Легенда GD</option><option value="Бог Скорости">Бог Скорости</option><option value="Читер (Шутка)">Читер</option></select></div>
+      
     </div>
     <div class="modal-actions">
       <button type="button" class="btn btn-ghost" id="edit-profile-cancel" data-i18n="btn.cancel">Отмена</button>
@@ -2337,7 +2339,12 @@ function canModerate(){ return isAdmin() || isModeratorFlag; }
 function hasPermission(perm) {
   if (isAdmin()) return true;
   if (!isModeratorFlag) return false;
-  return Array.isArray(window.moderatorPermissions) && window.moderatorPermissions.includes(perm);
+  const perms = Array.isArray(window.moderatorPermissions) ? window.moderatorPermissions : [];
+  // Экономически опасные инструменты доступны только главному администратору.
+  if (['tasks', 'lootboxes'].includes(perm)) return false;
+  if (perm === 'stages' && perms.includes('apps')) return false;
+  if (perm === 'apps' && perms.includes('stages')) return false;
+  return perms.includes(perm);
 }
 
 function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -2378,7 +2385,7 @@ function formatNick(profile) {
     html += `<span class="${bClass}">${escapeHtml(profile.badge_text)}</span>`;
   }
   if (profile.active_title) {
-    html += `<div style="font-size:11px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-top:2px;text-shadow:0 0 10px rgba(246,183,60,.5);">${escapeHtml(profile.active_title)}</div>`;
+    html += `<span class="nick-active-title" style="display:inline-block;font-size:10px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:5px;text-shadow:0 0 10px rgba(246,183,60,.5);">${escapeHtml(profile.active_title)}</span>`;
   }
   return html;
 }
@@ -3684,7 +3691,7 @@ async function openTicketChat(ticketId){
 function closeTicketChat(){ $('#ticket-chat-modal').classList.add('hidden'); currentTicketId = null; }
 
 async function renderAdminTickets(){
-  if(!isAdmin()) return;
+  if(!hasPermission('tickets')) return;
   try{
     const { data, error } = await sb.from('tickets').select('*, profile:profiles(nick)').order('created_at', { ascending: false });
     if(error) throw error; allTickets = data || [];
@@ -3977,8 +3984,7 @@ $('#edit-profile-save').addEventListener('click', async () => {
   const btn = $('#edit-profile-save'); btn.disabled = true;
   try{
     const { error } = await sb.from('profiles').update({ 
-      nick: newNick, gd_nick: newNick, nick_color: newColor,
-      active_title: $('#edit-title') ? ($('#edit-title').value || null) : (userProfile.active_title || null)
+      nick: newNick, gd_nick: newNick, nick_color: newColor
     }).eq('id', user.id);
     if(error){
       const m = error.message || '';
@@ -3989,7 +3995,6 @@ $('#edit-profile-save').addEventListener('click', async () => {
       return;
     }
     userProfile.nick = newNick; userProfile.gd_nick = newNick; userProfile.nick_color = newColor;
-    userProfile.active_title = $('#edit-title') ? ($('#edit-title').value || null) : userProfile.active_title;
     toast(t('cab.saved'));
     closeEditProfileModal();
     await renderLeaderboard();
@@ -5341,7 +5346,8 @@ async function updateAppStatus(a, newStatus){
   if(error){ toast('Ошибка БД: ' + error.message, true); console.error(error); return; }
   try {
     const stageNumber = stages.find(s => s.id === a.stage_id)?.number || '';
-    await sb.from('notifications').insert([{ user_id: a.user_id, text: `Ваша заявка на этап #${stageNumber} ${newStatus === 'approved' ? 'одобрена! ✅' : 'отклонена ❌'}`, icon: newStatus === 'approved' ? '✅' : '❌' }]);
+    const { error: notifError } = await sb.rpc('admin_create_notification', { p_user_id: a.user_id, p_text: `Ваша заявка на этап #${stageNumber} ${newStatus === 'approved' ? 'одобрена! ✅' : 'отклонена ❌'}`, p_icon: newStatus === 'approved' ? '✅' : '❌' });
+    if (notifError) throw notifError;
   } catch(notifError) { console.warn('Не удалось создать уведомление:', notifError); }
   try{ await sb.from('activity_feed').insert([{ user_id:a.user_id, user_nick:a.nick, action:newStatus === 'approved' ? 'approve' : 'reject', details:{ stage_id:a.stage_id } }]); }catch(_){}
   toast(newStatus === 'approved' ? '✓' : '✕');
@@ -6102,7 +6108,7 @@ async function startLootboxRoulette(boxItem, possiblePrizes, requestedCount = 1)
     if (countSelect) countSelect.disabled = false;
   }
 }
-function closeLootboxModal(){ $('#lootbox-modal').classList.add('hidden');lootboxBusy=false;if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
+function closeLootboxModal(){ if(lootboxBusy){ toast(LANG==='ru'?'Дождитесь завершения открытия кейса':'Wait until the case opening finishes', true); return; } $('#lootbox-modal').classList.add('hidden');if(current==='shop')renderShop();if(current==='profile')renderProfilePage(); }
 
 
 
@@ -6132,6 +6138,12 @@ async function renderLootboxesPage() {
   await loadShopItems();
   grid.innerHTML = '';
   const activeBoxes = allLootboxes.filter(lb => lb.is_active !== false);
+  let userOpenCounts = new Map();
+  if (user && activeBoxes.some(lb => Number(lb.open_limit) > 0)) {
+    const { data: openRows, error: openRowsError } = await sb.from('user_case_opens').select('lootbox_id').eq('user_id', user.id);
+    if (openRowsError) console.warn('Не удалось загрузить лимиты кейсов:', openRowsError.message);
+    else (openRows || []).forEach(row => userOpenCounts.set(String(row.lootbox_id), (userOpenCounts.get(String(row.lootbox_id)) || 0) + 1));
+  }
   if (!activeBoxes.length) {
     grid.innerHTML = '<div class="card empty-state" style="grid-column:1/-1"><div class="stat-icon"><svg class="i"><use href="#i-backpack"/></svg></div><h2>Кейсов пока нет</h2><p>Заглядывай позже, скоро здесь появятся крутые призы!</p></div>';
     return;
@@ -6142,12 +6154,7 @@ async function renderLootboxesPage() {
     const isBonus = lb.currency_type === 'bonus';
     const count = Array.isArray(lb.items) ? lb.items.length : 0;
     const image = lb.image_url ? `<img src="${escapeHtml(lb.image_url)}" alt="">` : '<div class="emoji">🎁</div>';
-    let openedCount = 0;
-    if (user && Number(lb.open_limit) > 0) {
-      const { count: userCount, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', lb.id);
-      if (error) console.warn('Не удалось загрузить лимит кейса:', error.message);
-      openedCount = userCount || 0;
-    }
+    const openedCount = userOpenCounts.get(String(lb.id)) || 0;
     const limit = Math.max(0, Number(lb.open_limit) || 0);
     const globalLimit = Math.max(0, Number(lb.global_open_limit) || 0);
     const globalOpened = Math.max(0, Number(lb.global_opened_count) || 0);
@@ -6182,9 +6189,11 @@ window.openLootboxById = async (boxId) => {
   const globalRemaining = globalLimit > 0 ? Math.max(0, globalLimit - Number(box.global_opened_count || 0)) : 5;
   let personalRemaining = 5;
   if (personalLimit > 0) {
-    const { count: userCount, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', box.id);
-    if (error) throw error;
-    personalRemaining = Math.max(0, personalLimit - (userCount || 0));
+    try {
+      const { count: userCount, error } = await sb.from('user_case_opens').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('lootbox_id', box.id);
+      if (error) throw error;
+      personalRemaining = Math.max(0, personalLimit - (userCount || 0));
+    } catch (e) { console.error('Ошибка проверки лимита кейса:', e); toast('Не удалось проверить лимит кейса. Попробуйте позже.', true); return; }
   }
   const maxAvailable = Math.min(5, globalRemaining, personalRemaining);
   if (maxAvailable < 1) { toast('Лимит открытий этого кейса исчерпан.', true); return; }
