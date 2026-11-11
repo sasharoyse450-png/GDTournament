@@ -4834,7 +4834,7 @@ async function renderAdminPromocodes(){
   const tbody = $('#admin-promos-body');
   if(!tbody) return;
   tbody.innerHTML = '<tr><td colspan="5" class="empty">Загрузка...</td></tr>';
-  const { data, error } = await sb.from('promocodes').select('id,code,currency_type,amount,max_uses,uses_count,is_active,created_at').order('created_at', {ascending:false});
+  const { data, error } = await sb.from('promocodes').select('id,code,currency_type,amount,max_uses,uses_count,is_active');
   if(error){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Не удалось загрузить: '+escapeHtml(error.message)+'</td></tr>'; return; }
   tbody.replaceChildren();
   if(!data || !data.length){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Промокодов пока нет</td></tr>'; return; }
