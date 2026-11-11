@@ -1283,6 +1283,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
           <div>
             <div class="profile-nick" id="prof-nick">—</div>
             <div id="prof-email" style="display:none; color:var(--muted); font-size:13px; margin-bottom:6px;"></div>
+            <button id="tg-link-btn" class="btn btn-sm btn-ghost" style="display:none; margin-left:10px; margin-bottom:6px;" type="button" onclick="generateTgCode()">Привязать Telegram</button>
             <div style="color:var(--muted);font-size:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
               <span id="prof-joined">—</span>
               <span id="prof-badges"></span>
@@ -2023,6 +2024,21 @@ tr:hover td{background:rgba(255,255,255,.018)}
       <div class="lb-live-heading"><div><h3>Последние выпадения этого кейса</h3><p>Что получали другие игроки</p></div><span class="lb-live-status"><i></i> LIVE</span></div>
       <div id="lb-live-case" class="lb-live-feed"><div class="lb-feed-empty">Загрузка...</div></div>
     </section>
+  </div>
+</div>
+<div class="modal-back hidden" id="tg-code-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <h2>Привязка Telegram</h2>
+      <button class="modal-close" onclick="document.getElementById('tg-code-modal').classList.add('hidden')" type="button"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-section" style="text-align:center;">
+      <p style="color:var(--muted); margin-bottom:12px;">Ваш уникальный код для привязки:</p>
+      <h1 id="tg-code-text" style="font-size:36px; letter-spacing:6px; color:var(--gold); margin:10px 0; font-family:monospace;">XXXXXX</h1>
+      <p style="margin-top:16px;">Перейдите в бота <a href="https://t.me/ModeratorIGDC_bot" target="_blank" rel="noopener noreferrer" style="color:var(--blue-2); font-weight:bold;">@ModeratorIGDC_bot</a> и напишите:</p>
+      <code id="tg-code-cmd" style="display:block; margin-top:10px; font-size:18px; background:var(--line-soft); padding:10px; border-radius:8px;">/code XXXXXX</code>
+      <p style="color:var(--muted); font-size:12px; margin-top:12px;">⏱ Код действует 1 раз и только для вашего профиля.</p>
+    </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
@@ -3812,6 +3828,19 @@ async function renderProfilePage() {
 
     $('#prof-nick').innerHTML = formatNick(profile);
     const isMe = user && user.id === currentProfileId;
+    const tgBtn = document.getElementById('tg-link-btn');
+    if (tgBtn) {
+      tgBtn.style.display = isMe ? 'inline-flex' : 'none';
+      if (isMe && profile.telegram_id) {
+        tgBtn.textContent = '✅ Telegram привязан';
+        tgBtn.disabled = true;
+        tgBtn.style.opacity = '0.6';
+      } else {
+        tgBtn.textContent = '🔗 Привязать Telegram';
+        tgBtn.disabled = false;
+        tgBtn.style.opacity = '1';
+      }
+    }
     const promoCard = $('#promo-activation-card'); if (promoCard) promoCard.style.display = isMe ? '' : 'none';
     if (isMe || canModerate()) { $('#prof-email').style.display = 'block'; $('#prof-email').textContent = profile.email || 'Почта не указана'; }
     else $('#prof-email').style.display = 'none';
@@ -6470,6 +6499,34 @@ window.toggleLike = async () => {
 };
 
 // ================= ВИТРИНА КУБКОВ =================
+window.generateTgCode = async () => {
+  if (!user || !sb) { toast('Войдите в аккаунт', true); return; }
+  if (userProfile && userProfile.telegram_id) { toast('Telegram уже привязан', true); return; }
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const bytes = new Uint8Array(6);
+  if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(bytes);
+  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+  const code = Array.from(bytes, b => chars[b % chars.length]).join('');
+  const btn = document.getElementById('tg-link-btn');
+  if (btn) btn.disabled = true;
+  try {
+    const { error } = await sb.from('profiles').update({ tg_link_code: code }).eq('id', user.id);
+    if (error) throw error;
+    const codeText = document.getElementById('tg-code-text');
+    const codeCmd = document.getElementById('tg-code-cmd');
+    const modal = document.getElementById('tg-code-modal');
+    if (!codeText || !codeCmd || !modal) throw new Error('Не найдены элементы окна привязки Telegram');
+    codeText.textContent = code;
+    codeCmd.textContent = `/code ${code}`;
+    modal.classList.remove('hidden');
+  } catch (e) {
+    console.error(e);
+    toast('Ошибка генерации кода: ' + (e.message || e), true);
+  } finally {
+    if (btn && !(userProfile && userProfile.telegram_id)) btn.disabled = false;
+  }
+};
+
 window.editCupShowcase = async () => {
   if (!user || !userProfile) return;
   const { data, error } = await sb.from('cups').select('id,title').eq('user_id', user.id).order('awarded_at', { ascending: false });
