@@ -976,10 +976,15 @@ tr:hover td{background:rgba(255,255,255,.018)}
   <div class="main-content">
     <header class="topbar">
       <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
-      <div class="header-actions">
+      <div class="header-actions" style="position:relative;">
         <div class="header-balances" aria-label="Баланс аккаунта">
           <div id="header-balance" class="balance-badge hidden" title="Ваш баланс"><svg class="i"><use href="#i-coins"/></svg> <span data-user-balance>0</span> ₽</div>
           <div id="header-bonus" class="balance-badge hidden" title="Бонусный баланс" style="background:rgba(179,107,255,.1);border-color:rgba(179,107,255,.3);color:var(--purple)"><svg class="i"><use href="#i-star"/></svg> <span data-user-bonus>0</span> Б</div>
+        </div>
+        <div id="notif-bell" class="balance-badge hidden" style="background:rgba(255,255,255,.05);border-color:var(--line);color:var(--text);cursor:pointer;position:relative;" onclick="toggleNotifications()" title="Уведомления">🔔 <span id="notif-count" class="nav-badge hidden" style="position:absolute;top:-5px;right:-5px;margin:0;">0</span></div>
+        <div id="notif-dropdown" class="hidden" style="position:absolute;top:60px;right:20px;width:min(300px,calc(100vw - 32px));background:var(--card);border:1px solid var(--line);border-radius:12px;z-index:1000;box-shadow:0 10px 30px rgba(0,0,0,.5);max-height:400px;overflow-y:auto;">
+          <div style="padding:12px;border-bottom:1px solid var(--line-soft);font-weight:700;font-size:14px;display:flex;justify-content:space-between;align-items:center;">Уведомления <button onclick="markNotifsRead()" style="background:none;border:none;color:var(--blue-2);font-size:12px;cursor:pointer;">Прочитать все</button></div>
+          <div id="notif-list"></div>
         </div>
         <div class="lang" role="group"><button type="button" data-lang="ru" aria-pressed="true">RU</button><button type="button" data-lang="en" aria-pressed="false">EN</button></div>
         <button class="btn btn-ghost btn-sm" id="login-btn" type="button" data-i18n="btn.login">Войти</button>
@@ -1294,6 +1299,11 @@ tr:hover td{background:rgba(255,255,255,.018)}
       <div class="profile-grid">
         <div>
           <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;">Статистика</h3>
+          <div class="card" id="promo-activation-card" style="margin-bottom:16px;padding:16px;">
+            <h3 style="font-size:16px;margin-bottom:12px;">Активация промокода</h3>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;"><input class="input" type="text" id="promo-input" placeholder="Введите код..." maxlength="64" style="text-transform:uppercase;flex:1;min-width:140px;"><button class="btn btn-primary" type="button" onclick="activatePromo()">Активировать</button></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin:0 0 14px;"><span id="prof-likes-count" style="font-weight:700;font-size:16px;color:var(--red);">0 ❤️</span><button id="prof-like-btn" class="btn btn-sm btn-danger" type="button" onclick="toggleLike()">Поставить лайк</button></div>
           <div class="profile-stats-list" style="margin-bottom:22px;">
             <div class="profile-stat-item"><span>🏆 Очки</span> <b id="prof-points">0</b></div>
             <div class="profile-stat-item"><span>🔥 Этапов пройдено</span> <b id="prof-level">0</b></div>
@@ -1308,6 +1318,8 @@ tr:hover td{background:rgba(255,255,255,.018)}
           <div id="prof-inventory" class="inv-grid" style="margin-bottom:26px;"></div>
           <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px;"><svg class="i"><use href="#i-trophy"/></svg> Кубки</h3>
           <div id="prof-cups-list" style="margin-bottom:26px;"></div>
+          <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;color:var(--purple);text-transform:uppercase;letter-spacing:.08em;">⭐ Витрина</h3>
+          <div id="prof-showcase" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:26px;"></div>
         </div>
       </div>
     </div>
@@ -1640,6 +1652,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
         <label data-i18n="cab.color">Цвет ника</label>
         <div class="color-picker" id="edit-color-picker"></div>
       </div>
+      <div class="field"><label for="edit-title">Активный титул</label><select class="input" id="edit-title"><option value="">Нет</option><option value="Повелитель Демонов">Повелитель Демонов</option><option value="Легенда GD">Легенда GD</option><option value="Бог Скорости">Бог Скорости</option><option value="Читер (Шутка)">Читер</option></select></div>
     </div>
     <div class="modal-actions">
       <button type="button" class="btn btn-ghost" id="edit-profile-cancel" data-i18n="btn.cancel">Отмена</button>
@@ -2344,6 +2357,9 @@ function formatNick(profile) {
     else if (profile.badge_text === 'PRO') bClass += ' badge-pro';
     html += `<span class="${bClass}">${escapeHtml(profile.badge_text)}</span>`;
   }
+  if (profile.active_title) {
+    html += `<div style="font-size:11px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-top:2px;text-shadow:0 0 10px rgba(246,183,60,.5);">${escapeHtml(profile.active_title)}</div>`;
+  }
   return html;
 }
 
@@ -2413,6 +2429,8 @@ async function setMaintenanceMode(enabled) {
 }
 
 window.updateHeaderUI = () => {
+  const notifBell = document.getElementById('notif-bell');
+  if (notifBell && !user) notifBell.classList.add('hidden');
   const loginBtn = document.getElementById('login-btn');
   const loginBtnNav = document.getElementById('login-btn-nav');
   const adminBtn = document.getElementById('nav-admin');
@@ -3767,6 +3785,7 @@ async function renderProfilePage() {
 
     $('#prof-nick').innerHTML = formatNick(profile);
     const isMe = user && user.id === currentProfileId;
+    const promoCard = $('#promo-activation-card'); if (promoCard) promoCard.style.display = isMe ? '' : 'none';
     if (isMe || canModerate()) { $('#prof-email').style.display = 'block'; $('#prof-email').textContent = profile.email || 'Почта не указана'; }
     else $('#prof-email').style.display = 'none';
     const createdDate = profile.created_at ? new Date(profile.created_at).toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'en-US') : 'Недавно';
@@ -3804,7 +3823,11 @@ async function renderProfilePage() {
         else if (shopItem.type === 'banner') prevHtml = `<div class="inv-preview" data-bg-url="${escapeHtml(shopItem.css_class)}" style="overflow:hidden;"></div>`;
         else if (shopItem.type === 'frame') prevHtml = `<div class="inv-preview" style="position:relative;display:flex;align-items:center;justify-content:center;"><div style="width:40px;height:40px;border-radius:50%;background:#2a98ff;z-index:1;"></div><img data-img-src="${escapeHtml(shopItem.css_class)}" style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:130%;height:130%;object-fit:contain;z-index:2;"></div>`;
         else prevHtml = `<div class="inv-preview"><span class="${shopItem.css_class}">${escapeHtml(profile.nick)}</span></div>`;
-        card.innerHTML = `${prevHtml}<div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div><div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class)}" ${isEquipped ? 'disabled' : ''}>${isEquipped ? t('inv.equipped') : t('inv.equip')}</button>` : ''}`;
+        const canToggleNickCosmetic = ['font', 'style', 'frame'].includes(shopItem.type);
+        const actionLabel = isEquipped
+          ? (canToggleNickCosmetic ? (LANG === 'ru' ? 'Снять' : 'Unequip') : t('inv.equipped'))
+          : t('inv.equip');
+        card.innerHTML = `${prevHtml}<div style="font-weight:700;font-size:14px;">${escapeHtml(shopItem.name)}</div><div class="inv-time">${t('inv.expires')} ${daysLeft} ${t('inv.days')}</div>${isMe ? `<button type="button" class="btn ${isEquipped ? 'btn-ghost' : 'btn-primary'} btn-sm inv-equip" data-item="${item.item_id}" data-type="${shopItem.type}" data-class="${escapeHtml(shopItem.css_class)}" data-equipped="${isEquipped ? '1' : '0'}" ${isEquipped && !canToggleNickCosmetic ? 'disabled' : ''}>${actionLabel}</button>` : ''}`;
         invGrid.appendChild(card);
         card.querySelectorAll('[data-img-src]').forEach(el => { const img = document.createElement('img'); img.src = el.dataset.imgSrc; img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;'; el.appendChild(img); });
         card.querySelectorAll('[data-bg-url]').forEach(el => { el.style.backgroundImage = `url(${JSON.stringify(el.dataset.bgUrl)})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; });
@@ -3812,21 +3835,30 @@ async function renderProfilePage() {
       invGrid.querySelectorAll('.inv-equip').forEach(btn => {
         btn.addEventListener('click', async () => {
           const itemId = btn.dataset.item; const type = btn.dataset.type; const cssClass = btn.dataset.class;
+          const isCurrentlyEquipped = btn.dataset.equipped === '1';
           btn.disabled = true;
           try {
-            if (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox') {
+            if (isCurrentlyEquipped && ['font', 'style', 'frame'].includes(type)) {
+              // Снимаем косметику, не удаляя предмет из инвентаря.
+              const field = type === 'font' ? 'nick_font' : type === 'style' ? 'nick_style' : 'avatar_frame';
+              const { error } = await sb.from('profiles').update({ [field]: null }).eq('id', user.id);
+              if (error) throw error;
+              userProfile[field] = null;
+              toast(LANG === 'ru' ? 'Предмет снят!' : 'Unequipped!');
+            } else if (type === 'avatar' || type === 'banner' || type === 'frame' || type === 'lootbox') {
               const field = type === 'avatar' ? 'avatar_url' : type === 'banner' ? 'banner_url' : 'avatar_frame';
               const { error } = await sb.from('profiles').update({ [field]: cssClass }).eq('id', user.id);
               if (error) throw error;
-              userProfile[field] = cssClass; // Мгновенно обновляем локально
+              userProfile[field] = cssClass;
+              toast(LANG === 'ru' ? 'Успешно надето!' : 'Equipped!');
             } else {
               const { error } = await sb.rpc('equip_shop_item', { p_item_id: itemId });
               if (error) throw error;
               if (type === 'font') userProfile.nick_font = cssClass;
               if (type === 'style') userProfile.nick_style = cssClass;
+              toast(LANG === 'ru' ? 'Успешно надето!' : 'Equipped!');
             }
-            toast(LANG === 'ru' ? 'Успешно надето!' : 'Equipped!');
-            renderProfilePage(); await renderLeaderboard(); await renderChat();
+            await renderProfilePage(); await renderLeaderboard(); await renderChat();
           } catch (e) { console.error(e); toast('Ошибка: ' + (e.message || e), true); btn.disabled = false; }
         });
       });
@@ -3840,6 +3872,14 @@ async function renderProfilePage() {
       card.innerHTML = '<div class="cup-icon"><svg class="i" style="font-size:24px"><use href="#i-trophy"/></svg></div><div class="cup-card-info"><h4>' + escapeHtml(c.title) + '</h4>' + (c.description ? '<p>' + escapeHtml(c.description) + '</p>' : '') + '<small>' + new Date(c.awarded_at).toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'en-US') + (trn ? ' · Турнир #' + trn.number : '') + '</small></div>';
       cupsList.appendChild(card);
     });
+
+    const showcaseEl = $('#prof-showcase');
+    if (showcaseEl) {
+      const showcaseIds = (profile.showcase || []).map(String);
+      const showcaseCups = cups.filter(c => showcaseIds.includes(String(c.id))).slice(0, 3);
+      showcaseEl.innerHTML = !showcaseCups.length ? '<p style="color:var(--muted);font-size:13px;">Витрина пуста</p>' : showcaseCups.map(c => `<div style="width:60px;height:60px;background:rgba(246,183,60,.1);border:1px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:24px;" title="${escapeHtml(c.title)}">🏆</div>`).join('');
+    }
+    await loadLikes();
 
     const historyEl = $('#prof-history');
     if (historyEl) {
@@ -3874,7 +3914,7 @@ async function renderProfilePage() {
 
     const adminTools = $('#prof-admin-actions'); adminTools.replaceChildren();
     const add = (icon, text, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-' + cls; b.innerHTML = '<svg class="i"><use href="#' + icon + '"/></svg><span>' + text + '</span>'; b.addEventListener('click', fn); adminTools.appendChild(b); };
-    if (isMe) { add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile)); add('i-camera', 'Аватар', 'ghost', () => openFreeMediaModal('avatar', profile.avatar_url)); add('i-image', 'Фон', 'ghost', () => openFreeMediaModal('banner', profile.banner_url)); add('i-logout', 'Выйти', 'danger', doLogout); }
+    if (isMe) { add('i-edit', 'Ник', 'ghost', () => openEditProfileModal(profile)); add('i-camera', 'Аватар', 'ghost', () => openFreeMediaModal('avatar', profile.avatar_url)); add('i-image', 'Фон', 'ghost', () => openFreeMediaModal('banner', profile.banner_url)); add('i-star', 'Витрина', 'ghost', window.editCupShowcase); add('i-logout', 'Выйти', 'danger', doLogout); }
     if (canModerate()) {
       if (isAdmin() && !isMe) add('i-admin', 'Права', 'ghost', () => openPermissionsModal(currentProfileId, profile.email));
       if (isAdmin()) {
@@ -3891,6 +3931,7 @@ async function renderProfilePage() {
 
 function openEditProfileModal(profile) {
   $('#edit-nick').value = profile.nick || '';
+  const titleSelect = $('#edit-title'); if (titleSelect) titleSelect.value = profile.active_title || '';
   const colorPicker = $('#edit-color-picker');
   colorPicker.replaceChildren();
   const cur = profile.nick_color || '#eaf1ff';
@@ -3916,7 +3957,8 @@ $('#edit-profile-save').addEventListener('click', async () => {
   const btn = $('#edit-profile-save'); btn.disabled = true;
   try{
     const { error } = await sb.from('profiles').update({ 
-      nick: newNick, gd_nick: newNick, nick_color: newColor
+      nick: newNick, gd_nick: newNick, nick_color: newColor,
+      active_title: $('#edit-title') ? ($('#edit-title').value || null) : (userProfile.active_title || null)
     }).eq('id', user.id);
     if(error){
       const m = error.message || '';
@@ -3927,6 +3969,7 @@ $('#edit-profile-save').addEventListener('click', async () => {
       return;
     }
     userProfile.nick = newNick; userProfile.gd_nick = newNick; userProfile.nick_color = newColor;
+    userProfile.active_title = $('#edit-title') ? ($('#edit-title').value || null) : userProfile.active_title;
     toast(t('cab.saved'));
     closeEditProfileModal();
     await renderLeaderboard();
@@ -5214,6 +5257,10 @@ async function updateAppStatus(a, newStatus){
   if(ask === null) return;
   const { error } = await sb.rpc('admin_review_application', { app_id: a.id, new_status: newStatus, comment: ask.trim() || null });
   if(error){ toast('Ошибка БД: ' + error.message, true); console.error(error); return; }
+  try {
+    const stageNumber = stages.find(s => s.id === a.stage_id)?.number || '';
+    await sb.from('notifications').insert([{ user_id: a.user_id, text: `Ваша заявка на этап #${stageNumber} ${newStatus === 'approved' ? 'одобрена! ✅' : 'отклонена ❌'}`, icon: newStatus === 'approved' ? '✅' : '❌' }]);
+  } catch(notifError) { console.warn('Не удалось создать уведомление:', notifError); }
   try{ await sb.from('activity_feed').insert([{ user_id:a.user_id, user_nick:a.nick, action:newStatus === 'approved' ? 'approve' : 'reject', details:{ stage_id:a.stage_id } }]); }catch(_){}
   toast(newStatus === 'approved' ? '✓' : '✕');
   await loadAdminApps(); updateAdminStats(); renderAdminTable(); await renderLeaderboard();
@@ -5351,6 +5398,7 @@ async function afterLogin(){
     await checkModerator();
     await loadProfile();
     
+        await loadNotifications();
     if(!user || !userProfile) return; 
 
     if(user && user.id) await trackDevice(user.id);
@@ -5443,6 +5491,9 @@ function setupRealtime(){
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'chat_messages' }, async () => {
       if (current === 'chat') { chatLastIds = ''; await refreshChatLight(); }
+    })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'notifications' }, async payload => {
+      if (user && payload.new.user_id === user.id) { await loadNotifications(); if (payload.new.text) toast(payload.new.text); }
     })
     .on('postgres_changes', { event: '*', schema: 'public', table: 'shop_items' }, async () => {
       await loadShopItems();
@@ -6260,6 +6311,87 @@ function resetLootboxForm() {
 
 document.getElementById('cancel-lb-edit-btn')?.addEventListener('click', resetLootboxForm);
 
+
+// ================= УВЕДОМЛЕНИЯ =================
+let myNotifs = [];
+async function loadNotifications() {
+  if (!sb || !user) return;
+  const { data, error } = await sb.from('notifications').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(20);
+  if (error) { console.warn('Не удалось загрузить уведомления:', error); return; }
+  myNotifs = data || [];
+  const unread = myNotifs.filter(n => !n.is_read).length;
+  const bell = document.getElementById('notif-bell'), count = document.getElementById('notif-count');
+  if (bell) bell.classList.remove('hidden');
+  if (count) { count.textContent = unread; count.classList.toggle('hidden', unread === 0); }
+  const list = document.getElementById('notif-list');
+  if (list) list.innerHTML = !myNotifs.length ? '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">Нет уведомлений</div>' : myNotifs.map(n => `<div style="padding:12px;border-bottom:1px solid var(--line-soft);font-size:13px;${!n.is_read ? 'background:rgba(31,139,255,.05);' : ''}"><div style="font-weight:600;margin-bottom:4px;">${escapeHtml(n.icon || '🔔')} ${escapeHtml(n.text || '')}</div><div style="color:var(--muted);font-size:11px;">${timeAgo(n.created_at)}</div></div>`).join('');
+}
+window.toggleNotifications = () => { const el = document.getElementById('notif-dropdown'); if (el) el.classList.toggle('hidden'); };
+window.markNotifsRead = async () => {
+  if (!user || !sb) return;
+  const { error } = await sb.from('notifications').update({ is_read: true }).eq('user_id', user.id);
+  if (error) { toast('Не удалось отметить уведомления: ' + error.message, true); return; }
+  await loadNotifications();
+};
+
+// ================= ПРОМОКОДЫ =================
+// Баланс меняется только серверной RPC-функцией — не доверяем сумме из браузера.
+window.activatePromo = async () => {
+  if (!user || !sb) { toast('Сначала войдите в аккаунт', true); return; }
+  const input = document.getElementById('promo-input'), code = (input?.value || '').trim().toUpperCase();
+  if (!code) return;
+  const button = document.querySelector('[onclick="activatePromo()"]');
+  if (button) button.disabled = true;
+  try {
+    const { data, error } = await sb.rpc('activate_promocode', { p_code: code });
+    if (error) throw error;
+    const result = Array.isArray(data) ? data[0] : data;
+    if (result && result.success === false) { toast(result.message || 'Промокод не удалось активировать', true); return; }
+    toast(result?.message || 'Промокод активирован!');
+    if (input) input.value = '';
+    await loadProfile(); if (current === 'profile') await renderProfilePage(); window.updateHeaderUI();
+  } catch (e) { console.error(e); toast('Ошибка активации: ' + (e.message || e) + '. Требуется серверная функция activate_promocode.', true); }
+  finally { if (button) button.disabled = false; }
+};
+
+// ================= ЛАЙКИ ПРОФИЛЯ =================
+let profileLikes = 0;
+async function loadLikes() {
+  const countEl = document.getElementById('prof-likes-count'), btn = document.getElementById('prof-like-btn');
+  if (!sb || !currentProfileId || !countEl || !btn) return;
+  const { count, error } = await sb.from('profile_likes').select('*', { count: 'exact', head: true }).eq('user_id', currentProfileId);
+  if (error) { console.warn('Не удалось загрузить лайки:', error); return; }
+  profileLikes = count || 0; countEl.textContent = `${profileLikes} ❤️`;
+  if (user && user.id !== currentProfileId) {
+    const { data, error: e } = await sb.from('profile_likes').select('user_id').eq('user_id', currentProfileId).eq('from_user_id', user.id).maybeSingle();
+    if (e) { console.warn(e); return; }
+    btn.textContent = data ? 'Убрать лайк' : 'Поставить лайк';
+    btn.className = data ? 'btn btn-sm btn-ghost' : 'btn btn-sm btn-danger'; btn.style.display = 'inline-flex';
+  } else btn.style.display = 'none';
+}
+window.toggleLike = async () => {
+  if (!user || !sb || user.id === currentProfileId) return;
+  const { data, error } = await sb.from('profile_likes').select('user_id').eq('user_id', currentProfileId).eq('from_user_id', user.id).maybeSingle();
+  if (error) { toast('Ошибка: ' + error.message, true); return; }
+  const result = data ? await sb.from('profile_likes').delete().eq('user_id', currentProfileId).eq('from_user_id', user.id) : await sb.from('profile_likes').insert([{ user_id: currentProfileId, from_user_id: user.id }]);
+  if (result.error) { toast('Ошибка: ' + result.error.message, true); return; }
+  await loadLikes();
+};
+
+// ================= ВИТРИНА КУБКОВ =================
+window.editCupShowcase = async () => {
+  if (!user || !userProfile) return;
+  const { data, error } = await sb.from('cups').select('id,title').eq('user_id', user.id).order('awarded_at', { ascending: false });
+  if (error) { toast('Не удалось загрузить кубки: ' + error.message, true); return; }
+  const currentIds = (userProfile.showcase || []).join(',');
+  const input = prompt('Введите ID ваших кубков через запятую (до 3 штук):\n' + (data || []).map(c => `${c.id} — ${c.title}`).join('\n') + (currentIds ? '\nТекущая витрина: ' + currentIds : ''));
+  if (input === null) return;
+  const valid = new Set((data || []).map(c => String(c.id)));
+  const ids = [...new Set(input.split(',').map(x => x.trim()).filter(x => valid.has(x)))].slice(0, 3);
+  const { error: saveError } = await sb.from('profiles').update({ showcase: ids }).eq('id', user.id);
+  if (saveError) { toast('Не удалось сохранить витрину: ' + saveError.message, true); return; }
+  userProfile.showcase = ids; toast('Витрина обновлена!'); await renderProfilePage();
+};
 </script>
 </body>
 </html>
