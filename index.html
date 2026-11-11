@@ -6500,30 +6500,21 @@ window.toggleLike = async () => {
 
 // ================= ВИТРИНА КУБКОВ =================
 window.generateTgCode = async () => {
-  if (!user || !sb) { toast('Войдите в аккаунт', true); return; }
-  if (userProfile && userProfile.telegram_id) { toast('Telegram уже привязан', true); return; }
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  const bytes = new Uint8Array(6);
-  if (window.crypto && window.crypto.getRandomValues) window.crypto.getRandomValues(bytes);
-  else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
-  const code = Array.from(bytes, b => chars[b % chars.length]).join('');
-  const btn = document.getElementById('tg-link-btn');
-  if (btn) btn.disabled = true;
+  if (!user) { toast('Войдите в аккаунт', true); return; }
+
   try {
-    const { error } = await sb.from('profiles').update({ tg_link_code: code }).eq('id', user.id);
+    // Вызываем безопасную функцию на сервере, она сама сгенерирует и сохранит код
+    const { data, error } = await sb.rpc('generate_telegram_link_code');
     if (error) throw error;
-    const codeText = document.getElementById('tg-code-text');
-    const codeCmd = document.getElementById('tg-code-cmd');
-    const modal = document.getElementById('tg-code-modal');
-    if (!codeText || !codeCmd || !modal) throw new Error('Не найдены элементы окна привязки Telegram');
-    codeText.textContent = code;
-    codeCmd.textContent = `/code ${code}`;
-    modal.classList.remove('hidden');
+    if (!data) throw new Error('Сервер не вернул код привязки');
+
+    // data — это сгенерированный код
+    document.getElementById('tg-code-text').textContent = data;
+    document.getElementById('tg-code-cmd').textContent = `/code ${data}`;
+    document.getElementById('tg-code-modal').classList.remove('hidden');
   } catch (e) {
     console.error(e);
-    toast('Ошибка генерации кода: ' + (e.message || e), true);
-  } finally {
-    if (btn && !(userProfile && userProfile.telegram_id)) btn.disabled = false;
+    toast('Ошибка генерации кода: ' + e.message, true);
   }
 };
 
