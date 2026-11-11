@@ -1350,6 +1350,7 @@ tr:hover td{background:rgba(255,255,255,.018)}
         <button type="button" data-admin-tab="dashboard" class="active" data-i18n="admin.tab.dashboard">Дашборд</button>
         <button type="button" data-admin-tab="tasks" id="tab-tasks">Конструктор заданий</button>
         <button type="button" data-admin-tab="lootboxes" id="tab-lootboxes">Кейсы</button>
+        <button type="button" data-admin-tab="promocodes" id="tab-promocodes">Промокоды</button>
         <button type="button" data-admin-tab="task-reviews" id="tab-task-reviews">Проверка заданий</button>
         <button type="button" data-admin-tab="regs" id="tab-regs" data-i18n="admin.tab.regs">Заявки на турниры</button>
         <button type="button" data-admin-tab="tournaments" id="tab-tournaments" data-i18n="admin.tab.tournaments">Турниры</button>
@@ -1395,6 +1396,25 @@ tr:hover td{background:rgba(255,255,255,.018)}
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px"><button type="button" class="btn btn-primary" id="save-lb-btn">Сохранить кейс</button><button type="button" class="btn btn-ghost hidden" id="cancel-lb-edit-btn">Отмена</button></div>
         </div>
         <div class="card" style="padding:20px"><h3 style="font-size:16px;margin-bottom:14px">Существующие кейсы</h3><div id="admin-lootboxes-list"></div></div>
+      </div>
+      <div id="admin-promocodes" class="hidden">
+        <div class="card" style="padding:20px;margin-bottom:22px">
+          <h3 style="font-size:17px;margin-bottom:16px">Создать промокод</h3>
+          <div class="field-row">
+            <div class="field"><label for="new-promo-code">Код</label><input class="input" id="new-promo-code" type="text" maxlength="32" placeholder="IGDC2026" autocomplete="off" style="text-transform:uppercase"></div>
+            <div class="field"><label for="new-promo-currency">Валюта</label><select class="input" id="new-promo-currency"><option value="bonus">Бонусы (Б)</option><option value="balance">Основной баланс (₽)</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label for="new-promo-amount">Сумма начисления</label><input class="input" id="new-promo-amount" type="number" min="1" step="1" value="100"></div>
+            <div class="field"><label for="new-promo-limit">Лимит активаций (0 — без лимита)</label><input class="input" id="new-promo-limit" type="number" min="0" step="1" value="0"></div>
+          </div>
+          <button type="button" class="btn btn-primary" id="create-promo-btn">Создать промокод</button>
+          <p class="hint" style="margin-top:12px">Каждый пользователь сможет активировать один и тот же промокод только один раз. Код сразу станет активным.</p>
+        </div>
+        <div class="card table-card">
+          <div style="padding:18px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="font-size:16px">Существующие промокоды</h3><button type="button" class="btn btn-ghost btn-sm" id="refresh-promos-btn">Обновить</button></div>
+          <div class="table-wrap"><table class="table"><thead><tr><th>Код</th><th>Награда</th><th>Активации</th><th>Статус</th><th>Действия</th></tr></thead><tbody id="admin-promos-body"><tr><td colspan="5" class="empty">Загрузка...</td></tr></tbody></table></div>
+        </div>
       </div>
       <div id="admin-dashboard">
         <div class="admin-stats">
@@ -4505,7 +4525,7 @@ $('#comment-form').addEventListener('submit', async e => {
 $$('[data-admin-tab]').forEach(b => b.addEventListener('click', () => {
   adminTab = b.dataset.adminTab;
   $$('[data-admin-tab]').forEach(x => x.classList.toggle('active', x === b));
-  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','log','lootboxes'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','log','lootboxes','promocodes'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -4523,6 +4543,7 @@ function renderAdmin(){
     'users': hasPermission('users'),
     'shop': hasPermission('shop'),
     'lootboxes': hasPermission('lootboxes'),
+    'promocodes': isAdmin(),
     'tickets': hasPermission('tickets'),
     'cups': hasPermission('cups'),
     'words': hasPermission('words'),
@@ -4541,7 +4562,7 @@ function renderAdmin(){
   document.querySelectorAll('[data-admin-tab]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.adminTab === adminTab);
   });
-  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','lootboxes','log'].forEach(tab => {
+  ['dashboard','regs','tournaments','apps','users','settings','tickets','cups','shop','words','tasks','task-reviews','lootboxes','promocodes','log'].forEach(tab => {
     const el = document.getElementById('admin-' + tab);
     if(el) el.classList.toggle('hidden', tab !== adminTab);
   });
@@ -4559,6 +4580,7 @@ function renderAdmin(){
     else if(adminTab === 'log') renderAdminLog();
     else if(adminTab === 'tasks') renderAdminTasks();
     else if(adminTab === 'lootboxes' && typeof renderAdminLootboxes === 'function') renderAdminLootboxes();
+    else if(adminTab === 'promocodes') renderAdminPromocodes();
     else if(adminTab === 'task-reviews') renderAdminTaskReviews();
   } catch(e) {
     console.error("Ошибка при отрисовке вкладки", adminTab, e);
@@ -4805,6 +4827,66 @@ async function renderAdminCups(){
     card.appendChild(del); wrap.appendChild(card);
   });
 }
+
+// ================= УПРАВЛЕНИЕ ПРОМОКОДАМИ (ТОЛЬКО ГЛАВНЫЙ АДМИН) =================
+async function renderAdminPromocodes(){
+  if(!isAdmin()){ toast('Недостаточно прав', true); return; }
+  const tbody = $('#admin-promos-body');
+  if(!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="5" class="empty">Загрузка...</td></tr>';
+  const { data, error } = await sb.from('promocodes').select('id,code,currency_type,amount,max_uses,uses_count,is_active,created_at').order('created_at', {ascending:false});
+  if(error){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Не удалось загрузить: '+escapeHtml(error.message)+'</td></tr>'; return; }
+  tbody.replaceChildren();
+  if(!data || !data.length){ tbody.innerHTML = '<tr><td colspan="5" class="empty">Промокодов пока нет</td></tr>'; return; }
+  data.forEach(promo => {
+    const tr = document.createElement('tr');
+    const currency = promo.currency_type === 'bonus' ? 'Бонусов' : '₽';
+    const limit = Number(promo.max_uses || 0);
+    tr.innerHTML = '<td style="font-family:monospace;font-weight:800">'+escapeHtml(promo.code)+'</td>'+
+      '<td>'+Number(promo.amount || 0).toLocaleString('ru-RU')+' '+currency+'</td>'+
+      '<td>'+Number(promo.uses_count || 0).toLocaleString('ru-RU')+' / '+(limit > 0 ? limit.toLocaleString('ru-RU') : '∞')+'</td>'+
+      '<td><span class="badge '+(promo.is_active ? 'badge-success' : 'badge-muted')+'">'+(promo.is_active ? 'Активен' : 'Отключён')+'</span></td>';
+    const actions = document.createElement('td');
+    const toggle = document.createElement('button'); toggle.type='button'; toggle.className='btn btn-ghost btn-sm'; toggle.textContent=promo.is_active?'Отключить':'Включить';
+    toggle.addEventListener('click', async () => {
+      if(!isAdmin()) return;
+      const { error: updateError } = await sb.from('promocodes').update({is_active:!promo.is_active}).eq('id',promo.id);
+      if(updateError){ toast('Не удалось изменить статус: '+updateError.message,true); return; }
+      await renderAdminPromocodes();
+    });
+    const del = document.createElement('button'); del.type='button'; del.className='btn btn-danger btn-sm'; del.style.marginLeft='6px'; del.textContent='Удалить';
+    del.addEventListener('click', async () => {
+      if(!isAdmin() || !confirm('Удалить промокод '+promo.code+'?')) return;
+      const { error: deleteError } = await sb.from('promocodes').delete().eq('id',promo.id);
+      if(deleteError){ toast('Не удалось удалить: '+deleteError.message,true); return; }
+      toast('Промокод удалён'); await renderAdminPromocodes();
+    });
+    actions.append(toggle,del); tr.appendChild(actions); tbody.appendChild(tr);
+  });
+}
+
+async function createAdminPromocode(){
+  if(!isAdmin()){ toast('Недостаточно прав',true); return; }
+  const codeEl=$('#new-promo-code'), amountEl=$('#new-promo-amount'), limitEl=$('#new-promo-limit');
+  const code=(codeEl?.value||'').trim().toUpperCase().replace(/\s+/g,'');
+  const amount=Number(amountEl?.value), maxUses=Number(limitEl?.value);
+  const currencyType=$('#new-promo-currency')?.value;
+  if(!/^[A-Z0-9_-]{3,32}$/.test(code)){ toast('Код: 3–32 символа, только латинские буквы, цифры, _ и -',true); return; }
+  if(!Number.isSafeInteger(amount)||amount<1){ toast('Укажи целое положительное количество награды',true); return; }
+  if(!Number.isSafeInteger(maxUses)||maxUses<0){ toast('Лимит должен быть целым числом от 0',true); return; }
+  const button=$('#create-promo-btn'); if(button) button.disabled=true;
+  try{
+    const {error}=await sb.from('promocodes').insert([{code,currency_type:currencyType,amount,max_uses:maxUses,uses_count:0,is_active:true}]);
+    if(error) throw error;
+    codeEl.value=''; amountEl.value='100'; limitEl.value='0';
+    toast('Промокод '+code+' создан'); await renderAdminPromocodes();
+  }catch(e){
+    const msg=e?.message||String(e);
+    toast(/duplicate|unique/i.test(msg)?'Такой промокод уже существует':'Не удалось создать промокод: '+msg,true);
+  }finally{ if(button) button.disabled=false; }
+}
+$('#create-promo-btn')?.addEventListener('click',createAdminPromocode);
+$('#refresh-promos-btn')?.addEventListener('click',renderAdminPromocodes);
 
 async function renderAdminWords(){
   await loadBannedWords();
